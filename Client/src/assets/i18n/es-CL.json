@@ -1,0 +1,153 @@
+{
+    "LOGOUT": {
+      "LOGOUT": "Cerrar Sesión",
+      "LOGOUT_CONFIRMATION": "¿Está segur@ que desea cerrar la sesión?"
+    },
+    "HELP": {
+      "INSTRUCTIONS_TITLE": "Instrucciones del Juego:"
+    },
+    "BUTTONS": {
+      "BACK": "ATRÁS",
+      "CLEAR": "LIMPIAR",
+      "CLOSE": "CERRAR",
+      "DELETE": "ELIMINAR",
+      "DELETE_STUDY": "ELIMINAR ESTUDIO",
+      "EDIT": "EDITAR",
+      "EDIT_STUDY": "EDITAR ESTUDIO",
+      "SAVE": "GUARDAR",
+      "CONTINUE": "CONTINUAR",
+      "NO": "NO",
+      "YES": "SÍ",      
+      "SEARCH": "BUSCAR"
+    },
+    "ADMIN": {
+    },
+    "USER": {
+    },
+    "ERRORS": {
+      "CHECK_REQUIRED": "La confirmación es requerida",
+      "MAIL_FORMAT": "Debe ingresar en email válido",
+      "MAX_LENGTH_2": "El largo del campo no puede exceder los 2 caracteres",
+      "MAX_LENGTH_3": "El largo del campo no puede exceder los 3 caracteres",
+      "MAX_LENGTH_50": "El largo del campo no puede exceder los 50 caracteres",
+      "MAX_LENGTH_100": "El largo del campo no puede exceder los 100 caracteres",
+      "MAX_LENGTH_200": "El largo del campo no puede exceder los 200 caracteres",
+      "MAX_LENGTH_300": "El largo del campo no puede exceder los 300 caracteres",
+      "MIN_LENGTH_3": "El largo del campo no puede ser menor a 3 caracteres",
+      "MIN_LENGTH_5": "El largo del campo no puede ser menor a 5 caracteres",
+      "MIN_LENGTH_10": "El largo del campo no puede ser menor a 10 caracteres",
+      "MIN_VALUE_1": "El valor mínimo del campo es 1",
+      "MIN_VALUE_30": "El valor mínimo del campo es 30",
+      "PATTERN": "El campo contine caracteres no permitidos",
+      "PASSWORD_EQUAL": "Las contraseñas deben ser iguales",
+      "PASSWORD_PATTERN": "La contraseña debe tener un mínimo de 8 caracteres y al menos un número",
+      "REQUIRED": "El campo es requerido",
+      "SELECTION_REQUIRED": "Debe seleccionar una opción",
+      "UNREQUIRED_MIN_LENGTH_10": "El campo puede quedar vacío o tener un largo de al menos 10 caracteres",
+      "UNREQUIRED_MIN_LENGTH_5": "El campo puede quedar vacío o tener un largo de al menos 5 caracteres"
+    },
+    "LOGIN": {
+      "TITLE": "Iniciar sesión",
+      "EMAIL": "Correo electrónico",
+      "PASSWORD": "Contraseña",
+      "ENTER": "Ingresar",
+      "REQUIRED": "El campo es requerido",
+      "FORGOT_PASSWORD": "¿Olvidaste tu contraseña?",
+      "TOAST": {
+        "ERROR_MESSAGE": "No ha sido posible iniciar sesión.",
+        "ERROR_EMAIL_MESSAGE": "Correo no encontrado.",
+        "ERROR_CREDENTIALS_MESSAGE": "Credenciales incorrectas.",
+        "ERROR_USER_NOT_CONFIRMED": "Por favor, confirme su correo antes de ingresar.",
+        "ERROR": "Error",
+        "SUCCESS": "¡Éxito!",
+        "USER_CONFIRMED": "Su usuario ha sido confirmado correctamente"
+      }
+    },
+    "RECOVERY":{
+      "CANCEL": "Cancelar",
+      "SEND": "Enviar",
+      "TITLE": "Recuperación de contraseña",
+      "NEW_PASSWORD": "Nueva contraseña",
+      "NEW_PASSWORD_CONFIRMATION": "Confirmación de nueva contraseña",
+      "TOAST": {
+        "ERROR_MESSAGE": "No se ha encontrado el correo ingresado, revíselo y vuelva a intentar.",
+        "ERROR": "Error",
+        "SUCCESS": "¡Éxito!",
+        "SUCCESS_MESSAGE": "Se ha enviado un correo para recuperar su contraseña, por favor revise su bandeja de entrada (o bandeja de spam)."
+      }
+    },
+    "RESET_PASSWORD":{
+      "TOAST": {
+        "ERROR_MESSAGE": "No se ha podido cambiar la contraseña.",
+        "ERROR": "Error",
+        "SUCCESS": "¡Éxito!",
+        "SUCCESS_MESSAGE": "Se ha cambiado éxitosamente la contraseña, a continuación puede utilizarla para iniciar sesión."
+      }
+    },
+    "SIGNUP": {
+      "INVALID_LINK": {
+        "TITLE": "Link inválido",
+        "MESSAGE": "El link de registro utilizado es inválido, por favor póngase en contacto con el responsable del estudio."
+      },
+      "CONSENT": {
+        "DISCLAIMER": "Por favor, lea el siguiente consentimiento informado.",
+        "PREV_TEXT": "Anterior",
+        "NEXT_TEXT": "Siguiente",
+        "ACCEPT_TEXT": "Acepto"
+      },
+      "STEP_CONSENT": "Consentimiento",
+      "STEP_GUARDIAN": "Datos del apoderado/a",
+      "STEP_STUDENT": "Datos del estudiante",
+      "STEP_DONE": "Listo",
+      "DONE_TEXT": "Formulario completo, haga click en finalizar para completar su registro",
+      "CONTINUE": "Continuar",
+      "FINISH": "Finalizar",
+      "NEXT": "Siguiente",
+      "BACK": "Volver",
+      "RESET": "Reiniciar",
+      "SIGNUP": "Registrarte",
+      "CONFIRMATION_EMAIL_SENT": "Se ha enviado un correo para confirmar su cuenta, por favor revise su bandeja de entrada (o bandeja de spam) para confirmar su usuario. En caso de no poder pinchar el enlace contenido en el correo, por favor cópielo y péguelo en una nueva pestaña de su navegador de internet.",
+      "GO_HOME": "Ir a inicio de sesión",
+      "FORM": {
+        "NAMES": "Nombres",
+        "LAST_NAMES": "Apellidos",
+        "RUT": "RUT",
+        "PHONE_NUMBER": "Número de teléfono",
+        "PHONE_NUMBER_SUB": "(solo para verificar vía telefónica parentesco/relación con el estudiante y autenticidad del registro)",
+        "EMAIL": "Correo electrónico (del apoderado/a)",
+        "EMAIL_CONFIRM": "Confirme correo",
+        "BIRTHDATE": "Fecha de nacimiento",
+        "GRADE": "Curso",
+        "SCHOOL": "Colegio",
+        "COMMUNE": "Comuna del colegio",
+        "REGION": "Región del colegio",
+        "PASSWORD": "Contraseña de acceso",
+        "PASSWORD_CONFIRMATION": "Confirmación de contraseña",
+        "RELATION": "Parentesco con estudiante (Padre, madre, tutor/a, etc.)",
+        "ERROR": {
+          "CONSENT": "Debe aceptar el consentimiento informado para continuar",
+          "NAMES": "Debe ingresar los nombres",
+          "LAST_NAMES": "Debe ingresar los apellidos",
+          "EMAIL_REQUIRED": "Debe ingresar su correo",
+          "EMAIL_INVALID": "Debe ingresar un correo válido",
+          "RUT_REQUIRED": "Debe ingresar su rut",
+          "RUT_INVALID": "Debe ingresar un rut válido",
+          "PHONE_REQUIRED": "Debe ingresar su teléfono",
+          "PHONE_INVALID": "Debe ingresar un teléfono válido",
+          "BIRTHDATE": "Debe ingresar la fecha de nacimiento",
+          "GRADE": "Debe ingresar el curso",
+          "SCHOOL": "Debe ingresar el colegio",
+          "REGION": "Debe ingresar la región",
+          "COMMUNE": "Debe ingresar la comuna",
+          "PASSWORD": "Debe ingresar una contraseña",
+          "PASSWORD_CONFIRMATION": "Debe ingresar la confirmación de contraseña",
+          "PASSWORD_EQUAL": "Las contraseñas deben ser iguales",
+          "PASSWORD_PATTERN": "La contraseña debe tener un mínimo de 8 caracteres y al menos un número",
+          "RELATION_REQUIRED": "Debe ingresar su parentesco",
+          "EMAIL_DONT_MATCH": "El email no coincide con la confirmación. Reviselo.",
+          "EMAIL_ALREADY_USED": "El email que se intenta registrar ya está en uso, intente con uno diferente.",
+          "GENERIC_ERROR": "Ha ocurrido un error, revise los datos e intente nuevamente."
+        }
+      }
+    }
+  }
