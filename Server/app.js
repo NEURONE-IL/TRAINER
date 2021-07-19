@@ -41,6 +41,16 @@ async function initial() {
 
                 console.log("added 'admin' to roles collection");
             });
+
+            new Role({
+                name: "student"
+            }).save(err => {
+                if (err) {
+                    console.log("error", err);
+                }
+
+                console.log("added 'student' to roles collection");
+            });
         }
     });
 
