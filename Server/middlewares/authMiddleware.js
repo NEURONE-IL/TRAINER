@@ -31,9 +31,6 @@ const adminSchema = Joi.object({
         .required(),
     
     last_names: Joi.string()
-        .required(),
-
-    is_admin: Joi.boolean()
         .required()
 });
 
