@@ -41,6 +41,7 @@ import { LoginComponent } from './views/login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
+import { StudentLandPageComponent } from './views/studentLandPage/studentLandPage.component';
 
 
 
@@ -53,7 +54,8 @@ export function HttpLoaderFactory(http: HttpClient) {
   declarations: [
     AppComponent,
     LoginComponent,
-    RegisterStudentComponent
+    RegisterStudentComponent,
+    StudentLandPageComponent
   ],
   imports: [
     BrowserModule,

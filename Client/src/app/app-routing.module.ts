@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
+import { StudentLandPageComponent } from './views/studentLandPage/studentLandPage.component';
 // import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
@@ -19,6 +20,11 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterStudentComponent,
+    // canActivate: [ NotLoggedInGuard ]
+  },
+  {
+    path: 'homeStudent',
+    component: StudentLandPageComponent,
     // canActivate: [ NotLoggedInGuard ]
   },
   {
