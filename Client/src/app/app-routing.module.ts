@@ -2,7 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/login/login.component';
-//import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
+import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
+// import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
   {
@@ -13,17 +14,22 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    //canActivate: [ NotLoggedInGuard ]
+    // canActivate: [ NotLoggedInGuard ]
+  },
+  {
+    path: 'register',
+    component: RegisterStudentComponent,
+    // canActivate: [ NotLoggedInGuard ]
   },
   {
     path: 'home',
     component: HomeComponent,
-    //canActivate: [ NotLoggedInGuard ]
+    // canActivate: [ NotLoggedInGuard ]
   },
   /*
   {
     path: 'login/confirmedOK',
-    component: LoginComponent,
+    component: StudentLandPageComponent,
     canActivate: [ NotLoggedInGuard ]
   },
   {
@@ -51,7 +57,7 @@ const routes: Routes = [
   {
     path: 'user/resetPassword/:token',
     component: RecoveryComponent,
-    canActivate: [ NotLoggedInGuard ]    
+    canActivate: [ NotLoggedInGuard ]
   },*/
   { path: '**', redirectTo: 'home' },
 ];

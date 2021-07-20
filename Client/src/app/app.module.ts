@@ -40,6 +40,8 @@ import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LoginComponent } from './views/login/login.component';
 import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
+
 
 
 
@@ -50,7 +52,8 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
-    LoginComponent
+    LoginComponent,
+    RegisterStudentComponent
   ],
   imports: [
     BrowserModule,
