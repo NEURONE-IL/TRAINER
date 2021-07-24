@@ -21,6 +21,7 @@ router.post(
       }
     });
     //hash password
+      console.log("Estamos revisando los datos")
     const salt = await bcrypt.genSalt(10);
     const hashpassword = await bcrypt.hash(req.body.password, salt);
     //create user

@@ -4,6 +4,7 @@ import { HomeComponent } from './views/home/home.component';
 import { LoginComponent } from './views/login/login.component';
 import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
 import { StudentLandPageComponent } from './views/studentLandPage/studentLandPage.component';
+import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.component';
 // import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
@@ -20,6 +21,11 @@ const routes: Routes = [
   {
     path: 'register',
     component: RegisterStudentComponent,
+    // canActivate: [ NotLoggedInGuard ]
+  },
+  {
+    path: 'registerAdmin',
+    component: RegisterAdminComponent,
     // canActivate: [ NotLoggedInGuard ]
   },
   {

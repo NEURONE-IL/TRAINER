@@ -48,6 +48,9 @@
   },
   "SIGNUP": {
     "TITLE": "Registrarse",
+    "TITLE2": "Registro Administrador",
+    "NAME": "Nombre",
+    "LAST_NAME": "Apellidos",
     "EMAIL": "Correo electrónico",
     "PASSWORD": "Contraseña",
     "REGISTER": "Registrar",
