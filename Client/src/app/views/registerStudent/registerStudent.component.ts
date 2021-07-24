@@ -24,6 +24,8 @@ export class RegisterStudentComponent implements OnInit {
   ngOnInit(): void {
     this.signupForm = this.formBuilder.group({
       email: ['', Validators.required],
+      name: ['', Validators.required],
+      lastName: ['', Validators.required],
       password: ['', Validators.required],
       passwordConfirmation: ['', Validators.required]
     }, {validator: passwordMatchValidator});
@@ -43,7 +45,8 @@ export class RegisterStudentComponent implements OnInit {
     }
   }
   onSubmit(){
-    return;
+    // tslint:disable-next-line:max-line-length
+    this.authService.register(this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.name, this.signupForm.value.lastName, 'admin');
   }
 }
 

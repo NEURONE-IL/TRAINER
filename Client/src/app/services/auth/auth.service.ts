@@ -29,6 +29,17 @@ export class AuthService {
       );
   }
 
+  register(email: string, password: string, name: string, lastName: string, role: string) {
+    this.http.post(this.uri + 'register', {email: email,password: password,  names: name, last_names: lastName})
+      .subscribe((resp: any) => {
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          console.log('Ha ocurrido un error');
+        }
+      );
+  }
+
   login(email: string, password: string) {
     this.http.post(this.uri + 'login', {email: email,password: password})
     .subscribe((resp: any) => {

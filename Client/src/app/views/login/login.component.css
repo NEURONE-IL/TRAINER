@@ -65,11 +65,16 @@ mat-card-content {
 
 .recovery p{
 	text-align: center;
-	line-height: 100px;	
+	line-height: 100px;
 	color: #3f51b5;
 }
 
 .innerRecovery:hover{
 	text-decoration: underline;
 	cursor: pointer;
+}
+body {
+  background-image: url("https://img.wallpapersafari.com/desktop/1920/1080/95/97/8qf3Gl.jpg");
+  background-repeat: no-repeat;
+
 }
