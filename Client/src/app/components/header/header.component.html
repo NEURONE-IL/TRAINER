@@ -1,0 +1,23 @@
+<div class="header" role="banner">
+  <a class="title-span"
+	 	href=""
+		#tooltip="matTooltip"
+		[(matTooltip)]="homeTooltip"
+		matTooltipPosition="right"		
+	>
+		NEURONE <mat-icon class="home">home</mat-icon>
+	</a>
+
+	<a class="title-span" *ngIf="isLoggedIn"></a>
+
+  <button *ngIf="isLoggedIn" mat-button>	<mat-icon>help_outline</mat-icon> </button>
+
+	<a class="name-span"  href="/user-profile" *ngIf="isLoggedIn">
+    <img src="/assets/img_avatar.png" class="user-image">
+
+  </a>
+  <button (click)="logout()" mat-button *ngIf="isLoggedIn"><mat-icon>login</mat-icon> {{"LOGOUT.LOGOUT" | translate}}</button>
+
+  <div class="spacer"></div>
+
+</div>

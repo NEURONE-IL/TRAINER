@@ -20,6 +20,9 @@
     "YES": "SÍ",
     "SEARCH": "BUSCAR"
   },
+  "HEADER": {
+    "TOOLTIP": "Ir a la página principal"
+  },  
   "ADMIN": {
   },
   "USER": {

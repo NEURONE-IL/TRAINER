@@ -5,6 +5,8 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
 import { StudentLandPageComponent } from './views/studentLandPage/studentLandPage.component';
 import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.component';
+import { RecoveryComponent } from './views/recovery/recovery.component';
+import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 // import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
@@ -60,17 +62,17 @@ const routes: Routes = [
         //canActivate: [ AuthGuard, AdminGuard ],
       },
     ]
-  },
+  },*/
   {
     path: 'forgot_password',
     component: ForgotPasswordComponent,
-    canActivate: [ NotLoggedInGuard ]
+//    canActivate: [ NotLoggedInGuard ]
   },
   {
     path: 'user/resetPassword/:token',
     component: RecoveryComponent,
-    canActivate: [ NotLoggedInGuard ]
-  },*/
+//    canActivate: [ NotLoggedInGuard ]
+  },
   { path: '**', redirectTo: 'home' },
 ];
 

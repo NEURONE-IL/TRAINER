@@ -24,7 +24,6 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
 
-
 import { PdfViewerModule }  from  'ng2-pdf-viewer';
 import { Ng9RutModule } from 'ng9-rut';
 import { ValidateEqualModule } from 'ng-validate-equal';
@@ -37,12 +36,16 @@ import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
-import { LoginComponent } from './views/login/login.component';
-import { AppRoutingModule } from './app-routing.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { AppRoutingModule } from './app-routing.module';
+import { HomeComponent } from './views/home/home.component';
+import { LoginComponent } from './views/login/login.component';
 import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
 import { StudentLandPageComponent } from './views/studentLandPage/studentLandPage.component';
 import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.component';
+import { HeaderComponent } from './components/header/header.component';
+import { RecoveryComponent } from './views/recovery/recovery.component';
+import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 
 
 
@@ -54,10 +57,14 @@ export function HttpLoaderFactory(http: HttpClient) {
 @NgModule({
   declarations: [
     AppComponent,
+    HomeComponent,
     LoginComponent,
     RegisterStudentComponent,
     StudentLandPageComponent,
-    RegisterAdminComponent
+    RegisterAdminComponent,
+    HeaderComponent,
+    RecoveryComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,
