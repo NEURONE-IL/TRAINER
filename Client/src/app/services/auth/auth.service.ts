@@ -24,6 +24,7 @@ export class AuthService {
           this.router.navigate(['/login']);
         },
         (error) => {
+          let error_msg = this.translate.instant("SIGNUP.TOAST.ERROR_MESSAGE");
           console.log('Ha ocurrido un error');
         }
       );
@@ -35,6 +36,7 @@ export class AuthService {
           this.router.navigate(['/login']);
         },
         (error) => {
+          let error_msg = this.translate.instant("SIGNUP.TOAST.ERROR_MESSAGE");
           console.log('Ha ocurrido un error');
         }
       );
