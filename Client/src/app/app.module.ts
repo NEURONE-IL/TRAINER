@@ -46,6 +46,8 @@ import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.comp
 import { HeaderComponent } from './components/header/header.component';
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
+import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
+
 
 
 
@@ -59,6 +61,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AppComponent,
     HomeComponent,
     LoginComponent,
+    ApiConfigurationComponent,
     RegisterStudentComponent,
     StudentLandPageComponent,
     RegisterAdminComponent,

@@ -24,7 +24,6 @@ export class ApiTriviaService {
 
 
   getApiKey() {
-    console.log("obteniendo api key");
     const post = {site: this.urlLocal};
     let header = new HttpHeaders();
     header = header.append('Content-Type', 'application/json');

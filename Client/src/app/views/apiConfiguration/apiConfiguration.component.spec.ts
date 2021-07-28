@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ApiConfigurationComponent } from './apiConfiguration.component';
 
-describe('HomeComponent', () => {
+describe('ApiConfigurationComponent', () => {
   let component: ApiConfigurationComponent;
   let fixture: ComponentFixture<ApiConfigurationComponent>;
 

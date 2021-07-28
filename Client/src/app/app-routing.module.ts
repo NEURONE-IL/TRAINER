@@ -7,6 +7,7 @@ import { StudentLandPageComponent } from './views/studentLandPage/studentLandPag
 import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.component';
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
+import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
 // import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
@@ -38,6 +39,11 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
+    // canActivate: [ NotLoggedInGuard ]
+  },
+  {
+    path: 'apiConfig',
+    component: ApiConfigurationComponent,
     // canActivate: [ NotLoggedInGuard ]
   },
   /*

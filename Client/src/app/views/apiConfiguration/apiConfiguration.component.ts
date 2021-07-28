@@ -8,7 +8,7 @@ import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
 
 
 @Component({
-  selector: 'app-home',
+  selector: 'app-home', // ???
   templateUrl: './apiConfiguration.component.html',
   styleUrls: ['./apiConfiguration.component.css']
 })

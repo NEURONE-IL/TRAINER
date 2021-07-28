@@ -22,9 +22,10 @@ export class HomeComponent implements OnInit {
               private triviaService: ApiTriviaService) { }
 
   estudios;
+  apikey = this.triviaService.apiKey;
+
   ngOnInit(): void {
   }
-
   getApiStudies(){
     this.triviaService.getStudies().subscribe((res: any) => {
       this.estudios = JSON.stringify(res.studys);
