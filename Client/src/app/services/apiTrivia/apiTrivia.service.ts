@@ -12,8 +12,8 @@ import { environment } from 'src/environments/environment';
 
 export class ApiTriviaService {
   urlLocal = 'http://localhost:4200/';
-  urlApi = 'http://159.65.100.191:3090/api/';
-  apiKey = '';
+  urlApi = 'http://159.65.100.191:3030/api/';
+  apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
 
   uri = environment.apiURL + 'trivia/';
 
@@ -24,10 +24,14 @@ export class ApiTriviaService {
 
 
   getApiKey() {
+    console.log("obteniendo api key");
     const post = {site: this.urlLocal};
     let header = new HttpHeaders();
     header = header.append('Content-Type', 'application/json');
-    return this.http.post(this.urlApi + 'site/register', post, {headers: header});
+    this.http.post(this.urlApi + 'site/register', post, {headers: header}).subscribe((res: any) => {
+      this.apiKey = res.site.api_key;
+      this.toastr.success('Se ha establecido la coneccion con Trivia', 'Coneccion Exitosa!')
+    });
   }
 
   getStudies() {
@@ -36,5 +40,6 @@ export class ApiTriviaService {
     header = header.append('x-api-key', this.apiKey);
     return this.http.get(this.urlApi + 'site/study', {headers: header});
   }
+
 
 }

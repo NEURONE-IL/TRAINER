@@ -73,6 +73,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
 
 /** Express routing **/
+app.use('/api/auth', authRoutes);
 app.use('/apiTrivia/auth', authRoutes);
 
 // Set client on root

@@ -9,10 +9,10 @@ import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
 
 @Component({
   selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.css']
+  templateUrl: './apiConfiguration.component.html',
+  styleUrls: ['./apiConfiguration.component.css']
 })
-export class HomeComponent implements OnInit {
+export class ApiConfigurationComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
               private authService: AuthService,
@@ -21,14 +21,10 @@ export class HomeComponent implements OnInit {
               private translate: TranslateService,
               private triviaService: ApiTriviaService) { }
 
-  estudios;
   ngOnInit(): void {
   }
-
-  getApiStudies(){
-    this.triviaService.getStudies().subscribe((res: any) => {
-      this.estudios = JSON.stringify(res.studys);
-    });
+  getApiKey(){
+    this.triviaService.getApiKey();
   }
 
 }
