@@ -1,5 +1,5 @@
 //ROOT
-//process.env.ROOT = 'http://159.65.100.191:3030'
+process.env.ROOT = 'http://138.197.200.50:3070'
 
 //PORT
 process.env.PORT = process.env.PORT || 3070;
@@ -11,11 +11,11 @@ process.env.PORT = process.env.PORT || 3070;
 process.env.TOKEN_SECRET = 'bey8asdy89'
 
 //DB
-//process.env.DB_USER = 'neuroneAdmin';
+process.env.DB_USER = 'neuroneAdmin';
 
 process.env.DB_PWD = 'DK,V-Dk6-*Pd-PM'
-process.env.URI = `mongodb://localhost:27017/trainer`;
-//process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@localhost:27017`;
+//process.env.URI = `mongodb://localhost:27017`;
+process.env.URI = `mongodb://${process.env.DB_USER}:${process.env.DB_PWD}@localhost:27017`;
 process.env.USERURI = `mongodb://localhost:27017/traineruser`;
 
 //NEURONE GAME CLIENT
