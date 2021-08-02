@@ -1,17 +1,19 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const SessionLogSchema = new Schema({
-    userId: { type: Schema.Types.ObjectId, ref: 'User', required: true},
-    userEmail: { type: String },
-    state: { type: String },
-    localTimeStamp: { type: Date },
+const StudySchema = new Schema({
+    name: { type: String, required: true },
+    description: {type: String },
+    domain: { type: String },
+    type: { type: String, required: true },
+    image_url: { type: String },
+    image_id: { type: String },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });
 
 // Sets the createdAt parameter equal to the current time
-SessionLogSchema.pre('save', next => {
+StudySchema.pre('save', next => {
     now = new Date();
     if(!this.createdAt) {
       this.createdAt = now;
@@ -23,6 +25,6 @@ SessionLogSchema.pre('save', next => {
 });
 
 const myDB = mongoose.connection.useDb('neuronegame');
-const SessionLog = myDB.model('SessionLog', SessionLogSchema);
+const Study = myDB.model('Study', StudySchema);
 
-module.exports = SessionLog;
+module.exports = Study;
