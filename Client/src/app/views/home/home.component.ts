@@ -22,13 +22,15 @@ export class HomeComponent implements OnInit {
               private triviaService: ApiTriviaService) { }
 
   estudios;
+  estudioSeleccionado = '';
   apikey = this.triviaService.apiKey;
 
   ngOnInit(): void {
+    this.getApiStudies();
   }
   getApiStudies(){
     this.triviaService.getStudies().subscribe((res: any) => {
-      this.estudios = JSON.stringify(res.studys);
+      this.estudios = res.studys;
     });
   }
 
