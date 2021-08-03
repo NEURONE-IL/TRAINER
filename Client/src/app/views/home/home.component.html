@@ -5,15 +5,19 @@
 
 <div *ngIf="estudios">
   <p>
-  <select name="miselect" [(ngModel)]="estudioSeleccionado">
-    <option [value]="item._id	" *ngFor="let item of estudios">{{item.name}}</option>
-  </select>
+    <label>Seleccione estudio: </label>
+    <select name="miselect" [(ngModel)]="estudioSeleccionado">
+      <option [value]="item._id	" *ngFor="let item of estudios">{{item.name}}</option>
+    </select>
   </p>
-  {{estudioSeleccionado}}
+</div>
+<br>
+<div *ngIf="estudioSeleccionado">
+  <p>
+    Estudio Seleccionado Id:   {{estudioSeleccionado}}
+  </p>
+  <!-- http://159.65.100.191:3030/login_redirect/:email/:names/:study/:trainer_id/:api_key/:url -->
+  <a href="http://159.65.100.191:3030/login_redirect/{{user.email}}/{{user.names}}/{{estudioSeleccionado}}/{{user._id}}/{{apikey}}/http:--localhost:4200-home" >ir a estudio</a>
 </div>
 
-
-<br>
-<!-- http://159.65.100.191:3030/login_redirect/:email/:names/:study/:trainer_id/:api_key/:url -->
-<a href="http://159.65.100.191:3030/login_redirect/email@admin.com/hola/{{estudioSeleccionado}}/12345678/{{apikey}}/http:--localhost:4200-home" >ir a estudio</a>
 

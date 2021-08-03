@@ -19,54 +19,57 @@ export class AuthService {
               private translate: TranslateService) {}
 
   registerAdmin(email: string, password: string, name: string, lastName: string, role: string) {
-    this.http.post(this.uri + 'registerAdmin', {email: email,password: password,  names: name, last_names: lastName})
+    this.http.post(this.uri + 'registerAdmin', {email, password,  names: name, last_names: lastName})
       .subscribe((resp: any) => {
           this.router.navigate(['/login']);
         },
         (error) => {
-          let error_msg = this.translate.instant("SIGNUP.TOAST.ERROR_MESSAGE");
+          const error_msg = this.translate.instant('SIGNUP.TOAST.ERROR_MESSAGE');
           console.log('Ha ocurrido un error');
         }
       );
   }
 
   register(email: string, password: string, name: string, lastName: string, role: string) {
-    this.http.post(this.uri + 'register', {email: email,password: password,  names: name, last_names: lastName})
+    this.http.post(this.uri + 'register', {email, password,  names: name, last_names: lastName})
       .subscribe((resp: any) => {
           this.router.navigate(['/login']);
         },
         (error) => {
-          let error_msg = this.translate.instant("SIGNUP.TOAST.ERROR_MESSAGE");
+          const error_msg = this.translate.instant('SIGNUP.TOAST.ERROR_MESSAGE');
           console.log('Ha ocurrido un error');
         }
       );
   }
 
+  getActualUserInformation(){
+    return localStorage.getItem('currentUser');
+  }
   login(email: string, password: string) {
-    this.http.post(this.uri + 'login', {email: email,password: password})
+    this.http.post(this.uri + 'login', {email, password})
     .subscribe((resp: any) => {
       localStorage.setItem('auth_token', resp.token);
-      localStorage.setItem("currentUser",JSON.stringify(resp.user));
-      let sessionLog = {
+      localStorage.setItem('currentUser', JSON.stringify(resp.user));
+      const sessionLog = {
         userId: resp.user._id,
         userEmail: resp.user.email,
         state: 'login',
         localTimeStamp: Date.now()
-      }
+      };
       this.redirectUserPanel(resp.user.role.name);
       },
       (error) => {
-        let error_msg = this.translate.instant("LOGIN.TOAST.ERROR_MESSAGE");
-        if (error.error=='EMAIL_NOT_FOUND') {
-          error_msg = this.translate.instant("LOGIN.TOAST.ERROR_EMAIL_MESSAGE");
+        let error_msg = this.translate.instant('LOGIN.TOAST.ERROR_MESSAGE');
+        if (error.error == 'EMAIL_NOT_FOUND') {
+          error_msg = this.translate.instant('LOGIN.TOAST.ERROR_EMAIL_MESSAGE');
         }
-        else if (error.error=='INVALID_PASSWORD') {
-          error_msg = this.translate.instant("LOGIN.TOAST.ERROR_CREDENTIALS_MESSAGE");
+        else if (error.error == 'INVALID_PASSWORD') {
+          error_msg = this.translate.instant('LOGIN.TOAST.ERROR_CREDENTIALS_MESSAGE');
         }
-        else if (error.error='USER_NOT_CONFIRMED') {
-          error_msg = this.translate.instant("LOGIN.TOAST.ERROR_USER_NOT_CONFIRMED");
+        else if (error.error = 'USER_NOT_CONFIRMED') {
+          error_msg = this.translate.instant('LOGIN.TOAST.ERROR_USER_NOT_CONFIRMED');
         }
-        this.toastr.error(error_msg, this.translate.instant("LOGIN.TOAST.ERROR"), {
+        this.toastr.error(error_msg, this.translate.instant('LOGIN.TOAST.ERROR'), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -76,19 +79,19 @@ export class AuthService {
   }
 
   confirmLogout() {
-    confirm(this.translate.instant("LOGOUT.LOGOUT_CONFIRMATION")) && this.logout();
+    confirm(this.translate.instant('LOGOUT.LOGOUT_CONFIRMATION')) && this.logout();
   }
 
   logout() {
-    let sessionLog = {
+    const sessionLog = {
       userId: this.getUser()._id,
       userEmail: this.getUser().email,
       state: 'logout',
       localTimeStamp: Date.now()
-    }
+    };
     localStorage.removeItem('auth_token');
-    localStorage.removeItem("currentUser");
-    localStorage.removeItem("game");
+    localStorage.removeItem('currentUser');
+    localStorage.removeItem('game');
     this.router.navigate(['login']);
   }
 
@@ -98,8 +101,8 @@ export class AuthService {
 
   public isAdmin(): any {
     const role = JSON.parse(localStorage.getItem('currentUser')).role;
-    if (role.name=='admin') return true;
-    else return false;
+    if (role.name == 'admin') { return true; }
+    else { return false; }
   }
 
   public getUser() {
@@ -113,7 +116,7 @@ export class AuthService {
 
   redirectUserPanel(role) {
     console.log('redirect');
-    if (role=='admin') {
+    if (role == 'admin') {
       console.log('admin');
       this.router.navigate(['home']);
     } else {
