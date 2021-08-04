@@ -1,0 +1,43 @@
+
+.options{
+  text-align: right;
+  padding-right: 5%;
+  padding-left: 5%;
+}
+.options button{
+  margin: 10px;
+}
+
+.status{
+  margin-left: 10%;
+  margin-top: 3%;
+  width: 35%;
+  display: inline-block;
+}
+
+.gamify-button{
+  margin-left: 3%;
+  margin-top: 3%;
+  width: 10%;
+  display: inline-block;
+}
+
+.ok{
+  margin-left: 5%;
+  color: green;
+}
+
+.notok{
+  margin-left: 5%;
+  color: red;
+}
+
+.studies-display-card{
+  margin-left: 10%;
+  margin-right: 10%;
+}
+
+mat-card{
+  /**/
+  align-self: flex-start;
+}

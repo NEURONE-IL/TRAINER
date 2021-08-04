@@ -22,7 +22,7 @@ SessionLogSchema.pre('save', next => {
     next();
 });
 
-const myDB = mongoose.connection.useDb('neuronegame');
+const myDB = mongoose.connection.useDb('trainer');
 const SessionLog = myDB.model('SessionLog', SessionLogSchema);
 
 module.exports = SessionLog;

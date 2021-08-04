@@ -5,10 +5,16 @@ import { LoginComponent } from './views/login/login.component';
 import { RegisterStudentComponent } from './views/registerStudent/registerStudent.component';
 import { StudentLandPageComponent } from './views/studentLandPage/studentLandPage.component';
 import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.component';
+import { AdminPanelComponent } from './views/admin-panel/admin-panel.component';
+import { StudiesDisplayComponent } from './views/studies-display/studies-display.component';
+//import { StudyDisplayComponent } from './services/trainer/study-display/study-display.component';
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
-// import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
+import { StudyCreationComponent } from './views/study-creation/study-creation.component';
+import { AuthGuard } from './helpers/auth.guard';
+import { AdminGuard } from './helpers/admin.guard';
+import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
   {
@@ -19,32 +25,32 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
-    // canActivate: [ NotLoggedInGuard ]
+    canActivate: [ NotLoggedInGuard ]
   },
   {
     path: 'register',
     component: RegisterStudentComponent,
-    // canActivate: [ NotLoggedInGuard ]
+    canActivate: [ NotLoggedInGuard ]
   },
   {
     path: 'registerAdmin',
     component: RegisterAdminComponent,
-    // canActivate: [ NotLoggedInGuard ]
+    canActivate: [ NotLoggedInGuard ]
   },
   {
     path: 'homeStudent',
     component: StudentLandPageComponent,
-    // canActivate: [ NotLoggedInGuard ]
+    canActivate: [ AuthGuard ]
   },
   {
     path: 'home',
     component: HomeComponent,
-    // canActivate: [ NotLoggedInGuard ]
+    canActivate: [ AuthGuard ]
   },
   {
     path: 'apiConfig',
     component: ApiConfigurationComponent,
-    // canActivate: [ NotLoggedInGuard ]
+    canActivate: [ AuthGuard, AdminGuard ]
   },
   /*
   {
@@ -52,6 +58,7 @@ const routes: Routes = [
     component: StudentLandPageComponent,
     canActivate: [ NotLoggedInGuard ]
   },
+  */
   {
     path: 'admin_panel',
     component: AdminPanelComponent,
@@ -60,15 +67,22 @@ const routes: Routes = [
       {
         path: 'studies',
         component: StudiesDisplayComponent,
-        //canActivate: [ AuthGuard, AdminGuard ],
       },
-      {
-        path: 'study/:study_id',
-        component: StudyDisplayComponent,
+//      {
+//        path: 'study/:study_id',
+//        component: StudyDisplayComponent,
         //canActivate: [ AuthGuard, AdminGuard ],
-      },
+//      },
     ]
-  },*/
+  },
+  {
+    path: 'create-study',
+    component: StudyCreationComponent,
+    canActivate: [ AuthGuard, AdminGuard ],
+  },  
+  
+  
+  /*
   {
     path: 'forgot_password',
     component: ForgotPasswordComponent,
@@ -79,7 +93,7 @@ const routes: Routes = [
     component: RecoveryComponent,
 //    canActivate: [ NotLoggedInGuard ]
   },
-  { path: '**', redirectTo: 'home' },
+  { path: '**', redirectTo: 'home' },*/
 ];
 
 @NgModule({

@@ -1,0 +1,39 @@
+<mat-card class="studies-display-card">
+	<div class="row">
+		<div class="col-md-9" style="padding-top: 10px">
+			<mat-card-subtitle>{{ "ADMIN.SUBTITLE" | translate }}:</mat-card-subtitle>
+		</div>
+		<div class="col-md-3">
+			<div class="options" >
+		{{"" +"ADMIN.STUDIES.CREATE" | translate}}
+		<button mat-mini-fab color="primary" (click)="createStudy()">
+		<mat-icon>add</mat-icon>
+		</button>
+			</div>
+		</div>
+	</div>
+	<mat-card-content>
+		<mat-grid-list cols="12" [gutterSize]="'12px'">
+			<mat-grid-tile class="study-card"  (click)="clickedStudy(study._id)" (mouseover)="fullStudy(study)" (mouseout)="shortStudy(study)" colspan="3" rowspan="4" *ngFor="let study of studies; let index = index" >
+				<mat-card>
+					<mat-card-header>
+						<mat-card-title>
+							{{study.name}}
+						</mat-card-title>
+					</mat-card-header>
+					<img mat-card-image *ngIf="study.image_url" [src]="study.image_url">
+					<img mat-card-image *ngIf="!study.image_url" [src]="getCover(index)">
+					<mat-card-content>
+						<div *ngIf="actualStudy==study._id; else studyShortDescription">
+							<p *ngIf="study.description">{{study.description}}</p>
+						</div>
+						<ng-template #studyShortDescription>
+							<p *ngIf="study.description">{{showShortDescription(study.description)}}</p>
+						</ng-template>
+						<p *ngIf="!study.description">{{ "ADMIN.STUDIES.NO_DESCRIPTION" | translate}}</p>
+					</mat-card-content>
+				</mat-card>
+			</mat-grid-tile>
+		</mat-grid-list>
+	</mat-card-content>
+</mat-card>

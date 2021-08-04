@@ -5,17 +5,18 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const config = require('config'); //we load the db location from the JSON files
 const morgan = require('morgan');
-const bcrypt = require('bcryptjs');
 const path = require('path');
 require('dotenv').config(); //setup custom environment variables
 
 /** Internal modules **/
 require('./config/config');
 const authRoutes = require('./routes/auth');
+const sessionLogRoutes = require('./routes/sessionLog');
+const stageRoutes = require('./routes/stage');
+const studyRoutes = require('./routes/study');
+const userRoutes = require('./routes/user');
 
 const Role = require('./models/role');
-const User = require('./models/user');
-
 
 //db connection
 
@@ -74,7 +75,10 @@ app.use(bodyParser.json({ type: 'application/json'}));
 
 /** Express routing **/
 app.use('/api/auth', authRoutes);
-app.use('/apiTrivia/auth', authRoutes);
+app.use('/api/sessionLog', sessionLogRoutes);
+app.use('/api/stage', stageRoutes);
+app.use('/api/study', studyRoutes);
+app.use('/api/user', userRoutes);
 
 // Set client on root
 

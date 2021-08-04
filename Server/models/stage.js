@@ -24,7 +24,7 @@ StageSchema.pre('save', next => {
     next();
 });
 
-const myDB = mongoose.connection.useDb('neuronegame');
+const myDB = mongoose.connection.useDb('trainer');
 const Stage = myDB.model('Stage', StageSchema);
 
 module.exports = Stage;

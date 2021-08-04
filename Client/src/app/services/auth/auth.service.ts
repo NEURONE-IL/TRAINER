@@ -112,15 +112,26 @@ export class AuthService {
   }
 
   redirectUserPanel(role) {
-    console.log('redirect');
-    if (role=='admin') {
-      console.log('admin');
-      this.router.navigate(['home']);
-    } else {
+    if(role==='admin') {
+      this.router.navigate(['admin_panel']);
+    } 
+    else{
       this.router.navigate(['/home']);
     }
-
-
   }
+
+  refreshUser() {
+    return new Promise((resolve, reject) => {
+      this.http.put(this.userUri + this.getUser()._id, {})
+      .subscribe((res: any) => {
+        localStorage.setItem("currentUser",JSON.stringify(res.user));
+        resolve(true);
+      },
+      (error) => {
+        console.log(error);
+        resolve(false);
+      });
+    });
+  }  
 
 }
