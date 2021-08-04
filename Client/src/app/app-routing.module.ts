@@ -8,6 +8,7 @@ import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.comp
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
+import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 // import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
@@ -44,6 +45,11 @@ const routes: Routes = [
   {
     path: 'apiConfig',
     component: ApiConfigurationComponent,
+    // canActivate: [ NotLoggedInGuard ]
+  },
+  {
+    path: 'videoModule',
+    component: VideoModuleComponent,
     // canActivate: [ NotLoggedInGuard ]
   },
   /*

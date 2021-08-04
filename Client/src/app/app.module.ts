@@ -47,9 +47,9 @@ import { HeaderComponent } from './components/header/header.component';
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
-
-
-
+import { VideoModuleComponent } from './views/videoModule/videoModule.component';
+import { VideoComponent } from './components/video/video.component';
+import { QuizComponent } from './components/quiz/quiz.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -68,6 +68,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     RecoveryComponent,
     ForgotPasswordComponent,
+    VideoModuleComponent,
+    VideoComponent,
+    QuizComponent,
   ],
   imports: [
     BrowserModule,
