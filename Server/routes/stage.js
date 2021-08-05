@@ -44,6 +44,18 @@ router.get('/byStudy/:study_id', [verifyToken], async (req, res) => {
     })
 });
 
+router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => {
+    const _id = req.params.study_id;
+    Stage.find({study: _id}, (err, stages) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({stages});
+    }).sort({step: 'asc'});
+});
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, stageMiddleware.verifyBody], async (req, res) => {
     const stage = new Stage(req.body);

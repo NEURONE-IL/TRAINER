@@ -15,6 +15,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class StudyDisplayComponent implements OnInit {
   study: Study;
   stages: Stage[] = [];
+  sortedStages: Stage[] = [];
   createStage: boolean;
 
   constructor(private router: Router,
@@ -44,6 +45,12 @@ export class StudyDisplayComponent implements OnInit {
     this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
         this.stages = response['stages'];
+    });
+
+    this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+      .subscribe(response => {
+        this.sortedStages = response['stages'];
+        console.log(this.sortedStages, 'sorted');
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;

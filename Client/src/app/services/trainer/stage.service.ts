@@ -32,6 +32,10 @@ export class StageService {
     return this.http.get(environment.apiURL +'stage/byStudy/'+studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} })
   }
 
+  getStagesByStudySortedByStep(studyId: string): Observable<any> {
+    return this.http.get(environment.apiURL +'stage/byStudySortedByStep/'+studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} })
+  }  
+
   getStage(id: string) {
     return this.http.get(this.uri+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
