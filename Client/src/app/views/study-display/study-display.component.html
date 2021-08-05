@@ -1,0 +1,65 @@
+<mat-card class="study-display-card">
+  <mat-grid-list cols="24">
+    <mat-grid-tile colspan="12">
+      <mat-card-header>
+        <mat-card-title *ngIf="study">{{ "ADMIN.STUDIES.HEADER" | translate }}: {{study.name}}</mat-card-title>
+      </mat-card-header>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="4"></mat-grid-tile>
+    <mat-grid-tile colspan="8">
+      <button mat-raised-button class="actionButton" color="primary" (click)="showStudyUpdateDialog()">{{ "BUTTONS.EDIT_STUDY" | translate }} <mat-icon>edit</mat-icon></button>
+      <button mat-raised-button class="actionButton" color="warn" (click)="confirmStudyDelete(study._id)">{{ "BUTTONS.DELETE_STUDY" | translate }} <mat-icon>delete</mat-icon></button>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <!-- Nuevo diseño de Tabs -->
+  <mat-tab-group mat-align-tabs="end">
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span (click)="reloadStages()"> {{'ADMIN.TABS.STAGES' | translate }} </span>
+      </ng-template>
+      <ng-template matTabContent>
+        <div class="row ">
+          <div class="col-md-12" *ngFor="let stage of stages; let index = index;">
+            <br>
+            <mat-card-header class="header-stage">
+              <div class="col-md-8">
+								<div class="col-md-8" style="padding-top: 5px">
+									{{ "ADMIN.STAGES.QUESTION" | translate }}: {{stage.title}}
+								</div>
+								<div class="col-md-4 buttons" style="text-align: right">
+									<button mat-button (click)="showStageUpdateDialog(stage)">{{ "BUTTONS.EDIT" | translate }} <mat-icon>edit</mat-icon></button>
+									<button mat-button (click)="confirmStageDelete(stage._id)">{{ "BUTTONS.DELETE" | translate }} <mat-icon>delete</mat-icon></button>
+								</div>
+              </div>
+              <div class="col-md-4">
+                <mat-card-subtitle>{{ "ADMIN.STAGES.QUESTION_TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
+              </div>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="col-md-3">
+                <mat-icon>alarm</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}} </span>
+              </div>
+              <div class="col-md-3">
+                <mat-icon>cached</mat-icon><span class="aligned-with-icon">{{ "ADMIN.CHALLENGES.MAX_ATTEMPTS" | translate }}: {{stage.link}}</span>
+              </div>
+            </mat-card-content>
+            <mat-card-content>
+              <div class="col-md-3">
+                {{ "ADMIN.CHALLENGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}
+              </div>
+              <div class="col-md-3">
+                {{ "ADMIN.CHALLENGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}
+              </div>
+            </mat-card-content>
+          </div>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="{{'ADMIN.TABS.CREATE_STAGE' | translate }}">
+      <ng-template matTabContent>
+        <app-stage-creation [study]="study._id"> </app-stage-creation>
+      </ng-template>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>

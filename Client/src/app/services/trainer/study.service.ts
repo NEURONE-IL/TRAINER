@@ -27,11 +27,11 @@ export class StudyService {
   }
 
   getStudy(id: string): Observable<any> {
-    return this.http.get(this.uri+id);
+    return this.http.get(this.uri+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   deleteStudy(id: string): Observable<any> {
-    return this.http.delete(this.uri+id);
+    return this.http.delete(this.uri+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   postStudy(study: any): Observable<any> {

@@ -16,8 +16,12 @@ const schema = Joi.object({
         .required(),
 
     type: Joi.string()
-        .required()
-})
+        .required(),
+
+    link: Joi.string()
+        .required()        
+
+});
 
 const editSchema = Joi.object({
     
@@ -27,7 +31,13 @@ const editSchema = Joi.object({
     
     step: Joi.number(),
 
-    study: Joi.any()
+    study: Joi.any(),
+
+    type: Joi.string()
+        .required(),
+    
+    link: Joi.string()
+        .required()
 
 })
 

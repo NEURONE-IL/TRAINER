@@ -1,0 +1,109 @@
+<mat-card class="stage-creation-card">
+  <mat-card-header>
+    <mat-card-title>{{ "STAGE.TITLE" | translate }}</mat-card-title>
+    <mat-card-subtitle>{{ "STAGE.SUBTITLE" | translate }}:</mat-card-subtitle>
+	</mat-card-header>
+	<mat-card-content>
+		<form [formGroup]="stageForm">
+			<mat-grid-list cols="12">
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.TITLE" | translate }}</mat-label>
+						<input matInput formControlName="title" required #inputTitle maxlength="300">
+						<mat-hint align="end">{{inputTitle.value?.length || 0}}/300</mat-hint>
+						<mat-error *ngIf="stageFormControls.title.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.title.hasError('minlength')">
+							{{ "ERRORS.MIN_LENGTH_10" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.title.hasError('maxlength')">
+							{{ "ERRORS.MAX_LENGTH_300" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.DESCRIPTION" | translate }}</mat-label>
+						<input matInput formControlName="description" required #inputDescription maxlength="300">
+						<mat-hint align="end">{{inputDescription.value?.length || 0}}/300</mat-hint>
+						<mat-error *ngIf="stageFormControls.description.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.description.hasError('minlength')">
+							{{ "ERRORS.MIN_LENGTH_10" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.description.hasError('maxlength')">
+							{{ "ERRORS.MAX_LENGTH_300" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.STEP" | translate }}</mat-label>
+						<input matInput formControlName="step" required #inputStep maxlength="300">
+						<mat-hint align="end">{{inputStep.value?.length || 0}}/300</mat-hint>
+						<mat-error *ngIf="stageFormControls.step.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.step.hasError('minlength')">
+							{{ "ERRORS.MIN_LENGTH_10" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.step.hasError('maxlength')">
+							{{ "ERRORS.MAX_LENGTH_300" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>	
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.TYPE" | translate }}</mat-label>
+						<input matInput formControlName="type" required #inputType maxlength="300">
+						<mat-hint align="end">{{inputType.value?.length || 0}}/300</mat-hint>
+						<mat-error *ngIf="stageFormControls.type.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.type.hasError('minlength')">
+							{{ "ERRORS.MIN_LENGTH_10" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.type.hasError('maxlength')">
+							{{ "ERRORS.MAX_LENGTH_300" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>	
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.LINK" | translate }}</mat-label>
+						<input matInput formControlName="link" required #inputLink maxlength="300">
+						<mat-hint align="end">{{inputLink.value?.length || 0}}/300</mat-hint>
+						<mat-error *ngIf="stageFormControls.link.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.link.hasError('minlength')">
+							{{ "ERRORS.MIN_LENGTH_10" | translate }}
+						</mat-error>
+						<mat-error *ngIf="stageFormControls.link.hasError('maxlength')">
+							{{ "ERRORS.MAX_LENGTH_300" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>								
+			</mat-grid-list>
+		</form>
+	</mat-card-content>
+	<mat-card-actions class="cardActions" *ngIf="!loading; else elseBlock">
+		<button mat-raised-button class="saveButton" [disabled]="!stageForm.valid" (click)="createStage()">
+			{{ "BUTTONS.SAVE" | translate }}
+		</button>
+		<button mat-raised-button class="clearButton" (click)="resetForm()">
+			{{ "BUTTONS.CLEAR" | translate }}
+		</button>
+	</mat-card-actions>
+	<ng-template #elseBlock>
+		<div class="spinnerCard">
+			<mat-progress-spinner color="primary" mode="indeterminate" class="mb-4">
+			</mat-progress-spinner>
+			<span>
+				{{ "ADMIN.STAGES.LOADING" | translate }}
+			</span>
+		</div>
+	</ng-template>	
+</mat-card>

@@ -19,7 +19,6 @@ export class StudiesDisplayComponent implements OnInit {
     this.studyService.getStudies().subscribe(
       response => {
         this.studies = response['studys'];
-        console.log(this.studies, 'stu')
       },
       err => {
         this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("CHALLENGE.TOAST.ERROR"), {
