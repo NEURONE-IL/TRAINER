@@ -64,7 +64,7 @@
 					<mat-form-field>
 						<mat-label>{{ "STAGE.FORM.FIELDS.LINK" | translate }}</mat-label>
 						<mat-select formControlName="link" required>
-							<mat-option *ngFor="let link of currentLinks" [value]="link"> {{ link.name }} </mat-option>
+							<mat-option *ngFor="let link of currentLinks" [value]="link._id"> {{ link.name }} </mat-option>
 						</mat-select>						
 						<mat-error *ngIf="stageFormControls.link.hasError('required')">
 							{{ "ERRORS.REQUIRED" | translate }}
