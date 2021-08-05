@@ -4,12 +4,25 @@
 <h1>Modulo de videos</h1>
 
 <div class="row">
-  <div class="col-sm-2" style="background-color:lavender;">
-    <h2>menu</h2>
+  <div class="col-sm-2">
+    <h2>Menu</h2>
+    <div>
+      <button type="button" (click)="showQuiz(1)" mat-raised-button>{{"Quiz" | translate}}</button>
+      <button type="button" (click)="showVideo(1)" mat-raised-button>{{"Video" | translate}}</button>
+    </div>
+    <div>
+      <button type="button" (click)="showQuiz(2)" mat-raised-button>{{"Quiz 2" | translate}}</button>
+      <button type="button" (click)="showVideo(2)" mat-raised-button>{{"Video 2" | translate}}</button>
+    </div>
+    <div>
+      <button type="button" (click)="showQuiz(3)" mat-raised-button>{{"Quiz 3" | translate}}</button>
+      <button type="button" (click)="showVideo(3)" mat-raised-button>{{"Video 3" | translate}}</button>
+    </div>
   </div>
-  <div class="col-sm-10" style="background-color:pink;">
-
-    <app-quiz></app-quiz>
-    <app-video></app-video>
+  <div class="col-sm-10" *ngIf="quiz">
+    <app-quiz [quizNumber]=quizNumber></app-quiz>
+  </div>
+  <div class="col-sm-10" *ngIf="video">
+    <app-video [videoNumber]=videoNumber></app-video>
   </div>
 </div>
