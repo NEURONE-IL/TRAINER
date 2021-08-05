@@ -21,7 +21,7 @@ export class StudiesDisplayComponent implements OnInit {
         this.studies = response['studys'];
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("CHALLENGE.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });

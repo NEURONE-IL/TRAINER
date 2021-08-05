@@ -24,6 +24,41 @@
     "TOOLTIP": "Ir a la página principal"
   },  
   "ADMIN": {
+    "STAGES": {
+      "CREATED_AT": "Creado",
+      "LINK": "Enlace",
+      "STEP": "Orden",
+      "STUDY": "Estudio",
+      "TITLE": "Título",
+      "TYPE": "Tipo de etapa",
+      "UPDATED_AT": "Modificado"
+    },
+    "STUDIES": {
+      "CREATE": "CREAR ESTUDIO",
+      "CURRENT_STUDIES": "Estudios actuales",
+      "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el estudio?",
+      "DELETING_RESOURCES": "Eliminando recurso, por favor espere...",
+      "HEADER": "Estudio",
+      "LOADING": "Cargando, por favor espere..."      
+    },
+    "TABS": {
+      "CREATE_STAGE": "CREAR ETAPA",
+      "STAGES": "ETAPAS"
+    }    
+  },
+  "STAGE": {
+    "FORM": {
+      "FIELDS": {
+        "DESCRIPTION": "Descripción",
+        "LINK": "Enlace",
+        "STEP": "Orden",
+        "STUDY": "Estudio",
+        "TITLE": "Título",
+        "TYPE": "Tipo de etapa"
+      }
+    },
+    "SUBTITLE": "Complete los siguientes campos para crear una nueva etapa en el estudio",
+    "TITLE": "Creación de etapas"
   },
   "USER": {
   },

@@ -10,7 +10,9 @@ export interface Stage {
   step: number,
   study: number,
   type: string,
-  link: string
+  link: string,
+  createdAt: string,
+  updatedAt: string  
 }
 
 @Injectable({

@@ -23,32 +23,34 @@
             <br>
             <mat-card-header class="header-stage">
               <div class="col-md-8">
-								<div class="col-md-8" style="padding-top: 5px">
-									{{ "ADMIN.STAGES.QUESTION" | translate }}: {{stage.title}}
-								</div>
-								<div class="col-md-4 buttons" style="text-align: right">
-									<button mat-button (click)="showStageUpdateDialog(stage)">{{ "BUTTONS.EDIT" | translate }} <mat-icon>edit</mat-icon></button>
-									<button mat-button (click)="confirmStageDelete(stage._id)">{{ "BUTTONS.DELETE" | translate }} <mat-icon>delete</mat-icon></button>
-								</div>
+                <mat-card-title class="{{getClass(stage.type)}}">
+                  <div class="col-md-8" style="padding-top: 5px">
+                    {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}
+                  </div>
+                  <div style="text-align: right">
+                    <button mat-button (click)="showStageUpdateDialog(stage)">{{ "BUTTONS.EDIT" | translate }} <mat-icon>edit</mat-icon></button>
+                    <button mat-button (click)="confirmStageDelete(stage._id)">{{ "BUTTONS.DELETE" | translate }} <mat-icon>delete</mat-icon></button>
+                  </div>
+                </mat-card-title>
               </div>
               <div class="col-md-4">
-                <mat-card-subtitle>{{ "ADMIN.STAGES.QUESTION_TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
+                <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
               </div>
             </mat-card-header>
             <mat-card-content>
-              <div class="col-md-3">
-                <mat-icon>alarm</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}} </span>
+              <div class="col-md-6">
+                <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
               </div>
-              <div class="col-md-3">
-                <mat-icon>cached</mat-icon><span class="aligned-with-icon">{{ "ADMIN.CHALLENGES.MAX_ATTEMPTS" | translate }}: {{stage.link}}</span>
+              <div class="col-md-6">
+                <mat-icon>link</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.link}}</span>
               </div>
             </mat-card-content>
             <mat-card-content>
-              <div class="col-md-3">
-                {{ "ADMIN.CHALLENGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}
+              <div class="col-md-6">
+                <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}</span>
               </div>
-              <div class="col-md-3">
-                {{ "ADMIN.CHALLENGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}
+              <div class="col-md-6">
+                <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}</span>
               </div>
             </mat-card-content>
           </div>

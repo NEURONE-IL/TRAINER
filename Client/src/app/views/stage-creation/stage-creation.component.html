@@ -10,15 +10,15 @@
 					<mat-form-field>
 						<mat-label>{{ "STAGE.FORM.FIELDS.TITLE" | translate }}</mat-label>
 						<input matInput formControlName="title" required #inputTitle maxlength="300">
-						<mat-hint align="end">{{inputTitle.value?.length || 0}}/300</mat-hint>
+						<mat-hint align="end">{{inputTitle.value?.length || 0}}/50</mat-hint>
 						<mat-error *ngIf="stageFormControls.title.hasError('required')">
 							{{ "ERRORS.REQUIRED" | translate }}
 						</mat-error>
 						<mat-error *ngIf="stageFormControls.title.hasError('minlength')">
-							{{ "ERRORS.MIN_LENGTH_10" | translate }}
+							{{ "ERRORS.MIN_LENGTH_3" | translate }}
 						</mat-error>
 						<mat-error *ngIf="stageFormControls.title.hasError('maxlength')">
-							{{ "ERRORS.MAX_LENGTH_300" | translate }}
+							{{ "ERRORS.MAX_LENGTH_50" | translate }}
 						</mat-error>
 					</mat-form-field>
 				</mat-grid-tile>
@@ -26,63 +26,48 @@
 					<mat-form-field>
 						<mat-label>{{ "STAGE.FORM.FIELDS.DESCRIPTION" | translate }}</mat-label>
 						<input matInput formControlName="description" required #inputDescription maxlength="300">
-						<mat-hint align="end">{{inputDescription.value?.length || 0}}/300</mat-hint>
+						<mat-hint align="end">{{inputDescription.value?.length || 0}}/250</mat-hint>
 						<mat-error *ngIf="stageFormControls.description.hasError('required')">
 							{{ "ERRORS.REQUIRED" | translate }}
 						</mat-error>
 						<mat-error *ngIf="stageFormControls.description.hasError('minlength')">
-							{{ "ERRORS.MIN_LENGTH_10" | translate }}
+							{{ "ERRORS.MIN_LENGTH_3" | translate }}
 						</mat-error>
 						<mat-error *ngIf="stageFormControls.description.hasError('maxlength')">
-							{{ "ERRORS.MAX_LENGTH_300" | translate }}
+							{{ "ERRORS.MAX_LENGTH_250" | translate }}
 						</mat-error>
 					</mat-form-field>
 				</mat-grid-tile>
 				<mat-grid-tile colspan="6">
 					<mat-form-field>
 						<mat-label>{{ "STAGE.FORM.FIELDS.STEP" | translate }}</mat-label>
-						<input matInput formControlName="step" required #inputStep maxlength="300">
-						<mat-hint align="end">{{inputStep.value?.length || 0}}/300</mat-hint>
+						<mat-select formControlName="step">
+							<mat-option *ngFor="let step of steps" [value]="step"> {{ step }} </mat-option>
+						</mat-select>	
 						<mat-error *ngIf="stageFormControls.step.hasError('required')">
 							{{ "ERRORS.REQUIRED" | translate }}
-						</mat-error>
-						<mat-error *ngIf="stageFormControls.step.hasError('minlength')">
-							{{ "ERRORS.MIN_LENGTH_10" | translate }}
-						</mat-error>
-						<mat-error *ngIf="stageFormControls.step.hasError('maxlength')">
-							{{ "ERRORS.MAX_LENGTH_300" | translate }}
-						</mat-error>
+						</mat-error>						
 					</mat-form-field>
 				</mat-grid-tile>	
 				<mat-grid-tile colspan="6">
 					<mat-form-field>
 						<mat-label>{{ "STAGE.FORM.FIELDS.TYPE" | translate }}</mat-label>
-						<input matInput formControlName="type" required #inputType maxlength="300">
-						<mat-hint align="end">{{inputType.value?.length || 0}}/300</mat-hint>
+						<mat-select formControlName="type" required (selectionChange)="changeLinks($event)">
+							<mat-option *ngFor="let option of typeOptions" [value]="option"> {{ option }} </mat-option>
+						</mat-select>
 						<mat-error *ngIf="stageFormControls.type.hasError('required')">
 							{{ "ERRORS.REQUIRED" | translate }}
-						</mat-error>
-						<mat-error *ngIf="stageFormControls.type.hasError('minlength')">
-							{{ "ERRORS.MIN_LENGTH_10" | translate }}
-						</mat-error>
-						<mat-error *ngIf="stageFormControls.type.hasError('maxlength')">
-							{{ "ERRORS.MAX_LENGTH_300" | translate }}
 						</mat-error>
 					</mat-form-field>
 				</mat-grid-tile>	
 				<mat-grid-tile colspan="6">
 					<mat-form-field>
 						<mat-label>{{ "STAGE.FORM.FIELDS.LINK" | translate }}</mat-label>
-						<input matInput formControlName="link" required #inputLink maxlength="300">
-						<mat-hint align="end">{{inputLink.value?.length || 0}}/300</mat-hint>
+						<mat-select formControlName="link" required>
+							<mat-option *ngFor="let link of currentLinks" [value]="link"> {{ link.name }} </mat-option>
+						</mat-select>						
 						<mat-error *ngIf="stageFormControls.link.hasError('required')">
 							{{ "ERRORS.REQUIRED" | translate }}
-						</mat-error>
-						<mat-error *ngIf="stageFormControls.link.hasError('minlength')">
-							{{ "ERRORS.MIN_LENGTH_10" | translate }}
-						</mat-error>
-						<mat-error *ngIf="stageFormControls.link.hasError('maxlength')">
-							{{ "ERRORS.MAX_LENGTH_300" | translate }}
 						</mat-error>
 					</mat-form-field>
 				</mat-grid-tile>								

@@ -5,6 +5,19 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
+export interface TriviaStudy {
+  _id: string,
+  name: string,
+  description: string,
+  domain: string,
+  gm_code: string,
+  cooldown: number,
+  createdAt: string,
+  updatedAt: string,
+  image_id: string,
+  image_url: string,
+  max_per_interval: number
+}
 
 @Injectable({
   providedIn: 'root'
@@ -39,6 +52,5 @@ export class ApiTriviaService {
     header = header.append('x-api-key', this.apiKey);
     return this.http.get(this.urlApi + 'site/study', {headers: header});
   }
-
 
 }

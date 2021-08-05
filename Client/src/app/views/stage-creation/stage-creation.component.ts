@@ -4,7 +4,7 @@ import { StageService } from '../../services/trainer/stage.service';
 import { Study, StudyService } from '../../services/trainer/study.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { Router } from '@angular/router';
+import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivia.service';
 
 @Component({
   selector: 'app-stage-creation',
@@ -16,15 +16,42 @@ export class StageCreationComponent implements OnInit {
   stageForm: FormGroup;
   studies: Study[];
   loading: Boolean;
+  steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  typeOptions: string[] = ['Trivia', 'SG', 'Vídeo'];
+  currentLinks: any[];
+  triviaLinks: TriviaStudy[];
+  SGLinks: TriviaStudy[] = [
+    {
+      _id: "007",
+      name: "Test SG",
+      description: "Ejemplo de estudio",
+      domain: "No disponible",
+      gm_code: "game_group_test",
+      cooldown: 10000,
+      createdAt: "2021-03-23T21:18:57.536Z",
+      updatedAt: "2021-03-23T21:18:57.536Z",
+      image_id: "605a5b41b2a3e490ed5b8f61",
+      image_url: "https://sg.neurone.info/api/image/00c8389e9dbea9d8fda4f95768de5894.jpg",
+      max_per_interval: 1,
+    }
+  ];
+  videoLinks: object[] = [
+    {
+      name: "Módulo de vídeos",
+      link: "http://localhost:4200/videoModule"
+    }
+  ]
 
   constructor(private formBuilder: FormBuilder, 
-              private router: Router, 
               private stageService: StageService, 
               private studyService: StudyService, 
               private toastr: ToastrService, 
-              private translate: TranslateService) { }
+              private translate: TranslateService,
+              private triviaService: ApiTriviaService) { }
 
   ngOnInit(): void {
+
+    this.getApiStudies();
 
     this.stageForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -77,5 +104,24 @@ export class StageCreationComponent implements OnInit {
         });
       }
     );
+  }
+
+  getApiStudies(){
+    this.triviaService.getStudies().subscribe((res: any) => {
+      this.triviaLinks = res.studys;
+    });
+  }  
+
+  changeLinks(event: any){
+    let value = event.value;
+    if(value === 'Trivia'){
+      this.currentLinks = this.triviaLinks;
+    }
+    else if(value === 'SG'){
+      this.currentLinks = this.SGLinks;
+    }
+    else if(value === 'Vídeo'){
+      this.currentLinks = this.videoLinks;
+    }
   }
 }

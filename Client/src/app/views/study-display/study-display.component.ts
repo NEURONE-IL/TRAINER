@@ -34,7 +34,7 @@ export class StudyDisplayComponent implements OnInit {
         this.study = response['study'];
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_ERROR"), this.translate.instant("CHALLENGE.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -128,6 +128,15 @@ export class StudyDisplayComponent implements OnInit {
       data: stage
     }).afterClosed()
     .subscribe(() => this.ngOnInit());
+  }
+
+  getClass(type){
+    if(type === 'Trivia'){
+      return 'Trivia';
+    }
+    else if(type === 'SG'){
+      return 'SG';
+    }
   }
 
   formatDate(date){

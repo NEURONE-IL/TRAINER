@@ -1,33 +1,41 @@
 .mat-list-icon {
 	color: rgba(0, 0, 0, 0.54);
 }
+
 .study-display-card{
 	margin-left: 10%;
 	margin-right: 10%;
 	margin-top: 5%;
 }
+
 ::ng-deep .mat-list .mat-list-item .mat-line{
 	word-wrap: break-word;
  	white-space: pre-line;
 }
+
 .stage-cover{
 	background-image: url('../../../assets/study-images/Study00.jpg');
 	background-size: cover;
 }
+
 .options{
   text-align: right;
   padding-right: 5%;
   padding-left: 5%;
 }
+
 .options button{
   margin: 10px;
 }
+
 .emptyText{
   padding-left: 15px
 }
+
 .actions{
 	justify-content: flex-end;
 }
+
 ::ng-deep mat-grid-tile.mat-grid-tile .mat-figure {
 	align-items: center;
 	justify-content: flex-start;
@@ -47,9 +55,11 @@
 .div buttons{
   text-align: right;
 }
+
 .header-stage div.col-md-8{
   padding-right: 0px;
 }
+
 .header-stage div.col-md-4{
   padding-left: 0px;
 }
@@ -65,6 +75,7 @@
   text-align: right;
   border-bottom: solid 1px #EEEEEE;
 }
+
 .mat-card-content{
   margin-right: 40px;
   margin-left: 47px;
@@ -82,6 +93,7 @@
   display: flex;
   flex-direction: row;
 }
+
 .mat-card-actions{
   text-align: right;
   margin-right: 40px;
@@ -98,15 +110,18 @@
   color: white;
   background-color: dodgerblue;
 }
+
 .image{
   color: white;
   background-color: darkorchid;
 }
-.document{
+
+.SG{
   color: white;
   background-color: darkorange;
 }
-.video{
+
+.Trivia{
   color: white;
   background-color: red;
 }
@@ -114,13 +129,16 @@
 .webPageButton{
   color: dodgerblue;
 }
+
 .imageButton{
   color: darkorchid;
 }
-.documentButton{
+
+.SGButton{
   color: darkorange;
 }
-.videoButton{
+
+.TriviaButton{
   color: red;
 }
 
