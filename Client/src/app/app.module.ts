@@ -47,6 +47,11 @@ import { HeaderComponent } from './components/header/header.component';
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
+import { AdminPanelComponent } from './views/admin-panel/admin-panel.component';
+import { StudiesDisplayComponent } from './views/studies-display/studies-display.component';
+import { StudyCreationComponent } from './views/study-creation/study-creation.component';
+import { StudyDisplayComponent } from './views/study-display/study-display.component';
+import { StageCreationComponent } from './views/stage-creation/stage-creation.component';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
 import { QuizComponent } from './components/quiz/quiz.component';
@@ -68,6 +73,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     HeaderComponent,
     RecoveryComponent,
     ForgotPasswordComponent,
+    AdminPanelComponent,
+    StudiesDisplayComponent,
+    StudyCreationComponent,
+    StudyDisplayComponent,
+    StageCreationComponent,    
     VideoModuleComponent,
     VideoComponent,
     QuizComponent,

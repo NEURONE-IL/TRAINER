@@ -7,12 +7,15 @@ import { StudentLandPageComponent } from './views/studentLandPage/studentLandPag
 import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.component';
 import { AdminPanelComponent } from './views/admin-panel/admin-panel.component';
 import { StudiesDisplayComponent } from './views/studies-display/studies-display.component';
-//import { StudyDisplayComponent } from './services/trainer/study-display/study-display.component';
+import { StudyDisplayComponent } from './views/study-display/study-display.component';
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
+import { StudyCreationComponent } from './views/study-creation/study-creation.component';
+import { AuthGuard } from './helpers/auth.guard';
+import { AdminGuard } from './helpers/admin.guard';
+import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
-// import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
   {
@@ -53,7 +56,7 @@ const routes: Routes = [
   {
     path: 'videoModule',
     component: VideoModuleComponent,
-    // canActivate: [ NotLoggedInGuard ]
+    canActivate: [ AuthGuard ]
   },
   /*
   {
@@ -69,19 +72,18 @@ const routes: Routes = [
     children: [
       {
         path: 'studies',
-        component: StudiesDisplayComponent,
+        component: StudiesDisplayComponent
       },
-//      {
-//        path: 'study/:study_id',
-//        component: StudyDisplayComponent,
-        //canActivate: [ AuthGuard, AdminGuard ],
-//      },
+      {
+        path: 'study/:study_id',
+        component: StudyDisplayComponent
+      },
     ]
   },
   {
     path: 'create-study',
     component: StudyCreationComponent,
-    canActivate: [ AuthGuard, AdminGuard ],
+    canActivate: [ AuthGuard, AdminGuard ]
   },  
   
   
