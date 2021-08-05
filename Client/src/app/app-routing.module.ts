@@ -11,10 +11,8 @@ import { StudiesDisplayComponent } from './views/studies-display/studies-display
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
-import { StudyCreationComponent } from './views/study-creation/study-creation.component';
-import { AuthGuard } from './helpers/auth.guard';
-import { AdminGuard } from './helpers/admin.guard';
-import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
+import { VideoModuleComponent } from './views/videoModule/videoModule.component';
+// import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 
 const routes: Routes = [
   {
@@ -51,6 +49,11 @@ const routes: Routes = [
     path: 'apiConfig',
     component: ApiConfigurationComponent,
     canActivate: [ AuthGuard, AdminGuard ]
+  },
+  {
+    path: 'videoModule',
+    component: VideoModuleComponent,
+    // canActivate: [ NotLoggedInGuard ]
   },
   /*
   {

@@ -1,6 +1,6 @@
 //ROOT
-process.env.ROOT = 'http://138.197.200.50:3070'
-
+//process.env.ROOT = 'http://138.197.200.50:3070'
+process.env.ROOT = 'http://localhost:3070'
 //PORT
 process.env.PORT = process.env.PORT || 3070;
 
@@ -20,6 +20,7 @@ process.env.USERURI = `mongodb://localhost:27017/traineruser`;
 
 //NEURONE GAME CLIENT
 process.env.GAME_CLIENT = 'http://159.65.100.191:3030';
+
 
 // NEURONE DOCS path
 process.env.NEURONE_DOCS = '/home/neurone/neuroneAssets'

@@ -3,8 +3,21 @@
 
 <h1 >HOME!</h1>
 
-<button (click)="getApiStudies()" color="success" mat-raised-button>Obtener Estudios</button>
-{{ estudios? estudios: "no se pueden obtener"}}
+<div *ngIf="estudios">
+  <p>
+    <label>Seleccione estudio: </label>
+    <select name="miselect" [(ngModel)]="estudioSeleccionado">
+      <option [value]="item._id	" *ngFor="let item of estudios">{{item.name}}</option>
+    </select>
+  </p>
+</div>
+<br>
+<div *ngIf="estudioSeleccionado">
+  <p>
+    Estudio Seleccionado Id:   {{estudioSeleccionado}}
+  </p>
+  <!-- http://159.65.100.191:3030/login_redirect/:email/:names/:study/:trainer_id/:api_key/:url -->
+  <a href="http://159.65.100.191:3030/login_redirect/{{user.email}}/{{user.names}}/{{estudioSeleccionado}}/{{user._id}}/{{apikey}}/http:--localhost:4200-home" >ir a estudio</a>
+</div>
 
-<a href="http://159.65.100.191:3030/login_redirect/email@admin.com/hola/605a5b41b2a3e490ed5b8f63/12345678/{{apikey}}/http:--localhost:4200-home" >ir a estudio</a>
 
