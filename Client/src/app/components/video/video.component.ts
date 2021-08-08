@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'app-video',
@@ -9,10 +9,16 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 export class VideoComponent implements OnInit {
 
   @Input() videoNumber: number;
+  @Output() newItemEvent = new EventEmitter<string>();
 
   constructor( ) { }
 
   ngOnInit(): void {
+  }
+
+  sendVideoResponse() {
+    const send = 'video ' + this.videoNumber.toString(10) + ' listo!'
+    this.newItemEvent.emit(send);
   }
 
 }

@@ -7,22 +7,25 @@
   <div class="col-sm-2">
     <h2>Menu</h2>
     <div>
-      <button type="button" (click)="showQuiz(1)" mat-raised-button>{{"Quiz" | translate}}</button>
-      <button type="button" (click)="showVideo(1)" mat-raised-button>{{"Video" | translate}}</button>
+      <button type="button" (click)="showVideo(1)" mat-raised-button>{{"Video 1" | translate}}</button>
+      <button type="button" (click)="showQuiz(1)" mat-raised-button>{{"Quiz 1" | translate}}</button>
     </div>
     <div>
-      <button type="button" (click)="showQuiz(2)" mat-raised-button>{{"Quiz 2" | translate}}</button>
       <button type="button" (click)="showVideo(2)" mat-raised-button>{{"Video 2" | translate}}</button>
+      <button type="button" (click)="showQuiz(2)" mat-raised-button>{{"Quiz 2" | translate}}</button>
     </div>
     <div>
-      <button type="button" (click)="showQuiz(3)" mat-raised-button>{{"Quiz 3" | translate}}</button>
       <button type="button" (click)="showVideo(3)" mat-raised-button>{{"Video 3" | translate}}</button>
+      <button type="button" (click)="showQuiz(3)" mat-raised-button>{{"Quiz 3" | translate}}</button>
+    </div>
+    <div>
+      <p>Respuesta: {{status}}</p>
     </div>
   </div>
   <div class="col-sm-10" *ngIf="quiz">
-    <app-quiz [quizNumber]=quizNumber></app-quiz>
+    <app-quiz [quizNumber]=quizNumber (newItemEvent)="quizResponse($event)"></app-quiz>
   </div>
   <div class="col-sm-10" *ngIf="video">
-    <app-video [videoNumber]=videoNumber></app-video>
+    <app-video [videoNumber]=videoNumber (newItemEvent)="videoResponse($event)"></app-video>
   </div>
 </div>

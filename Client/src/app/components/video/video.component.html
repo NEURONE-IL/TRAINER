@@ -1,11 +1,4 @@
-<div>
-  <div *ngIf="videoNumber==1">
-    <h1>Video 1</h1>
-  </div>
-  <div *ngIf="videoNumber==2">
-    <h1>Video 2</h1>
-  </div>
-  <div *ngIf="videoNumber==3">
-    <h1>Video 3</h1>
-  </div>
-</div>
+<h1>Video: {{videoNumber}}</h1>
+
+
+<button (click)="sendVideoResponse()">Enviar</button>

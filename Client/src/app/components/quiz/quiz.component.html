@@ -1,11 +1,4 @@
-<div>
-  <div *ngIf="quizNumber==1">
-    <h1>Quiz 1</h1>
-  </div>
-  <div *ngIf="quizNumber==2">
-    <h1>Quiz 2</h1>
-  </div>
-  <div *ngIf="quizNumber==3">
-    <h1>Quiz 3</h1>
-  </div>
-</div>
+<h1>Quiz: {{quizNumber}}</h1>
+
+<button (click)="sendQuizResponse()">Enviar</button>
+

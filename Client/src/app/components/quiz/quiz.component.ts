@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 
 @Component({
   selector: 'app-quiz',
@@ -9,9 +9,19 @@ import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
 export class QuizComponent implements OnInit {
 
   @Input() quizNumber: number;
+  @Output() newItemEvent = new EventEmitter<string>();
 
-  constructor( ) { }
+  constructor() {
+  }
 
   ngOnInit(): void {
   }
+
+  sendQuizResponse() {
+    const send = 'quiz ' + this.quizNumber.toString(10) + ' listo!'
+    this.newItemEvent.emit(send);
+  }
+
+
 }
+

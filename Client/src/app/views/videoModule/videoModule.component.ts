@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 
 @Component({
   selector: 'app-video-module',
@@ -13,8 +13,25 @@ export class VideoModuleComponent implements OnInit {
   video;
   videoNumber = 0;
   quizNumber = 0;
+  status;
 
   ngOnInit(): void {
+  }
+
+  videoResponse(valueVideo) {
+    this.status = valueVideo;
+    this.showQuiz(this.videoNumber);
+    if(this.videoNumber != 3) {
+      this.videoNumber++;
+    }
+  }
+
+  quizResponse(valueQuiz){
+    this.status = valueQuiz;
+    if(this.quizNumber != 3){
+      this.quizNumber++;
+      this.showVideo(this.quizNumber);
+    }
   }
 
   showQuiz(quizNumber){
