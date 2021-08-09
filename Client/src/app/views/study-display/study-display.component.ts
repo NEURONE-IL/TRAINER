@@ -147,7 +147,7 @@ export class StudyDisplayComponent implements OnInit {
       return 'SG';
     }
     else if(type === 'Video'){
-      return 'video';
+      return 'Video';
     }
   }
 

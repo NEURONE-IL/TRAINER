@@ -37,7 +37,6 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
     const study = new Study({
         name: req.body.name,
         description: req.body.description,
-        domain: req.body.domain,
         type: req.body.type
     });
     if(req.file){
@@ -70,9 +69,6 @@ router.put('/:study_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uplo
         }
         if(req.body.description){
             study.description = req.body.description;
-        }        
-        if(req.body.domain){
-            study.domain = req.body.domain;
         }
         if(req.body.type){
             study.type = req.body.type;

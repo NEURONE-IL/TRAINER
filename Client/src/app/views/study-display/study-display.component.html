@@ -25,10 +25,10 @@
             <mat-card-header class="header-stage">
               <div class="  stages" >
                 <mat-card-title class="{{getClass(stage.type)}}">
-                  <div class="col-md-6" style="padding-top: 5px">
+                  <div class="col-md-8" style="padding-top: 3%;">
                     {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}
                   </div>
-                  <div class="buttons col-md-6">
+                  <div class="buttons col-md-4">
                     <button mat-icon-button (click)="showStageUpdateDialog(stage)" title="{{ 'BUTTONS.EDIT' | translate }} "><mat-icon>edit</mat-icon></button>
                     <button mat-icon-button (click)="confirmStageDelete(stage._id)" title="{{ 'BUTTONS.DELETE' | translate }}"> <mat-icon>delete</mat-icon></button>
                   </div>

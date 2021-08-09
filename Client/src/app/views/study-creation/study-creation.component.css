@@ -57,3 +57,14 @@ span .mat-select-placeholder{
 .mat-select{
   padding-bottom: 10px;
 }
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 25%;
+}
+
+.radioButtons {
+  display: flex;
+  flex-direction: row;
+  margin: 15px 0;
+	margin-right: 20%;
+}

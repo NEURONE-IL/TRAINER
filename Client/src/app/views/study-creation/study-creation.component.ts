@@ -27,7 +27,6 @@ export class StudyCreationComponent implements OnInit {
     this.studyForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
-      domain: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       type: ['', [Validators.required]]
     });
     this.loading = false;
@@ -47,8 +46,14 @@ export class StudyCreationComponent implements OnInit {
     let formData = new FormData();
     formData.append('name', study.name);
     formData.append('description', study.description);
-    formData.append('domain', study.domain);
-    formData.append('type', study.type);
+    /*Type*/
+    if(study.type){
+      formData.append('type', 'sorted');
+    }
+    else{
+      formData.append('type', 'random');
+    }
+    /*End Type*/
     if(this.file){
       formData.append('file', this.file);
     }

@@ -4,7 +4,6 @@ const { Schema } = mongoose;
 const StudySchema = new Schema({
     name: { type: String, required: true },
     description: {type: String },
-    domain: { type: String },
     type: { type: String, required: true },
     image_url: { type: String },
     image_id: { type: String },

@@ -23,7 +23,7 @@
 					</mat-form-field>
 				</mat-grid-tile>
 				<mat-grid-tile colspan="6">
-					<mat-form-field>
+					<mat-form-field>						
 						<mat-label>{{ "STUDY.FORM.FIELDS.DESCRIPTION" | translate }}</mat-label>
 						<input matInput formControlName="description" #inputDescription maxlength="250" ng-required="true">
 						<mat-hint align="end">{{inputDescription.value?.length || 0}}/250</mat-hint>
@@ -35,36 +35,25 @@
 						</mat-error>							
 					</mat-form-field>
 				</mat-grid-tile>
-				<mat-grid-tile colspan="6">
-					<mat-form-field>
-						<mat-label>{{ "STUDY.FORM.FIELDS.DOMAIN" | translate }}</mat-label>
-						<input matInput formControlName="domain" #inputDomain maxlength="250" ng-required="true">
-						<mat-hint align="end">{{inputDomain.value?.length || 0}}/250</mat-hint>
-						<mat-error *ngIf="studyFormControls.description.hasError('minlength')">
-							{{ "ERRORS.MIN_LENGTH_3" | translate }}
-						</mat-error>
-						<mat-error *ngIf="studyFormControls.description.hasError('maxlength')">
-							{{ "ERRORS.MAX_LENGTH_50" | translate }}
-						</mat-error>							
-					</mat-form-field>
+				<mat-grid-tile colspan="2">
+					<mat-card-header>
+						<mat-card-subtitle style="margin-bottom: 5%;">{{ "STUDY.FORM.FIELDS.TYPE" | translate }}:</mat-card-subtitle>
+					</mat-card-header>
 				</mat-grid-tile>
-				<mat-grid-tile colspan="6">
-					<mat-form-field>
-						<mat-label>{{ "STUDY.FORM.FIELDS.DESCRIPTION" | translate }}</mat-label>
-						<input matInput formControlName="type" #inputDescription maxlength="250" ng-required="true">
-						<mat-hint align="end">{{inputDescription.value?.length || 0}}/250</mat-hint>
-						<mat-error *ngIf="studyFormControls.description.hasError('minlength')">
-							{{ "ERRORS.UNREQUIRED_MIN_LENGTH_10" | translate }}
-						</mat-error>
-						<mat-error *ngIf="studyFormControls.description.hasError('maxlength')">
-							{{ "ERRORS.MAX_LENGTH_250" | translate }}
-						</mat-error>							
-					</mat-form-field>
-				</mat-grid-tile>								
+				<mat-grid-tile colspan="4">
+					<mat-radio-group required formControlName="type" class="radioButtons">
+						<mat-radio-button [value]="true">
+							{{'Ordenado'}}
+						</mat-radio-button>
+						<mat-radio-button [value]="false">
+							{{'Aleatorio'}}
+						</mat-radio-button>							
+					</mat-radio-group>
+				</mat-grid-tile>	
 			</mat-grid-list>	
 		</form>	
 		<mat-card-header>
-			<mat-card-subtitle style="margin-bottom: 0%;">{{ "ADMIN.STAGES.IMAGE" | translate }}:</mat-card-subtitle>
+			<mat-card-subtitle style="margin-bottom: 0%;">{{ "STUDY.FORM.FIELDS.IMAGE" | translate }}:</mat-card-subtitle>
 		</mat-card-header>
 		<mat-grid-list cols="12">
 			<mat-grid-tile colspan="6">

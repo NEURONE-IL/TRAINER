@@ -57,9 +57,22 @@
         "TYPE": "Tipo de etapa"
       }
     },
-    "SUBTITLE": "Complete los siguientes campos para crear una nueva etapa en el estudio",
+    "SUBTITLE": "Complete el siguiente formulario para crear una nueva etapa en el estudio",
     "TITLE": "Creación de etapas"
   },
+  "STUDY": {
+    "FORM": {
+      "FIELDS": {
+        "DESCRIPTION": "Descripción",
+        "IMAGE": "Seleccione una imagen (opcional)",
+        "NAME": "Nombre",
+        "STEP": "Orden",
+        "TYPE": "Tipo de estudio"
+      }
+    },
+    "SUBTITLE": "Complete el siguiente formulario para crear un nuevo estudio",
+    "TITLE": "Creación de estudios"
+  },  
   "USER": {
   },
   "ERRORS": {

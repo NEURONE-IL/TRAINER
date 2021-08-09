@@ -6,7 +6,6 @@
 	margin-left: 10%;
 	margin-right: 10%;
 	margin-top: 5%;
-  padding-bottom: 50%;
 }
 
 ::ng-deep .mat-list .mat-list-item .mat-line{
@@ -116,12 +115,7 @@
   margin-left: 15px;
 }
 
-.webPage{
-  color: white;
-  background-color: dodgerblue;
-}
-
-.video{
+.Video{
   color: white;
   background-color: darkorchid;
 }
@@ -136,11 +130,7 @@
   background-color: dodgerblue;
 }
 
-.webPageButton{
-  color: dodgerblue;
-}
-
-.videoButton{
+.VideoButton{
   color: darkorchid;
 }
 
@@ -162,18 +152,8 @@
   margin-right: 10px;
 }
 
-.searchEngine{
-  height: 100%;
-  margin-top:40px;
-}
-
 .registerLink{
   font-weight: 400;
-}
-
-.desafios{
-  top-padding:20px;
-  top-margin:20px;
 }
 
 .actionButton{

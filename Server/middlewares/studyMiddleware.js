@@ -9,9 +9,6 @@ const schema = Joi.object({
     description: Joi.string()
         .required(),
 
-    domain: Joi.string()
-        .required(),
-
     type: Joi.string()
         .required(),    
 });
@@ -21,8 +18,6 @@ const editSchema = Joi.object({
     name: Joi.string(),
 
     description: Joi.string(),
-
-    domain: Joi.string(),
 
     type: Joi.string()    
 });
