@@ -17,7 +17,7 @@ export class StageCreationComponent implements OnInit {
   studies: Study[];
   loading: Boolean;
   steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  typeOptions: string[] = ['Trivia', 'SG', 'Vídeo'];
+  typeOptions: string[] = ['Trivia', 'SG', 'Video'];
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
   SGLinks: TriviaStudy[] = [
@@ -38,14 +38,14 @@ export class StageCreationComponent implements OnInit {
   videoLinks: object[] = [
     {
       name: "Módulo de vídeos",
-      link: "http://localhost:4200/videoModule"
+      _id: "http://localhost:4200/videoModule"
     }
   ]
 
-  constructor(private formBuilder: FormBuilder, 
-              private stageService: StageService, 
-              private studyService: StudyService, 
-              private toastr: ToastrService, 
+  constructor(private formBuilder: FormBuilder,
+              private stageService: StageService,
+              private studyService: StudyService,
+              private toastr: ToastrService,
               private translate: TranslateService,
               private triviaService: ApiTriviaService) { }
 
@@ -58,7 +58,7 @@ export class StageCreationComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       step: ['', [Validators.required]],
       type: ['', [Validators.required]],
-      link: ['', [Validators.required]] 
+      link: ['', [Validators.required]]
     });
 
     this.studyService.getStudies().subscribe(
@@ -72,7 +72,7 @@ export class StageCreationComponent implements OnInit {
         });
       }
     );
-        
+
     this.loading = false;
   }
 
@@ -110,7 +110,7 @@ export class StageCreationComponent implements OnInit {
     this.triviaService.getStudies().subscribe((res: any) => {
       this.triviaLinks = res.studys;
     });
-  }  
+  }
 
   changeLinks(event: any){
     let value = event.value;
@@ -120,7 +120,7 @@ export class StageCreationComponent implements OnInit {
     else if(value === 'SG'){
       this.currentLinks = this.SGLinks;
     }
-    else if(value === 'Vídeo'){
+    else if(value === 'Video'){
       this.currentLinks = this.videoLinks;
     }
   }

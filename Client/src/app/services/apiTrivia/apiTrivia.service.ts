@@ -6,17 +6,17 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
 export interface TriviaStudy {
-  _id: string,
-  name: string,
-  description: string,
-  domain: string,
-  gm_code: string,
-  cooldown: number,
-  createdAt: string,
-  updatedAt: string,
-  image_id: string,
-  image_url: string,
-  max_per_interval: number
+  _id: string;
+  name: string;
+  description: string;
+  domain: string;
+  gm_code: string;
+  cooldown: number;
+  createdAt: string;
+  updatedAt: string;
+  image_id: string;
+  image_url: string;
+  max_per_interval: number;
 }
 
 @Injectable({
@@ -42,7 +42,7 @@ export class ApiTriviaService {
     header = header.append('Content-Type', 'application/json');
     this.http.post(this.urlApi + 'site/register', post, {headers: header}).subscribe((res: any) => {
       this.apiKey = res.site.api_key;
-      this.toastr.success('Se ha establecido la coneccion con Trivia', 'Coneccion Exitosa!')
+      this.toastr.success('Se ha establecido la coneccion con Trivia', 'Coneccion Exitosa!');
     });
   }
 
@@ -51,6 +51,11 @@ export class ApiTriviaService {
     header = header.append('Content-Type', 'application/json');
     header = header.append('x-api-key', this.apiKey);
     return this.http.get(this.urlApi + 'site/study', {headers: header});
+  }
+
+  getStudyLink(idStudio) {
+    const user = JSON.parse(localStorage.getItem('currentUser', ));
+    return 'http://159.65.100.191:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
   }
 
 }

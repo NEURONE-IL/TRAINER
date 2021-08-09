@@ -18,41 +18,50 @@
         <span (click)="reloadStages()"> {{'ADMIN.TABS.STAGES' | translate }} </span>
       </ng-template>
       <ng-template matTabContent>
-        <div class="row ">
-          <div class="col-md-12" *ngFor="let stage of stages; let index = index;">
+        <div class="row col-md-12">
+          <div class="col-md-4" *ngFor="let stage of stages; let index = index;">
             <br>
+
             <mat-card-header class="header-stage">
-              <div class="col-md-8">
+              <div class="  stages" >
                 <mat-card-title class="{{getClass(stage.type)}}">
-                  <div class="col-md-8" style="padding-top: 5px">
+                  <div class="col-md-6" style="padding-top: 5px">
                     {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}
                   </div>
-                  <div style="text-align: right">
-                    <button mat-button (click)="showStageUpdateDialog(stage)">{{ "BUTTONS.EDIT" | translate }} <mat-icon>edit</mat-icon></button>
-                    <button mat-button (click)="confirmStageDelete(stage._id)">{{ "BUTTONS.DELETE" | translate }} <mat-icon>delete</mat-icon></button>
+                  <div class="buttons col-md-6">
+                    <button mat-icon-button (click)="showStageUpdateDialog(stage)" title="{{ 'BUTTONS.EDIT' | translate }} "><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="confirmStageDelete(stage._id)" title="{{ 'BUTTONS.DELETE' | translate }}"> <mat-icon>delete</mat-icon></button>
                   </div>
                 </mat-card-title>
               </div>
-              <div class="col-md-4">
-                <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
-              </div>
             </mat-card-header>
-            <mat-card-content>
-              <div class="col-md-6">
-                <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
-              </div>
-              <div class="col-md-6">
-                <mat-icon>link</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.link}}</span>
-              </div>
-            </mat-card-content>
-            <mat-card-content>
-              <div class="col-md-6">
-                <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}</span>
-              </div>
-              <div class="col-md-6">
-                <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}</span>
-              </div>
-            </mat-card-content>
+
+              <mat-card-content>
+                <div class=" stages-content">
+                <div >
+                  <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
+                </div>
+
+                <div>
+                  <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
+                </div>
+
+                <div>
+                  <mat-icon >link</mat-icon><span  class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.link)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{"nombre Estudio"}}</a></span>
+                </div>
+
+                <div>
+                  <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}</span>
+                </div>
+
+                <div>
+                  <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}</span>
+                </div>
+                </div>
+              </mat-card-content>
+
+
+
           </div>
         </div>
       </ng-template>

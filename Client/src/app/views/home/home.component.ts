@@ -35,7 +35,12 @@ export class HomeComponent implements OnInit {
     this.user = this.authService.getActualUserInformation();
     console.log(this.user);
   }
-  
+
+  getLinkToTriviaStudy(studyId){
+    return (this.triviaService.getStudyLink(studyId));
+  }
+
+
   getApiStudies(){
     this.triviaService.getStudies().subscribe((res: any) => {
       this.estudios = res.studys;

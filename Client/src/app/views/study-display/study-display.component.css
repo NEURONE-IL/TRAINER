@@ -6,6 +6,7 @@
 	margin-left: 10%;
 	margin-right: 10%;
 	margin-top: 5%;
+  padding-bottom: 50%;
 }
 
 ::ng-deep .mat-list .mat-list-item .mat-line{
@@ -49,9 +50,11 @@
   border-radius: 30px 30px 0px 0px;
   padding-top: 10px;
   padding-left: 40px;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
-
+.mat-card-subtitle{
+  padding-top: 10px;
+}
 .div buttons{
   text-align: right;
 }
@@ -77,21 +80,24 @@
 }
 
 .mat-card-content{
-  margin-right: 40px;
-  margin-left: 47px;
+  margin-left: 15px;
   padding-left: 25px;
   padding-bottom: 10px;
   padding-right: 2px;
   margin-bottom: 0px;
   border-left: solid 1px #EEEEEE;
   border-right: solid 1px #EEEEEE;
-  display: flex;
+  border-bottom: solid 1px #EEEEEE;
   flex-direction: row;
 }
+
+
+
 
 .mat-card-title{
   display: flex;
   flex-direction: row;
+  margin-bottom: 0px;
 }
 
 .mat-card-actions{
@@ -105,13 +111,17 @@
   margin-top: 0px;
   padding-top: 0px;
 }
+.mat-card-header{
+  display: block;
+  margin-left: 15px;
+}
 
 .webPage{
   color: white;
   background-color: dodgerblue;
 }
 
-.image{
+.video{
   color: white;
   background-color: darkorchid;
 }
@@ -123,14 +133,14 @@
 
 .Trivia{
   color: white;
-  background-color: red;
+  background-color: dodgerblue;
 }
 
 .webPageButton{
   color: dodgerblue;
 }
 
-.imageButton{
+.videoButton{
   color: darkorchid;
 }
 
@@ -139,7 +149,7 @@
 }
 
 .TriviaButton{
-  color: red;
+  color: dodgerblue;
 }
 
 .aligned-with-icon{
@@ -194,4 +204,8 @@ table {
 
 .mat-elevation-z8 {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 20), 0 8px 10px 1px rgba(0, 0, 0,  14), 0 3px 14px 2px rgba(0, 0, 0,12);
+}
+
+.buttons{
+  text-align: right;
 }

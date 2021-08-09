@@ -6,6 +6,7 @@ import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Study, StudyService } from '../../services/trainer/study.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
 
 @Component({
   selector: 'app-study-display',
@@ -24,7 +25,8 @@ export class StudyDisplayComponent implements OnInit {
               private studyService: StudyService,
               private toastr: ToastrService,
               private translate: TranslateService,
-              public matDialog: MatDialog
+              public matDialog: MatDialog,
+              private triviaService: ApiTriviaService
               ) { }
 
   ngOnInit(): void {
@@ -144,6 +146,9 @@ export class StudyDisplayComponent implements OnInit {
     else if(type === 'SG'){
       return 'SG';
     }
+    else if(type === 'Video'){
+      return 'video';
+    }
   }
 
   formatDate(date){
@@ -155,6 +160,10 @@ export class StudyDisplayComponent implements OnInit {
       .subscribe(response => {
         this.stages = response['stages'];
       });
+  }
+
+  getLinkToTriviaStudy(studyId){
+    return this.triviaService.getStudyLink(studyId);
   }
 }
 
@@ -256,7 +265,7 @@ export class StageUpdateDialogComponent implements OnInit{
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       step: ['', [Validators.required]],
       type: ['', [Validators.required]],
-      link: ['', [Validators.required]] 
+      link: ['', [Validators.required]]
     });
 
     this.studyService.getStudies().subscribe(
