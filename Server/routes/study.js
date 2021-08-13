@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Study = require('../models/study');
+const Stage = require('../models/stage');
 
 const imageStorage = require('../middlewares/imageStorage');
 const authMiddleware = require('../middlewares/authMiddleware');
@@ -106,6 +107,49 @@ router.delete('/:study_id',  [verifyToken, authMiddleware.isAdmin] , async (req,
         res.status(200).json({
             study
         });
+    });
+});
+
+router.get('/:study_id/getForSignup', async (req, res) => {
+    const _id = req.params.study_id;
+    Study.findOne({_id: _id}, (err, study) =>{
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        if(study) {
+            if('published' in study) {
+                if(!published) {
+                    return res.status(500).json({
+                        ok: false,
+                        msg: "STUDY_NOT_PUBLISHED"
+                    });
+                }
+            }
+            Stage.find({study: study.id}, (err, stages) => {
+                if(err) {
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+                if(stages.length<1) {
+                    return res.status(500).json({
+                        ok: false,
+                        msg: "NO_STAGES_IN_STUDY"
+                    });
+                }
+                res.status(200).json({study: study});
+            });
+        }
+        else {
+            return res.status(404).json({
+                ok: false,
+                msg: "STUDY_NOT_FOUND"
+            });
+        }
     });
 });
 

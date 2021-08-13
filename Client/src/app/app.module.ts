@@ -55,6 +55,8 @@ import { StageCreationComponent } from './views/stage-creation/stage-creation.co
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
 import { QuizComponent } from './components/quiz/quiz.component';
+import { SignupComponent } from './views/signup/signup.component';
+import { ConsentComponent } from './components/consent/consent.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -81,6 +83,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     VideoModuleComponent,
     VideoComponent,
     QuizComponent,
+    SignupComponent,
+    ConsentComponent,
   ],
   imports: [
     BrowserModule,

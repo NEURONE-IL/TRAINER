@@ -45,6 +45,7 @@ export class AuthService {
   getActualUserInformation(){
     return localStorage.getItem('currentUser');
   }
+  
   login(email: string, password: string) {
     this.http.post(this.uri + 'login', {email, password})
     .subscribe((resp: any) => {
@@ -111,7 +112,7 @@ export class AuthService {
 
   signup(userData: any, study_id: string) {
     delete userData.emailConfirm;
-    return this.http.post(this.uri + 'register/' + study_id, userData);
+    return this.http.post(this.uri + 'signup/' + study_id, userData);
   }
 
   redirectUserPanel(role) {

@@ -16,6 +16,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { AdminGuard } from './helpers/admin.guard';
 import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
+import { SignupComponent } from './views/signup/signup.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+    canActivate: [ NotLoggedInGuard ]
+  },
+  {
+    path: 'signup/:study_id',
+    component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
   },
   {
