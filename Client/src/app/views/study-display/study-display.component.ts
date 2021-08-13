@@ -43,16 +43,15 @@ export class StudyDisplayComponent implements OnInit {
         });
       }
     );
-
+/*
     this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
         this.stages = response['stages'];
     });
-
+*/
     this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
-        console.log(this.sortedStages, 'sorted');
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -156,10 +155,17 @@ export class StudyDisplayComponent implements OnInit {
   }
 
   reloadStages(){
+/*    
     this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
         this.stages = response['stages'];
-      });
+    }); 
+*/
+    this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+      .subscribe(response => {
+        this.sortedStages = response['stages'];
+    });
+
   }
 
   getLinkToTriviaStudy(studyId){

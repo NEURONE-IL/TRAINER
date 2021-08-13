@@ -14,10 +14,10 @@ const SessionLogSchema = new Schema({
 SessionLogSchema.pre('save', next => {
     now = new Date();
     if(!this.createdAt) {
-      this.createdAt = now;
+    	this.createdAt = now;
     }
     if(!this.updatedAt) {
-      this.updatedAt = now;
+    	this.updatedAt = now;
     }
     next();
 });

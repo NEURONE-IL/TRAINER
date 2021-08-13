@@ -9,6 +9,49 @@ const schema = Joi.object({
     repeat_password: Joi.ref('password'),
 
     email: Joi.string()
+        .email({ minDomainSegments: 2, tlds: { allow: ['com', 'net', 'cl'] } }),
+
+    tutor_names: Joi.string()
+        .required(),
+    
+    tutor_last_names: Joi.string()
+        .required(),
+
+    names: Joi.string()
+        .required(),
+    
+    last_names: Joi.string()
+        .required(),
+    
+    tutor_phone: Joi.string()
+        .required(),
+
+    relation: Joi.string()
+        .required(),
+
+    birthday: Joi.date()
+        .required(),
+    
+    course: Joi.string()
+        .required(),
+
+    institution: Joi.string()
+        .required(),
+    
+    institution_commune: Joi.number()
+        .required(),
+
+    institution_region: Joi.number()
+        .required()
+});
+
+const simpleSchema = Joi.object({
+    password: Joi.string()
+        .pattern(/^(?=.*\d).{4,32}$/),
+
+    repeat_password: Joi.ref('password'),
+
+    email: Joi.string()
         .email({ minDomainSegments:2, tlds: { allow: ['com', 'net', 'cl'] } }),
 
     names: Joi.string()
@@ -37,6 +80,19 @@ const adminSchema = Joi.object({
 verifyBody = async (req, res, next) => {
     try {
         const validation = await schema.validateAsync(req.body);
+        next();
+    }
+    catch (err) {
+        return res.status(400).json({
+            ok: false,
+            err
+        });
+    }
+};
+
+verifyBodySimple = async (req, res, next) => {
+    try {
+        const validation = await simpleSchema.validateAsync(req.body);
         next();
     }
     catch (err) {
@@ -113,6 +169,7 @@ isAdmin = async(req, res, next) => {
 
 const authMiddleware = {
     verifyBody,
+    verifyBodySimple,
     verifyBodyAdmin,
     uniqueEmail,
     isAdmin

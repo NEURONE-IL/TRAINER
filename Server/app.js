@@ -92,7 +92,7 @@ app.get('*',function(req,res){
 
 /** Server deployment **/
 app.listen(process.env.PORT, () => {
-    console.log(`NEURONE-GAME listening on the port::${process.env.PORT}`);
+    console.log(`NEURONE-TRAINER listening on the port::${process.env.PORT}`);
 });
 
 /** Export APP for testing **/

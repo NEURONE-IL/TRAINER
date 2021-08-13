@@ -2,7 +2,6 @@ const { any, boolean } = require('joi');
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-
 const UserSchema = new Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -17,10 +16,10 @@ const UserSchema = new Schema({
 UserSchema.pre('save', next => {
     now = new Date();
     if(!this.createdAt) {
-      this.createdAt = now;
+    	this.createdAt = now;
     }
     if(!this.updatedAt) {
-      this.updatedAt = now;
+    	this.updatedAt = now;
     }
     next();
 });
