@@ -14,7 +14,12 @@ export class VideoComponent implements OnInit {
   constructor( ) { }
 
   ngOnInit(): void {
+    this.getVideo();
   }
+
+  getVideo() {
+        throw new Error('Method not implemented.');
+    }
 
   sendVideoResponse() {
     const send = 'video ' + this.videoNumber.toString(10) + ' listo!'
