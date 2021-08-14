@@ -31,7 +31,7 @@ UserDataSchema.pre('save', next => {
     next();
 });
 
-const myDB = mongoose.connection.useDb('trainer');
+const myDB = mongoose.connection.useDb('traineruser');
 const UserData = myDB.model('UserData', UserDataSchema);
 
 module.exports = UserData;
