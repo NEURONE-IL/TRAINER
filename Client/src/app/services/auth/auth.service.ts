@@ -13,6 +13,9 @@ export class AuthService {
   uri = environment.apiURL + 'auth/';
   userUri = environment.apiURL + 'user/';
 
+  getRegisterLink(sudyId){
+    return 'http://localhost:4200/signup/' + sudyId;
+  }
   constructor(private http: HttpClient,
               private router: Router,
               private toastr: ToastrService,
@@ -45,7 +48,7 @@ export class AuthService {
   getActualUserInformation(){
     return localStorage.getItem('currentUser');
   }
-  
+
   login(email: string, password: string) {
     this.http.post(this.uri + 'login', {email, password})
     .subscribe((resp: any) => {
@@ -137,6 +140,6 @@ export class AuthService {
         resolve(false);
       });
     });
-  }  
+  }
 
 }

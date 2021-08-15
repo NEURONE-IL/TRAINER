@@ -5,6 +5,9 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
+import { ApiSGService } from '../../services/apiSG/apiSG.service';
+import { StageService } from '../../services/trainer/stage.service';
+import { StudyService } from '../../services/trainer/study.service';
 
 
 @Component({
@@ -18,34 +21,68 @@ export class HomeComponent implements OnInit {
               private authService: AuthService,
               private router: Router,
               private toastr: ToastrService,
+              private apiSGService: ApiSGService,
+              private studyService: StudyService,
+              private stageService: StageService,
               private translate: TranslateService,
               private triviaService: ApiTriviaService) { }
 
-  estudios;
+  study;
   user;
-  estudioSeleccionado;
+  studyId = '610c50f1ef29e204f5bbfd86';
   apikey = this.triviaService.apiKey;
-
+  stages;
   ngOnInit(): void {
-    this.getApiStudies();
     this.getActualUserInformation();
+    this.getStudyStagesInformation();
+    this.getStudyInformation();
+  }
+
+  getStudyStagesInformation(){
+    this.stageService.getStagesByStudy(this.studyId).subscribe((res: any) => {
+      this.stages = res.stages;
+    });
+  }
+  getStudyInformation(){
+    this.studyService.getStudy(this.studyId).subscribe((res: any) => {
+      this.study = res.study;
+    });
   }
 
   getActualUserInformation(){
     this.user = this.authService.getActualUserInformation();
     console.log(this.user);
   }
-
-  getLinkToTriviaStudy(studyId){
-    return (this.triviaService.getStudyLink(studyId));
+  goToStage(stage){
+    console.log(stage);
+    if (stage.type === 'Video'){
+      this.stageVisited(stage);
+      this.router.navigate(['/videoModule']);
+    }
+    if (stage.type === 'Trivia'){
+      this.stageVisited(stage);
+      window.location.href = this.triviaService.getStudyLink(stage.link);
+    }
+    if (stage.type === 'SG'){
+      this.stageVisited(stage);
+      window.location.href = this.apiSGService.getAdventureLink(stage.link);
+      return;
+    }
   }
 
-
-  getApiStudies(){
-    this.triviaService.getStudies().subscribe((res: any) => {
-      this.estudios = res.studys;
-    });
+  stageVisited(stage){
+    return;
   }
-
+  getClass(type){
+    if (type === 'Trivia'){
+      return 'Trivia';
+    }
+    else if (type === 'SG'){
+      return 'SG';
+    }
+    else if (type === 'Video'){
+      return 'Video';
+    }
+  }
 }
 

@@ -7,6 +7,7 @@ import { Study, StudyService } from '../../services/trainer/study.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
+import { AuthService } from '../../services/auth/auth.service';
 
 @Component({
   selector: 'app-study-display',
@@ -18,12 +19,14 @@ export class StudyDisplayComponent implements OnInit {
   stages: Stage[] = [];
   sortedStages: Stage[] = [];
   createStage: boolean;
+  registerLink = '';
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private stageService: StageService,
               private studyService: StudyService,
               private toastr: ToastrService,
+              private authService: AuthService,
               private translate: TranslateService,
               public matDialog: MatDialog,
               private triviaService: ApiTriviaService
@@ -35,6 +38,7 @@ export class StudyDisplayComponent implements OnInit {
     this.studyService.getStudy(this.route.snapshot.paramMap.get('study_id')).subscribe(
       response => {
         this.study = response['study'];
+        this.registerLink = this.authService.getRegisterLink(this.study._id);
       },
       err => {
         this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
@@ -155,11 +159,11 @@ export class StudyDisplayComponent implements OnInit {
   }
 
   reloadStages(){
-/*    
+/*
     this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
         this.stages = response['stages'];
-    }); 
+    });
 */
     this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {

@@ -5,6 +5,7 @@ import { Study, StudyService } from '../../services/trainer/study.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivia.service';
+import { ApiSGService } from '../../services/apiSG/apiSG.service';
 
 @Component({
   selector: 'app-stage-creation',
@@ -47,6 +48,7 @@ export class StageCreationComponent implements OnInit {
               private studyService: StudyService,
               private toastr: ToastrService,
               private translate: TranslateService,
+              private apiSGService: ApiSGService,
               private triviaService: ApiTriviaService) { }
 
   ngOnInit(): void {
