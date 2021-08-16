@@ -19,7 +19,13 @@ const schema = Joi.object({
         .required(),
 
     link: Joi.string()
-        .required()        
+        .required(),
+    
+    active: Joi.string()
+        .required(),
+
+    percentage: Joi.number()
+        .required()
 
 });
 
@@ -33,12 +39,14 @@ const editSchema = Joi.object({
 
     study: Joi.any(),
 
-    type: Joi.string()
-        .required(),
+    type: Joi.string(),
     
-    link: Joi.string()
-        .required()
+    link: Joi.string(),
+    
+    active: Joi.boolean(),
 
+    percentage: Joi.number()
+    
 })
 
 verifyBody = async (req, res, next) => {

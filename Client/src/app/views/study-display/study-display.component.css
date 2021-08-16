@@ -189,3 +189,9 @@ table {
 .buttons{
   text-align: right;
 }
+
+.percentage{
+  font-weight: bolder;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-left: 1%;
+}

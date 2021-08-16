@@ -8,7 +8,8 @@ const StageSchema = new Schema({
     study: { type: Schema.Types.ObjectId, ref: 'Study', required: true},
     type: { type: String, required: true },
     link: { type: String, required: true },
-    percentage: { type: Number, required: true, default: -1 },
+    active: { type: String, required: true },
+    percentage: { type: Number, required: true, default: 0 },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

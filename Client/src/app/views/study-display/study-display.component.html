@@ -39,25 +39,29 @@
 
               <mat-card-content>
                 <div class=" stages-content">
-                <div >
-                  <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
-                </div>
+                  <div >
+                    <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
+                  </div>
 
-                <div>
-                  <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
-                </div>
+                  <div>
+                    <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
+                  </div>
 
-                <div>
-                  <mat-icon >link</mat-icon><span  class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.link)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{"nombre Estudio"}}</a></span>
-                </div>
+                  <div>
+                    <mat-icon >link</mat-icon><span  class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.link)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{"nombre Estudio"}}</a></span>
+                  </div>
 
-                <div>
-                  <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}</span>
-                </div>
+                  <div>
+                    <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}</span>
+                  </div>
 
-                <div>
-                  <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}</span>
-                </div>
+                  <div>
+                    <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}</span>
+                  </div>
+
+                  <div>
+                    <mat-icon class="percentage">%</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.PERCENTAGE" | translate }}: {{stage.percentage.toFixed(2)}}%</span>
+                  </div>
                 </div>
               </mat-card-content>
 

@@ -11,6 +11,8 @@ export interface Stage {
   study: number,
   type: string,
   link: string,
+  active: boolean,
+  percentage: string,
   createdAt: string,
   updatedAt: string  
 }
@@ -29,12 +31,16 @@ export class StageService {
   }
 
   getStagesByStudy(studyId: string): Observable<any> {
-    return this.http.get(environment.apiURL +'stage/byStudy/'+studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} })
+    return this.http.get(environment.apiURL + 'stage/byStudy/' + studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   getStagesByStudySortedByStep(studyId: string): Observable<any> {
-    return this.http.get(environment.apiURL +'stage/byStudySortedByStep/'+studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} })
+    return this.http.get(environment.apiURL + 'stage/byStudySortedByStep/' + studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }  
+
+  getStageByStudent(studentId: string): Observable<any> {
+    return this.http.get(environment.apiURL + 'userStudy/byStudent' + studentId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  }
 
   getStage(id: string) {
     return this.http.get(this.uri+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });

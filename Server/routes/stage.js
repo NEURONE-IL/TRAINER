@@ -96,7 +96,13 @@ router.put('/:stage_id', [verifyToken, authMiddleware.isAdmin, stageMiddleware.v
         }
         if(req.body.link){
             stage.link = req.body.link;
-        }                
+        }
+        if(req.body.active){
+            stage.active = req.body.active;
+        }
+        if(req.body.percentage){
+            stage.percentage = req.body.percentage;
+        }             
         stage.updatedAt = Date.now();
         stage.save((err, stage) => {
             if (err) {

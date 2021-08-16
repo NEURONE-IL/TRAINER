@@ -27,6 +27,7 @@
     "STAGES": {
       "CREATED_AT": "Creado",
       "LINK": "Enlace",
+      "PERCENTAGE": "Porcentaje de avance",
       "STEP": "Orden",
       "STUDY": "Estudio",
       "TITLE": "Título",
