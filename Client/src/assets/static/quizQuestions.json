@@ -1,0 +1,38 @@
+{
+  "QUIZ_1": {
+    "name": "hola1",
+    "QUESTION_1": {
+      "ID_TYPE": "id1",
+      "IMAGE": "",
+      "QUESTION": "",
+      "ALTERNATIVES": {
+        "ALTERNATIVE_1": "",
+        "ALTERNATIVE_2": ""
+      }
+    }
+  },
+  "QUIZ_2": {
+    "name": "hola2",
+  "QUESTION_1": {
+    "ID_TYPE": "id2",
+    "IMAGE": "",
+    "QUESTION": "",
+    "ALTERNATIVES": {
+      "ALTERNATIVE_1": "",
+      "ALTERNATIVE_2": ""
+      }
+    }
+  },
+  "QUIZ_3": {
+    "name": "hola3",
+    "QUESTION_1": {
+      "ID_TYPE": "",
+      "IMAGE": "",
+      "QUESTION": "",
+      "ALTERNATIVES": {
+        "ALTERNATIVE_1": "",
+        "ALTERNATIVE_2": ""
+      }
+    }
+  }
+}

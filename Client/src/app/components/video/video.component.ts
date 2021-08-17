@@ -18,8 +18,8 @@ export class VideoComponent implements OnInit {
   }
 
   getVideo() {
-        throw new Error('Method not implemented.');
-    }
+    console.log("video");
+  }
 
   sendVideoResponse() {
     const send = 'video ' + this.videoNumber.toString(10) + ' listo!'
