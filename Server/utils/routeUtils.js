@@ -10,7 +10,7 @@ async function generateProgress(stages, user, study) {
   
     /*Push all stages into progress array*/
     stages.forEach((stage) => {
-        progress.push({ stage: stage });
+        progress.push({ stage: stage, percentage: 0 });
     });
   
     const userStudy = new UserStudy({

@@ -10,7 +10,6 @@ const StageSchema = new Schema({
     externalId: { type: String, required: true },
     externalName: { type: String, required: true },
     active: { type: Boolean, default: false },
-    percentage: { type: Number, required: true, default: 0 },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

@@ -112,35 +112,7 @@ router.put('/:stage_id', [verifyToken, authMiddleware.isAdmin, stageMiddleware.v
         }
         if(req.body.active){
             stage.active = req.body.active;
-        }
-        if(req.body.percentage){
-            stage.percentage = req.body.percentage;
-        }             
-        stage.updatedAt = Date.now();
-        stage.save((err, stage) => {
-            if (err) {
-                return res.status(404).json({
-                    err
-                });
-            }
-            res.status(200).json({
-                stage
-            });
-        });
-    });
-});
-
-router.put('updateProgress/:stage_id', async (req, res) => {
-    const _id = req.params.stage_id;
-    const stage = await Stage.findOne({externalId: _id}, (err, stage) => {
-        if (err) {
-            return res.status(404).json({
-                err
-            });
-        }
-        if(req.body.percentage){
-            stage.percentage += req.body.percentage;
-        }           
+        }            
         stage.updatedAt = Date.now();
         stage.save((err, stage) => {
             if (err) {

@@ -9,6 +9,7 @@ const UserStudySchema = new Schema({
     finishedAt: { type: Date},
     stages: { type: [{
         stage: {type: Schema.Types.ObjectId, ref: 'Stage'},
+        percentage: { type: Number, required: true, default: 0 },
         _id: false,
         id: false
       }], default: []},

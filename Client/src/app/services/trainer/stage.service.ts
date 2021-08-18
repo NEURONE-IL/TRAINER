@@ -13,7 +13,6 @@ export interface Stage {
   externalId: string,
   externalName: string,
   active: boolean,
-  percentage: string,
   createdAt: string,
   updatedAt: string  
 }

@@ -24,9 +24,7 @@ const schema = Joi.object({
     externalName: Joi.string()
         .required(),
 
-    active: Joi.boolean(),
-
-    percentage: Joi.number()
+    active: Joi.boolean()
 
 });
 
@@ -46,10 +44,8 @@ const editSchema = Joi.object({
 
     externalName: Joi.string(),
 
-    active: Joi.boolean(),
+    active: Joi.boolean()
 
-    percentage: Joi.number()
-    
 })
 
 verifyBody = async (req, res, next) => {
