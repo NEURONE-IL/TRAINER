@@ -3,7 +3,8 @@ const { Schema } = mongoose;
 
 const VideoModuleSchema = new Schema({ // ?
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true }, // identificar user
-    section: { type: Number, required: true }, // 1 to 6
+    studioId: { type: Schema.Types.ObjectId, required: true }, // ????????????
+    sectionId: { type: Number, required: true }, // 1 to 6
     percentage: { type: Number, required: true }, // dependiendo del valor de section
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
