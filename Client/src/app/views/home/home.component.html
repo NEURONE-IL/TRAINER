@@ -14,34 +14,9 @@
       </div>
     </div>
     <mat-card-content>
-      <div class="row col-md-12">
-        <div class="col-md-4" *ngFor="let stage of stages; let index = index;">
-          <br>
-          <mat-card-header class="header-stage">
-            <div class="  stages" >
-              <mat-card-title class="{{getClass(stage.type)}}">
-                <div class="col-md-8" style="padding-top: 3%;">
-                  {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}
-                </div>
-              </mat-card-title>
-            </div>
-          </mat-card-header>
+      <show-flow [studentId]="user._id"  [studyId]="study._id"> </show-flow>
 
-          <mat-card-content>
-            <div class=" stages-content">
-              <div >
-                <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
-              </div>
 
-              <div>
-                <button  mat-raised-button color="primary" (click)="goToStage(stage)">Iniciar!</button>
-              </div>
-
-            </div>
-          </mat-card-content>
-
-        </div>
-      </div>
     </mat-card-content>
   </mat-card>
 </div>

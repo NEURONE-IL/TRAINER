@@ -8,6 +8,8 @@ import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
 import { AuthService } from '../../services/auth/auth.service';
+import { ApiSGService } from '../../services/apiSG/apiSG.service';
+import { QuizService } from '../../services/videoModule/quiz.service';
 
 @Component({
   selector: 'app-study-display',
@@ -28,6 +30,8 @@ export class StudyDisplayComponent implements OnInit {
               private toastr: ToastrService,
               private authService: AuthService,
               private translate: TranslateService,
+              private apiSGService: ApiSGService,
+              private videoModuleService: QuizService,
               public matDialog: MatDialog,
               private triviaService: ApiTriviaService
               ) { }
@@ -143,9 +147,7 @@ export class StudyDisplayComponent implements OnInit {
   }
 
   getClass(active, type){
-    if(!active){
-      return 'Disabled';
-    }
+
     if(type === 'Trivia'){
       return 'Trivia';
     }
@@ -177,6 +179,19 @@ export class StudyDisplayComponent implements OnInit {
 
   getLinkToTriviaStudy(studyId){
     return this.triviaService.getStudyLink(studyId);
+  }
+
+  goToStage(stage){
+    console.log(stage);
+    if (stage.type === 'Video'){
+      return this.videoModuleService.getModuleLink();
+    }
+    if (stage.type === 'Trivia'){
+      return this.triviaService.getStudyLink(stage.link);
+    }
+    if (stage.type === 'SG'){
+      return this.apiSGService.getAdventureLink(stage.link);;
+    }
   }
 }
 

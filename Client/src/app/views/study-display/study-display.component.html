@@ -46,8 +46,8 @@
                     <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
                   </div>
 
-                  <div *ngIf="stage.active">
-                    <mat-icon >link</mat-icon><span class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.externalId)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.externalName}}</a></span>
+                  <div>
+                    <mat-icon >link</mat-icon><span class="aligned-with-icon"><a href="{{goToStage(stage)}}" >{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.externalName}}</a></span>
                   </div>
 
                   <div>

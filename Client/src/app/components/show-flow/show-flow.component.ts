@@ -2,6 +2,9 @@ import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from 
 import { Stage, StageService } from '../../services/trainer/stage.service';
 import {Study, StudyService} from "../../services/trainer/study.service";
 import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
+import { ApiSGService } from '../../services/apiSG/apiSG.service';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'show-flow',
@@ -20,7 +23,10 @@ export class ShowFlowComponent implements OnInit {
   constructor(
     private stageService: StageService,
     private studyService: StudyService,
-    private triviaService: ApiTriviaService
+    private triviaService: ApiTriviaService,
+    private router: Router,
+    private toastr: ToastrService,
+    private apiSGService: ApiSGService
   ) { }
 
   ngOnInit(): void {
@@ -41,6 +47,20 @@ export class ShowFlowComponent implements OnInit {
     }
     else if(type === 'Video'){
       return 'Video';
+    }
+  }
+
+  goToStage(stage){
+    console.log(stage);
+    if (stage.type === 'Video'){
+      this.router.navigate(['/videoModule']);
+    }
+    if (stage.type === 'Trivia'){
+      window.location.href = this.triviaService.getStudyLink(stage.link);
+    }
+    if (stage.type === 'SG'){
+      window.location.href = this.apiSGService.getAdventureLink(stage.link);
+      return;
     }
   }
 

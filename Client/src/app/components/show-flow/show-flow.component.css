@@ -1,0 +1,203 @@
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.study-display-card{
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+}
+
+::ng-deep .mat-list .mat-list-item .mat-line{
+  word-wrap: break-word;
+  white-space: pre-line;
+}
+
+.stage-cover{
+  background-image: url('../../../assets/study-images/Study00.jpg');
+  background-size: cover;
+}
+
+.options{
+  text-align: right;
+  padding-right: 5%;
+  padding-left: 5%;
+}
+
+.options button{
+  margin: 10px;
+}
+
+.emptyText{
+  padding-left: 15px
+}
+
+.actions{
+  justify-content: flex-end;
+}
+
+::ng-deep mat-grid-tile.mat-grid-tile .mat-figure {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.header-stage mat-card-title{
+  color: white;
+  margin-right: 0px;
+  font-size: 18px;
+  padding-bottom: 10px;
+  border-radius: 30px 30px 0px 0px;
+  padding-top: 10px;
+  padding-left: 40px;
+  margin-bottom: 0px;
+}
+.mat-card-subtitle{
+  padding-top: 10px;
+}
+.div buttons{
+  text-align: right;
+}
+
+.header-stage div.col-md-8{
+  padding-right: 0px;
+}
+
+.header-stage div.col-md-4{
+  padding-left: 0px;
+}
+
+.header-stage mat-card-subtitle{
+  margin-right: 58px;
+  padding-top: 20px;
+  padding-right: 50px;
+  padding-left: 0px;
+  margin-left: 0px;
+  padding-bottom: 14px;
+  margin-bottom: 0px;
+  text-align: right;
+  border-bottom: solid 1px #EEEEEE;
+}
+
+.mat-card-content{
+  margin-left: 15px;
+  padding-left: 25px;
+  padding-bottom: 10px;
+  padding-right: 2px;
+  margin-bottom: 0px;
+  border-left: solid 1px #EEEEEE;
+  border-right: solid 1px #EEEEEE;
+  border-bottom: solid 1px #EEEEEE;
+  flex-direction: row;
+}
+
+.mat-card-title{
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0px;
+}
+
+.mat-card-actions{
+  text-align: right;
+  margin-right: 40px;
+  border-bottom: solid 1px #CCCCCC;
+  border-left: solid 1px #EEEEEE;
+  border-right: solid 1px #EEEEEE;
+  margin-left: 47px;
+  padding-left: 10px;
+  margin-top: 0px;
+  padding-top: 0px;
+}
+.mat-card-header{
+  display: block;
+  margin-left: 15px;
+}
+
+.Disabled{
+  color: white;
+  background-color: grey;
+}
+
+.Video{
+  color: white;
+  background-color: darkorchid;
+}
+
+.SG{
+  color: white;
+  background-color: darkorange;
+}
+
+.Trivia{
+  color: white;
+  background-color: dodgerblue;
+}
+
+.DisabledButton{
+  color: darkorchid;
+}
+
+.VideoButton{
+  color: darkorchid;
+}
+
+.SGButton{
+  color: darkorange;
+}
+
+.TriviaButton{
+  color: dodgerblue;
+}
+
+.aligned-with-icon{
+  position: absolute;
+  margin-top: 3px;
+  margin-left: 5px; /* optional */
+}
+
+.mat-expansion-panel {
+  margin-right: 10px;
+}
+
+.registerLink{
+  font-weight: 400;
+}
+
+.actionButton{
+  margin: 2%;
+}
+
+.manage{
+  margin-top: 5%;
+}
+
+.spinnerCard{
+  text-align: -webkit-center;
+}
+
+.alert-warning{
+  width: 100%;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+}
+
+.loadingUsers{
+  align-content: center;
+  text-align: center;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 20), 0 8px 10px 1px rgba(0, 0, 0,  14), 0 3px 14px 2px rgba(0, 0, 0,12);
+}
+
+.buttons{
+  text-align: right;
+}
+
+.percentage{
+  font-weight: bolder;
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  margin-left: 1%;
+}
