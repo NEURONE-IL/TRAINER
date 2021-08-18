@@ -42,7 +42,7 @@ router.get('/byStudy/:study_id', [verifyToken], async (req, res) => {
             });
         }
         res.status(200).json({stages});
-    })
+    }).populate({ path: 'stages', model: Stage })
 });
 
 router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => {
@@ -55,7 +55,7 @@ router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => 
             });
         }
         res.status(200).json({stages});
-    }).sort({step: 'asc'});
+    }).sort({step: 'asc'}).populate({ path: 'stages', model: Stage });
 });
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, stageMiddleware.verifyBody], async (req, res) => {
