@@ -10,7 +10,8 @@ export interface Stage {
   step: number,
   study: number,
   type: string,
-  link: string,
+  externalId: string,
+  externalName: string,
   active: boolean,
   percentage: string,
   createdAt: string,
@@ -39,7 +40,7 @@ export class StageService {
   }  
 
   getStageByStudent(studentId: string): Observable<any> {
-    return this.http.get(environment.apiURL + 'userStudy/byStudent' + studentId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+    return this.http.get(environment.apiURL + 'userStudy/stagesByStudent' + studentId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   getStage(id: string) {

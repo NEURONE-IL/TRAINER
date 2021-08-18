@@ -35,10 +35,11 @@ router.get('/:study_id', async (req, res) => {
 });
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), studyMiddleware.verifyBody], async (req, res) => {
+    let sorted = req.body.sorted === 'true' ? true : false; 
     const study = new Study({
         name: req.body.name,
         description: req.body.description,
-        type: req.body.type
+        sorted: sorted
     });
     if(req.file){
         let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
@@ -71,8 +72,8 @@ router.put('/:study_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uplo
         if(req.body.description){
             study.description = req.body.description;
         }
-        if(req.body.type){
-            study.type = req.body.type;
+        if(req.body.sorted){
+            study.sorted = req.body.sorted;
         }        
         if(req.file){
             if(study.image_id){

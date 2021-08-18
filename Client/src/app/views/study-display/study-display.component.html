@@ -1,5 +1,5 @@
 <mat-card class="study-display-card">
-  <mat-grid-list cols="24">
+  <mat-grid-list cols="24" rowHeight="100px">
     <mat-grid-tile colspan="12">
       <mat-card-header>
         <mat-card-title *ngIf="study">{{ "ADMIN.STUDIES.HEADER" | translate }}: {{study.name}}</mat-card-title>
@@ -22,10 +22,9 @@
         <div class="row col-md-12">
           <div class="col-md-4" *ngFor="let stage of sortedStages; let index = index;">
             <br>
-
             <mat-card-header class="header-stage">
               <div class="  stages" >
-                <mat-card-title class="{{getClass(stage.type)}}">
+                <mat-card-title class="{{getClass(stage.active, stage.type)}}">
                   <div class="col-md-8" style="padding-top: 3%;">
                     {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}
                   </div>
@@ -47,8 +46,8 @@
                     <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
                   </div>
 
-                  <div>
-                    <mat-icon >link</mat-icon><span  class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.link)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{"nombre Estudio"}}</a></span>
+                  <div *ngIf="stage.active">
+                    <mat-icon >link</mat-icon><span class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.externalId)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.externalName}}</a></span>
                   </div>
 
                   <div>

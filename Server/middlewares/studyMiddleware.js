@@ -9,7 +9,7 @@ const schema = Joi.object({
     description: Joi.string()
         .required(),
 
-    type: Joi.string()
+    sorted: Joi.boolean()
         .required(),    
 });
 
@@ -19,7 +19,7 @@ const editSchema = Joi.object({
 
     description: Joi.string(),
 
-    type: Joi.string()    
+    sorted: Joi.boolean()    
 });
 
 verifyBody = async (req, res, next) => {

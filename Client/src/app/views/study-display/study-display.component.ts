@@ -142,7 +142,10 @@ export class StudyDisplayComponent implements OnInit {
     .subscribe(() => this.ngOnInit());
   }
 
-  getClass(type){
+  getClass(active, type){
+    if(!active){
+      return 'Disabled';
+    }
     if(type === 'Trivia'){
       return 'Trivia';
     }

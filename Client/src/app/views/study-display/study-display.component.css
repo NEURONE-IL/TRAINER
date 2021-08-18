@@ -90,9 +90,6 @@
   flex-direction: row;
 }
 
-
-
-
 .mat-card-title{
   display: flex;
   flex-direction: row;
@@ -115,6 +112,11 @@
   margin-left: 15px;
 }
 
+.Disabled{
+  color: white;
+  background-color: grey;
+}
+
 .Video{
   color: white;
   background-color: darkorchid;
@@ -128,6 +130,10 @@
 .Trivia{
   color: white;
   background-color: dodgerblue;
+}
+
+.DisabledButton{
+  color: darkorchid;
 }
 
 .VideoButton{

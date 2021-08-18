@@ -4,7 +4,7 @@ const UserStudy = require('../models/userStudy');
 
 const verifyToken = require('../middlewares/verifyToken');
 
-router.get('/byStudent/:student_id', [verifyToken], async (req, res) => {
+router.get('/stagesByStudent/:student_id', [verifyToken], async (req, res) => {
     const _id = req.params.student_id;
     UserStudy.findOne({user: _id}, (err, userStudy) => {
         if(err){

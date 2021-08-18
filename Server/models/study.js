@@ -4,7 +4,7 @@ const { Schema } = mongoose;
 const StudySchema = new Schema({
     name: { type: String, required: true },
     description: {type: String },
-    type: { type: String, required: true },
+    sorted: { type: Boolean, required: true },
     image_url: { type: String },
     image_id: { type: String },
     createdAt: { type: Date, default: Date.now },

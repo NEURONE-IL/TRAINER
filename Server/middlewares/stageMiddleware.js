@@ -18,14 +18,15 @@ const schema = Joi.object({
     type: Joi.string()
         .required(),
 
-    link: Joi.string()
-        .required(),
-    
-    active: Joi.string()
+    externalId: Joi.string()
         .required(),
 
+    externalName: Joi.string()
+        .required(),
+
+    active: Joi.boolean(),
+
     percentage: Joi.number()
-        .required()
 
 });
 
@@ -41,8 +42,10 @@ const editSchema = Joi.object({
 
     type: Joi.string(),
     
-    link: Joi.string(),
-    
+    externalId: Joi.string(),
+
+    externalName: Joi.string(),
+
     active: Joi.boolean(),
 
     percentage: Joi.number()

@@ -60,7 +60,7 @@ export class StageCreationComponent implements OnInit {
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       step: ['', [Validators.required]],
       type: ['', [Validators.required]],
-      link: ['', [Validators.required]]
+      externalId: ['', [Validators.required]]
     });
 
     this.studyService.getStudies().subscribe(
@@ -89,7 +89,11 @@ export class StageCreationComponent implements OnInit {
   createStage(){
     this.loading = true;
     let stage = this.stageForm.value;
+    /*Stage porperties*/
     stage.study = this.study;
+    let study = this.currentLinks.find(element => element._id === stage.externalId);
+    stage.externalName = study.name;
+    /*End stage porperties*/
     this.stageService.postStage(stage).subscribe(
       stage => {
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
