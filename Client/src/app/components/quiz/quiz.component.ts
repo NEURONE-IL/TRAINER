@@ -18,11 +18,11 @@ export class QuizComponent implements OnInit {
 
   ngOnInit(): void {
     this.getQuestions();
-
   }
 
   getQuestions() {
     this.questions = this.quizService.getQuestions();
+    console.log(this.questions);
   }
 
   sendQuizResponse() {

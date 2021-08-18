@@ -1,16 +1,23 @@
-<h1>Quiz: {{quizNumber}}</h1>
+<h2>Quiz: {{quizNumber}}</h2>
 
-<p>holis</p>
-<p>{{questions}}</p>
-<p>{{questions[1]}}</p>
-<p>adios</p>
-
-<div *ngFor="let item of questions | keyvalue">
-  Key: <b>{{item.key}}</b> and Value: <div *ngFor="let item2 of item.value | keyvalue">
-                                          Key: <b>{{item2.key}}</b> and Value: <b>{{item2.value}}</b>
-                                      </div>
-
+<div *ngFor="let quiz of questions">
+  <div *ngIf="quiz.QUIZ_ID == quizNumber">
+    <h3>{{quiz.INSTRUCTIONS}}</h3>
+    <div *ngFor="let exercise of quiz.EXERCISES">
+      <p>Ejercicio {{exercise.EXERCISE_ID}}: {{exercise.INTRODUCTION}}</p>
+      <div *ngFor="let question of exercise.QUESTIONS">
+        <p>Pregunta {{question.QUESTION_NUM}}.</p>
+        <p>Tipo nº {{question.QUESTION_TYPE}}</p>
+        <p>Recurso: {{question.RESOURCE}}</p>
+        <p>{{question.QUESTION}}</p>
+        <div *ngFor="let alternative of question.ALTERNATIVES">
+          <p>* {{alternative}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
 
 
 

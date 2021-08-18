@@ -1,38 +1,116 @@
-{
-  "QUIZ_1": {
-    "name": "hola1",
-    "QUESTION_1": {
-      "ID_TYPE": "id1",
-      "IMAGE": "",
-      "QUESTION": "",
-      "ALTERNATIVES": {
-        "ALTERNATIVE_1": "",
-        "ALTERNATIVE_2": ""
+[
+  {
+    "QUIZ_ID": 1,
+    "INSTRUCTIONS": "Responde las preguntas...",
+    "EXERCISES": [
+      {
+        "EXERCISE_ID": 2,
+        "INTRODUCTION": "Pepa y Pipo no abrieron varios enlaces como los siguientes:",
+        "QUESTIONS": [
+          {
+            "QUESTION_NUM": 1,
+            "QUESTION_ID": "001002001",
+            "QUESTION_TYPE": 2,
+            "RESOURCE": "No hay recurso",
+            "QUESTION": "¿Cómo evalúas la utilidad que indican el título y el extracto de texto del resultado de búsqueda para el desarrollo de la tarea de Pepa y Pipo?",
+            "ALTERNATIVES": [
+              "Muy ùtil",
+              "Parcialmente ùtil",
+              "Poco ùtil",
+              "Nada ùtil"
+            ],
+            "BONUS": "¿Por què?"
+          },
+          {
+            "QUESTION_NUM": 2,
+            "QUESTION_ID": "001002002",
+            "QUESTION_TYPE": 2,
+            "RESOURCE": "No hay recurso",
+            "QUESTION": "¿¿Cómo evalúas la utilidad que indican el título y el extracto de texto del resultado de búsqueda para el desarrollo de la tarea de Pepa y Pipo?",
+            "ALTERNATIVES": [
+              "Muy ùtil",
+              "Parcialmente ùtil",
+              "Poco ùtil",
+              "Nada ùtil"
+            ],
+            "BONUS": "¿Por què?"
+          }
+        ]
+      },
+      {
+        "EXERCISE_ID": 3,
+        "INTRODUCTION": "Pepa y Pipo al final del proceso de búsqueda, decidieron abrir el siguiente enlace:",
+        "QUESTIONS": [
+          {
+            "QUESTION_NUM": 1,
+            "QUESTION_ID": "001003001",
+            "QUESTION_TYPE": 2,
+            "RESOURCE": "No hay recurso",
+            "QUESTION": "¿Cómo evalúas la utilidad que indican el título y el extracto de texto del resultado de búsqueda para el desarrollo de la tarea de Pepa y Pipo?",
+            "ALTERNATIVES": [
+              "Muy ùtil",
+              "Parcialmente ùtil",
+              "Poco ùtil",
+              "Nada ùtil"
+            ],
+            "BONUS": "¿Por què?"
+          }
+        ]
       }
-    }
+    ]
   },
-  "QUIZ_2": {
-    "name": "hola2",
-  "QUESTION_1": {
-    "ID_TYPE": "id2",
-    "IMAGE": "",
-    "QUESTION": "",
-    "ALTERNATIVES": {
-      "ALTERNATIVE_1": "",
-      "ALTERNATIVE_2": ""
+  {
+    "QUIZ_ID": 2,
+    "INSTRUCTIONS": "Responde las preguntas... quiz 2",
+    "EXERCISES": [
+      {
+        "EXERCISE_ID": 2,
+        "INTRODUCTION": "",
+        "QUESTIONS": [
+          {
+            "QUESTION_NUM": 1,
+            "QUESTION_ID": "002002001",
+            "QUESTION_TYPE": 3,
+            "RESOURCE": "No hay recurso",
+            "QUESTION": "¿Cuál crees es el objetivo de la página web?",
+            "ALTERNATIVES": [
+              "Dar información",
+              "Hacer que el lector piense de una forma determinada",
+              "Hacer que el lector compre algo",
+              "Otros motivos"
+            ],
+            "BONUS": "¿Cuàles?"
+          },
+          {
+            "QUESTION_NUM": 2,
+            "QUESTION_ID": "002002002",
+            "QUESTION_TYPE": 1,
+            "RESOURCE": "No hay recurso",
+            "QUESTION": "¿Crees que lo que dice el autor en la página web es cierto?",
+            "ALTERNATIVES": [],
+            "BONUS": "¿Por què?"
+          },
+          {
+            "QUESTION_NUM": 3,
+            "QUESTION_ID": "002002003",
+            "QUESTION_TYPE": 2,
+            "RESOURCE": "No hay recurso",
+            "QUESTION": "¿Qué tan confiable te parece la página web?",
+            "ALTERNATIVES": [
+              "Muy Confiable",
+              "Parcialmente Confiable",
+              "Poco Confiable",
+              "Nada Confiable"
+            ],
+            "BONUS": "¿Por què?"
+          }
+        ]
       }
-    }
+    ]
   },
-  "QUIZ_3": {
-    "name": "hola3",
-    "QUESTION_1": {
-      "ID_TYPE": "",
-      "IMAGE": "",
-      "QUESTION": "",
-      "ALTERNATIVES": {
-        "ALTERNATIVE_1": "",
-        "ALTERNATIVE_2": ""
-      }
-    }
+  {
+    "QUIZ_ID": 3,
+    "INSTRUCTIONS": "No hay preguntas aun jeje",
+    "EXERCISES": []
   }
-}
+]
