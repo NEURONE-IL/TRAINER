@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
                private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
+    this.isLoggedIn = this.authService.loggedIn;
   }
 
   ngAfterContentChecked() {
@@ -27,6 +28,6 @@ export class HeaderComponent implements OnInit {
 
   logout(){
     this.authService.confirmLogout();
-  }  
+  }
 
 }

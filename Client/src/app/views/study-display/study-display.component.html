@@ -76,5 +76,11 @@
         <app-stage-creation [study]="study._id"> </app-stage-creation>
       </ng-template>
     </mat-tab>
+
+    <mat-tab label="{{'ADMIN.TABS.PREVIEW' | translate }}">
+      <ng-template matTabContent>
+        <show-flow [studentId]="'611d29ff4338490677404a75'"  [studyId]="study._id"> </show-flow>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </mat-card>

@@ -22,8 +22,9 @@
   },
   "HEADER": {
     "TOOLTIP": "Ir a la página principal"
-  },  
+  },
   "ADMIN": {
+    "SUBTITLE": "Panel de Creación de Flujos",
     "STAGES": {
       "CREATED_AT": "Creado",
       "LINK": "Enlace",
@@ -40,12 +41,13 @@
       "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el estudio?",
       "DELETING_RESOURCES": "Eliminando recurso, por favor espere...",
       "HEADER": "Estudio",
-      "LOADING": "Cargando, por favor espere..."      
+      "LOADING": "Cargando, por favor espere..."
     },
     "TABS": {
       "CREATE_STAGE": "CREAR ETAPA",
-      "STAGES": "ETAPAS"
-    }    
+      "STAGES": "ETAPAS",
+      "PREVIEW": "VISTA PREVIA DEL FLUJO"
+    }
   },
   "STAGE": {
     "FORM": {
@@ -73,7 +75,7 @@
     },
     "SUBTITLE": "Complete el siguiente formulario para crear un nuevo estudio",
     "TITLE": "Creación de estudios"
-  },  
+  },
   "USER": {
   },
   "ERRORS": {
@@ -116,7 +118,7 @@
       "ERROR": "Error",
       "SUCCESS": "¡Éxito!",
       "USER_CONFIRMED": "Su usuario ha sido confirmado correctamente"
-    },    
+    },
     "INVALID_LINK": {
       "TITLE": "Link inválido",
       "MESSAGE": "El link de registro utilizado es inválido, por favor póngase en contacto con el responsable del estudio."

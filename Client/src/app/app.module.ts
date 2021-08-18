@@ -54,6 +54,7 @@ import { StudyDisplayComponent } from './views/study-display/study-display.compo
 import { StageCreationComponent } from './views/stage-creation/stage-creation.component';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
+import { ShowFlowComponent } from './components/show-flow/show-flow.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { ConsentComponent } from './components/consent/consent.component';
@@ -79,8 +80,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     StudiesDisplayComponent,
     StudyCreationComponent,
     StudyDisplayComponent,
-    StageCreationComponent,    
+    StageCreationComponent,
     VideoModuleComponent,
+    ShowFlowComponent,
     VideoComponent,
     QuizComponent,
     SignupComponent,
