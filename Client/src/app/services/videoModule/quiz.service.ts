@@ -6,18 +6,17 @@ import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 import questions from '../../../assets/static/quizQuestions.json';
 
-export interface Quiz { }
 
 @Injectable({
   providedIn: 'root'
 })
-const enviromentUrl = 'http://localhost:4200/';
-export class QuizService {
 
+export class QuizService {
+  enviromentUrl = 'http://localhost:4200/';
   constructor( ) { }
 
   getModuleLink(){
-    return enviromentUrl + '/videoModule';
+    return this.enviromentUrl + '/videoModule';
   }
   getQuestions() {
     return questions;

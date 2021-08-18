@@ -5,7 +5,8 @@ import { Study, StudyService } from '../../services/trainer/study.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivia.service';
-import { ApiSGService } from '../../services/apiSG/apiSG.service';
+import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
+import { QuizService } from '../../services/videoModule/quiz.service';
 
 @Component({
   selector: 'app-stage-creation',
@@ -21,33 +22,20 @@ export class StageCreationComponent implements OnInit {
   typeOptions: string[] = ['Trivia', 'SG', 'Video'];
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
-  SGLinks: TriviaStudy[] = [
-    {
-      _id: "007",
-      name: "Test SG",
-      description: "Ejemplo de estudio",
-      domain: "No disponible",
-      gm_code: "game_group_test",
-      cooldown: 10000,
-      createdAt: "2021-03-23T21:18:57.536Z",
-      updatedAt: "2021-03-23T21:18:57.536Z",
-      image_id: "605a5b41b2a3e490ed5b8f61",
-      image_url: "https://sg.neurone.info/api/image/00c8389e9dbea9d8fda4f95768de5894.jpg",
-      max_per_interval: 1,
-    }
-  ];
+  SGLinks: SGGame[] = [];
   videoLinks: object[] = [
     {
       name: "Módulo de vídeos",
-      _id: "http://localhost:4200/videoModule"
+      _id: this.videoModuleService.getModuleLink()
     }
-  ]
+  ];
 
   constructor(private formBuilder: FormBuilder,
               private stageService: StageService,
               private studyService: StudyService,
               private toastr: ToastrService,
               private translate: TranslateService,
+              private videoModuleService: QuizService,
               private apiSGService: ApiSGService,
               private triviaService: ApiTriviaService) { }
 
@@ -115,6 +103,13 @@ export class StageCreationComponent implements OnInit {
   getApiStudies(){
     this.triviaService.getStudies().subscribe((res: any) => {
       this.triviaLinks = res.studys;
+    });
+    this.apiSGService.getStudies().subscribe((res: any) => {
+      console.log("ESTUDIOS RESCATADOS DESDE SG:");
+      console.log("ESTUDIOS RESCATADOS DESDE SG:");
+      console.log("ESTUDIOS RESCATADOS DESDE SG:");
+      console.log(res.studys);
+      //this.SGLinks = res.studys;
     });
   }
 

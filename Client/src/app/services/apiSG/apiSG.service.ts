@@ -5,7 +5,17 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { environment } from 'src/environments/environment';
 
-
+export interface SGGame {
+  _id: string;
+  name: string;
+  description: string;
+  domain: string;
+  gm_code: string;
+  createdAt: string;
+  updatedAt: string;
+  image_id: string;
+  image_url: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -13,8 +23,8 @@ import { environment } from 'src/environments/environment';
 
 export class ApiSGService {
   urlLocal = 'http://localhost:4200/';
-  urlApi = 'http://143.198.136.174:3030/api/site/';
-  apiKey = '';
+  urlApi = 'http://143.198.136.174:3002/';
+  apiKey = 'wxlsdn2i3fviyqff31nw6dsvqxolka';
 
   uri = environment.apiURL + 'sg/';
 
@@ -38,7 +48,7 @@ export class ApiSGService {
     let header = new HttpHeaders();
     header = header.append('Content-Type', 'application/json');
     header = header.append('x-api-key', this.apiKey);
-    return this.http.get(this.urlApi + 'site/adventure', {headers: header});
+    return this.http.get(this.urlApi + 'api/site/adventure', {headers: header});
   }
 
   getAdventureLink(idAdventure) {

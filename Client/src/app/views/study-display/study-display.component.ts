@@ -182,7 +182,6 @@ export class StudyDisplayComponent implements OnInit {
   }
 
   goToStage(stage){
-    console.log(stage);
     if (stage.type === 'Video'){
       return this.videoModuleService.getModuleLink();
     }
@@ -190,7 +189,7 @@ export class StudyDisplayComponent implements OnInit {
       return this.triviaService.getStudyLink(stage.link);
     }
     if (stage.type === 'SG'){
-      return this.apiSGService.getAdventureLink(stage.link);;
+      return this.apiSGService.getAdventureLink(stage.link);
     }
   }
 }
