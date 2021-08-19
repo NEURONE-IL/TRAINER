@@ -5,9 +5,9 @@
     <br>
     <mat-card-header class="header-stage">
       <div class="  stages" >
-        <mat-card-title class="{{getClass(stage.active, stage.type)}}">
+        <mat-card-title class="{{getClass(stage.stage.active, stage.stage.type)}}">
           <div class="col-md-8" style="padding-top: 3%;">
-            {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}
+            {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.stage.title}}
           </div>
         </mat-card-title>
       </div>
@@ -16,19 +16,22 @@
     <mat-card-content>
       <div class=" stages-content">
         <div >
-          <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
+          <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.stage.type }} </mat-card-subtitle>
         </div>
 
         <div>
-          <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
+          <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.stage.step}}</span>
         </div>
 
         <div *ngIf="stage.active">
-          <mat-icon >link</mat-icon><span class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.externalId)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.externalName}}</a></span>
+          <mat-icon >link</mat-icon><span class="aligned-with-icon"><a href="{{getLinkToTriviaStudy(stage.stage.externalId)}}">{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.stage.externalName}}</a></span>
         </div>
-
         <div>
-          <button  mat-raised-button color="primary" (click)="goToStage(stage)">Iniciar!</button>
+          <mat-icon>timelapse</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.PERCENTAGE" | translate }}: {{stage.percentage}}%</span>
+        </div>
+        <div class="buttons2">
+          <button  mat-raised-button color="primary" (click)="goToStage(stage.stage)">Iniciar!</button>
+          <button  mat-raised-button color="secondary" (click)="updateProgress(stage.stage.externalId)">Simular Complete!</button>
         </div>
       </div>
     </mat-card-content>

@@ -17,7 +17,7 @@ export class ShowFlowComponent implements OnInit {
   @Input() studyId: string;
   @Input() studentId: string;
   study: Study;
-  stages: Stage[] = [];
+  stages = [];
   sortedStages: Stage[] = [];
 
   constructor(
@@ -70,5 +70,11 @@ export class ShowFlowComponent implements OnInit {
 
   formatDate(date){
     return date.substr(0,10);
+  }
+
+  updateProgress(stageId){
+    this.stageService.updateProgress(this.studentId, stageId, 100).subscribe(response => {
+      this.sortedStages = response['stages'];
+    });
   }
 }

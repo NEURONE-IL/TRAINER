@@ -195,3 +195,7 @@ table {
 .buttons{
   text-align: right;
 }
+
+.buttons2 button{
+  padding-left: 10px;
+}
