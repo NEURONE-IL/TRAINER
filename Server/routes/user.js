@@ -137,4 +137,66 @@ router.put("/:user_id", async (req, res) => {
 	});
 });
 
+router.get("/:study_id/findTestUser", async (req, res) => {
+	const study_id = req.params.study_id;
+	// Find study
+	const study = await Study.findOne({ _id: study_id }, (err) => {
+		if (err) {
+			return res.status(404).json({
+				ok: false,
+				err,
+			});
+		}
+	});
+	// Find User
+	const user = await User.findOne({email: study_id+"@testuser.cl"});
+	res.status(200).json({
+		ok: true,
+		user
+	});
+});
+
+router.get("/:study_id/resetTestUser", async (req, res) => {
+	const study_id = req.params.study_id;
+	// Find study
+	const study = await Study.findOne({ _id: study_id }, (err) => {
+		if (err) {
+			return res.status(404).json({
+				ok: false,
+				err,
+			});
+		}
+	});
+	// Find User
+	const user = await User.findOne({email: study_id+"@testuser.cl"});
+	// Delete dummy progress
+	await UserStudy.deleteOne({user: user._id},  err => {
+	  if(err){
+		res.status(500).json(err);
+	  }
+	})
+	// Find study stages
+	const stages = await Stage.find({ study: study }, (err) => {
+		if (err) {
+			return res.status(404).json({
+				ok: false,
+				err,
+			});
+		}
+	}).sort({step: 'asc'});
+	// Generate user study progress entry
+	generateProgress(stages, user, study)
+	.catch((err) => {
+	  return res.status(404).json({
+			ok: false,
+			err,
+	  });
+	})
+	.then((progress) => {
+	  res.status(200).json({
+			user,
+	  });
+	});
+});
+
 module.exports = router;
