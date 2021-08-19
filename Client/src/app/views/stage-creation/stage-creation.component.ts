@@ -108,8 +108,9 @@ export class StageCreationComponent implements OnInit {
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
-      console.log(res.studys);
-      //this.SGLinks = res.studys;
+      console.log(res.adventures);
+      this.SGLinks = res.adventures;
+      console.log(this.SGLinks);
     });
   }
 

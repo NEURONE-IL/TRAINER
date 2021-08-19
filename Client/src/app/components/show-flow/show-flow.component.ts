@@ -30,7 +30,7 @@ export class ShowFlowComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.stageService.getStagesByStudySortedByStep(this.studyId)
+    this.stageService.getStageByStudent(this.studentId)
       .subscribe(response => {
         this.sortedStages = response['stages'];
       });
@@ -56,10 +56,10 @@ export class ShowFlowComponent implements OnInit {
       this.router.navigate(['/videoModule']);
     }
     if (stage.type === 'Trivia'){
-      window.location.href = this.triviaService.getStudyLink(stage.link);
+      window.location.href = this.triviaService.getStudyLink(stage.externalId);
     }
     if (stage.type === 'SG'){
-      window.location.href = this.apiSGService.getAdventureLink(stage.link);
+      window.location.href = this.apiSGService.getAdventureLink(stage.externalId);
       return;
     }
   }
