@@ -25,7 +25,6 @@ router.post(
       }
     });
     //hash password
-      console.log("Estamos revisando los datos")
     const salt = await bcrypt.genSalt(10);
     const hashpassword = await bcrypt.hash(req.body.password, salt);
     //create user
@@ -197,6 +196,92 @@ router.post(
           /*Send confirmation email*/
           sendConfirmationEmail(user, userData, res, req);
 
+          res.status(200).json({
+            user
+          });
+        });
+    });
+  }
+);
+
+router.post(
+  "/signupTestUser/:study_id", [authMiddleware.verifyBody, authMiddleware.uniqueEmail], async (req, res) => {
+    const study_id = req.params.study_id;
+    if (!isValidObjectId(study_id)) {
+      return res.status(404).json({
+        ok: false,
+        message: "STUDY_NOT_FOUND_ERROR"
+      });
+    }
+
+    /*Find student role*/
+    const role = await Role.findOne({ name: "student" }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err
+        });
+      }
+    }); 
+    
+    /*Find study*/
+    const study = await Study.findOne({ _id: study_id }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err
+        });
+      }
+    });  
+    
+    /*Find study stages*/
+    const stages = await Stage.find({ study: study }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err,
+        });
+      }
+    }).sort({step: 'asc'});
+
+    if (!study) {
+      return res.status(404).json({
+        ok: false,
+        message: "STUDY_NOT_FOUND_ERROR"
+      });
+    }    
+
+    /*Hash password*/
+    const salt = await bcrypt.genSalt(10);
+    const hashPassword = await bcrypt.hash(req.body.password, salt);    
+
+    /*Create user*/
+    const user = new User({
+      email: req.body.email,
+      names: req.body.names,
+      password: hashPassword,
+      confirmed: true,
+      role: role._id,
+      study: study._id,
+    });
+
+    /*Save user in DB*/
+    user.save((err, user) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err,
+        });
+      }    
+
+      /*Generate user study progress entry*/
+      generateProgress(stages, user, study)
+        .catch((err) => {
+          return res.status(404).json({
+            ok: false
+          });
+        })
+        .then((progress) => {
           res.status(200).json({
             user
           });

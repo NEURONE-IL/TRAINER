@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { StudyService } from '../../services/trainer/study.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
@@ -18,6 +19,7 @@ export class StudyCreationComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private studyService: StudyService,
+    private authService: AuthService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private router: Router) { }
@@ -59,20 +61,30 @@ export class StudyCreationComponent implements OnInit {
     }
     this.studyService.postStudy(formData).subscribe(
       study => {
-        this.toastr.success(this.translate.instant("STUDY.TOAST.SUCCESS_MESSAGE") + ': ' + study['study'].name, this.translate.instant("STUDY.TOAST.SUCCESS"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-        this.resetForm();
-        this.loading = false;
-        this.router.navigate(['admin_panel']);
+        this.authService.signupTestUser(study.study._id).subscribe(
+          user => {
+            this.toastr.success(this.translate.instant("STUDY.TOAST.SUCCESS_MESSAGE") + ': ' + study['study'].name, this.translate.instant("STUDY.TOAST.SUCCESS"), {
+              timeOut: 5000,
+              positionClass: 'toast-top-center'
+            });
+            this.resetForm();
+            this.loading = false;
+            this.router.navigate(['admin_panel']);
+          },
+          err => {
+            this.toastr.error(this.translate.instant("STUDY.TOAST.ERROR_MESSAGE"), this.translate.instant("STUDY.TOAST.ERROR"), {
+              timeOut: 5000,
+              positionClass: 'toast-top-center'
+            });
+          }
+        )
       },
       err => {
         this.toastr.error(this.translate.instant("STUDY.TOAST.ERROR_MESSAGE"), this.translate.instant("STUDY.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
-        });
-      },
+        });        
+      }
     );
   }
 
