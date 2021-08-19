@@ -14,7 +14,7 @@ export interface Stage {
   externalName: string,
   active: boolean,
   createdAt: string,
-  updatedAt: string  
+  updatedAt: string
 }
 
 @Injectable({
@@ -36,10 +36,10 @@ export class StageService {
 
   getStagesByStudySortedByStep(studyId: string): Observable<any> {
     return this.http.get(environment.apiURL + 'stage/byStudySortedByStep/' + studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
-  }  
+  }
 
   getStageByStudent(studentId: string): Observable<any> {
-    return this.http.get(environment.apiURL + 'userStudy/stagesByStudent' + studentId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+    return this.http.get(environment.apiURL + 'userStudy/stagesByStudent/' + studentId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   getStage(id: string) {

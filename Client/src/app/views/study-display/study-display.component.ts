@@ -186,10 +186,10 @@ export class StudyDisplayComponent implements OnInit {
       return this.videoModuleService.getModuleLink();
     }
     if (stage.type === 'Trivia'){
-      return this.triviaService.getStudyLink(stage.link);
+      return console.log(this.triviaService.getStudyLink(stage.externalId));
     }
     if (stage.type === 'SG'){
-      return this.apiSGService.getAdventureLink(stage.link);
+      return this.apiSGService.getAdventureLink(stage.externalId);
     }
   }
 }

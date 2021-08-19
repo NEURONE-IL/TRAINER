@@ -7,14 +7,14 @@ import { environment } from 'src/environments/environment';
 
 export interface SGGame {
   _id: string;
-  name: string;
   description: string;
-  domain: string;
-  gm_code: string;
-  createdAt: string;
-  updatedAt: string;
   image_id: string;
-  image_url: string;
+  links: any;
+  name: string;
+  nodes: any;
+  preconditions: any;
+  user: string;
+  prototype: any;
 }
 
 @Injectable({
@@ -53,7 +53,7 @@ export class ApiSGService {
 
   getAdventureLink(idAdventure) {
     const user = JSON.parse(localStorage.getItem('currentUser', ));
-    return 'http://143.198.136.174:3030/login_redirect/' + user.email + '/' + user.names + '/' + idAdventure + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
+    return this.urlApi + 'login_redirect/' + user.email + '/' + user.names + '/' + idAdventure + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
   }
 
 }

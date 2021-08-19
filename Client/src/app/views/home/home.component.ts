@@ -29,7 +29,7 @@ export class HomeComponent implements OnInit {
 
   study;
   user;
-  studyId = '61198531e4277a07c92db490';
+  studyId = '611d2ced4338490677404a91';
   apikey = this.triviaService.apiKey;
   stages;
   ngOnInit(): void {
