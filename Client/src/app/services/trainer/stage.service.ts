@@ -59,7 +59,7 @@ export class StageService {
   }
 
   updateProgress(studentId: string, externalId:string, percentage: number): Observable<any> {
-    return this.http.get(environment.apiURL + 'userStudy/updateProgress/' + studentId + '/' + externalId + '/' + percentage );
+    return this.http.put(environment.apiURL + 'userStudy/updateProgress/' + studentId + '/' + externalId + '/' + percentage, {}, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
 }
