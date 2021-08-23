@@ -20,7 +20,7 @@
       </ng-template>
       <ng-template matTabContent>
         <div class="row col-md-12">
-          <div class="col-md-4" *ngFor="let stage of sortedStages; let index = index;">
+          <div class="col-md-4" *ngFor="let stage of sortedStages;">
             <br>
             <mat-card-header class="header-stage">
               <div class="  stages" >
@@ -35,7 +35,8 @@
                 </mat-card-title>
               </div>
             </mat-card-header>
-
+            <img mat-card-image *ngIf="stage.image_url" [src]="stage.image_url">
+            <img mat-card-image *ngIf="!stage.image_url" [src]="getCover(stage.type)">
               <mat-card-content>
                 <div class=" stages-content">
                   <div >

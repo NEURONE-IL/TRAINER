@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const Study = require('../models/study');
 const Stage = require('../models/stage');
 

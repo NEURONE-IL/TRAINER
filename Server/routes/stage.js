@@ -3,6 +3,7 @@ const router = express.Router();
 const Stage = require('../models/stage');
 const Study = require('../models/study');
 
+const imageStorage = require('../middlewares/imageStorage');
 const authMiddleware = require('../middlewares/authMiddleware');
 const stageMiddleware = require('../middlewares/stageMiddleware');
 const verifyToken = require('../middlewares/verifyToken');
@@ -58,7 +59,7 @@ router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => 
     }).sort({step: 'asc'}).populate({ path: 'stages', model: Stage });
 });
 
-router.post('',  [verifyToken, authMiddleware.isAdmin, stageMiddleware.verifyBody], async (req, res) => {
+router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), stageMiddleware.verifyBody], async (req, res) => {
     const studyId = req.body.study;
     Study.findOne({_id  : studyId}, (err, study) => {
         console.log(study)
@@ -67,10 +68,23 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, stageMiddleware.verifyBod
                 err
             });
         }
-        const stage = new Stage(req.body);
+        const stage = new Stage({
+            title: req.body.title,
+            description: req.body.description,
+            step: req.body.step,
+            study: study,
+            type: req.body.type,
+            externalId: req.body.externalId,
+            externalName: req.body.externalName
+        })
         if(!study.sorted || stage.step === 1){
             stage.active = true;
-        }        
+        }
+        if(req.file){
+            let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
+            stage.image_url = image_url;
+            stage.image_id = req.file.id;
+        }
         stage.save((err, stage) => {
             if (err) {
                 return res.status(404).json({
@@ -112,7 +126,15 @@ router.put('/:stage_id', [verifyToken, authMiddleware.isAdmin, stageMiddleware.v
         }
         if(req.body.active){
             stage.active = req.body.active;
-        }            
+        }
+        if(req.file){
+            if(stage.image_id){
+                imageStorage.gfs.delete(stage.image_id);
+            }
+            let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
+            stage.image_url = image_url;
+            stage.image_id = req.file.id;
+        }        
         stage.updatedAt = Date.now();
         stage.save((err, stage) => {
             if (err) {

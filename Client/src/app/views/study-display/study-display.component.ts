@@ -95,8 +95,8 @@ export class StudyDisplayComponent implements OnInit {
   deleteStage(id: string){
     this.stageService.deleteStage(id)
       .subscribe(stage => {
-        this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
-          .subscribe(response => this.stages = response['stages']);
+        this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+          .subscribe(response => this.sortedStages = response['stages']);
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_DELETE"), this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
@@ -114,8 +114,8 @@ export class StudyDisplayComponent implements OnInit {
   updateStage(id: string, updatedStage: string){
     this.stageService.putStage(id, updatedStage)
     .subscribe(stage => {
-      this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
-        .subscribe(response => this.stages = response['stages']);
+      this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+        .subscribe(response => this.sortedStages = response['stages']);
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + stage['stage'].question, this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
@@ -186,12 +186,23 @@ export class StudyDisplayComponent implements OnInit {
       return this.videoModuleService.getModuleLink();
     }
     if (stage.type === 'Trivia'){
-      return console.log(this.triviaService.getStudyLink(stage.externalId));
+      return this.triviaService.getStudyLink(stage.externalId);
     }
     if (stage.type === 'SG'){
       return this.apiSGService.getAdventureLink(stage.externalId);
     }
   }
+
+  getCover(type: string): string{
+    switch (type) {
+      case 'Trivia':
+        return '../../../assets/stage-images/00Trivia.jpg';
+      case 'SG':
+        return '../../../assets/stage-images/01Adventure.jpg';        
+      case 'Video':
+        return '../../../assets/stage-images/02Video.jpg';        
+    }
+  }  
 }
 
 @Component({

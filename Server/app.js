@@ -16,6 +16,7 @@ const stageRoutes = require('./routes/stage');
 const studyRoutes = require('./routes/study');
 const userRoutes = require('./routes/user');
 const userStudyRoutes = require('./routes/userStudy');
+const imageRoutes = require('./routes/image');
 
 const Role = require('./models/role');
 
@@ -81,6 +82,7 @@ app.use('/api/stage', stageRoutes);
 app.use('/api/study', studyRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/userStudy', userStudyRoutes);
+app.use('/api/image', imageRoutes);
 
 // Set client on root
 

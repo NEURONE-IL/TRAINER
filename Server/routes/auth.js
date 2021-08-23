@@ -205,7 +205,7 @@ router.post(
 );
 
 router.post(
-  "/signupTestUser/:study_id", [authMiddleware.verifyBody, authMiddleware.uniqueEmail], async (req, res) => {
+  "/signupTestUser/:study_id", [authMiddleware.verifyBodyAdmin, authMiddleware.uniqueEmail], async (req, res) => {
     const study_id = req.params.study_id;
     if (!isValidObjectId(study_id)) {
       return res.status(404).json({

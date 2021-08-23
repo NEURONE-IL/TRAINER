@@ -29,6 +29,7 @@ export class StageCreationComponent implements OnInit {
       _id: this.videoModuleService.getModuleLink()
     }
   ];
+  file: File;
 
   constructor(private formBuilder: FormBuilder,
               private stageService: StageService,
@@ -77,12 +78,25 @@ export class StageCreationComponent implements OnInit {
   createStage(){
     this.loading = true;
     let stage = this.stageForm.value;
-    /*Stage porperties*/
+    /*Stage properties*/
     stage.study = this.study;
     let study = this.currentLinks.find(element => element._id === stage.externalId);
     stage.externalName = study.name;
-    /*End stage porperties*/
-    this.stageService.postStage(stage).subscribe(
+    /*End stage properties*/
+    /*Stage FormData*/
+    let formData = new FormData();
+    formData.append('title', stage.title);
+    formData.append('description', stage.description);
+    formData.append('step', stage.step);
+    formData.append('type', stage.type);
+    formData.append('externalId', stage.externalId);    
+    formData.append('study', stage.study);
+    formData.append('externalName', stage.externalName);
+    /*End stage FormData*/
+    if(this.file){
+      formData.append('file', this.file);
+    }    
+    this.stageService.postStage(formData).subscribe(
       stage => {
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
@@ -126,4 +140,8 @@ export class StageCreationComponent implements OnInit {
       this.currentLinks = this.videoLinks;
     }
   }
+
+  handleFileInput(files: FileList) {
+    this.file = files.item(0);
+  }  
 }

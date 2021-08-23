@@ -14,7 +14,9 @@ export interface Stage {
   externalName: string,
   active: boolean,
   createdAt: string,
-  updatedAt: string
+  updatedAt: string,
+  image_url: string,
+  image_id: string  
 }
 
 @Injectable({

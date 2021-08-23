@@ -169,7 +169,6 @@ router.get("/:study_id/resetTestUser", async (req, res) => {
 	});
 	// Find User
 	const user = await User.findOne({email: study_id+"@testuser.cl"});
-	// Delete dummy progress
 	await UserStudy.deleteOne({user: user._id},  err => {
 	  if(err){
 		res.status(500).json(err);

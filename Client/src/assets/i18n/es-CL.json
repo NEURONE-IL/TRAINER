@@ -53,6 +53,7 @@
     "FORM": {
       "FIELDS": {
         "DESCRIPTION": "Descripción",
+        "IMAGE": "Seleccione una imagen (opcional)",
         "LINK": "Enlace",
         "STEP": "Orden",
         "STUDY": "Estudio",
@@ -61,7 +62,17 @@
       }
     },
     "SUBTITLE": "Complete el siguiente formulario para crear una nueva etapa en el estudio",
-    "TITLE": "Creación de etapas"
+    "TITLE": "Creación de etapas",
+    "TOAST": {
+      "ERROR": "¡Error!",
+      "ERROR_MESSAGE": "No se ha creado la nueva etapa",
+      "ERROR_MESSAGE_DELETE": "No se ha eliminado la etapa",
+      "ERROR_MESSAGE_UPDATE": "No se ha actualizado la etapa",
+      "SUCCESS": "Éxito!",
+      "SUCCESS_MESSAGE": "Se ha creado la etapa",
+      "SUCCESS_MESSAGE_DELETE": "Se ha eliminado la etapa",
+      "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado la etapa"
+    }    
   },
   "STUDY": {
     "FORM": {
@@ -74,7 +85,21 @@
       }
     },
     "SUBTITLE": "Complete el siguiente formulario para crear un nuevo estudio",
-    "TITLE": "Creación de estudios"
+    "TITLE": "Creación de estudios",
+    "TOAST": {
+      "DUMMY_RESET_ERROR": "No se ha revertido el usuario de prueba",
+      "DUMMY_RESET_SUCCESS": "Usuario de prueba revertido con éxito",
+      "ERROR": "¡Error!",
+      "ERROR_MESSAGE": "No se ha creado el nuevo estudio",
+      "ERROR_MESSAGE_DELETE": "No se ha eliminado el estudio",
+      "ERROR_MESSAGE_UPDATE": "No se ha actualizado el estudio",
+      "NOT_LOADED_ERROR": "El estudio no han sido cargado",
+      "NOT_LOADED_MULTIPLE_ERROR": "Los estudios no han sido cargados",
+      "SUCCESS": "Éxito!",
+      "SUCCESS_MESSAGE": "Se ha creado el estudio",
+      "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el estudio",
+      "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el estudio"
+    } 
   },
   "USER": {
   },
