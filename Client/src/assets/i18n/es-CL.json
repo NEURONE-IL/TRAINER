@@ -43,9 +43,20 @@
       "HEADER": "Estudio",
       "LOADING": "Cargando, por favor espere..."
     },
+    "MODULES": {
+      "CREATE": "CREAR MODULO",
+      "STUDY": "Estudio",
+      "NAME": "Nombre",
+      "DESCRIPTION": "Descripción",
+      "HEADER": "Modulo",
+      "LOADING": "Cargando, por favor espere...",
+      "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el módulo?"
+    },
     "TABS": {
       "CREATE_STAGE": "CREAR ETAPA",
+      "CREATE_MODULE": "CREAR MÓDULO",
       "STAGES": "ETAPAS",
+      "MODULES": "MÓDULOS",
       "PREVIEW": "VISTA PREVIA DEL FLUJO"
     }
   },
@@ -72,6 +83,30 @@
       "SUCCESS_MESSAGE": "Se ha creado la etapa",
       "SUCCESS_MESSAGE_DELETE": "Se ha eliminado la etapa",
       "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado la etapa"
+    }    
+  },
+  "MODULE": {
+    "FORM": {
+      "FIELDS": {
+        "DESCRIPTION": "Descripción",
+        "IMAGE": "Seleccione una imagen (opcional)",
+        "CODE": "Código",
+        "STUDY": "Estudio",
+        "TITLE": "Título",
+        "NAME": "Nombre"
+      }
+    },
+    "SUBTITLE": "Complete el siguiente formulario para crear un nuevo módulo en el estudio",
+    "TITLE": "Creación de módulo",
+    "TOAST": {
+      "ERROR": "¡Error!",
+      "ERROR_MESSAGE": "No se ha creado el nuevo módulo",
+      "ERROR_MESSAGE_DELETE": "No se ha eliminado el módulo",
+      "ERROR_MESSAGE_UPDATE": "No se ha actualizado el módulo",
+      "SUCCESS": "¡Éxito!",
+      "SUCCESS_MESSAGE": "Se ha creado el módulo",
+      "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el módulo",
+      "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el módulo"
     }    
   },
   "STUDY": {

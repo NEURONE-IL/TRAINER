@@ -14,6 +14,61 @@
   </mat-grid-list>
   <!-- Nuevo diseño de Tabs -->
   <mat-tab-group mat-align-tabs="end">
+
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span (click)="reloadModules()"> {{'ADMIN.TABS.MODULES' | translate }} </span>
+      </ng-template>
+      <ng-template matTabContent>
+        <div class="row col-md-12">
+          <div class="col-md-4" *ngFor="let module of modules;">
+            <br>
+            <mat-card-header class="header-stage">
+              <div class="  stages" >
+                <mat-card-title class="Trivia">
+                  <div class="col-md-8" style="padding-top: 3%;">
+                    {{ "ADMIN.MODULES.NAME" | translate }}: {{module.name}}
+                  </div>
+                  <div class="buttons col-md-4">
+                    <button mat-icon-button title="{{ 'BUTTONS.EDIT' | translate }} "><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="confirmModuleDelete(module._id)" title="{{ 'BUTTONS.DELETE' | translate }}"> <mat-icon>delete</mat-icon></button>
+                  </div>
+                </mat-card-title>
+              </div>
+            </mat-card-header>
+            <img mat-card-image *ngIf="module.image_url" [src]="module.image_url">
+            <img mat-card-image *ngIf="!module.image_url" [src]="getCover(module.type)">
+              <mat-card-content>
+                <div class=" stages-content">
+                  <div >
+                    <mat-card-subtitle>{{ "ADMIN.MODULES.DESCRIPTION" | translate }}: {{ module.description }} </mat-card-subtitle>
+                  </div>
+
+                  <div>
+                    <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(module.createdAt)}}</span>
+                  </div>
+
+                  <div>
+                    <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{formatDate(module.updatedAt)}}</span>
+                  </div>
+
+                </div>
+              </mat-card-content>
+
+
+
+          </div>
+        </div>
+      </ng-template>
+    </mat-tab>
+  
+    <mat-tab label="{{'ADMIN.TABS.CREATE_MODULE' | translate }}">
+      <ng-template matTabContent>
+        <app-module-creation [study]="study._id"> </app-module-creation>
+      </ng-template>
+    </mat-tab>
+  
+
     <mat-tab >
       <ng-template mat-tab-label>
         <span (click)="reloadStages()"> {{'ADMIN.TABS.STAGES' | translate }} </span>

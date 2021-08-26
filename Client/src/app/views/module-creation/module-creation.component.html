@@ -1,0 +1,89 @@
+<mat-card class="stage-creation-card">
+    <mat-card-header>
+      <mat-card-title>{{ "MODULE.TITLE" | translate }}</mat-card-title>
+      <mat-card-subtitle>{{ "MODULE.SUBTITLE" | translate }}:</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+          <form [formGroup]="moduleForm">
+              <mat-grid-list cols="12">
+                  <mat-grid-tile colspan="6">
+                      <mat-form-field>
+                          <mat-label>{{ "MODULE.FORM.FIELDS.NAME" | translate }}</mat-label>
+                          <input matInput formControlName="name" required #inputName maxlength="300">
+                          <mat-hint align="end">{{inputName.value?.length || 0}}/50</mat-hint>
+                          <mat-error *ngIf="moduleFormControls.name.hasError('required')">
+                              {{ "ERRORS.REQUIRED" | translate }}
+                          </mat-error>
+                          <mat-error *ngIf="moduleFormControls.name.hasError('minlength')">
+                              {{ "ERRORS.MIN_LENGTH_3" | translate }}
+                          </mat-error>
+                          <mat-error *ngIf="moduleFormControls.name.hasError('maxlength')">
+                              {{ "ERRORS.MAX_LENGTH_50" | translate }}
+                          </mat-error>
+                      </mat-form-field>
+                  </mat-grid-tile>
+                  <mat-grid-tile colspan="6">
+                      <mat-form-field>
+                          <mat-label>{{ "MODULE.FORM.FIELDS.DESCRIPTION" | translate }}</mat-label>
+                          <input matInput formControlName="description" required #inputDescription maxlength="300">
+                          <mat-hint align="end">{{inputDescription.value?.length || 0}}/250</mat-hint>
+                          <mat-error *ngIf="moduleFormControls.description.hasError('required')">
+                              {{ "ERRORS.REQUIRED" | translate }}
+                          </mat-error>
+                          <mat-error *ngIf="moduleFormControls.description.hasError('minlength')">
+                              {{ "ERRORS.MIN_LENGTH_3" | translate }}
+                          </mat-error>
+                          <mat-error *ngIf="moduleFormControls.description.hasError('maxlength')">
+                              {{ "ERRORS.MAX_LENGTH_250" | translate }}
+                          </mat-error>
+                      </mat-form-field>
+                  </mat-grid-tile>
+        		  <mat-grid-tile colspan="6">
+                    <mat-form-field>
+                        <mat-label>{{ "MODULE.FORM.FIELDS.CODE" | translate }}</mat-label>
+                        <input matInput formControlName="code" required #inputCode maxlength="300">
+                        <mat-hint align="end">{{inputCode.value?.length || 0}}/50</mat-hint>
+                        <mat-error *ngIf="moduleFormControls.code.hasError('required')">
+                            {{ "ERRORS.REQUIRED" | translate }}
+                        </mat-error>
+                        <mat-error *ngIf="moduleFormControls.code.hasError('minlength')">
+                            {{ "ERRORS.MIN_LENGTH_3" | translate }}
+                        </mat-error>
+                        <mat-error *ngIf="moduleFormControls.code.hasError('maxlength')">
+                            {{ "ERRORS.MAX_LENGTH_50" | translate }}
+                        </mat-error>
+                    </mat-form-field>
+                </mat-grid-tile>
+              </mat-grid-list>
+          </form>
+          <mat-card-header>
+              <mat-card-subtitle style="margin-top: 7%; margin-bottom: 0%;">{{ "MODULE.FORM.FIELDS.IMAGE" | translate }}:</mat-card-subtitle>
+          </mat-card-header>
+          <mat-grid-list cols="12">
+              <mat-grid-tile colspan="6">
+                  <input type="file"
+                      id="file"
+                      (change)="handleFileInput($event.target.files)">
+  
+              </mat-grid-tile>	
+          </mat-grid-list>	
+      </mat-card-content>
+      <mat-card-actions class="cardActions" *ngIf="!loading; else elseBlock">
+          <button mat-raised-button class="saveButton" [disabled]="!moduleForm.valid" (click)="createModule()">
+              {{ "BUTTONS.SAVE" | translate }}
+          </button>
+          <button mat-raised-button class="clearButton" (click)="resetForm()">
+              {{ "BUTTONS.CLEAR" | translate }}
+          </button>
+      </mat-card-actions>
+      <ng-template #elseBlock>
+          <div class="spinnerCard">
+              <mat-progress-spinner color="primary" mode="indeterminate" class="mb-4">
+              </mat-progress-spinner>
+              <span>
+                  {{ "ADMIN.MODULES.LOADING" | translate }}
+              </span>
+          </div>
+      </ng-template>	
+  </mat-card>
+  

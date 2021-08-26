@@ -58,6 +58,7 @@ import { ShowFlowComponent } from './components/show-flow/show-flow.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { ConsentComponent } from './components/consent/consent.component';
+import { ModuleCreationComponent } from './views/module-creation/module-creation.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -87,6 +88,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     QuizComponent,
     SignupComponent,
     ConsentComponent,
+    ModuleCreationComponent,
   ],
   imports: [
     BrowserModule,

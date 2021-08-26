@@ -24,7 +24,9 @@ const schema = Joi.object({
     externalName: Joi.string()
         .required(),
 
-    active: Joi.boolean()
+    active: Joi.boolean(),
+
+    module: Joi.any()
 
 });
 
@@ -44,7 +46,9 @@ const editSchema = Joi.object({
 
     externalName: Joi.string(),
 
-    active: Joi.boolean()
+    active: Joi.boolean(),
+
+    module: Joi.any()
 
 })
 

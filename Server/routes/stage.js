@@ -85,6 +85,9 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
             stage.image_url = image_url;
             stage.image_id = req.file.id;
         }
+        if(req.body.module){
+            stage.module = req.body.module
+        }
         stage.save((err, stage) => {
             if (err) {
                 return res.status(404).json({
@@ -126,6 +129,9 @@ router.put('/:stage_id', [verifyToken, authMiddleware.isAdmin, stageMiddleware.v
         }
         if(req.body.active){
             stage.active = req.body.active;
+        }
+        if(req.body.module){
+            stage.module = req.body.module
         }
         if(req.file){
             if(stage.image_id){

@@ -10,6 +10,7 @@ import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
 import { AuthService } from '../../services/auth/auth.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
+import { ModuleService } from 'src/app/services/trainer/module.service';
 
 @Component({
   selector: 'app-study-display',
@@ -21,12 +22,14 @@ export class StudyDisplayComponent implements OnInit {
   stages: Stage[] = [];
   sortedStages: Stage[] = [];
   createStage: boolean;
+  modules: any;
   registerLink = '';
 
   constructor(private router: Router,
               private route: ActivatedRoute,
               private stageService: StageService,
               private studyService: StudyService,
+              private moduleService: ModuleService,
               private toastr: ToastrService,
               private authService: AuthService,
               private translate: TranslateService,
@@ -64,6 +67,7 @@ export class StudyDisplayComponent implements OnInit {
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
+    this.reloadModules();
   }
 
   confirmStudyDelete(id: string){
@@ -101,6 +105,24 @@ export class StudyDisplayComponent implements OnInit {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
+      },
+      err => {
+        this.toastr.error(this.translate.instant("STAGE.TOAST.ERROR_MESSAGE_DELETE"), this.translate.instant("STAGE.TOAST.ERROR"), {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      }
+    );
+  }
+
+  confirmModuleDelete(id: string){
+    confirm(this.translate.instant("ADMIN.MODULES.DELETE_CONFIRMATION")) && this.deleteModule(id);
+  }
+
+  deleteModule(id: string){
+    this.moduleService.deleteModule(id)
+      .subscribe(module => {
+        this.reloadModules();
       },
       err => {
         this.toastr.error(this.translate.instant("STAGE.TOAST.ERROR_MESSAGE_DELETE"), this.translate.instant("STAGE.TOAST.ERROR"), {
@@ -176,6 +198,20 @@ export class StudyDisplayComponent implements OnInit {
     });
 
   }
+
+  reloadModules(){
+    /*
+        this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
+          .subscribe(response => {
+            this.stages = response['stages'];
+        });
+    */
+        this.moduleService.getModuleByStudy(this.route.snapshot.paramMap.get('study_id'))
+          .subscribe(response => {
+            this.modules = response['modules'];
+        });
+    
+      }
 
   getLinkToTriviaStudy(studyId){
     return this.triviaService.getStudyLink(studyId);

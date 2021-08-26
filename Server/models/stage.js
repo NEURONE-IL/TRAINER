@@ -6,6 +6,7 @@ const StageSchema = new Schema({
     description: { type: String, required: true },
     step: { type: Number, required: true },
     study: { type: Schema.Types.ObjectId, ref: 'Study', required: true},
+    module: { type: Schema.Types.ObjectId, ref: 'Module'},
     type: { type: String, required: true },
     externalId: { type: String, required: true },
     externalName: { type: String, required: true },
