@@ -62,7 +62,6 @@ router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => 
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), stageMiddleware.verifyBody], async (req, res) => {
     const studyId = req.body.study;
     Study.findOne({_id  : studyId}, (err, study) => {
-        console.log(study)
         if (err) {
             return res.status(404).json({
                 err

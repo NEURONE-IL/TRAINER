@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
   studentForm: FormGroup;
   study: any;
   validStudy = true;
-  isLoadingStudy = true;
+//  isLoadingStudy = true;
 
   courses: any;
   regions: any;
@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.checkStudy();
+//    this.checkStudy();
     this.regions = getRegiones();
 
     this.consentForm = this.formBuilder.group({
@@ -74,7 +74,7 @@ export class SignupComponent implements OnInit {
   save() {
     let userData = Object.assign(this.tutorForm.value, this.studentForm.value);
     delete userData.password_confirmation;
-    this.authService.signup(userData, this.route.snapshot.paramMap.get('study_id'))
+    this.authService.signup(userData/*, this.route.snapshot.paramMap.get('study_id')*/)
       .subscribe((res) => {
         this.userSubmitted = true;
       },
@@ -94,6 +94,7 @@ export class SignupComponent implements OnInit {
       });
   }
 
+  /*
   checkStudy() {
     const study_id = this.route.snapshot.paramMap.get('study_id');
     this.studyService.getStudySignup(study_id).subscribe(
@@ -110,7 +111,7 @@ export class SignupComponent implements OnInit {
         this.isLoadingStudy=false;
       }
     );
-  }
+  }*/ 
 
   onRegionChange(regionChange) {
     this.communes = getComunasByRegion(regionChange.value);
