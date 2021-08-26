@@ -35,10 +35,17 @@ const routes: Routes = [
     canActivate: [ NotLoggedInGuard ]
   },  
   {
+    path: 'signup',
+    component: SignupComponent,
+    canActivate: [ NotLoggedInGuard ]
+  },
+/*  
+  {
     path: 'signup/:study_id',
     component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
   },
+*/   
   {
     path: 'register',
     component: RegisterStudentComponent,

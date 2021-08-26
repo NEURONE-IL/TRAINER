@@ -14,7 +14,7 @@ export class AuthService {
   userUri = environment.apiURL + 'user/';
 
   getRegisterLink(studyId){
-    return 'http://localhost:4200/signup/' + studyId;
+    return 'http://localhost:4200/signup/'; //+ studyId;
   }
 
   constructor(private http: HttpClient,
@@ -114,9 +114,9 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  signup(userData: any, study_id: string) {
+  signup(userData: any/*, study_id: string*/) {
     delete userData.emailConfirm;
-    return this.http.post(this.uri + 'signup/' + study_id, userData);
+    return this.http.post(this.uri + 'signup' /*+ study_id*/, userData);
   }
 
   signupTestUser(study_id){
