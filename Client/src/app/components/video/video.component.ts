@@ -18,12 +18,11 @@ export class VideoComponent implements OnInit {
   }
 
   getVideo() {
-    console.log("video");
+    console.log('video');
   }
 
-  sendVideoResponse() {
-    const send = 'video ' + this.videoNumber.toString(10) + ' listo!'
-    this.newItemEvent.emit(send);
+  sendVideoResponse(value) {
+    this.newItemEvent.emit(value);
   }
 
 }

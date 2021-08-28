@@ -1,3 +1,24 @@
 .button{
-  width: 95%;
+  width: 100%;
+  border-radius: 15px;
+  margin-bottom: 5px;
+  margin-top: 5px;
+}
+
+#main {
+  background-color: #d2d2d2;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: #00000012 0 0 5px 6px;
+}
+
+.module-card {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+  margin-bottom: 5%;
+}
+
+.section-card{
+  margin: 1%;
 }

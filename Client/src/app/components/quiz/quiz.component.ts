@@ -25,10 +25,8 @@ export class QuizComponent implements OnInit {
     console.log(this.questions);
   }
 
-  sendQuizResponse() {
-    this.getQuestions();
-    const send = 'quiz ' + this.quizNumber.toString(10) + ' listo!';
-    this.newItemEvent.emit(send);
+  sendQuizResponse(value) {
+    this.newItemEvent.emit(value);
   }
 
 

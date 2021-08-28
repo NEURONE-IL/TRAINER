@@ -20,7 +20,7 @@ export class SignupComponent implements OnInit {
   studentForm: FormGroup;
   study: any;
   validStudy = true;
-//  isLoadingStudy = true;
+  isLoadingStudy = true;
 
   courses: any;
   regions: any;
@@ -88,7 +88,7 @@ export class SignupComponent implements OnInit {
           this.toastr.error(this.translate.instant("SIGNUP.FORM.ERROR.GENERIC_ERROR"), this.translate.instant("CHALLENGE.TOAST.ERROR"), {
             timeOut: 5000,
             positionClass: 'toast-top-center'
-          })          
+          })
         }
         console.log(err);
       });
@@ -111,7 +111,7 @@ export class SignupComponent implements OnInit {
         this.isLoadingStudy=false;
       }
     );
-  }*/ 
+  }*/
 
   onRegionChange(regionChange) {
     this.communes = getComunasByRegion(regionChange.value);

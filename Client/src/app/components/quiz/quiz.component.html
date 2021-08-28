@@ -1,4 +1,5 @@
-<h2>Quiz: {{quizNumber}}</h2>
+
+<p>Quiz: {{quizNumber}}</p>
 
 <div *ngFor="let quiz of questions">
   <div *ngIf="quiz.QUIZ_ID == quizNumber">
@@ -6,21 +7,45 @@
     <div *ngFor="let exercise of quiz.EXERCISES">
       <p>Ejercicio {{exercise.EXERCISE_ID}}: {{exercise.INTRODUCTION}}</p>
       <div *ngFor="let question of exercise.QUESTIONS">
-        <p>Pregunta {{question.QUESTION_NUM}}.</p>
-        <p>Tipo nº {{question.QUESTION_TYPE}}</p>
-        <p>Recurso: {{question.RESOURCE}}</p>
-        <p>{{question.QUESTION}}</p>
-        <div *ngFor="let alternative of question.ALTERNATIVES">
+        <ng-template [ngIf]="question.QUESTION_TYPE == 1">
+          <mat-card class="question-card">
+            <form>
+              <p>Pregunta {{question.QUESTION_NUM}}.</p>
+              <p>Recurso: {{question.RESOURCE}}</p>
+              <p>{{question.QUESTION}}</p>
+              <input type="text">
+            </form>
+          </mat-card>
+        </ng-template>
+        <ng-template [ngIf]="question.QUESTION_TYPE == 2">
+          <mat-card class="question-card">
+            <form>
+              <p>Pregunta {{question.QUESTION_NUM}}.</p>
+              <p>Recurso: {{question.RESOURCE}}</p>
+              <p>{{question.QUESTION}}</p>
+            </form>
+          </mat-card>
+        </ng-template>
+        <ng-template [ngIf]="question.QUESTION_TYPE == 3">
+          <mat-card class="question-card">
+            <form>
+              <p>Pregunta {{question.QUESTION_NUM}}.</p>
+              <p>Recurso: {{question.RESOURCE}}</p>
+              <p>{{question.QUESTION}}</p>
+            </form>
+          </mat-card>
+        </ng-template>
+        <!--<div *ngFor="let alternative of question.ALTERNATIVES">
           <p>* {{alternative}}</p>
-        </div>
+        </div>-->
       </div>
     </div>
   </div>
 </div>
 
 
+<button (click)="sendQuizResponse('Atras')">Atras</button>
+<button (click)="sendQuizResponse('Enviar')">Enviar</button>
 
-
-<button (click)="sendQuizResponse()">Enviar</button>
 
 

@@ -1,4 +1,5 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-video-module',
@@ -7,43 +8,41 @@ import { Component, OnInit, SimpleChanges } from '@angular/core';
 })
 export class VideoModuleComponent implements OnInit {
 
-  constructor( ) { }
+  constructor( private activatedRoute: ActivatedRoute ) { }
 
   quiz;
   video;
-  videoNumber = 0;
-  quizNumber = 0;
   status;
+  idNumber;
 
   ngOnInit(): void {
+    this.activatedRoute.queryParams.subscribe(params => {
+      const id = params.id;
+      console.log(id);
+      this.idNumber = id;
+    });
   }
 
   videoResponse(valueVideo) {
     this.status = valueVideo;
-    this.showQuiz(this.videoNumber);
-    if(this.videoNumber != 3) {
-      this.videoNumber++;
-    }
+    this.showQuiz();
   }
 
   quizResponse(valueQuiz){
     this.status = valueQuiz;
-    if(this.quizNumber != 3){
-      this.quizNumber++;
-      this.showVideo(this.quizNumber);
+    if(this.status == 'Atras'){
+      this.showVideo();
     }
   }
 
-  showQuiz(quizNumber){
+  showQuiz(){
     this.quiz = true;
     this.video = false;
-    this.quizNumber = quizNumber;
   }
 
-  showVideo(videoNumber){
+  showVideo(){
     this.video = true;
     this.quiz = false;
-    this.videoNumber = videoNumber;
   }
 
 
