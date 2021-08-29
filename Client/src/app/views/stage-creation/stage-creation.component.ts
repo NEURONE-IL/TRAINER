@@ -67,6 +67,10 @@ export class StageCreationComponent implements OnInit {
     this.loading = false;
   }
 
+  resetStudyDummy(){
+    this.studyService.resetStudyDummy(this.study).subscribe();
+  }
+
   get stageFormControls(): any {
     return this.stageForm['controls'];
   }
@@ -89,13 +93,13 @@ export class StageCreationComponent implements OnInit {
     formData.append('description', stage.description);
     formData.append('step', stage.step);
     formData.append('type', stage.type);
-    formData.append('externalId', stage.externalId);    
+    formData.append('externalId', stage.externalId);
     formData.append('study', stage.study);
     formData.append('externalName', stage.externalName);
     /*End stage FormData*/
     if(this.file){
       formData.append('file', this.file);
-    }    
+    }
     this.stageService.postStage(formData).subscribe(
       stage => {
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
@@ -143,5 +147,5 @@ export class StageCreationComponent implements OnInit {
 
   handleFileInput(files: FileList) {
     this.file = files.item(0);
-  }  
+  }
 }

@@ -61,13 +61,13 @@
         </div>
       </ng-template>
     </mat-tab>
-  
+
     <mat-tab label="{{'ADMIN.TABS.CREATE_MODULE' | translate }}">
       <ng-template matTabContent>
         <app-module-creation [study]="study._id"> </app-module-creation>
       </ng-template>
     </mat-tab>
-  
+
 
     <mat-tab >
       <ng-template mat-tab-label>
@@ -132,7 +132,8 @@
 
     <mat-tab label="{{'ADMIN.TABS.PREVIEW' | translate }}">
       <ng-template matTabContent>
-        <show-flow [studentId]="'611d8971f9803f04c244ada3'"  [studyId]="study._id"> </show-flow>
+        <button mat-raised-button color="primary" (click)="this.resetStudyDummy()"> Reset User</button>
+        <show-flow [studentId]="this.dummyUser._id"  [studyId]="study._id"> </show-flow>
       </ng-template>
     </mat-tab>
   </mat-tab-group>

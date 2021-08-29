@@ -25,6 +25,11 @@ export class StudyService {
   getStudyDummy(studyId: string): Observable<any> {
     return this.http.get(environment.apiURL + 'user/' + studyId +'/findTestUser', { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
+
+  resetStudyDummy(studyId: string): Observable<any> {
+    return this.http.get(environment.apiURL + 'user/' + studyId +'/resetTestUser', { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  }
+
   getStudies(): Observable<any> {
     return this.http.get(this.uri, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
