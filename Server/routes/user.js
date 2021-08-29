@@ -2,11 +2,14 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const Study = require('../models/study');
+const UserStudy = require('../models/userStudy');
+const Stage = require('../models/stage');
 const Role = require("../models/role");
 const Token = require("../models/token");
 const verifyToken = require("../middlewares/verifyToken");
 const bcrypt = require("bcryptjs");
 const authMiddleware = require("../middlewares/authMiddleware");
+const { generateProgress } = require("../utils/routeUtils");
 
 router.get("", [verifyToken, authMiddleware.isAdmin], async (req, res) => {
 	User.find({}, { password: 0 }, (err, users) => {
@@ -194,7 +197,7 @@ router.get("/:study_id/resetTestUser", async (req, res) => {
 	})
 	.then((progress) => {
 	  res.status(200).json({
-			user,
+			user
 	  });
 	});
 });
