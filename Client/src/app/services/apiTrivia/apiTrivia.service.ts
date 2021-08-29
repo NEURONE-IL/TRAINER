@@ -19,6 +19,7 @@ export interface TriviaStudy {
   max_per_interval: number;
 }
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -27,7 +28,6 @@ export class ApiTriviaService {
   urlLocal = 'http://localhost:4200/';
   urlApi = 'http://159.65.100.191:3030/api/';
   apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
-
   uri = environment.apiURL + 'trivia/';
 
   constructor(private http: HttpClient,
@@ -44,6 +44,7 @@ export class ApiTriviaService {
       this.apiKey = res.site.api_key;
       this.toastr.success('Se ha establecido la coneccion con Trivia', 'Coneccion Exitosa!');
     });
+    return this.http.post(this.urlApi + 'site/register', post, {headers: header});
   }
 
   getStudies() {
@@ -52,7 +53,6 @@ export class ApiTriviaService {
     header = header.append('x-api-key', this.apiKey);
     return this.http.get(this.urlApi + 'site/study', {headers: header});
   }
-
   getStudyLink(idStudio) {
     const user = JSON.parse(localStorage.getItem('currentUser', ));
     return 'http://159.65.100.191:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';

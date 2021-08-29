@@ -29,6 +29,7 @@ export class AuthService {
         },
         (error) => {
           const error_msg = this.translate.instant('SIGNUP.TOAST.ERROR_MESSAGE');
+
           console.log('Ha ocurrido un error');
         }
       );

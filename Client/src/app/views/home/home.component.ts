@@ -32,6 +32,7 @@ export class HomeComponent implements OnInit {
   studyId = '611d2ced4338490677404a91';
   apikey = this.triviaService.apiKey;
   stages;
+
   ngOnInit(): void {
     this.getActualUserInformation();
     this.getStudyStagesInformation();
@@ -68,6 +69,17 @@ export class HomeComponent implements OnInit {
       window.location.href = this.apiSGService.getAdventureLink(stage.link);
       return;
     }
+  }
+  getApiKey(){
+    this.triviaService.getApiKey().subscribe((res) => {
+      console.log(res);
+    });
+  }
+
+  getApiStudies(){
+    this.triviaService.getStudies().subscribe((res) => {
+      console.log(res);
+    });
   }
 
   stageVisited(stage){
