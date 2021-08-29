@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
+const Study = require('../models/study');
 const Role = require("../models/role");
 const Token = require("../models/token");
 const verifyToken = require("../middlewares/verifyToken");
