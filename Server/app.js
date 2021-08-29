@@ -77,7 +77,6 @@ app.use(bodyParser.text());
 app.use(bodyParser.json({ type: 'application/json'}));
 
 /** Express routing **/
-<<<<<<< Updated upstream
 app.use('/api/auth', authRoutes);
 app.use('/api/sessionLog', sessionLogRoutes);
 app.use('/api/stage', stageRoutes);
@@ -86,9 +85,7 @@ app.use('/api/user', userRoutes);
 app.use('/api/userStudy', userStudyRoutes);
 app.use('/api/image', imageRoutes);
 app.use('/api/module', moduleRoutes);
-=======
 app.use('/apiTrivia/auth', authRoutes);
->>>>>>> Stashed changes
 
 // Set client on root
 
