@@ -24,6 +24,7 @@ export class StudyDisplayComponent implements OnInit {
   createStage: boolean;
   modules: any;
   registerLink = '';
+  dummyUser: any;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -54,6 +55,8 @@ export class StudyDisplayComponent implements OnInit {
         });
       }
     );
+
+    this.getTestUser();
 /*
     this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
@@ -69,6 +72,14 @@ export class StudyDisplayComponent implements OnInit {
 
     this.reloadModules();
   }
+
+  getTestUser(){
+    this.studyService.getStudyDummy(this.route.snapshot.paramMap.get('study_id')).subscribe(response => {
+      //this.dummyUser = response['user'];
+      console.log(response);
+    });
+  }
+
 
   confirmStudyDelete(id: string){
     confirm(this.translate.instant("ADMIN.STUDIES.DELETE_CONFIRMATION")) && this.deleteStudy(id);
@@ -210,7 +221,7 @@ export class StudyDisplayComponent implements OnInit {
           .subscribe(response => {
             this.modules = response['modules'];
         });
-    
+
       }
 
   getLinkToTriviaStudy(studyId){
@@ -234,11 +245,11 @@ export class StudyDisplayComponent implements OnInit {
       case 'Trivia':
         return '../../../assets/stage-images/00Trivia.jpg';
       case 'SG':
-        return '../../../assets/stage-images/01Adventure.jpg';        
+        return '../../../assets/stage-images/01Adventure.jpg';
       case 'Video':
-        return '../../../assets/stage-images/02Video.jpg';        
+        return '../../../assets/stage-images/02Video.jpg';
     }
-  }  
+  }
 }
 
 @Component({

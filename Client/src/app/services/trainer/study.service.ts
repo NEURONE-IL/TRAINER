@@ -8,7 +8,7 @@ export interface Study {
   name: string,
   description: string,
   domain: string,
-  type: string, 
+  type: string,
   image_url: string,
   image_id: string
 }
@@ -22,6 +22,9 @@ export class StudyService {
 
   constructor(protected http: HttpClient) { }
 
+  getStudyDummy(studyId: string): Observable<any> {
+    return this.http.get(environment.apiURL + 'user/' + studyId +'/findTestUser', { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  }
   getStudies(): Observable<any> {
     return this.http.get(this.uri, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
@@ -44,5 +47,5 @@ export class StudyService {
 
   getStudySignup(id: string): Observable<any> {
     return this.http.get(this.uri+id+'/getForSignup');
-  }  
+  }
 }
