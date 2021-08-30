@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Stage = require('../models/stage');
 const Study = require('../models/study');
+const Module = require('../models/module');
 
 const imageStorage = require('../middlewares/imageStorage');
 const authMiddleware = require('../middlewares/authMiddleware');
@@ -43,7 +44,7 @@ router.get('/byStudy/:study_id', [verifyToken], async (req, res) => {
             });
         }
         res.status(200).json({stages});
-    }).populate({ path: 'stages', model: Stage })
+    }).populate({ path: 'stages', model: Stage }).populate({ path: 'module', model: Module })
 });
 
 router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => {
@@ -56,7 +57,7 @@ router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => 
             });
         }
         res.status(200).json({stages});
-    }).sort({step: 'asc'}).populate({ path: 'stages', model: Stage });
+    }).sort({step: 'asc'}).populate({ path: 'stages', model: Stage }).populate({ path: 'module', model: Module });
 });
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), stageMiddleware.verifyBody], async (req, res) => {

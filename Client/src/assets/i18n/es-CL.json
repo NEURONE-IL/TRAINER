@@ -33,7 +33,8 @@
       "STUDY": "Estudio",
       "TITLE": "Título",
       "TYPE": "Tipo de etapa",
-      "UPDATED_AT": "Modificado"
+      "UPDATED_AT": "Modificado",
+      "MODULE": "Módulo"
     },
     "STUDIES": {
       "CREATE": "CREAR ESTUDIO",

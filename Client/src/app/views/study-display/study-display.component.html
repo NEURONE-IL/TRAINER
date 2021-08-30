@@ -100,10 +100,15 @@
 
                   <div>
                     <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
+                    
                   </div>
 
                   <div>
                     <mat-icon >link</mat-icon><span class="aligned-with-icon"><a href="{{goToStage(stage)}}" >{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.externalName}}</a></span>
+                  </div>
+
+                  <div>
+                    <mat-icon (click)="showStageUpdateDialog(stage)" style="cursor: pointer;">view_module</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.MODULE" | translate }}: {{stage.module.name}}</span> 
                   </div>
 
                   <div>

@@ -66,6 +66,7 @@ export class StudyDisplayComponent implements OnInit {
     this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
+        console.log(this.sortedStages)
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -206,6 +207,7 @@ export class StudyDisplayComponent implements OnInit {
     this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
+        console.log(this.sortedStages)
     });
 
   }
@@ -248,6 +250,8 @@ export class StudyDisplayComponent implements OnInit {
         return '../../../assets/stage-images/01Adventure.jpg';
       case 'Video':
         return '../../../assets/stage-images/02Video.jpg';
+      default:
+        return '../../../assets/study-images/Study00.jpg';
     }
   }
 }
