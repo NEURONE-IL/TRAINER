@@ -73,11 +73,15 @@ export class StudyDisplayComponent implements OnInit {
 
     this.reloadModules();
   }
+  resetStudyDummy(){
+    this.studyService.resetStudyDummy(this.route.snapshot.paramMap.get('study_id')).subscribe(response => {
+      this.dummyUser = response['user'];
+    });
+  }
 
   getTestUser(){
     this.studyService.getStudyDummy(this.route.snapshot.paramMap.get('study_id')).subscribe(response => {
-      //this.dummyUser = response['user'];
-      console.log(response);
+      this.dummyUser = response['user'];
     });
   }
 
