@@ -7,7 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { StageService } from '../../services/trainer/stage.service';
-import { StudyService } from '../../services/trainer/study.service';
+import { FlowService } from '../../services/trainer/flow.service';
 
 
 @Component({
@@ -22,31 +22,31 @@ export class HomeComponent implements OnInit {
               private router: Router,
               private toastr: ToastrService,
               private apiSGService: ApiSGService,
-              private studyService: StudyService,
+              private flowService: FlowService,
               private stageService: StageService,
               private translate: TranslateService,
               private triviaService: ApiTriviaService) { }
 
-  study;
+  flow;
   user;
-  studyId = '611d2ced4338490677404a91';
+  flowId = '611d2ced4338490677404a91';
   apikey = this.triviaService.apiKey;
   stages;
 
   ngOnInit(): void {
     this.getActualUserInformation();
-    this.getStudyStagesInformation();
-    this.getStudyInformation();
+    this.getFlowStagesInformation();
+    this.getFlowInformation();
   }
 
-  getStudyStagesInformation(){
-    this.stageService.getStagesByStudy(this.studyId).subscribe((res: any) => {
+  getFlowStagesInformation(){
+    this.stageService.getStagesByFlow(this.flowId).subscribe((res: any) => {
       this.stages = res.stages;
     } );
   }
-  getStudyInformation(){
-    this.studyService.getStudy(this.studyId).subscribe((res: any) => {
-      this.study = res.study;
+  getFlowInformation(){
+    this.flowService.getFlow(this.flowId).subscribe((res: any) => {
+      this.flow = res.flow;
     });
   }
 

@@ -29,20 +29,20 @@ export class ModuleService {
     return this.http.get(this.uri+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  getModuleByStudy(studyId: string): Observable<any> {
-    return this.http.get(this.uri + 'byStudy/' + studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  getModuleByFlow(flowId: string): Observable<any> {
+    return this.http.get(this.uri + 'byFlow/' + flowId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   deleteModule(id: string): Observable<any> {
     return this.http.delete(this.uri+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  postModule(study: any): Observable<any> {
-    return this.http.post(this.uri, study, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  postModule(flow: any): Observable<any> {
+    return this.http.post(this.uri, flow, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  putModule(studyId: string, updatedStudy: any): Observable<any> {
-    return this.http.put(this.uri+studyId, updatedStudy, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  putModule(modeuleId: string, updatedModule: any): Observable<any> {
+    return this.http.put(this.uri+modeuleId, updatedModule, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
 }

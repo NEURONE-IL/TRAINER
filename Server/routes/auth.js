@@ -3,9 +3,9 @@ const router = express.Router();
 const User = require("../models/user");
 const UserData = require("../models/userData");
 const Role = require("../models/role");
-const Study = require("../models/study");
+const Flow = require("../models/flow");
 const Stage = require("../models/stage");
-const UserStudy = require("../models/userStudy");
+const UserFlow = require("../models/userFlow");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const authMiddleware = require("../middlewares/authMiddleware");
@@ -92,12 +92,12 @@ router.post(
 );
 
 router.post(
-  "/legacySignup/:study_id", [authMiddleware.verifyBody, authMiddleware.uniqueEmail], async (req, res) => {
-    const study_id = req.params.study_id;
-    if (!isValidObjectId(study_id)) {
+  "/legacySignup/:flow_id", [authMiddleware.verifyBody, authMiddleware.uniqueEmail], async (req, res) => {
+    const flow_id = req.params.flow_id;
+    if (!isValidObjectId(flow_id)) {
       return res.status(404).json({
         ok: false,
-        message: "STUDY_NOT_FOUND_ERROR"
+        message: "FLOW_NOT_FOUND_ERROR"
       });
     }
 
@@ -111,8 +111,8 @@ router.post(
       }
     }); 
     
-    /*Find study*/
-    const study = await Study.findOne({ _id: study_id }, (err) => {
+    /*Find flow*/
+    const flow = await Flow.findOne({ _id: flow_id }, (err) => {
       if (err) {
         return res.status(404).json({
           ok: false,
@@ -121,8 +121,8 @@ router.post(
       }
     });  
     
-    /*Find study stages*/
-    const stages = await Stage.find({ study: study }, (err) => {
+    /*Find flow stages*/
+    const stages = await Stage.find({ flow: flow }, (err) => {
       if (err) {
         return res.status(404).json({
           ok: false,
@@ -131,10 +131,10 @@ router.post(
       }
     }).sort({step: 'asc'});
 
-    if (!study) {
+    if (!flow) {
       return res.status(404).json({
         ok: false,
-        message: "STUDY_NOT_FOUND_ERROR"
+        message: "FLOW_NOT_FOUND_ERROR"
       });
     }    
 
@@ -174,7 +174,7 @@ router.post(
       names: req.body.names,
       password: hashPassword,
       role: role._id,
-      study: study._id,
+      flow: flow._id,
     });
 
     /*Save user in DB*/
@@ -186,8 +186,8 @@ router.post(
         });
       }    
 
-      /*Generate user study progress entry*/
-      generateProgress(stages, user, study)
+      /*Generate user flow progress entry*/
+      generateProgress(stages, user, flow)
         .catch((err) => {
           return res.status(404).json({
             ok: false
@@ -208,29 +208,35 @@ router.post(
 
 router.post(
   "/signup", [authMiddleware.verifyBody, authMiddleware.uniqueEmail], async (req, res) => {
-    // Fetch all studies
-    const studies = await Study.find({});
-    // Fetch the latest user progress registered for this study
-    const lastUserStudy = await UserStudy.find({}).sort({_id:-1}).limit(1);
-    // Set study_id param
-    let study_id;
-    if (lastUserStudy.length) {
-      // Find last user study's position in studies array
-      let position = studies.findIndex(element => element._id.equals(lastUserStudy[0].study));
-      // Position conditions
-      if (position === studies.length - 1) {
-        study_id = studies[0]._id;
-      }
-      else {
-        study_id = studies[position+1]._id;
-      }
-    } else {
-        study_id = studies[0]._id;
-    }
-    if (!isValidObjectId(study_id)) {
+    // Fetch all flows
+    const flows = await Flow.find({});
+    if (!flows.length) {
       return res.status(404).json({
         ok: false,
-        message: "STUDY_NOT_FOUND_ERROR"
+        message: "FLOWS_NOT_FOUND_ERROR"
+      });
+    }
+    // Fetch the latest user progress registered for this flow
+    const lastUserFlow = await UserFlow.find({}).sort({_id:-1}).limit(1);
+    // Set flow_id param
+    let flow_id;
+    if (lastUserFlow.length) {
+      // Find last user flow's position in flows array
+      let position = flows.findIndex(element => element._id.equals(lastUserFlow[0].flow));
+      // Position conditions
+      if (position === flows.length - 1) {
+        flow_id = flows[0]._id;
+      }
+      else {
+        flow_id = flows[position+1]._id;
+      }
+    } else {
+        flow_id = flows[0]._id;
+    }
+    if (!isValidObjectId(flow_id)) {
+      return res.status(404).json({
+        ok: false,
+        message: "FLOW_NOT_FOUND_ERROR"
       });
     }
 
@@ -244,8 +250,8 @@ router.post(
       }
     }); 
     
-    /*Find study*/
-    const study = await Study.findOne({ _id: study_id }, (err) => {
+    /*Find flow*/
+    const flow = await Flow.findOne({ _id: flow_id }, (err) => {
       if (err) {
         return res.status(404).json({
           ok: false,
@@ -254,8 +260,8 @@ router.post(
       }
     });  
     
-    /*Find study stages*/
-    const stages = await Stage.find({ study: study }, (err) => {
+    /*Find flow stages*/
+    const stages = await Stage.find({ flow: flow }, (err) => {
       if (err) {
         return res.status(404).json({
           ok: false,
@@ -264,10 +270,10 @@ router.post(
       }
     }).sort({step: 'asc'});
 
-    if (!study) {
+    if (!flow) {
       return res.status(404).json({
         ok: false,
-        message: "STUDY_NOT_FOUND_ERROR"
+        message: "FLOW_NOT_FOUND_ERROR"
       });
     }    
 
@@ -307,7 +313,7 @@ router.post(
       names: req.body.names,
       password: hashPassword,
       role: role._id,
-      study: study._id,
+      flow: flow._id,
     });
 
     /*Save user in DB*/
@@ -319,8 +325,8 @@ router.post(
         });
       }    
 
-      /*Generate user study progress entry*/
-      generateProgress(stages, user, study)
+      /*Generate user flow progress entry*/
+      generateProgress(stages, user, flow)
         .catch((err) => {
           return res.status(404).json({
             ok: false
@@ -340,12 +346,12 @@ router.post(
 );
 
 router.post(
-  "/signupTestUser/:study_id", [authMiddleware.verifyBodyAdmin, authMiddleware.uniqueEmail], async (req, res) => {
-    const study_id = req.params.study_id;
-    if (!isValidObjectId(study_id)) {
+  "/signupTestUser/:flow_id", [authMiddleware.verifyBodyAdmin, authMiddleware.uniqueEmail], async (req, res) => {
+    const flow_id = req.params.flow_id;
+    if (!isValidObjectId(flow_id)) {
       return res.status(404).json({
         ok: false,
-        message: "STUDY_NOT_FOUND_ERROR"
+        message: "FLOW_NOT_FOUND_ERROR"
       });
     }
 
@@ -359,8 +365,8 @@ router.post(
       }
     }); 
     
-    /*Find study*/
-    const study = await Study.findOne({ _id: study_id }, (err) => {
+    /*Find flow*/
+    const flow = await Flow.findOne({ _id: flow_id }, (err) => {
       if (err) {
         return res.status(404).json({
           ok: false,
@@ -369,8 +375,8 @@ router.post(
       }
     });  
     
-    /*Find study stages*/
-    const stages = await Stage.find({ study: study }, (err) => {
+    /*Find flow stages*/
+    const stages = await Stage.find({ flow: flow }, (err) => {
       if (err) {
         return res.status(404).json({
           ok: false,
@@ -379,10 +385,10 @@ router.post(
       }
     }).sort({step: 'asc'});
 
-    if (!study) {
+    if (!flow) {
       return res.status(404).json({
         ok: false,
-        message: "STUDY_NOT_FOUND_ERROR"
+        message: "FLOW_NOT_FOUND_ERROR"
       });
     }    
 
@@ -397,7 +403,7 @@ router.post(
       password: hashPassword,
       confirmed: true,
       role: role._id,
-      study: study._id,
+      flow: flow._id,
     });
 
     /*Save user in DB*/
@@ -409,8 +415,8 @@ router.post(
         });
       }    
 
-      /*Generate user study progress entry*/
-      generateProgress(stages, user, study)
+      /*Generate user flow progress entry*/
+      generateProgress(stages, user, flow)
         .catch((err) => {
           return res.status(404).json({
             ok: false

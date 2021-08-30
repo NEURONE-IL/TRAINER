@@ -1,7 +1,7 @@
 import { Component, OnInit , Input} from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModuleService } from '../../services/trainer/module.service';
-import { Study, StudyService } from '../../services/trainer/study.service';
+import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 
@@ -11,15 +11,15 @@ import { TranslateService } from '@ngx-translate/core';
   styleUrls: ['./module-creation.component.css']
 })
 export class ModuleCreationComponent implements OnInit {
-  @Input() study: string;
+  @Input() flow: string;
   moduleForm: FormGroup;
-  studies: Study[];
+  flows: Flow[];
   loading: Boolean;
   file: File;
 
   constructor(private formBuilder: FormBuilder,
               private moduleService: ModuleService,
-              private studyService: StudyService,
+              private flowService: FlowService,
               private toastr: ToastrService,
               private translate: TranslateService) { }
 
@@ -30,12 +30,12 @@ export class ModuleCreationComponent implements OnInit {
       code: ['', [Validators.required]]
     });
 
-    this.studyService.getStudies().subscribe(
+    this.flowService.getFlows().subscribe(
       response => {
-        this.studies = response['studys'];
+        this.flows = response['flows'];
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("MODULE.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("MODULE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -57,14 +57,14 @@ export class ModuleCreationComponent implements OnInit {
     this.loading = true;
     let module = this.moduleForm.value;
     /*Module properties*/
-    module.study = this.study;
+    module.flow = this.flow;
     /*End module properties*/
     /*Module FormData*/
     let formData = new FormData();
     formData.append('name', module.name);
     formData.append('description', module.description);
     formData.append('code', module.code);
-    formData.append('study', this.study);
+    formData.append('flow', this.flow);
     /*End module FormData*/
     if(this.file){
       formData.append('file', this.file);

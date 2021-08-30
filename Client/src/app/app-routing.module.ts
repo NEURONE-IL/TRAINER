@@ -6,12 +6,12 @@ import { RegisterStudentComponent } from './views/registerStudent/registerStuden
 import { StudentLandPageComponent } from './views/studentLandPage/studentLandPage.component';
 import { RegisterAdminComponent } from './views/registerAdmin/registerAdmin.component';
 import { AdminPanelComponent } from './views/admin-panel/admin-panel.component';
-import { StudiesDisplayComponent } from './views/studies-display/studies-display.component';
-import { StudyDisplayComponent } from './views/study-display/study-display.component';
+import { FlowsDisplayComponent } from './views/flows-display/flows-display.component';
+import { FlowDisplayComponent } from './views/flow-display/flow-display.component';
 import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
-import { StudyCreationComponent } from './views/study-creation/study-creation.component';
+import { FlowCreationComponent } from './views/flow-creation/flow-creation.component';
 import { AuthGuard } from './helpers/auth.guard';
 import { AdminGuard } from './helpers/admin.guard';
 import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
@@ -41,7 +41,7 @@ const routes: Routes = [
   },
 /*  
   {
-    path: 'signup/:study_id',
+    path: 'signup/:flow_id',
     component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
   },
@@ -89,18 +89,18 @@ const routes: Routes = [
     canActivate: [ AuthGuard, AdminGuard ],
     children: [
       {
-        path: 'studies',
-        component: StudiesDisplayComponent
+        path: 'flows',
+        component: FlowsDisplayComponent
       },
       {
-        path: 'study/:study_id',
-        component: StudyDisplayComponent
+        path: 'flow/:flow_id',
+        component: FlowDisplayComponent
       },
     ]
   },
   {
-    path: 'create-study',
-    component: StudyCreationComponent,
+    path: 'create-flow',
+    component: FlowCreationComponent,
     canActivate: [ AuthGuard, AdminGuard ]
   },  
   

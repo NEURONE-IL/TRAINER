@@ -11,9 +11,9 @@
     "CLEAR": "LIMPIAR",
     "CLOSE": "CERRAR",
     "DELETE": "ELIMINAR",
-    "DELETE_STUDY": "ELIMINAR ESTUDIO",
+    "DELETE_FLOW": "ELIMINAR FLUJO",
     "EDIT": "EDITAR",
-    "EDIT_STUDY": "EDITAR ESTUDIO",
+    "EDIT_FLOW": "EDITAR FLUJO",
     "SAVE": "GUARDAR",
     "CONTINUE": "CONTINUAR",
     "NO": "NO",
@@ -27,26 +27,26 @@
     "SUBTITLE": "Panel de Creación de Flujos",
     "STAGES": {
       "CREATED_AT": "Creado",
+      "FLOW": "Flujo",
       "LINK": "Enlace",
       "PERCENTAGE": "Porcentaje de avance",
       "STEP": "Orden",
-      "STUDY": "Estudio",
       "TITLE": "Título",
       "TYPE": "Tipo de etapa",
       "UPDATED_AT": "Modificado",
       "MODULE": "Módulo"
     },
-    "STUDIES": {
-      "CREATE": "CREAR ESTUDIO",
-      "CURRENT_STUDIES": "Estudios actuales",
-      "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el estudio?",
+    "FLOWS": {
+      "CREATE": "CREAR FLUJO",
+      "CURRENT_FLOWS": "Flujos actuales",
+      "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el flujo?",
       "DELETING_RESOURCES": "Eliminando recurso, por favor espere...",
-      "HEADER": "Estudio",
+      "HEADER": "Flujo",
       "LOADING": "Cargando, por favor espere..."
     },
     "MODULES": {
       "CREATE": "CREAR MODULO",
-      "STUDY": "Estudio",
+      "FLOW": "Flujo",
       "NAME": "Nombre",
       "DESCRIPTION": "Descripción",
       "HEADER": "Modulo",
@@ -61,6 +61,33 @@
       "PREVIEW": "VISTA PREVIA DEL FLUJO"
     }
   },
+  "FLOW": {
+    "FORM": {
+      "FIELDS": {
+        "DESCRIPTION": "Descripción",
+        "IMAGE": "Seleccione una imagen (opcional)",
+        "NAME": "Nombre",
+        "STEP": "Orden",
+        "TYPE": "Tipo de flujo"
+      }
+    },
+    "SUBTITLE": "Complete el siguiente formulario para crear un nuevo flujo",
+    "TITLE": "Creación de flujos",
+    "TOAST": {
+      "DUMMY_RESET_ERROR": "No se ha revertido el usuario de prueba",
+      "DUMMY_RESET_SUCCESS": "Usuario de prueba revertido con éxito",
+      "ERROR": "¡Error!",
+      "ERROR_MESSAGE": "No se ha creado el nuevo flujo",
+      "ERROR_MESSAGE_DELETE": "No se ha eliminado el flujo",
+      "ERROR_MESSAGE_UPDATE": "No se ha actualizado el flujo",
+      "NOT_LOADED_ERROR": "El flujo no ha sido cargado",
+      "NOT_LOADED_MULTIPLE_ERROR": "Los flujos no han sido cargados",
+      "SUCCESS": "Éxito!",
+      "SUCCESS_MESSAGE": "Se ha creado el flujo",
+      "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el flujo",
+      "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el flujo"
+    } 
+  },  
   "STAGE": {
     "FORM": {
       "FIELDS": {
@@ -68,12 +95,12 @@
         "IMAGE": "Seleccione una imagen (opcional)",
         "LINK": "Enlace",
         "STEP": "Orden",
-        "STUDY": "Estudio",
+        "FLOW": "Flujo",
         "TITLE": "Título",
         "TYPE": "Tipo de etapa"
       }
     },
-    "SUBTITLE": "Complete el siguiente formulario para crear una nueva etapa en el estudio",
+    "SUBTITLE": "Complete el siguiente formulario para crear una nueva etapa en el flujo",
     "TITLE": "Creación de etapas",
     "TOAST": {
       "ERROR": "¡Error!",
@@ -92,7 +119,7 @@
         "DESCRIPTION": "Descripción",
         "IMAGE": "Seleccione una imagen (opcional)",
         "CODE": "Código",
-        "STUDY": "Estudio",
+        "FLOW": "Flujo",
         "TITLE": "Título",
         "NAME": "Nombre"
       }
@@ -109,33 +136,6 @@
       "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el módulo",
       "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el módulo"
     }    
-  },
-  "STUDY": {
-    "FORM": {
-      "FIELDS": {
-        "DESCRIPTION": "Descripción",
-        "IMAGE": "Seleccione una imagen (opcional)",
-        "NAME": "Nombre",
-        "STEP": "Orden",
-        "TYPE": "Tipo de estudio"
-      }
-    },
-    "SUBTITLE": "Complete el siguiente formulario para crear un nuevo estudio",
-    "TITLE": "Creación de estudios",
-    "TOAST": {
-      "DUMMY_RESET_ERROR": "No se ha revertido el usuario de prueba",
-      "DUMMY_RESET_SUCCESS": "Usuario de prueba revertido con éxito",
-      "ERROR": "¡Error!",
-      "ERROR_MESSAGE": "No se ha creado el nuevo estudio",
-      "ERROR_MESSAGE_DELETE": "No se ha eliminado el estudio",
-      "ERROR_MESSAGE_UPDATE": "No se ha actualizado el estudio",
-      "NOT_LOADED_ERROR": "El estudio no han sido cargado",
-      "NOT_LOADED_MULTIPLE_ERROR": "Los estudios no han sido cargados",
-      "SUCCESS": "Éxito!",
-      "SUCCESS_MESSAGE": "Se ha creado el estudio",
-      "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el estudio",
-      "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el estudio"
-    } 
   },
   "USER": {
   },

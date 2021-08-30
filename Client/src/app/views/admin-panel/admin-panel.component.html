@@ -1,12 +1,12 @@
 <app-header></app-header>
 
-<div *ngIf="studioSelected; else elseBlock" >
+<div *ngIf="flowSelected; else elseBlock" >
   <router-outlet></router-outlet>
 </div>
 <ng-template #elseBlock>
   <div class="main-content">
     <div>
-      <app-studies-display (studySelected)="studySelectedHandler($event)"> </app-studies-display>
+      <app-flows-display (flowSelected)="flowSelectedHandler($event)"> </app-flows-display>
     </div>
   </div>
 </ng-template>

@@ -1,8 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
-const Study = require('../models/study');
-const UserStudy = require('../models/userStudy');
+const Flow = require('../models/flow');
+const UserFlow = require('../models/userFlow');
 const Stage = require('../models/stage');
 const Role = require("../models/role");
 const Token = require("../models/token");
@@ -141,10 +141,10 @@ router.put("/:user_id", async (req, res) => {
 	});
 });
 
-router.get("/:study_id/findTestUser", async (req, res) => {
-	const study_id = req.params.study_id;
-	// Find study
-	const study = await Study.findOne({ _id: study_id }, (err) => {
+router.get("/:flow_id/findTestUser", async (req, res) => {
+	const flow_id = req.params.flow_id;
+	// Find flow
+	const flow = await Flow.findOne({ _id: flow_id }, (err) => {
 		if (err) {
 			return res.status(404).json({
 				ok: false,
@@ -153,17 +153,17 @@ router.get("/:study_id/findTestUser", async (req, res) => {
 		}
 	});
 	// Find User
-	const user = await User.findOne({email: study_id+"@testuser.cl"});
+	const user = await User.findOne({email: flow_id+"@testuser.cl"});
 	res.status(200).json({
 		ok: true,
 		user
 	});
 });
 
-router.get("/:study_id/resetTestUser", async (req, res) => {
-	const study_id = req.params.study_id;
-	// Find study
-	const study = await Study.findOne({ _id: study_id }, (err) => {
+router.get("/:flow_id/resetTestUser", async (req, res) => {
+	const flow_id = req.params.flow_id;
+	// Find flow
+	const flow = await Flow.findOne({ _id: flow_id }, (err) => {
 		if (err) {
 			return res.status(404).json({
 				ok: false,
@@ -172,14 +172,14 @@ router.get("/:study_id/resetTestUser", async (req, res) => {
 		}
 	});
 	// Find User
-	const user = await User.findOne({email: study_id+"@testuser.cl"});
-	await UserStudy.deleteOne({user: user._id},  err => {
+	const user = await User.findOne({email: flow_id+"@testuser.cl"});
+	await UserFlow.deleteOne({user: user._id},  err => {
 	  if(err){
 		res.status(500).json(err);
 	  }
 	})
-	// Find study stages
-	const stages = await Stage.find({ study: study }, (err) => {
+	// Find flow stages
+	const stages = await Stage.find({ flow: flow }, (err) => {
 		if (err) {
 			return res.status(404).json({
 				ok: false,
@@ -187,8 +187,8 @@ router.get("/:study_id/resetTestUser", async (req, res) => {
 			});
 		}
 	}).sort({step: 'asc'});
-	// Generate user study progress entry
-	generateProgress(stages, user, study)
+	// Generate user flow progress entry
+	generateProgress(stages, user, flow)
 	.catch((err) => {
 	  return res.status(404).json({
 			ok: false,

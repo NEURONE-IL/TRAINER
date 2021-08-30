@@ -8,7 +8,7 @@ export interface Stage {
   title: string,
   description: string,
   step: number,
-  study: number,
+  flow: string,
   type: string,
   externalId: string,
   externalName: string,
@@ -32,16 +32,16 @@ export class StageService {
     return this.http.get(this.uri, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  getStagesByStudy(studyId: string): Observable<any> {
-    return this.http.get(environment.apiURL + 'stage/byStudy/' + studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  getStagesByFlow(flowId: string): Observable<any> {
+    return this.http.get(environment.apiURL + 'stage/byFlow/' + flowId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  getStagesByStudySortedByStep(studyId: string): Observable<any> {
-    return this.http.get(environment.apiURL + 'stage/byStudySortedByStep/' + studyId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  getStagesByFlowSortedByStep(flowId: string): Observable<any> {
+    return this.http.get(environment.apiURL + 'stage/byFlowSortedByStep/' + flowId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   getStageByStudent(studentId: string): Observable<any> {
-    return this.http.get(environment.apiURL + 'userStudy/stagesByStudent/' + studentId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+    return this.http.get(environment.apiURL + 'userFlow/stagesByStudent/' + studentId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   getStage(id: string) {
@@ -61,7 +61,7 @@ export class StageService {
   }
 
   updateProgress(studentId: string, externalId:string, percentage: number): Observable<any> {
-    return this.http.put(environment.apiURL + 'userStudy/updateProgress/' + studentId + '/' + externalId + '/' + percentage, {}, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+    return this.http.put(environment.apiURL + 'userFlow/updateProgress/' + studentId + '/' + externalId + '/' + percentage, {}, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
 }

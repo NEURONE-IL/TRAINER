@@ -48,9 +48,9 @@ import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
 import { AdminPanelComponent } from './views/admin-panel/admin-panel.component';
-import { StudiesDisplayComponent } from './views/studies-display/studies-display.component';
-import { StudyCreationComponent } from './views/study-creation/study-creation.component';
-import { StudyDisplayComponent } from './views/study-display/study-display.component';
+import { FlowsDisplayComponent } from './views/flows-display/flows-display.component';
+import { FlowCreationComponent } from './views/flow-creation/flow-creation.component';
+import { FlowDisplayComponent } from './views/flow-display/flow-display.component';
 import { StageCreationComponent } from './views/stage-creation/stage-creation.component';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
@@ -78,9 +78,6 @@ export function HttpLoaderFactory(http: HttpClient) {
     RecoveryComponent,
     ForgotPasswordComponent,
     AdminPanelComponent,
-    StudiesDisplayComponent,
-    StudyCreationComponent,
-    StudyDisplayComponent,
     StageCreationComponent,
     VideoModuleComponent,
     ShowFlowComponent,
@@ -89,6 +86,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SignupComponent,
     ConsentComponent,
     ModuleCreationComponent,
+    FlowsDisplayComponent,
+    FlowCreationComponent,
+    FlowDisplayComponent
   ],
   imports: [
     BrowserModule,

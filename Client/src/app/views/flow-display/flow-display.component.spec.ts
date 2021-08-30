@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StudiesDisplayComponent } from './studies-display.component';
+import { FlowDisplayComponent } from './flow-display.component';
 
-describe('StudiesDisplayComponent', () => {
-  let component: StudiesDisplayComponent;
-  let fixture: ComponentFixture<StudiesDisplayComponent>;
+describe('FlowDisplayComponent', () => {
+  let component: FlowDisplayComponent;
+  let fixture: ComponentFixture<FlowDisplayComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StudiesDisplayComponent ]
+      declarations: [ FlowDisplayComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StudiesDisplayComponent);
+    fixture = TestBed.createComponent(FlowDisplayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

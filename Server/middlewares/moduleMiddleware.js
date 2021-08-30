@@ -12,7 +12,7 @@ const schema = Joi.object({
     code: Joi.string()
         .required(),  
         
-    study: Joi.any()
+    flow: Joi.any()
     .required(),
 });
 
@@ -24,7 +24,7 @@ const editSchema = Joi.object({
 
     code: Joi.string(),
     
-    study: Joi.any()
+    flow: Joi.any()
 });
 
 verifyBody = async (req, res, next) => {

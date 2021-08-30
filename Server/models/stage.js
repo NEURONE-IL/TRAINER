@@ -5,7 +5,7 @@ const StageSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String, required: true },
     step: { type: Number, required: true },
-    study: { type: Schema.Types.ObjectId, ref: 'Study', required: true},
+    flow: { type: Schema.Types.ObjectId, ref: 'Flow', required: true},
     module: { type: Schema.Types.ObjectId, ref: 'Module'},
     type: { type: String, required: true },
     externalId: { type: String, required: true },
