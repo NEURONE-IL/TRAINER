@@ -1,8 +1,31 @@
 [
   {
     "QUIZ_ID": 1,
-    "INSTRUCTIONS": "Responde las preguntas...",
+    "INSTRUCTIONS": "Instrucciones quiz 1",
+    "RESOURCE": "Imagen bienvenida quiz 1",
     "EXERCISES": [
+      {
+              "EXERCISE_ID": 1,
+              "INTRODUCTION": "Finalmente, Pepa y Pipo consiguieron encontrar páginas útiles para desarrollar su tarea. Ahora, reflexiona basándote en el video, ¿Qué hace un buen buscador de información?",
+              "QUESTIONS": [
+                {
+                  "QUESTION_NUM": 1,
+                  "QUESTION_ID": "001001001",
+                  "QUESTION_TYPE": 3,
+                  "RESOURCE": "No hay recurso",
+                  "QUESTION": "Marca con una X tres aspectos importantes en las siguientes alternativas. Un buen buscador de información:",
+                  "ALTERNATIVES": [
+                    "Clica el primer enlace de entre todos los resultados obtenidos en la búsqueda porque ese es el más relevante",
+                    "Prueba con otro tipo de palabras de búsqueda, si la primera búsqueda no le da los resultados deseados.",
+                    "Confía en que el motor de búsqueda ofrece los mejores resultados siempre entre los primeros",
+                    "Clica abriendo los enlaces uno por uno, hasta que encuentra una página web útil",
+                    "Reflexiona antes de comenzar la búsqueda, intentando imaginar con cuáles palabras podría encontrar páginas útiles",
+                    "Aprovecha tanto el título como la dirección URL y/o extracto de texto del resultado al evaluar si merece la pena abrir la página web"
+                  ],
+                  "BONUS": "¿Por qué elegiste estas tres alternativas?"
+                }
+              ]
+            },
       {
         "EXERCISE_ID": 2,
         "INTRODUCTION": "Pepa y Pipo no abrieron varios enlaces como los siguientes:",
@@ -61,10 +84,11 @@
   },
   {
     "QUIZ_ID": 2,
-    "INSTRUCTIONS": "Responde las preguntas... quiz 2",
+    "INSTRUCTIONS": "Instrucciones quiz 2",
+    "RESOURCE": "Imagen bienvenida quiz 2",
     "EXERCISES": [
       {
-        "EXERCISE_ID": 2,
+        "EXERCISE_ID": 1,
         "INTRODUCTION": "",
         "QUESTIONS": [
           {
@@ -110,7 +134,8 @@
   },
   {
     "QUIZ_ID": 3,
-    "INSTRUCTIONS": "No hay preguntas aun jeje",
+    "INSTRUCTIONS": "Instrucciones quiz 3",
+    "RESOURCE": "Imagen bienvenida quiz 3",
     "EXERCISES": []
   }
 ]

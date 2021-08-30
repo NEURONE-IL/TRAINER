@@ -1,70 +1,103 @@
+<form>
+  <div *ngFor="let my_quiz of quiz">
+    <ng-template [ngIf]="my_quiz.QUIZ_ID == quizNumber">
+      <ng-template [ngIf]="exerciseActual == 0">
+        <h6>Instrucciones quiz: {{my_quiz.INSTRUCTIONS}}</h6>
+        <p>Resource quiz: {{my_quiz.RESOURCE}}</p>
+        <button (click)="increaseExercise()">Go!</button>
+      </ng-template>
+      <div *ngFor="let exercise of my_quiz.EXERCISES; let last_exercise = last; let first_exercise = first">
+        <ng-template [ngIf]="exercise.EXERCISE_ID == exerciseActual">
+          <h6>Ejercicio {{exercise.EXERCISE_ID}}: {{exercise.INTRODUCTION}}</h6>
 
-<p>Quiz: {{quizNumber}}</p>
+          <div class="quiz_questions" *ngFor="let question of exercise.QUESTIONS">
+            <ng-template [ngIf]="question.QUESTION_TYPE == 1">
+              <mat-card class="question-card">
+                <!--<form>-->
+                <h6>Pregunta {{question.QUESTION_NUM}}</h6>
+                <p>Recurso: {{question.RESOURCE}}</p>
+                <p>{{question.QUESTION}}</p>
+                <textarea class="textarea-question" name="answer-textarea"></textarea>
+                <div class="bonus-class" *ngIf="question.BONUS">
+                  <p>{{question.BONUS}}</p>
+                  <input class="input-text" type="text" name="answer-bonus">
+                </div>
+                <!--</form>-->
+              </mat-card>
+            </ng-template>
+            <ng-template [ngIf]="question.QUESTION_TYPE == 2">
+              <mat-card class="question-card">
+                <!--<form>-->
+                <h6>Pregunta {{question.QUESTION_NUM}}</h6>
+                <p>Recurso: {{question.RESOURCE}}</p>
+                <p>{{question.QUESTION}}</p>
+                <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
+                  <input type="radio" id="alternatives{{question.QUESTION_ID}}" name="answer{{question.QUESTION_ID}}">
+                  <label for="alternatives{{question.QUESTION_ID}}">&nbsp;{{alternative}}</label><br>
+                </div>
+                <div class="bonus-class" *ngIf="question.BONUS">
+                  <p>{{question.BONUS}}</p>
+                  <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
+                </div>
 
-<div *ngFor="let quiz of questions">
-  <div *ngIf="quiz.QUIZ_ID == quizNumber">
-    <p>{{quiz.INSTRUCTIONS}}</p>
-    <div *ngFor="let exercise of quiz.EXERCISES">
-      <p>Ejercicio {{exercise.EXERCISE_ID}}: {{exercise.INTRODUCTION}}</p>
-      <div *ngFor="let question of exercise.QUESTIONS">
-        <ng-template [ngIf]="question.QUESTION_TYPE == 1">
-          <mat-card class="question-card">
-            <form>
-              <p>Pregunta {{question.QUESTION_NUM}}.</p>
-              <p>Recurso: {{question.RESOURCE}}</p>
-              <p>{{question.QUESTION}}</p>
-              <input type="text">
-              <div class="bonus-class" *ngIf="question.BONUS">
-                <p>{{question.BONUS}}</p>
-                <input type="text">
-              </div>
-            </form>
-          </mat-card>
-        </ng-template>
-        <ng-template [ngIf]="question.QUESTION_TYPE == 2">
-          <mat-card class="question-card">
-            <form>
-              <p>Pregunta {{question.QUESTION_NUM}}.</p>
-              <p>Recurso: {{question.RESOURCE}}</p>
-              <p>{{question.QUESTION}}</p>
-              <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
-                <input type="radio" id="alternative" name="fav_language">
-                <label for="alternative">&nbsp;{{alternative}}</label><br>
-              </div>
-              <div class="bonus-class" *ngIf="question.BONUS">
-                <p>{{question.BONUS}}</p>
-                <input type="text">
-              </div>
+                <!--</form>-->
+              </mat-card>
+            </ng-template>
+            <ng-template [ngIf]="question.QUESTION_TYPE == 3">
+              <mat-card class="question-card">
+                <!--<form>-->
+                <h6>Pregunta {{question.QUESTION_NUM}}</h6>
+                <p>Recurso: {{question.RESOURCE}}</p>
+                <p>{{question.QUESTION}}</p>
+                <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
+                  <input type="checkbox" id="alternative" name="fav_language">
+                  <label for="alternative">&nbsp;{{alternative}}</label><br>
+                </div>
+                <div class="bonus-class" *ngIf="question.BONUS">
+                  <p>{{question.BONUS}}</p>
+                  <input class="input-text" type="text">
+                </div>
 
-            </form>
-          </mat-card>
-        </ng-template>
-        <ng-template [ngIf]="question.QUESTION_TYPE == 3">
-          <mat-card class="question-card">
-            <form>
-              <p>Pregunta {{question.QUESTION_NUM}}.</p>
-              <p>Recurso: {{question.RESOURCE}}</p>
-              <p>{{question.QUESTION}}</p>
-              <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
-                <input type="checkbox" id="alternative" name="fav_language">
-                <label for="alternative">&nbsp;{{alternative}}</label><br>
-              </div>
-              <div class="bonus-class" *ngIf="question.BONUS">
-                <p>{{question.BONUS}}</p>
-                <input type="text">
-              </div>
+                <!--</form>-->
+              </mat-card>
+            </ng-template>
+          </div>
 
-            </form>
-          </mat-card>
+          <!--
+          <div class="quiz_buttons">
+            <ng-template [ngIf]="last_exercise">
+              <ng-template [ngIf]="!first_exercise">
+                <button (click)="decreaseExercise()">Atras</button>
+              </ng-template>
+              <button>Enviar Cuestionario</button>
+            </ng-template>
+            <ng-template [ngIf]="first_exercise && !last_exercise">
+              <button (click)="increaseExercise()">Siguiente</button>
+            </ng-template>
+            <ng-template [ngIf]="!first_exercise && !last_exercise">
+              <button (click)="decreaseExercise()">Atras</button>
+              <button (click)="increaseExercise()">Siguiente</button>
+            </ng-template>
+          </div>
+          -->
+          <div class="quiz_buttons">
+            <ng-template [ngIf]="last_exercise">
+              <button>Enviar</button>
+            </ng-template>
+            <ng-template [ngIf]="!last_exercise">
+              <button (click)="increaseExercise()">Enviar</button>
+            </ng-template>
+          </div>
+
         </ng-template>
       </div>
-    </div>
+
+    </ng-template>
   </div>
-</div>
 
 
-<button (click)="sendQuizResponse('Atras')">Atras</button>
-<button (click)="sendQuizResponse('Enviar')">Enviar</button>
-
-
+  <!--<button (click)="sendQuizResponse('Atras')">Atras</button>
+  <button (click)="sendQuizResponse('Enviar')">Enviar</button>
+  <input type="submit" value="Enviar Cuestionario">-->
+</form>
 
