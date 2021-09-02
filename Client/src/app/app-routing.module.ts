@@ -16,6 +16,7 @@ import { AuthGuard } from './helpers/auth.guard';
 import { AdminGuard } from './helpers/admin.guard';
 import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
+import { VideoOnlyComponent } from './views/video-only/video-only.component';
 import { SignupComponent } from './views/signup/signup.component';
 
 const routes: Routes = [
@@ -33,19 +34,19 @@ const routes: Routes = [
     path: 'login/confirmedOK',
     component: LoginComponent,
     canActivate: [ NotLoggedInGuard ]
-  },  
+  },
   {
     path: 'signup',
     component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
   },
-/*  
+/*
   {
     path: 'signup/:flow_id',
     component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
   },
-*/   
+*/
   {
     path: 'register',
     component: RegisterStudentComponent,
@@ -76,6 +77,11 @@ const routes: Routes = [
     component: VideoModuleComponent,
     canActivate: [ AuthGuard ]
   },
+  {
+    path: 'video',
+    component: VideoOnlyComponent,
+    canActivate: [ AuthGuard ]
+  },
   /*
   {
     path: 'login/confirmedOK',
@@ -102,9 +108,9 @@ const routes: Routes = [
     path: 'create-flow',
     component: FlowCreationComponent,
     canActivate: [ AuthGuard, AdminGuard ]
-  },  
-  
-  
+  },
+
+
   /*
   {
     path: 'forgot_password',

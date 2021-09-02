@@ -24,19 +24,35 @@ export class QuizComponent implements OnInit {
 
   getQuiz() {
     this.quiz = this.quizService.getQuiz();
-    console.log(this.quiz);
+    // console.log(this.quiz);
   }
 
   sendQuizResponse(value) {
     this.newItemEvent.emit(value);
   }
 
-  increaseExercise() {
-    this.exerciseActual++;
+  increaseExercise(lastExercise) {
+    if(!lastExercise) {
+      this.exerciseActual++;
+    }
   }
 
-  decreaseExercise() {
-    this.exerciseActual--;
+  decreaseExercise(firstExercise) {
+    if(!firstExercise){
+      this.exerciseActual--;
+    }
+  }
+
+  sendQuiz() {
+    console.log('Enviando quiz jeje');
+  }
+
+  editExercise() {
+    console.log('Editar el ejercicio ' + this.exerciseActual);
+  }
+
+  saveExercise() {
+    console.log('Guardar el ejercicio');
   }
 }
 

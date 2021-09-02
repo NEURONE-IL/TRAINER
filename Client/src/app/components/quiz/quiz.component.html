@@ -4,9 +4,9 @@
       <ng-template [ngIf]="exerciseActual == 0">
         <h6>Instrucciones quiz: {{my_quiz.INSTRUCTIONS}}</h6>
         <p>Resource quiz: {{my_quiz.RESOURCE}}</p>
-        <button (click)="increaseExercise()">Go!</button>
+        <button (click)="increaseExercise(false)">Go!</button>
       </ng-template>
-      <div *ngFor="let exercise of my_quiz.EXERCISES; let last_exercise = last; let first_exercise = first">
+      <div *ngFor="let exercise of my_quiz.EXERCISES; let last_exercise = last; let first_exercise = first;">
         <ng-template [ngIf]="exercise.EXERCISE_ID == exerciseActual">
           <h6>Ejercicio {{exercise.EXERCISE_ID}}: {{exercise.INTRODUCTION}}</h6>
 
@@ -63,30 +63,25 @@
             </ng-template>
           </div>
 
-          <!--
+
           <div class="quiz_buttons">
+            <button (click)="saveExercise()">Guardar</button>
+            <ng-template [ngIf]="first_exercise">
+              <button (click)="decreaseExercise(first_exercise)" disabled>Atras</button>
+            </ng-template>
+            <ng-template [ngIf]="!first_exercise">
+              <button (click)="decreaseExercise(first_exercise)">Atras</button>
+            </ng-template>
             <ng-template [ngIf]="last_exercise">
-              <ng-template [ngIf]="!first_exercise">
-                <button (click)="decreaseExercise()">Atras</button>
-              </ng-template>
-              <button>Enviar Cuestionario</button>
-            </ng-template>
-            <ng-template [ngIf]="first_exercise && !last_exercise">
-              <button (click)="increaseExercise()">Siguiente</button>
-            </ng-template>
-            <ng-template [ngIf]="!first_exercise && !last_exercise">
-              <button (click)="decreaseExercise()">Atras</button>
-              <button (click)="increaseExercise()">Siguiente</button>
-            </ng-template>
-          </div>
-          -->
-          <div class="quiz_buttons">
-            <ng-template [ngIf]="last_exercise">
-              <button>Enviar</button>
+              <button (click)="increaseExercise(last_exercise)" disabled>Siguiente</button>
             </ng-template>
             <ng-template [ngIf]="!last_exercise">
-              <button (click)="increaseExercise()">Enviar</button>
+              <button (click)="increaseExercise(last_exercise)">Siguiente</button>
             </ng-template>
+            <button (click)="editExercise()">Editar</button>
+          </div>
+          <div class="quiz_buttons">
+            <button class="quiz_buttons" (click)="sendQuiz()">Enviar Formulario</button>
           </div>
 
         </ng-template>

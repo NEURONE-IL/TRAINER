@@ -54,6 +54,7 @@ import { FlowDisplayComponent, FlowUpdateDialogComponent, StageUpdateDialogCompo
 import { StageCreationComponent } from './views/stage-creation/stage-creation.component';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
+import { VideoOnlyComponent } from './views/video-only/video-only.component';
 import { ShowFlowComponent } from './components/show-flow/show-flow.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import { SignupComponent } from './views/signup/signup.component';
@@ -80,6 +81,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     AdminPanelComponent,
     StageCreationComponent,
     VideoModuleComponent,
+    VideoOnlyComponent,
     ShowFlowComponent,
     VideoComponent,
     QuizComponent,
