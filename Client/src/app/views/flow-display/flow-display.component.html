@@ -45,6 +45,15 @@
                   </div>
 
                   <div>
+                    <mat-icon>list</mat-icon><span class="aligned-with-icon">{{ "ADMIN.TABS.STAGES" | translate }}: </span>
+                  </div>
+
+                  <div *ngFor="let stage of module.stages;" style="margin-left: 10%;">
+                    <mat-icon>fiber_manual_record</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}</span>
+                  </div>
+
+
+                  <div>
                     <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(module.createdAt)}}</span>
                   </div>
 

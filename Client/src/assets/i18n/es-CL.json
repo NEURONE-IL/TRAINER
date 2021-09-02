@@ -97,7 +97,8 @@
         "STEP": "Orden",
         "FLOW": "Flujo",
         "TITLE": "Título",
-        "TYPE": "Tipo de etapa"
+        "TYPE": "Tipo de etapa",
+        "MODULE": "Módulo"
       }
     },
     "SUBTITLE": "Complete el siguiente formulario para crear una nueva etapa en el flujo",
