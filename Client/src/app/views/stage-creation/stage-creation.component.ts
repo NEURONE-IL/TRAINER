@@ -7,6 +7,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivia.service';
 import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
+import { ModuleService } from 'src/app/services/trainer/module.service';
 
 @Component({
   selector: 'app-stage-creation',
@@ -15,6 +16,7 @@ import { QuizService } from '../../services/videoModule/quiz.service';
 })
 export class StageCreationComponent implements OnInit {
   @Input() study: string;
+  modules: [];
   stageForm: FormGroup;
   studies: Study[];
   loading: Boolean;
@@ -32,6 +34,7 @@ export class StageCreationComponent implements OnInit {
   file: File;
 
   constructor(private formBuilder: FormBuilder,
+              private moduleService: ModuleService,
               private stageService: StageService,
               private studyService: StudyService,
               private toastr: ToastrService,
@@ -43,13 +46,14 @@ export class StageCreationComponent implements OnInit {
   ngOnInit(): void {
 
     this.getApiStudies();
-
+    this.getModules();
     this.stageForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       step: ['', [Validators.required]],
       type: ['', [Validators.required]],
-      externalId: ['', [Validators.required]]
+      externalId: ['', [Validators.required]],
+      module: ['', []]
     });
 
     this.studyService.getStudies().subscribe(
@@ -96,6 +100,7 @@ export class StageCreationComponent implements OnInit {
     formData.append('externalId', stage.externalId);
     formData.append('study', stage.study);
     formData.append('externalName', stage.externalName);
+    formData.append('module', stage.module);
     /*End stage FormData*/
     if(this.file){
       formData.append('file', this.file);
@@ -130,6 +135,13 @@ export class StageCreationComponent implements OnInit {
       this.SGLinks = res.adventures;
       console.log(this.SGLinks);
     });
+  }
+
+  getModules(){
+    this.moduleService.getModuleByStudy(this.study)
+          .subscribe(response => {
+            this.modules = response['modules'];
+     });
   }
 
   changeLinks(event: any){

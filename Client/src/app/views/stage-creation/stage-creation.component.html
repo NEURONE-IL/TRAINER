@@ -70,6 +70,17 @@
 							{{ "ERRORS.REQUIRED" | translate }}
 						</mat-error>
 					</mat-form-field>
+				</mat-grid-tile>	
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.MODULE" | translate }}</mat-label>
+						<mat-select formControlName="module" required>
+							<mat-option *ngFor="let module of modules" [value]="module._id"> {{ module.name }} </mat-option>
+						</mat-select>						
+						<mat-error *ngIf="stageFormControls.module.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+					</mat-form-field>
 				</mat-grid-tile>								
 			</mat-grid-list>
 		</form>

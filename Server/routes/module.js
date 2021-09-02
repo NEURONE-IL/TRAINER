@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Module = require('../models/module');
+const Stage = require('../models/stage');
 
 const imageStorage = require('../middlewares/imageStorage');
 const authMiddleware = require('../middlewares/authMiddleware');
@@ -32,8 +33,16 @@ router.get('/:module_id', async (req, res) => {
     });
 });
 
-router.get('/byStudy/:study_id', [verifyToken], async (req, res) => {
+router.get('/byStudy/:study_id',  async (req, res) => {
     const _id = req.params.study_id;
+    const stages = await Stage.find({study: _id}, err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+    });
     Module.find({study: _id}, (err, modules) => {
         if(err){
             return res.status(404).json({
@@ -41,8 +50,21 @@ router.get('/byStudy/:study_id', [verifyToken], async (req, res) => {
                 err
             });
         }
+        modules = JSON.parse(JSON.stringify(modules))
+        for(let i = 0; i<modules.length; i++){
+            let array = []
+            for(let j = 0; j<stages.length; j++){
+                if(stages[j].module.equals(modules[i]._id)){
+                    array.push(stages[j]);
+                    stages.splice(j, 1);
+                    j--;
+                }
+            }
+            modules[i]["stages"] = array;
+            console.log (modules[i]);
+        }
         res.status(200).json({modules});
-    }).populate({ path: 'modules', model: Module })
+    })
 });
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), moduleMiddleware.verifyBody], async (req, res) => {

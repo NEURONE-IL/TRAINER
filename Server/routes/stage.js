@@ -75,7 +75,8 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
             study: study,
             type: req.body.type,
             externalId: req.body.externalId,
-            externalName: req.body.externalName
+            externalName: req.body.externalName,
+            module: req.body.module
         })
         if(!study.sorted || stage.step === 1){
             stage.active = true;
