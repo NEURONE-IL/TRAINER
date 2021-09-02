@@ -73,6 +73,8 @@
     },
     "SUBTITLE": "Complete el siguiente formulario para crear un nuevo flujo",
     "TITLE": "Creación de flujos",
+    "UPDATE_TITLE": "Edición de flujos",
+    "UPDATE_SUBTITLE": "Complete el siguiente formulario para etitar el flujo seleccionado",
     "TOAST": {
       "DUMMY_RESET_ERROR": "No se ha revertido el usuario de prueba",
       "DUMMY_RESET_SUCCESS": "Usuario de prueba revertido con éxito",

@@ -282,8 +282,7 @@ export class FlowUpdateDialogComponent implements OnInit{
     this.flowForm = this.formBuilder.group({
       name: [this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: [this.flow.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
-      domain: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      type: ['', [Validators.required]]
+      sorted: [this.flow.sorted, [Validators.required]]
     });
     this.loading = false;
   }
@@ -302,8 +301,7 @@ export class FlowUpdateDialogComponent implements OnInit{
     let formData = new FormData();
     formData.append('name', flow.name);
     formData.append('description', flow.description);
-    formData.append('domain', flow.domain);
-    formData.append('type', flow.type);
+    formData.append('sorted', this.flow.sorted.toString());
     if(this.file){
       formData.append('file', this.file);
     }

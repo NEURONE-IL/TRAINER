@@ -7,10 +7,11 @@ export interface Flow {
   _id: string,
   name: string,
   description: string,
-  domain: string,
-  type: string,
+  sorted: { type: Boolean, required: true },
   image_url: string,
-  image_id: string
+  image_id: string,
+  createdAt: string,
+  updatedAt: string
 }
 
 @Injectable({
