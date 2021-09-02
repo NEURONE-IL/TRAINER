@@ -64,7 +64,7 @@ router.get('/byFlow/:flow_id', [verifyToken], async (req, res) => {
             modules[i]["stages"] = array;
         }
         res.status(200).json({modules});
-    })
+    }).populate({ path: 'modules', model: Module });
 });
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), moduleMiddleware.verifyBody], async (req, res) => {
