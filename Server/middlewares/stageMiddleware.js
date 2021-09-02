@@ -12,7 +12,7 @@ const schema = Joi.object({
     step: Joi.number()
         .required(),
 
-    study: Joi.any()
+    flow: Joi.any()
         .required(),
 
     type: Joi.string()
@@ -38,7 +38,7 @@ const editSchema = Joi.object({
     
     step: Joi.number(),
 
-    study: Joi.any(),
+    flow: Joi.any(),
 
     type: Joi.string(),
     

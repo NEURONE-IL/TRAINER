@@ -6,17 +6,15 @@
 }
 
 #main {
-  background-color: #d2d2d2;
+  /*background-color: #d2d2d2;*/
+  background-color: #fafafa;
   padding: 20px;
   border-radius: 15px;
-  box-shadow: #00000012 0 0 5px 6px;
+  /*box-shadow: #00000012 0 0 5px 6px;*/
 }
 
 .module-card {
-  margin-left: 10%;
-  margin-right: 10%;
-  margin-top: 5%;
-  margin-bottom: 5%;
+  margin: 5% 10%;
 }
 
 .section-card{

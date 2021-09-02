@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const ModuleSchema = new Schema({
-    study: { type: Schema.Types.ObjectId, ref: 'Study', required: true},
+    flow: { type: Schema.Types.ObjectId, ref: 'Flow', required: true},
     name: { type: String, required: true },
     description: {type: String },
     code: {type: String},

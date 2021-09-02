@@ -1,24 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { StudyService } from '../../services/trainer/study.service';
+import { FlowService } from '../../services/trainer/flow.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-study-creation',
-  templateUrl: './study-creation.component.html',
-  styleUrls: ['./study-creation.component.css']
+  selector: 'app-flow-creation',
+  templateUrl: './flow-creation.component.html',
+  styleUrls: ['./flow-creation.component.css']
 })
-export class StudyCreationComponent implements OnInit {
-  studyForm: FormGroup;
+export class FlowCreationComponent implements OnInit {
+  flowForm: FormGroup;
   loading: boolean;
   file: File;
 
   constructor(
     private formBuilder: FormBuilder,
-    private studyService: StudyService,
+    private flowService: FlowService,
     private authService: AuthService,
     private toastr: ToastrService,
     private translate: TranslateService,
@@ -26,7 +26,7 @@ export class StudyCreationComponent implements OnInit {
 
   ngOnInit(): void {
 
-    this.studyForm = this.formBuilder.group({
+    this.flowForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       sorted: ['', [Validators.required]]
@@ -34,22 +34,22 @@ export class StudyCreationComponent implements OnInit {
     this.loading = false;
   }
 
-  get studyFormControls(): any {
-    return this.studyForm['controls'];
+  get flowFormControls(): any {
+    return this.flowForm['controls'];
   }
 
   resetForm() {
-    this.studyForm.reset();
+    this.flowForm.reset();
   }
 
-  createStudy(){
+  createFlow(){
     this.loading = true;
-    let study = this.studyForm.value;
+    let flow = this.flowForm.value;
     let formData = new FormData();
-    formData.append('name', study.name);
-    formData.append('description', study.description);
+    formData.append('name', flow.name);
+    formData.append('description', flow.description);
     /*Type*/
-    if(study.sorted){
+    if(flow.sorted){
       formData.append('sorted', 'true');
     }
     else{
@@ -59,11 +59,11 @@ export class StudyCreationComponent implements OnInit {
     if(this.file){
       formData.append('file', this.file);
     }
-    this.studyService.postStudy(formData).subscribe(
-      study => {
-        this.authService.signupTestUser(study.study._id).subscribe(
+    this.flowService.postFlow(formData).subscribe(
+      flow => {
+        this.authService.signupTestUser(flow.flow._id).subscribe(
           user => {
-            this.toastr.success(this.translate.instant("STUDY.TOAST.SUCCESS_MESSAGE") + ': ' + study['study'].name, this.translate.instant("STUDY.TOAST.SUCCESS"), {
+            this.toastr.success(this.translate.instant("FLOW.TOAST.SUCCESS_MESSAGE") + ': ' + flow['flow'].name, this.translate.instant("FLOW.TOAST.SUCCESS"), {
               timeOut: 5000,
               positionClass: 'toast-top-center'
             });
@@ -72,7 +72,7 @@ export class StudyCreationComponent implements OnInit {
             this.router.navigate(['admin_panel']);
           },
           err => {
-            this.toastr.error(this.translate.instant("STUDY.TOAST.ERROR_MESSAGE"), this.translate.instant("STUDY.TOAST.ERROR"), {
+            this.toastr.error(this.translate.instant("FLOW.TOAST.ERROR_MESSAGE"), this.translate.instant("FLOW.TOAST.ERROR"), {
               timeOut: 5000,
               positionClass: 'toast-top-center'
             });
@@ -80,7 +80,7 @@ export class StudyCreationComponent implements OnInit {
         )
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.ERROR_MESSAGE"), this.translate.instant("STUDY.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.ERROR_MESSAGE"), this.translate.instant("FLOW.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });        

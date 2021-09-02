@@ -3,22 +3,22 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Stage, StageService } from '../../services/trainer/stage.service';
-import { Study, StudyService } from '../../services/trainer/study.service';
+import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
+import { ApiTriviaService } from "../../services/apiTrivia/apiTrivia.service";
 import { AuthService } from '../../services/auth/auth.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
 
 @Component({
-  selector: 'app-study-display',
-  templateUrl: './study-display.component.html',
-  styleUrls: ['./study-display.component.css']
+  selector: 'app-flow-display',
+  templateUrl: './flow-display.component.html',
+  styleUrls: ['./flow-display.component.css']
 })
-export class StudyDisplayComponent implements OnInit {
-  study: Study;
+export class FlowDisplayComponent implements OnInit {
+  flow: Flow;
   stages: Stage[] = [];
   sortedStages: Stage[] = [];
   createStage: boolean;
@@ -29,7 +29,7 @@ export class StudyDisplayComponent implements OnInit {
   constructor(private router: Router,
               private route: ActivatedRoute,
               private stageService: StageService,
-              private studyService: StudyService,
+              private flowService: FlowService,
               private moduleService: ModuleService,
               private toastr: ToastrService,
               private authService: AuthService,
@@ -43,13 +43,13 @@ export class StudyDisplayComponent implements OnInit {
   ngOnInit(): void {
     this.createStage = false;
 
-    this.studyService.getStudy(this.route.snapshot.paramMap.get('study_id')).subscribe(
+    this.flowService.getFlow(this.route.snapshot.paramMap.get('flow_id')).subscribe(
       response => {
-        this.study = response['study'];
-        this.registerLink = this.authService.getRegisterLink(this.study._id);
+        this.flow = response['flow'];
+        this.registerLink = this.authService.getRegisterLink(this.flow._id);
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -58,12 +58,12 @@ export class StudyDisplayComponent implements OnInit {
 
     this.getTestUser();
 /*
-    this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
+    this.stageService.getStagesByFlow(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.stages = response['stages'];
     });
 */
-    this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+    this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
         console.log(this.sortedStages)
@@ -73,34 +73,34 @@ export class StudyDisplayComponent implements OnInit {
 
     this.reloadModules();
   }
-  resetStudyDummy(){
-    this.studyService.resetStudyDummy(this.route.snapshot.paramMap.get('study_id')).subscribe(response => {
+  resetFlowDummy(){
+    this.flowService.resetFlowDummy(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
       this.dummyUser = response['user'];
     });
   }
 
   getTestUser(){
-    this.studyService.getStudyDummy(this.route.snapshot.paramMap.get('study_id')).subscribe(response => {
+    this.flowService.getFlowDummy(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
       this.dummyUser = response['user'];
     });
   }
 
 
-  confirmStudyDelete(id: string){
-    confirm(this.translate.instant("ADMIN.STUDIES.DELETE_CONFIRMATION")) && this.deleteStudy(id);
+  confirmFlowDelete(id: string){
+    confirm(this.translate.instant("ADMIN.FLOWS.DELETE_CONFIRMATION")) && this.deleteFlow(id);
   }
 
-  deleteStudy(id: string){
-    this.studyService.deleteStudy(id)
-      .subscribe(study => {
-        this.toastr.success(this.translate.instant("STUDY.TOAST.SUCCESS_MESSAGE_DELETE"), this.translate.instant("STUDY.TOAST.SUCCESS"), {
+  deleteFlow(id: string){
+    this.flowService.deleteFlow(id)
+      .subscribe(flow => {
+        this.toastr.success(this.translate.instant("FLOW.TOAST.SUCCESS_MESSAGE_DELETE"), this.translate.instant("FLOW.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
         this.router.navigate(['admin_panel']);
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.ERROR_MESSAGE_DELETE"), this.translate.instant("STUDY.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.ERROR_MESSAGE_DELETE"), this.translate.instant("FLOW.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -115,7 +115,7 @@ export class StudyDisplayComponent implements OnInit {
   deleteStage(id: string){
     this.stageService.deleteStage(id)
       .subscribe(stage => {
-        this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+        this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
           .subscribe(response => this.sortedStages = response['stages']);
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_DELETE"), this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
@@ -152,7 +152,7 @@ export class StudyDisplayComponent implements OnInit {
   updateStage(id: string, updatedStage: string){
     this.stageService.putStage(id, updatedStage)
     .subscribe(stage => {
-      this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+      this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
         .subscribe(response => this.sortedStages = response['stages']);
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + stage['stage'].question, this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
@@ -168,10 +168,10 @@ export class StudyDisplayComponent implements OnInit {
     );
   }
 
-  showStudyUpdateDialog(): void {
-    const dialogRef = this.matDialog.open(StudyUpdateDialogComponent, {
+  showFlowUpdateDialog(): void {
+    const dialogRef = this.matDialog.open(FlowUpdateDialogComponent, {
       width: '60%',
-      data: this.study
+      data: this.flow
     }).afterClosed()
     .subscribe(() => this.ngOnInit());
   }
@@ -203,12 +203,12 @@ export class StudyDisplayComponent implements OnInit {
 
   reloadStages(){
 /*
-    this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
+    this.stageService.getStagesByFlow(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.stages = response['stages'];
     });
 */
-    this.stageService.getStagesByStudySortedByStep(this.route.snapshot.paramMap.get('study_id'))
+    this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
         console.log(this.sortedStages)
@@ -218,12 +218,12 @@ export class StudyDisplayComponent implements OnInit {
 
   reloadModules(){
     /*
-        this.stageService.getStagesByStudy(this.route.snapshot.paramMap.get('study_id'))
+        this.stageService.getStagesByFlow(this.route.snapshot.paramMap.get('flow_id'))
           .subscribe(response => {
             this.stages = response['stages'];
         });
     */
-        this.moduleService.getModuleByStudy(this.route.snapshot.paramMap.get('study_id'))
+        this.moduleService.getModuleByFlow(this.route.snapshot.paramMap.get('flow_id'))
           .subscribe(response => {
             this.modules = response['modules'];
         });
@@ -255,31 +255,31 @@ export class StudyDisplayComponent implements OnInit {
       case 'Video':
         return '../../../assets/stage-images/02Video.jpg';
       default:
-        return '../../../assets/study-images/Study00.jpg';
+        return '../../../assets/flow-images/Flow00.jpg';
     }
   }
 }
 
 @Component({
-  selector: 'app-study-update-dialog',
-  templateUrl: 'study-update-dialog.component.html',
-  styleUrls: ['./study-update-dialog.component.css']
+  selector: 'app-flow-update-dialog',
+  templateUrl: 'flow-update-dialog.component.html',
+  styleUrls: ['./flow-update-dialog.component.css']
 })
-export class StudyUpdateDialogComponent implements OnInit{
-  studyForm: FormGroup;
+export class FlowUpdateDialogComponent implements OnInit{
+  flowForm: FormGroup;
   loading: Boolean;
   file: File;
 
   constructor(@Inject(MAT_DIALOG_DATA)
-    public study: Study,
+    public flow: Flow,
     private formBuilder: FormBuilder,
-    private studyService: StudyService,
+    private flowService: FlowService,
     private toastr: ToastrService,
     private translate: TranslateService,
     public matDialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.studyForm = this.formBuilder.group({
+    this.flowForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       domain: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -288,28 +288,28 @@ export class StudyUpdateDialogComponent implements OnInit{
     this.loading = false;
   }
 
-  get studyFormControls(): any {
-    return this.studyForm['controls'];
+  get flowFormControls(): any {
+    return this.flowForm['controls'];
   }
 
   resetForm() {
-    this.studyForm.reset();
+    this.flowForm.reset();
   }
 
-  updateStudy(studyId: string){
+  updateFlow(flowId: string){
     this.loading = true;
-    let study = this.studyForm.value;
+    let flow = this.flowForm.value;
     let formData = new FormData();
-    formData.append('name', study.name);
-    formData.append('description', study.description);
-    formData.append('domain', study.domain);
-    formData.append('type', study.type);
+    formData.append('name', flow.name);
+    formData.append('description', flow.description);
+    formData.append('domain', flow.domain);
+    formData.append('type', flow.type);
     if(this.file){
       formData.append('file', this.file);
     }
-    this.studyService.putStudy(studyId, formData).subscribe(
-      study => {
-        this.toastr.success(this.translate.instant("STUDY.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + study['study'].name, this.translate.instant("STUDY.TOAST.SUCCESS"), {
+    this.flowService.putFlow(flowId, formData).subscribe(
+      flow => {
+        this.toastr.success(this.translate.instant("FLOW.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + flow['flow'].name, this.translate.instant("FLOW.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -317,7 +317,7 @@ export class StudyUpdateDialogComponent implements OnInit{
         this.matDialog.closeAll();
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.ERROR_MESSAGE_UPDATE"), this.translate.instant("STUDY.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.ERROR_MESSAGE_UPDATE"), this.translate.instant("FLOW.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -336,9 +336,9 @@ export class StudyUpdateDialogComponent implements OnInit{
   styleUrls: ['./stage-update-dialog.component.css']
 })
 export class StageUpdateDialogComponent implements OnInit{
-  @Input() study: string;
+  @Input() flow: string;
   stageForm: FormGroup;
-  studies: Study[];
+  flows: Flow[];
   loading: Boolean;
 
   constructor(@Inject(MAT_DIALOG_DATA)
@@ -346,7 +346,7 @@ export class StageUpdateDialogComponent implements OnInit{
     private formBuilder: FormBuilder,
     private router: Router,
     private stageService: StageService,
-    private studyService: StudyService,
+    private flowService: FlowService,
     private toastr: ToastrService,
     private translate: TranslateService,
     public matDialog: MatDialog) { }
@@ -361,12 +361,12 @@ export class StageUpdateDialogComponent implements OnInit{
       link: ['', [Validators.required]]
     });
 
-    this.studyService.getStudies().subscribe(
+    this.flowService.getFlows().subscribe(
       response => {
-        this.studies = response['studys'];
+        this.flows = response['flows'];
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -383,7 +383,7 @@ export class StageUpdateDialogComponent implements OnInit{
   updateStage(stageId: string){
     this.loading = true;
     let stage = this.stageForm.value;
-    stage.study = this.stage.study;
+    stage.flow = this.stage.flow;
     this.stageService.putStage(stageId, stage).subscribe(
       stage => {
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + stage['stage'].question, this.translate.instant("STAGE.TOAST.SUCCESS"), {

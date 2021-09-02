@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { Stage, StageService } from '../../services/trainer/stage.service';
-import {Study, StudyService} from "../../services/trainer/study.service";
+import { Flow, FlowService } from "../../services/trainer/flow.service";
 import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { Router } from '@angular/router';
@@ -14,15 +14,15 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ShowFlowComponent implements OnInit {
 
-  @Input() studyId: string;
+  @Input() flowId: string;
   @Input() studentId: string;
-  study: Study;
+  flow: Flow;
   stages = [];
   sortedStages: Stage[] = [];
 
   constructor(
     private stageService: StageService,
-    private studyService: StudyService,
+    private flowService: FlowService,
     private triviaService: ApiTriviaService,
     private router: Router,
     private toastr: ToastrService,

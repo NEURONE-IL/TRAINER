@@ -1,20 +1,20 @@
 const express = require('express');
 const router = express.Router();
-const UserStudy = require('../models/userStudy');
+const UserFlow = require('../models/userFlow');
 const Stage = require('../models/stage');
 
 const verifyToken = require('../middlewares/verifyToken');
 
 router.get('/stagesByStudent/:student_id', [verifyToken], async (req, res) => {
     const _id = req.params.student_id;
-    UserStudy.findOne({user: _id}, (err, userStudy) => {
+    UserFlow.findOne({user: _id}, (err, userFlow) => {
         if(err){
             return res.status(404).json({
                 ok: false,
                 err
             });
         }
-        let stages = userStudy.stages;
+        let stages = userFlow.stages;
         res.status(200).json({
             stages
         });
@@ -24,7 +24,7 @@ router.get('/stagesByStudent/:student_id', [verifyToken], async (req, res) => {
 router.put('/updateProgress/:student_id/:external_id/:percentage', [verifyToken], async (req, res) => {
     const userId = req.params.student_id;
     const externalId = req.params.external_id;
-    await UserStudy.findOne({user: userId}, (err, userStudy) => {
+    await UserFlow.findOne({user: userId}, (err, userFlow) => {
         if (err) {
             return res.status(404).json({
                 err
@@ -36,19 +36,19 @@ router.put('/updateProgress/:student_id/:external_id/:percentage', [verifyToken]
                     err
                 });
             }
-            userStudy.stages.find(element => {
+            userFlow.stages.find(element => {
                 if(element.stage.equals(stage._id)){
                     element.percentage += parseInt(req.params.percentage); 
                 }
             });
-            userStudy.updatedAt = Date.now();
-            userStudy.save((err, userStudy) => {
+            userFlow.updatedAt = Date.now();
+            userFlow.save((err, userFlow) => {
                 if (err) {
                     return res.status(404).json({
                         err
                     });
                 }
-                let stages = userStudy.stages;
+                let stages = userFlow.stages;
                 res.status(200).json({
                     stages
                 });

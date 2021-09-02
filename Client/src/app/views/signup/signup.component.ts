@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { StudyService } from '../../services/trainer/study.service';
+import { FlowService } from '../../services/trainer/flow.service';
 import { AuthService } from '../../services/auth/auth.service';
 import { SignupConstants } from './signup.constants';
 import { getRegiones, getComunasByRegion } from 'dpacl';
@@ -18,9 +18,9 @@ export class SignupComponent implements OnInit {
   consentForm: FormGroup;
   tutorForm: FormGroup;
   studentForm: FormGroup;
-  study: any;
-  validStudy = true;
-  isLoadingStudy = true;
+  flow: any;
+  validFlow = true;
+  isLoadingFlow = true;
 
   courses: any;
   regions: any;
@@ -32,7 +32,7 @@ export class SignupComponent implements OnInit {
 
   constructor(private route: ActivatedRoute,
               private formBuilder: FormBuilder,
-              private studyService: StudyService,
+              private flowService: FlowService,
               private authService: AuthService,
               public router: Router,
               private toastr: ToastrService,
@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
 
-//    this.checkStudy();
+//    this.checkFlow();
     this.regions = getRegiones();
 
     this.consentForm = this.formBuilder.group({
@@ -74,7 +74,7 @@ export class SignupComponent implements OnInit {
   save() {
     let userData = Object.assign(this.tutorForm.value, this.studentForm.value);
     delete userData.password_confirmation;
-    this.authService.signup(userData/*, this.route.snapshot.paramMap.get('study_id')*/)
+    this.authService.signup(userData/*, this.route.snapshot.paramMap.get('flow_id')*/)
       .subscribe((res) => {
         this.userSubmitted = true;
       },
@@ -95,20 +95,20 @@ export class SignupComponent implements OnInit {
   }
 
   /*
-  checkStudy() {
-    const study_id = this.route.snapshot.paramMap.get('study_id');
-    this.studyService.getStudySignup(study_id).subscribe(
+  checkFlow() {
+    const flow_id = this.route.snapshot.paramMap.get('flow_id');
+    this.flowService.getFlowSignup(flow_id).subscribe(
       response => {
-        this.study = response['study'];
-        this.isLoadingStudy=false;
+        this.flow = response['flow'];
+        this.isLoadingFlow=false;
       },
       err => {
-        this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_ERROR"), this.translate.instant("CHALLENGE.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_ERROR"), this.translate.instant("CHALLENGE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
-        this.validStudy = false;
-        this.isLoadingStudy=false;
+        this.validFlow = false;
+        this.isLoadingFlow = false;
       }
     );
   }*/

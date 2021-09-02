@@ -12,32 +12,32 @@ export class AdminPanelComponent implements OnInit {
 
   constructor(private router: Router, private toastr: ToastrService, private translate: TranslateService) { }
 
-  studioSelected: any;
+  flowSelected: any;
 
   ngOnInit(): void {
     this.checkPath();
   }
 
-  createStudy(){
-    this.router.navigate(['create-study']);
+  createFlow(){
+    this.router.navigate(['create-flow']);
   }
 
   createChallenge(){
     this.router.navigate(['create/challenge']);
   }
 
-  studySelectedHandler(event){
-    this.studioSelected = true;
+  flowSelectedHandler(event){
+    this.flowSelected = true;
     this.router.navigate([event]);
   }
 
   checkPath(){
     let path= this.router.url;
     if(path!= '/admin_panel'){
-      this.studioSelected = true;
+      this.flowSelected = true;
     }
     else{
-      this.studioSelected = false;
+      this.flowSelected = false;
     }
   }
 }

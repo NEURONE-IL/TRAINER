@@ -1,5 +1,5 @@
 const Joi = require('joi');
-const Study = require('../models/study');
+const Flow = require('../models/flow');
 
 const schema = Joi.object({
     
@@ -48,9 +48,9 @@ verifyEditBody = async (req, res, next) => {
     }
 };
 
-const studyMiddleware = {
+const flowMiddleware = {
     verifyBody,
     verifyEditBody
 };
 
-module.exports = studyMiddleware;
+module.exports = flowMiddleware;

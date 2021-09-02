@@ -1,11 +1,11 @@
 const Token = require("../models/token");
-const UserStudy = require("../models/userStudy");
+const UserFlow = require("../models/userFlow");
 const nodemailer = require("nodemailer");
 const crypto = require("crypto");
 const fs = require("fs");
 
-/*Creates user study progress*/
-async function generateProgress(stages, user, study) {
+/*Creates user flow progress*/
+async function generateProgress(stages, user, flow) {
     let progress = [];
   
     /*Push all stages into progress array*/
@@ -13,14 +13,14 @@ async function generateProgress(stages, user, study) {
         progress.push({ stage: stage, percentage: 0 });
     });
   
-    const userStudy = new UserStudy({
+    const userFlow = new UserFlow({
         user: user,
-        study: study,
+        flow: flow,
         stages: progress
     });
   
     return new Promise((resolve, reject) => {
-        userStudy.save((err, res) => {
+        userFlow.save((err, res) => {
             if (err) {
                 reject(err);
             }

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { QuizService } from '../../services/videoModule/quiz.service';
 
 @Component({
@@ -12,23 +12,31 @@ export class QuizComponent implements OnInit {
   @Input() quizNumber: number;
   @Output() newItemEvent = new EventEmitter<string>();
 
-  questions;
+  quiz;
+  exerciseActual;
 
-  constructor( private quizService: QuizService ) {  }
+  constructor(private quizService: QuizService) {  }
 
   ngOnInit(): void {
-    this.getQuestions();
+    this.getQuiz();
+    this.exerciseActual = 0;
   }
 
-  getQuestions() {
-    this.questions = this.quizService.getQuestions();
-    console.log(this.questions);
+  getQuiz() {
+    this.quiz = this.quizService.getQuiz();
+    console.log(this.quiz);
   }
 
   sendQuizResponse(value) {
     this.newItemEvent.emit(value);
   }
 
+  increaseExercise() {
+    this.exerciseActual++;
+  }
 
+  decreaseExercise() {
+    this.exerciseActual--;
+  }
 }
 

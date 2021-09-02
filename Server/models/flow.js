@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const StudySchema = new Schema({
+const FlowSchema = new Schema({
     name: { type: String, required: true },
     description: {type: String },
     sorted: { type: Boolean, required: true },
@@ -12,7 +12,7 @@ const StudySchema = new Schema({
 });
 
 // Sets the createdAt parameter equal to the current time
-StudySchema.pre('save', next => {
+FlowSchema.pre('save', next => {
     now = new Date();
     if(!this.createdAt) {
     	this.createdAt = now;
@@ -24,6 +24,6 @@ StudySchema.pre('save', next => {
 });
 
 const myDB = mongoose.connection.useDb('trainer');
-const Study = myDB.model('Study', StudySchema);
+const Flow = myDB.model('Flow', FlowSchema);
 
-module.exports = Study;
+module.exports = Flow;

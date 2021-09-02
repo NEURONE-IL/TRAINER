@@ -13,8 +13,8 @@ export class AuthService {
   uri = environment.apiURL + 'auth/';
   userUri = environment.apiURL + 'user/';
 
-  getRegisterLink(studyId){
-    return 'http://localhost:4200/signup/'; //+ studyId;
+  getRegisterLink(flowId){
+    return 'http://localhost:4200/signup/'; //+ flowId;
   }
 
   constructor(private http: HttpClient,
@@ -115,27 +115,27 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  signup(userData: any/*, study_id: string*/) {
+  signup(userData: any/*, flow_id: string*/) {
     delete userData.emailConfirm;
-    return this.http.post(this.uri + 'signup' /*+ study_id*/, userData);
+    return this.http.post(this.uri + 'signup' /*+ flow_id*/, userData);
   }
 
-  signupTestUser(study_id){
+  signupTestUser(flow_id){
     const user = {
-      email: study_id+"@testuser.cl",
+      email: flow_id+"@testuser.cl",
       names: "Test",
       last_names: "User",
       password: "test12345"
     }
-    return this.http.post(this.uri + 'signupTestUser/' + study_id, user);
+    return this.http.post(this.uri + 'signupTestUser/' + flow_id, user);
   }
 
-  findTestUser(study_id){
-    return this.http.get(this.userUri + study_id + '/findTestUser');
+  findTestUser(flow_id){
+    return this.http.get(this.userUri + flow_id + '/findTestUser');
   }
 
-  resetTestUser(study_id){
-    return this.http.get(this.userUri + study_id + '/resetTestUser');
+  resetTestUser(flow_id){
+    return this.http.get(this.userUri + flow_id + '/resetTestUser');
   }
 
   redirectUserPanel(role) {

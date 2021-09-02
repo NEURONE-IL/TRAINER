@@ -33,9 +33,10 @@ router.get('/:module_id', async (req, res) => {
     });
 });
 
-router.get('/byStudy/:study_id',  async (req, res) => {
-    const _id = req.params.study_id;
-    const stages = await Stage.find({study: _id}, err => {
+
+router.get('/byFlow/:flow_id', [verifyToken], async (req, res) => {
+    const _id = req.params.flow_id;
+    const stages = await Stage.find({flow: _id}, err => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -43,7 +44,7 @@ router.get('/byStudy/:study_id',  async (req, res) => {
             });
         }
     });
-    Module.find({study: _id}, (err, modules) => {
+    Module.find({flow: _id}, (err, modules) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -61,7 +62,6 @@ router.get('/byStudy/:study_id',  async (req, res) => {
                 }
             }
             modules[i]["stages"] = array;
-            console.log (modules[i]);
         }
         res.status(200).json({modules});
     })
@@ -72,7 +72,7 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
         name: req.body.name,
         description: req.body.description,
         code: req.body.code,
-        study: req.body.study
+        flow: req.body.flow
     });
     if(req.file){
         let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
@@ -108,8 +108,8 @@ router.put('/:module_id', [verifyToken, authMiddleware.isAdmin, imageStorage.upl
         if(req.body.code){
             module.code = req.body.code;
         }     
-        if(req.body.study){
-            module.code = req.body.study;
+        if(req.body.flow){
+            module.flow = req.body.flow;
         }    
         if(req.file){
             if(module.image_id){

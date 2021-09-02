@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Stage = require('../models/stage');
-const Study = require('../models/study');
+const Flow = require('../models/flow');
 const Module = require('../models/module');
 
 const imageStorage = require('../middlewares/imageStorage');
@@ -34,9 +34,9 @@ router.get('/:stage_id', [verifyToken] , async (req, res) => {
     });
 });
 
-router.get('/byStudy/:study_id', [verifyToken], async (req, res) => {
-    const _id = req.params.study_id;
-    Stage.find({study: _id}, (err, stages) => {
+router.get('/byFlow/:flow_id', [verifyToken], async (req, res) => {
+    const _id = req.params.flow_id;
+    Stage.find({flow: _id}, (err, stages) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -47,9 +47,9 @@ router.get('/byStudy/:study_id', [verifyToken], async (req, res) => {
     }).populate({ path: 'stages', model: Stage }).populate({ path: 'module', model: Module })
 });
 
-router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => {
-    const _id = req.params.study_id;
-    Stage.find({study: _id}, (err, stages) => {
+router.get('/byFlowSortedByStep/:flow_id', [verifyToken], async (req, res) => {
+    const _id = req.params.flow_id;
+    Stage.find({flow: _id}, (err, stages) => {
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -61,8 +61,8 @@ router.get('/byStudySortedByStep/:study_id', [verifyToken], async (req, res) => 
 });
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), stageMiddleware.verifyBody], async (req, res) => {
-    const studyId = req.body.study;
-    Study.findOne({_id  : studyId}, (err, study) => {
+    const flowId = req.body.flow;
+    Flow.findOne({_id  : flowId}, (err, flow) => {
         if (err) {
             return res.status(404).json({
                 err
@@ -72,13 +72,13 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
             title: req.body.title,
             description: req.body.description,
             step: req.body.step,
-            study: study,
+            flow: flow,
             type: req.body.type,
             externalId: req.body.externalId,
             externalName: req.body.externalName,
             module: req.body.module
         })
-        if(!study.sorted || stage.step === 1){
+        if(!flow.sorted || stage.step === 1){
             stage.active = true;
         }
         if(req.file){
@@ -114,13 +114,13 @@ router.put('/:stage_id', [verifyToken, authMiddleware.isAdmin, stageMiddleware.v
             stage.title = req.body.title;
         }
         if(req.body.description){
-            study.description = req.body.description;
+            stage.description = req.body.description;
         }
         if(req.body.step){
             stage.step = req.body.step;
         }
-        if(req.body.study){
-            stage.study = req.body.study;
+        if(req.body.flow){
+            stage.flow = req.body.flow;
         }
         if(req.body.type){
             stage.type = req.body.type;

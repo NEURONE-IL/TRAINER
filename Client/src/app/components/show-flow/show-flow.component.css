@@ -2,7 +2,7 @@
   color: rgba(0, 0, 0, 0.54);
 }
 
-.study-display-card{
+.flow-display-card{
   margin-left: 10%;
   margin-right: 10%;
   margin-top: 5%;
@@ -14,7 +14,7 @@
 }
 
 .stage-cover{
-  background-image: url('../../../assets/study-images/Study00.jpg');
+  background-image: url('../../../assets/flow-images/Flow00.jpg');
   background-size: cover;
 }
 
