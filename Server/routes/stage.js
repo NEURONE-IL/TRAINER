@@ -61,7 +61,7 @@ router.get('/byFlowSortedByStep/:flow_id', [verifyToken], async (req, res) => {
 });
 
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), stageMiddleware.verifyBody], async (req, res) => {
-    const flowId = req.body.slow;
+    const flowId = req.body.flow;
     Flow.findOne({_id  : flowId}, (err, flow) => {
         if (err) {
             return res.status(404).json({
@@ -124,9 +124,12 @@ router.put('/:stage_id', [verifyToken, authMiddleware.isAdmin, stageMiddleware.v
         if(req.body.type){
             stage.type = req.body.type;
         }
-        if(req.externalId){
+        if(req.body.externalId){
             stage.externalId = req.body.externalId;
         }
+        if(req.body.externalName){
+            stage.externalName = req.body.externalName;
+        }        
         if(req.body.active){
             stage.active = req.body.active;
         }

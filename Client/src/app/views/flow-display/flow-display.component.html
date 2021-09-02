@@ -54,9 +54,6 @@
 
                 </div>
               </mat-card-content>
-
-
-
           </div>
         </div>
       </ng-template>
@@ -108,7 +105,7 @@
                   </div>
 
                   <div>
-                    <mat-icon (click)="showStageUpdateDialog(stage)" style="cursor: pointer;">view_module</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.MODULE" | translate }}: {{stage.module.name}}</span> 
+                    <mat-icon (click)="showStageUpdateDialog(stage)" style="cursor: pointer;">view_module</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.MODULE" | translate }}: {{'stage.module.name'}}</span> 
                   </div>
 
                   <div>

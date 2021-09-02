@@ -6,9 +6,9 @@ import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiTriviaService } from "../../services/apiTrivia/apiTrivia.service";
+import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivia.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { ApiSGService } from '../../services/apiSG/apiSG.service';
+import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
 
@@ -154,7 +154,7 @@ export class FlowDisplayComponent implements OnInit {
     .subscribe(stage => {
       this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
         .subscribe(response => this.sortedStages = response['stages']);
-        this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + stage['stage'].question, this.translate.instant("STAGE.TOAST.SUCCESS"), {
+        this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -280,8 +280,8 @@ export class FlowUpdateDialogComponent implements OnInit{
 
   ngOnInit(): void {
     this.flowForm = this.formBuilder.group({
-      name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
+      name: [this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      description: [this.flow.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       domain: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       type: ['', [Validators.required]]
     });
@@ -340,6 +340,18 @@ export class StageUpdateDialogComponent implements OnInit{
   stageForm: FormGroup;
   flows: Flow[];
   loading: Boolean;
+  steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  typeOptions: string[] = ['Trivia', 'SG', 'Video'];  
+  currentLinks: any[];
+  triviaLinks: TriviaStudy[];
+  SGLinks: SGGame[] = [];
+  videoLinks: object[] = [
+    {
+      name: "Módulo de vídeos",
+      _id: 'Test_id' //this.videoModuleService.getModuleLink()
+    }
+  ];
+  file: File;
 
   constructor(@Inject(MAT_DIALOG_DATA)
     public stage: Stage,
@@ -349,16 +361,21 @@ export class StageUpdateDialogComponent implements OnInit{
     private flowService: FlowService,
     private toastr: ToastrService,
     private translate: TranslateService,
+    private apiSGService: ApiSGService,
+    private videoModuleService: QuizService,
+    private triviaService: ApiTriviaService,
     public matDialog: MatDialog) { }
 
   ngOnInit(): void {
 
+    this.getApiStudies();
+
     this.stageForm = this.formBuilder.group({
-      title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
-      step: ['', [Validators.required]],
-      type: ['', [Validators.required]],
-      link: ['', [Validators.required]]
+      title: [this.stage.title, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
+      description: [this.stage.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
+      step: [this.stage.step, [Validators.required]],
+      type: [this.stage.type, [Validators.required]],
+      externalId: [this.stage.externalId, [Validators.required]]
     });
 
     this.flowService.getFlows().subscribe(
@@ -380,13 +397,76 @@ export class StageUpdateDialogComponent implements OnInit{
     return this.stageForm['controls'];
   }
 
+  getApiStudies(){
+    this.triviaService.getStudies().subscribe((res: any) => {
+      this.triviaLinks = res.studys;
+      this.initLinks(this.stage.type);
+    });
+    this.apiSGService.getStudies().subscribe((res: any) => {
+      console.log("ESTUDIOS RESCATADOS DESDE SG:");
+      console.log("ESTUDIOS RESCATADOS DESDE SG:");
+      console.log("ESTUDIOS RESCATADOS DESDE SG:");
+      console.log(res.adventures);
+      this.SGLinks = res.adventures;
+      console.log(this.SGLinks);
+      this.initLinks(this.stage.type);
+    });
+  }  
+
+  initLinks(type: string){
+    console.log('init', type);
+    if(type === 'Trivia'){
+      this.currentLinks = this.triviaLinks;
+    }
+    else if(type === 'SG'){
+      this.currentLinks = this.SGLinks;
+    }
+    else if(type === 'Video'){
+      this.currentLinks = this.videoLinks;
+    }
+  } 
+
+  changeLinks(event: any){
+    let value = event.value;
+    this.stageForm.patchValue({ externalId: null });
+    if(value === 'Trivia'){
+      this.currentLinks = this.triviaLinks;
+    }
+    else if(value === 'SG'){
+      this.currentLinks = this.SGLinks;
+    }
+    else if(value === 'Video'){
+      this.currentLinks = this.videoLinks;
+    }
+  }  
+
   updateStage(stageId: string){
     this.loading = true;
     let stage = this.stageForm.value;
+    console.log(this.stageForm.value, 'stage');
+    /*Stage properties*/
     stage.flow = this.stage.flow;
+    let externalObject = this.currentLinks.find(element => element._id === stage.externalId);
+    console.log(externalObject, 'ext');
+    stage.externalName = externalObject.name;
+    /*End stage properties*/
+    /*Stage FormData*/
+    let formData = new FormData();
+    formData.append('title', stage.title);
+    formData.append('description', stage.description);
+    formData.append('step', stage.step);
+    formData.append('type', stage.type);
+    formData.append('externalId', stage.externalId);
+    formData.append('flow', stage.flow);
+    formData.append('externalName', stage.externalName);
+    /*End stage FormData*/
+    if(this.file){
+      formData.append('file', this.file);
+    }
+    console.log(stageId, 'new', stage)
     this.stageService.putStage(stageId, stage).subscribe(
       stage => {
-        this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + stage['stage'].question, this.translate.instant("STAGE.TOAST.SUCCESS"), {
+        this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
@@ -401,5 +481,9 @@ export class StageUpdateDialogComponent implements OnInit{
       }
     );
   }
+
+  handleFileInput(files: FileList) {
+    this.file = files.item(0);
+  }  
 }
 

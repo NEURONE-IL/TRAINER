@@ -102,6 +102,8 @@
     },
     "SUBTITLE": "Complete el siguiente formulario para crear una nueva etapa en el flujo",
     "TITLE": "Creación de etapas",
+    "UPDATE_TITLE": "Edición de etapas",
+    "UPDATE_SUBTITLE": "Complete el siguiente formulario para etitar la etapa seleccionada",
     "TOAST": {
       "ERROR": "¡Error!",
       "ERROR_MESSAGE": "No se ha creado la nueva etapa",

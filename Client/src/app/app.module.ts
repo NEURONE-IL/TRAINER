@@ -50,7 +50,7 @@ import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfigura
 import { AdminPanelComponent } from './views/admin-panel/admin-panel.component';
 import { FlowsDisplayComponent } from './views/flows-display/flows-display.component';
 import { FlowCreationComponent } from './views/flow-creation/flow-creation.component';
-import { FlowDisplayComponent } from './views/flow-display/flow-display.component';
+import { FlowDisplayComponent, FlowUpdateDialogComponent, StageUpdateDialogComponent } from './views/flow-display/flow-display.component';
 import { StageCreationComponent } from './views/stage-creation/stage-creation.component';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
@@ -87,6 +87,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConsentComponent,
     ModuleCreationComponent,
     FlowsDisplayComponent,
+    FlowUpdateDialogComponent,
+    StageUpdateDialogComponent,
     FlowCreationComponent,
     FlowDisplayComponent
   ],
