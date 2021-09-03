@@ -10,7 +10,6 @@ const StageSchema = new Schema({
     type: { type: String, required: true },
     externalId: { type: String, required: true },
     externalName: { type: String, required: true },
-    active: { type: Boolean, default: false },
     image_url: { type: String },
     image_id: { type: String },    
     createdAt: { type: Date, default: Date.now },

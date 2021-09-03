@@ -10,6 +10,8 @@ const UserFlowSchema = new Schema({
     stages: { type: [{
         stage: {type: Schema.Types.ObjectId, ref: 'Stage'},
         percentage: { type: Number, required: true, default: 0 },
+        active: { type: Boolean, default: false },
+        completed: { type: Boolean, default: false },
         _id: false,
         id: false
       }], default: []},

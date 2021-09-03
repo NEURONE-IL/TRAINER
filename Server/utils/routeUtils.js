@@ -10,7 +10,16 @@ async function generateProgress(stages, user, flow) {
   
     /*Push all stages into progress array*/
     stages.forEach((stage) => {
-        progress.push({ stage: stage, percentage: 0 });
+        let active;
+        if(!flow.sorted || stage.step === 1){
+            active = true;
+        }        
+        progress.push({ 
+            stage: stage, 
+            percentage: 0,
+            active: active,
+            complete: false
+        });
     });
   
     const userFlow = new UserFlow({

@@ -78,9 +78,6 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
             externalName: req.body.externalName,
             module: req.body.module
         })
-        if(!flow.sorted || stage.step === 1){
-            stage.active = true;
-        }
         if(req.file){
             let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
             stage.image_url = image_url;
