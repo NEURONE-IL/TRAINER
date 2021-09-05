@@ -1,4 +1,4 @@
-<form>
+<form id="hola">
   <div *ngFor="let my_quiz of quiz">
     <ng-template [ngIf]="my_quiz.QUIZ_ID == quizNumber">
       <ng-template [ngIf]="exerciseActual == 0">
@@ -9,58 +9,42 @@
       <div *ngFor="let exercise of my_quiz.EXERCISES; let last_exercise = last; let first_exercise = first;">
         <ng-template [ngIf]="exercise.EXERCISE_ID == exerciseActual">
           <h6>Ejercicio {{exercise.EXERCISE_ID}}: {{exercise.INTRODUCTION}}</h6>
-
           <div class="quiz_questions" *ngFor="let question of exercise.QUESTIONS">
-            <ng-template [ngIf]="question.QUESTION_TYPE == 1">
-              <mat-card class="question-card">
-                <!--<form>-->
-                <h6>Pregunta {{question.QUESTION_NUM}}</h6>
-                <p>Recurso: {{question.RESOURCE}}</p>
-                <p>{{question.QUESTION}}</p>
-                <textarea class="textarea-question" name="answer-textarea"></textarea>
-                <div class="bonus-class" *ngIf="question.BONUS">
-                  <p>{{question.BONUS}}</p>
-                  <input class="input-text" type="text" name="answer-bonus">
-                </div>
-                <!--</form>-->
-              </mat-card>
-            </ng-template>
-            <ng-template [ngIf]="question.QUESTION_TYPE == 2">
-              <mat-card class="question-card">
-                <!--<form>-->
-                <h6>Pregunta {{question.QUESTION_NUM}}</h6>
-                <p>Recurso: {{question.RESOURCE}}</p>
-                <p>{{question.QUESTION}}</p>
-                <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
-                  <input type="radio" id="alternatives{{question.QUESTION_ID}}" name="answer{{question.QUESTION_ID}}">
-                  <label for="alternatives{{question.QUESTION_ID}}">&nbsp;{{alternative}}</label><br>
-                </div>
-                <div class="bonus-class" *ngIf="question.BONUS">
-                  <p>{{question.BONUS}}</p>
-                  <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
-                </div>
+            <mat-card class="question-card">
+              <h6>Pregunta {{question.QUESTION_NUM}}</h6>
+              <ng-template [ngIf]="resourceExist(question.QUESTION_ID)">
+                <img src="/assets/videoModule-images/{{question.QUESTION_ID}}.png">
+              </ng-template>
+              <p>{{question.QUESTION}}</p>
+              <ng-template [ngIf]="question.QUESTION_TYPE == 1">
+                  <textarea class="textarea-question" name="answer{{question.QUESTION_ID}}"></textarea>
+                  <div class="bonus-class" *ngIf="question.BONUS">
+                    <p>{{question.BONUS}}</p>
+                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
+                  </div>
+              </ng-template>
+              <ng-template [ngIf]="question.QUESTION_TYPE == 2">
+                  <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
+                    <input type="radio" id="alternatives{{question.QUESTION_ID}}" name="answer{{question.QUESTION_ID}}">
+                    <label for="alternatives{{question.QUESTION_ID}}">&nbsp;{{alternative}}</label><br>
+                  </div>
+                  <div class="bonus-class" *ngIf="question.BONUS">
+                    <p>{{question.BONUS}}</p>
+                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
+                  </div>
+              </ng-template>
+              <ng-template [ngIf]="question.QUESTION_TYPE == 3">
+                  <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
+                    <input type="checkbox" id="alternatives{{question.QUESTION_ID}}}}" name="answer{{question.QUESTION_ID}}">
+                    <label for="alternatives{{question.QUESTION_ID}}">&nbsp;{{alternative}}</label><br>
+                  </div>
+                  <div class="bonus-class" *ngIf="question.BONUS">
+                    <p>{{question.BONUS}}</p>
+                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTIOM_ID}}">
+                  </div>
 
-                <!--</form>-->
-              </mat-card>
-            </ng-template>
-            <ng-template [ngIf]="question.QUESTION_TYPE == 3">
-              <mat-card class="question-card">
-                <!--<form>-->
-                <h6>Pregunta {{question.QUESTION_NUM}}</h6>
-                <p>Recurso: {{question.RESOURCE}}</p>
-                <p>{{question.QUESTION}}</p>
-                <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
-                  <input type="checkbox" id="alternative" name="fav_language">
-                  <label for="alternative">&nbsp;{{alternative}}</label><br>
-                </div>
-                <div class="bonus-class" *ngIf="question.BONUS">
-                  <p>{{question.BONUS}}</p>
-                  <input class="input-text" type="text">
-                </div>
-
-                <!--</form>-->
-              </mat-card>
-            </ng-template>
+              </ng-template>
+            </mat-card>
           </div>
 
 
