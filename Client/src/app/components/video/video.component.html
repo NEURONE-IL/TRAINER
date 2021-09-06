@@ -4,7 +4,18 @@
 <mat-card class="mat-card-video">
   <p>aqui va el video {{videoNumber}} :)</p>
 
+  <div plyr style="width: 640px;" plyrTitle="Video 1" [plyrPlaysInline]="true" [plyrSources]="videoSources" (plyrInit)="player = $event" (plyrPlay)="played($event)"></div>
+
+  <button (click)="play()">Play</button>
+
+  <br>
+  <h1> TRY 2 </h1>
+  <br>
+
+  <plyr style="display: block; width: 640px;" plyrTitle="Video 1" [plyrPlaysInline]="true" [plyrSources]="videoSources" (plyrInit)="player = $event" (plyrPlay)="played($event)"></plyr>
+  <button (click)="play()">Play</button>
 </mat-card>
 
 <!--<button (click)="sendVideoResponse('Siguiente')">Siguiente</button>
 -->
+
