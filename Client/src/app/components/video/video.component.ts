@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import Plyr from 'plyr';
+//import Plyr from 'plyr';
 
 @Component({
   selector: 'app-video',
@@ -16,7 +16,7 @@ export class VideoComponent implements OnInit {
 
   ngOnInit(): void {
     this.getVideo();
-    const player = new Plyr('#player');
+    //const player = new Plyr('#player');
   }
 
   getVideo() {

@@ -106,7 +106,7 @@
 
                   <div>
                     <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
-                    
+
                   </div>
 
                   <div>
@@ -114,7 +114,7 @@
                   </div>
 
                   <div>
-                    <mat-icon (click)="showStageUpdateDialog(stage)" style="cursor: pointer;">view_module</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.MODULE" | translate }}: {{ stage.module.name }}</span> 
+                    <mat-icon (click)="showStageUpdateDialog(stage)" style="cursor: pointer;">view_module</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.MODULE" | translate }}: {{ stage.module.name }}</span>
                   </div>
 
                   <div>
@@ -145,6 +145,7 @@
       <ng-template matTabContent>
         <button mat-raised-button color="primary" (click)="this.resetFlowDummy()"> Reset User</button>
         <show-flow [studentId]="this.dummyUser._id"  [flowId]="flow._id"> </show-flow>
+
       </ng-template>
     </mat-tab>
   </mat-tab-group>

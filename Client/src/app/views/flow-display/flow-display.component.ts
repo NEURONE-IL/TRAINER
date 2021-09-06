@@ -25,6 +25,7 @@ export class FlowDisplayComponent implements OnInit {
   modules: any;
   registerLink = '';
   dummyUser: any;
+  resetingUser = false;
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -73,10 +74,16 @@ export class FlowDisplayComponent implements OnInit {
 
     this.reloadModules();
   }
+
   resetFlowDummy(){
+    this.resetingUser = true;
     this.flowService.resetFlowDummy(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
       this.dummyUser = response['user'];
-    });
+      this.resetingUser = false;
+    } , err => {
+      this.resetingUser = false;
+      }
+    );
   }
 
   getTestUser(){
@@ -339,7 +346,7 @@ export class StageUpdateDialogComponent implements OnInit{
   flows: Flow[];
   loading: Boolean;
   steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  typeOptions: string[] = ['Trivia', 'SG', 'Video'];  
+  typeOptions: string[] = ['Trivia', 'SG', 'Video'];
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
   SGLinks: SGGame[] = [];
@@ -409,7 +416,7 @@ export class StageUpdateDialogComponent implements OnInit{
       console.log(this.SGLinks);
       this.initLinks(this.stage.type);
     });
-  }  
+  }
 
   initLinks(type: string){
     console.log('init', type);
@@ -422,7 +429,7 @@ export class StageUpdateDialogComponent implements OnInit{
     else if(type === 'Video'){
       this.currentLinks = this.videoLinks;
     }
-  } 
+  }
 
   changeLinks(event: any){
     let value = event.value;
@@ -436,7 +443,7 @@ export class StageUpdateDialogComponent implements OnInit{
     else if(value === 'Video'){
       this.currentLinks = this.videoLinks;
     }
-  }  
+  }
 
   updateStage(stageId: string){
     this.loading = true;
@@ -482,6 +489,6 @@ export class StageUpdateDialogComponent implements OnInit{
 
   handleFileInput(files: FileList) {
     this.file = files.item(0);
-  }  
+  }
 }
 
