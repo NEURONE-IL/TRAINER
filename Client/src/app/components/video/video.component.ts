@@ -36,7 +36,7 @@ export class VideoComponent implements OnInit {
     this.poster = "/assets/videoModule-images/banner-video" + this.getVideo() + ".jpg";
     this.videoSources = [
       {
-        src: '/assets/Video_busqueda' + this.getVideo() + '.mp4',
+        src: '/assets/videoModule-videos/video' + this.getVideo() + '.mp4',
         type: "video/mp4"
       }
     ];

@@ -1,27 +1,17 @@
+<div class="title-class">
+  <h1>Video {{videoNumber}}: Titulo! </h1>
+</div>
+  <mat-card class="mat-card-video">
 
-<p>Video: {{videoNumber}}</p>
+    <plyr class="video"
+          plyrTitle="Video 1"
+          [plyrSources]="videoSources"
+          (plyrInit)="player = $event"
+          (plyrPlay)="played($event)"
+          [plyrPoster]="poster">
+    </plyr>
 
-<mat-card class="mat-card-video">
-
-  <!--<plyr class="video"
-        plyrTitle="Video 1"
-        [plyrPlaysInline]="true"
-        [plyrSources]="videoSources"
-        (plyrInit)="player = $event"
-        (plyrPlay)="played($event)"
-        [plyrPoster]="/assets/videoModule-images/001002001.png">
-  </plyr>-->
-
-  <plyr class="video"
-        plyrTitle="Video 1"
-        [plyrSources]="videoSources"
-        (plyrInit)="player = $event"
-        (plyrPlay)="played($event)"
-        [plyrPoster]="poster">
-  </plyr>
-
-</mat-card>
-
+  </mat-card>
 <!--<button (click)="sendVideoResponse('Siguiente')">Siguiente</button>
 -->
 
