@@ -12,37 +12,41 @@ export class VideoComponent implements OnInit {
 
   @Input() videoNumber: number;
   @Output() newItemEvent = new EventEmitter<string>();
-  @ViewChild(PlyrComponent)
-  plyr: PlyrComponent;
-
-  constructor(
-    private plyrModule: PlyrModule,
-  ) { }
-
-  // or get it from plyrInit event
   player: Plyr;
+  poster;
+  videoSources: Plyr.Source[];
 
-  videoSources: Plyr.Source[] = [
-    {
-      src: 'bTqVqk7FSmY',
-      provider: 'youtube',
-    },
-  ];
+
+  constructor( private plyrModule: PlyrModule ) { }
+
+
 
   played(event: Plyr.PlyrEvent) {
     console.log('played', event);
   }
 
+
   play(): void {
-    this.player.play(); // or this.plyr.player.play()
-  }
-  ngOnInit(): void {
-    this.getVideo();
+    this.player.play();
   }
 
-  getVideo() {
-    console.log('video');
+
+  ngOnInit(): void {
+    this.getVideo();
+    this.poster = "/assets/videoModule-images/banner-video" + this.getVideo() + ".jpg";
+    this.videoSources = [
+      {
+        src: '/assets/Video_busqueda' + this.getVideo() + '.mp4',
+        type: "video/mp4"
+      }
+    ];
   }
+
+
+  getVideo() {
+    return this.videoNumber;
+  }
+
 
   sendVideoResponse(value) {
     this.newItemEvent.emit(value);

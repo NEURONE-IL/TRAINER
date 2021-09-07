@@ -2,18 +2,24 @@
 <p>Video: {{videoNumber}}</p>
 
 <mat-card class="mat-card-video">
-  <p>aqui va el video {{videoNumber}} :)</p>
 
-  <div plyr style="width: 640px;" plyrTitle="Video 1" [plyrPlaysInline]="true" [plyrSources]="videoSources" (plyrInit)="player = $event" (plyrPlay)="played($event)"></div>
+  <!--<plyr class="video"
+        plyrTitle="Video 1"
+        [plyrPlaysInline]="true"
+        [plyrSources]="videoSources"
+        (plyrInit)="player = $event"
+        (plyrPlay)="played($event)"
+        [plyrPoster]="/assets/videoModule-images/001002001.png">
+  </plyr>-->
 
-  <button (click)="play()">Play</button>
+  <plyr class="video"
+        plyrTitle="Video 1"
+        [plyrSources]="videoSources"
+        (plyrInit)="player = $event"
+        (plyrPlay)="played($event)"
+        [plyrPoster]="poster">
+  </plyr>
 
-  <br>
-  <h1> TRY 2 </h1>
-  <br>
-
-  <plyr style="display: block; width: 640px;" plyrTitle="Video 1" [plyrPlaysInline]="true" [plyrSources]="videoSources" (plyrInit)="player = $event" (plyrPlay)="played($event)"></plyr>
-  <button (click)="play()">Play</button>
 </mat-card>
 
 <!--<button (click)="sendVideoResponse('Siguiente')">Siguiente</button>

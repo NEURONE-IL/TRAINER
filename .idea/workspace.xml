@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="64ebe174-687a-47e4-93b1-aa7f7b114108" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/app/app.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/app/app.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/app/components/video/video.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/app/components/video/video.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/app/components/video/video.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/app/components/video/video.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Client/src/app/components/video/video.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/Client/src/app/components/video/video.component.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1xSFInRZmq8VmYuhMM4dIiLC6Do" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Client/src/assets/videoModule-images" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="ts.external.directory.path" value="$APPLICATION_HOME_DIR$/plugins/JavaScriptLanguage/jsLanguageServicesImpl/external" />
+    <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Client/src/assets/videoModule-images" />
+      <recent name="$PROJECT_DIR$/Client/src/app/components/quiz" />
+      <recent name="$PROJECT_DIR$/Client/src/app/views/video" />
+    </key>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="64ebe174-687a-47e4-93b1-aa7f7b114108" name="Changes" comment="" />
+      <created>1630340505989</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1630340505989</updated>
+      <workItem from="1630340507231" duration="268000" />
+      <workItem from="1630591617650" duration="6604000" />
+      <workItem from="1630873758143" duration="2101000" />
+      <workItem from="1630876087057" duration="2115000" />
+      <workItem from="1630878523314" duration="1648000" />
+      <workItem from="1630880513358" duration="4389000" />
+      <workItem from="1630885069075" duration="877000" />
+      <workItem from="1631021437038" duration="4762000" />
+      <workItem from="1631026751792" duration="1408000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+</project>
