@@ -39,6 +39,33 @@ async function generateProgress(stages, user, flow) {
 }
 exports.generateProgress = generateProgress;
 
+function fetchAndUpdateStages(userFlow, step) {
+    /*If there is any stage with the same step that the completed one currently active, the next step stages remain inactive.*/
+    if(userFlow.stages.find(stage => stage.stage.step === step && stage.active)){
+        return userFlow;
+    }
+    /*Sets the new step increasing in 1 the current one.*/
+    var newStep = step + 1;
+    var changeFlag = false;
+    /*Sets as active the stages where the step matches the new one, if there is not any stage that matches the condition, increases the
+    new step in 1 until find a stage until 10.*/
+    do{
+        userFlow.stages.forEach((stage) => {
+            if(stage.stage.step === newStep){
+                stage.active = true;
+                changeFlag = true;
+            }
+        });
+        newStep++;
+    } while (!changeFlag && newStep < 10);
+    /*If the new step increases until 10 and there is no more stages active, the userFlow is finished.*/
+    if(!userFlow.stages.find(stage => stage.active)){
+        userFlow.finished = true;
+    };
+    return userFlow;
+}
+exports.fetchAndUpdateStages = fetchAndUpdateStages;
+
 /* Sends user confirmation email
    Adapted from: https://codemoto.io/coding/nodejs/email-verification-node-express-mongodb*/
 function sendConfirmationEmail(user, userData, res, req) {

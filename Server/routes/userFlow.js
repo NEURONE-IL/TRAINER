@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const UserFlow = require('../models/userFlow');
 const Stage = require('../models/stage');
+const Flow = require('../models/flow');
+const { fetchAndUpdateStages } = require("../utils/routeUtils");
 
 const verifyToken = require('../middlewares/verifyToken');
 
@@ -43,6 +45,10 @@ router.put('/updateProgress/:student_id/:external_id/:percentage', [verifyToken]
                         element.percentage = 100;
                         element.active = false;
                         element.completed = true;
+                        /*If flow is sorted, check if new stages can be unlocked*/
+                        if(userFlow.flow.sorted){
+                            userFlow = fetchAndUpdateStages(userFlow, element.stage.step);
+                        }
                     }
                 }
             });
@@ -59,7 +65,7 @@ router.put('/updateProgress/:student_id/:external_id/:percentage', [verifyToken]
                 });
             });
         });
-    }).populate({ path: 'stages.stage', model: Stage });
+    }).populate({ path: 'stages.stage', model: Stage }).populate({ path: 'flow', model: Flow });
 });
 
 module.exports = router;
