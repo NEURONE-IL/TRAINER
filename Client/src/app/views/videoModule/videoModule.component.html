@@ -24,7 +24,6 @@
           <app-quiz [quizNumber]=idNumber (newItemEvent)="quizResponse($event)"></app-quiz>
         </ng-template>
         <ng-template [ngIf]="video">
-          <mat-card-title>Video {{idNumber}}</mat-card-title>
           <app-video [videoNumber]=idNumber (newItemEvent)="videoResponse($event)"></app-video>
         </ng-template>
         <ng-template [ngIf]="!video && !quiz">

@@ -2,3 +2,16 @@
   margin-left: 10%;
   margin-right: 10%;
 }
+
+.video{
+  display: block;
+  width: 100%;
+}
+
+.module-card {
+  margin: 5% 10%;
+}
+
+.title-class{
+  text-align: center;
+}

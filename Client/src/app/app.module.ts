@@ -29,7 +29,7 @@ import { Ng9RutModule } from 'ng9-rut';
 import { ValidateEqualModule } from 'ng-validate-equal';
 import { ToastrModule } from 'ngx-toastr';
 import { CommonModule } from '@angular/common';
-
+import { PlyrModule } from 'ngx-plyr';
 
 import { AppComponent } from './app.component';
 import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
@@ -60,6 +60,7 @@ import { QuizComponent } from './components/quiz/quiz.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { ConsentComponent } from './components/consent/consent.component';
 import { ModuleCreationComponent } from './views/module-creation/module-creation.component';
+
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -128,6 +129,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     Ng9RutModule,
     ValidateEqualModule,
     CommonModule,
+    PlyrModule,
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {

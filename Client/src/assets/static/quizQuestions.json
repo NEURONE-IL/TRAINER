@@ -12,7 +12,6 @@
                   "QUESTION_NUM": 1,
                   "QUESTION_ID": "001001001",
                   "QUESTION_TYPE": 3,
-                  "RESOURCE": "No hay recurso",
                   "QUESTION": "Marca con una X tres aspectos importantes en las siguientes alternativas. Un buen buscador de información:",
                   "ALTERNATIVES": [
                     "Clica el primer enlace de entre todos los resultados obtenidos en la búsqueda porque ese es el más relevante",
@@ -34,7 +33,6 @@
             "QUESTION_NUM": 1,
             "QUESTION_ID": "001002001",
             "QUESTION_TYPE": 2,
-            "RESOURCE": "No hay recurso",
             "QUESTION": "¿Cómo evalúas la utilidad que indican el título y el extracto de texto del resultado de búsqueda para el desarrollo de la tarea de Pepa y Pipo?",
             "ALTERNATIVES": [
               "Muy ùtil",
@@ -48,7 +46,6 @@
             "QUESTION_NUM": 2,
             "QUESTION_ID": "001002002",
             "QUESTION_TYPE": 2,
-            "RESOURCE": "No hay recurso",
             "QUESTION": "¿¿Cómo evalúas la utilidad que indican el título y el extracto de texto del resultado de búsqueda para el desarrollo de la tarea de Pepa y Pipo?",
             "ALTERNATIVES": [
               "Muy ùtil",
@@ -68,7 +65,6 @@
             "QUESTION_NUM": 1,
             "QUESTION_ID": "001003001",
             "QUESTION_TYPE": 2,
-            "RESOURCE": "No hay recurso",
             "QUESTION": "¿Cómo evalúas la utilidad que indican el título y el extracto de texto del resultado de búsqueda para el desarrollo de la tarea de Pepa y Pipo?",
             "ALTERNATIVES": [
               "Muy ùtil",
@@ -95,7 +91,6 @@
             "QUESTION_NUM": 1,
             "QUESTION_ID": "002002001",
             "QUESTION_TYPE": 3,
-            "RESOURCE": "No hay recurso",
             "QUESTION": "¿Cuál crees es el objetivo de la página web?",
             "ALTERNATIVES": [
               "Dar información",
@@ -109,7 +104,6 @@
             "QUESTION_NUM": 2,
             "QUESTION_ID": "002002002",
             "QUESTION_TYPE": 1,
-            "RESOURCE": "No hay recurso",
             "QUESTION": "¿Crees que lo que dice el autor en la página web es cierto?",
             "ALTERNATIVES": [],
             "BONUS": "¿Por què?"
@@ -118,7 +112,6 @@
             "QUESTION_NUM": 3,
             "QUESTION_ID": "002002003",
             "QUESTION_TYPE": 2,
-            "RESOURCE": "No hay recurso",
             "QUESTION": "¿Qué tan confiable te parece la página web?",
             "ALTERNATIVES": [
               "Muy Confiable",

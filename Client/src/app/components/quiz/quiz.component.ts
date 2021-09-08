@@ -54,5 +54,18 @@ export class QuizComponent implements OnInit {
   saveExercise() {
     console.log('Guardar el ejercicio');
   }
+
+  resourceExist(url){
+    var img = new Image();
+    var path = '/assets/videoModule-images/'+url+'.png';
+    img.src = path;
+    console.log(path);
+    console.log(img.height != 0);
+    return img.height != 0;
+
+  }
+
 }
+
+
 
