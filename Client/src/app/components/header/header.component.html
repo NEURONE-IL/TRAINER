@@ -1,6 +1,6 @@
 <div class="header" role="banner">
-  <a class="title-span"
-	 	href=""
+  <!--Student Implementation-->
+  <a class="title-span" *ngIf="isLoggedIn"
 		#tooltip="matTooltip"
 		[(matTooltip)]="homeTooltip"
 		matTooltipPosition="right">

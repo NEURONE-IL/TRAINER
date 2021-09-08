@@ -82,13 +82,11 @@ const routes: Routes = [
     component: VideoOnlyComponent,
     canActivate: [ AuthGuard ]
   },
-  /*
   {
     path: 'login/confirmedOK',
     component: StudentLandPageComponent,
     canActivate: [ NotLoggedInGuard ]
   },
-  */
   {
     path: 'admin_panel',
     component: AdminPanelComponent,
@@ -109,20 +107,17 @@ const routes: Routes = [
     component: FlowCreationComponent,
     canActivate: [ AuthGuard, AdminGuard ]
   },
-
-
-  /*
   {
     path: 'forgot_password',
     component: ForgotPasswordComponent,
-//    canActivate: [ NotLoggedInGuard ]
+    canActivate: [ NotLoggedInGuard ]
   },
   {
     path: 'user/resetPassword/:token',
     component: RecoveryComponent,
-//    canActivate: [ NotLoggedInGuard ]
+    canActivate: [ NotLoggedInGuard ]    
   },
-  { path: '**', redirectTo: 'home' },*/
+  { path: '**', redirectTo: 'home' }
 ];
 
 @NgModule({

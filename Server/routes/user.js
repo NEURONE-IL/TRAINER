@@ -9,7 +9,7 @@ const Token = require("../models/token");
 const verifyToken = require("../middlewares/verifyToken");
 const bcrypt = require("bcryptjs");
 const authMiddleware = require("../middlewares/authMiddleware");
-const { generateProgress } = require("../utils/routeUtils");
+const { generateProgress, sendResetPasswordEmail } = require("../utils/routeUtils");
 
 router.get("", [verifyToken, authMiddleware.isAdmin], async (req, res) => {
 	User.find({}, { password: 0 }, (err, users) => {

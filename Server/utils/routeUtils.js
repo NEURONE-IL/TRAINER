@@ -194,7 +194,7 @@ function generateEmailDataRP(req, token, user) {
     const link =
         "http://" +
         req.headers.host +
-        "/user/resetPassword" +
+        "/user/resetPassword/" +
         token.token;
     let mailHTML = null;
     let mailText =
@@ -223,7 +223,7 @@ function addTextToEmailRP(mailHTML, userData, link) {
     );
     mailHTML = mailHTML.replace(
         "[RESET_PASSWORD.TITLE]",
-        "Hola " + user.names + "."
+        "Hola " + userData.names + "."
     );
     mailHTML = mailHTML.replace(
         "[RESET_PASSWORD.TEXT]",
