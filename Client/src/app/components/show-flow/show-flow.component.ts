@@ -73,7 +73,7 @@ export class ShowFlowComponent implements OnInit {
   }
 
   updateProgress(stageId){
-    this.stageService.updateProgress(this.studentId, stageId, 100).subscribe(response => {
+    this.stageService.updateProgress(this.studentId, this.flowId, stageId, 100).subscribe(response => {
       this.sortedStages = response['stages'];
     });
   }

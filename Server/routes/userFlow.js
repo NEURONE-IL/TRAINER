@@ -23,16 +23,17 @@ router.get('/stagesByStudent/:student_id', [verifyToken], async (req, res) => {
     }).populate({ path: 'stages.stage', model: Stage });
 });
 
-router.put('/updateProgress/:student_id/:external_id/:percentage', [verifyToken], async (req, res) => {
+router.put('/updateProgress/:student_id/:flow_id/:external_id/:percentage', [verifyToken], async (req, res) => {
     const userId = req.params.student_id;
     const externalId = req.params.external_id;
+    const flowId = req.params.flow_id;
     await UserFlow.findOne({user: userId}, (err, userFlow) => {
         if (err) {
             return res.status(404).json({
                 err
             });
         }
-        Stage.findOne({externalId: externalId}, (err, stage) => {
+        Stage.findOne({flow: flowId, externalId: externalId}, (err, stage) => {
             if (err) {
                 return res.status(404).json({
                     err
@@ -44,10 +45,16 @@ router.put('/updateProgress/:student_id/:external_id/:percentage', [verifyToken]
                     if (Math.ceil(element.percentage) >= 100){
                         element.percentage = 100;
                         element.active = false;
-                        element.completed = true;
+                        element.completed = true;              
                         /*If flow is sorted, check if new stages can be unlocked*/
                         if(userFlow.flow.sorted){
                             userFlow = fetchAndUpdateStages(userFlow, element.stage.step);
+                        }
+                        else{
+                            /*If there is no more stages active, the userFlow is finished.*/
+                            if(!userFlow.stages.find(stage => stage.active)){
+                                userFlow.finished = true;
+                            };                            
                         }
                     }
                 }

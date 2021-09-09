@@ -60,8 +60,8 @@ export class StageService {
     return this.http.delete(this.uri+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  updateProgress(studentId: string, externalId:string, percentage: number): Observable<any> {
-    return this.http.put(environment.apiURL + 'userFlow/updateProgress/' + studentId + '/' + externalId + '/' + percentage, {}, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  updateProgress(studentId: string, flowId:string, externalId:string, percentage: number): Observable<any> {
+    return this.http.put(environment.apiURL + 'userFlow/updateProgress/' + studentId + '/' + flowId + '/' + externalId + '/' + percentage, {}, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
 }
