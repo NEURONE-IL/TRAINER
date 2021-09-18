@@ -16,31 +16,35 @@
                 <img src="/assets/videoModule-images/{{question.QUESTION_ID}}.png">
               </ng-template>
               <p>{{question.QUESTION}}</p>
+
+
               <ng-template [ngIf]="question.QUESTION_TYPE == 1">
-                  <textarea class="textarea-question" name="answer{{question.QUESTION_ID}}"></textarea>
+                  <textarea class="textarea-question answer" name="answer_{{question.QUESTION_ID}}"></textarea>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
                     <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
                   </div>
               </ng-template>
+
+
               <ng-template [ngIf]="question.QUESTION_TYPE == 2">
-                  <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
-                    <input type="radio" id="alternatives{{question.QUESTION_ID}}" name="answer{{question.QUESTION_ID}}">
-                    <label for="alternatives{{question.QUESTION_ID}}">&nbsp;{{alternative}}</label><br>
+                  <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES; let i = index">
+                    <label><input class="answer" type="radio" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label>
                   </div>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
                     <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
                   </div>
               </ng-template>
+
+
               <ng-template [ngIf]="question.QUESTION_TYPE == 3">
-                  <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES">
-                    <input type="checkbox" id="alternatives{{question.QUESTION_ID}}}}" name="answer{{question.QUESTION_ID}}">
-                    <label for="alternatives{{question.QUESTION_ID}}">&nbsp;{{alternative}}</label><br>
+                  <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES; let i = index">
+                    <label><input class="answer" type="checkbox" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
                   </div>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
-                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTIOM_ID}}">
+                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
                   </div>
 
               </ng-template>
@@ -71,9 +75,12 @@
         </ng-template>
       </div>
 
+      <div>
+        <button (click)="getAnswersString()">Ver respuestas</button>
+      </div>
+
     </ng-template>
   </div>
-
 
   <!--<button (click)="sendQuizResponse('Atras')">Atras</button>
   <button (click)="sendQuizResponse('Enviar')">Enviar</button>

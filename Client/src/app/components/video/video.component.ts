@@ -15,6 +15,7 @@ export class VideoComponent implements OnInit {
   player: Plyr;
   poster;
   videoSources: Plyr.Source[];
+  currentTime = 0;
 
 
   constructor( private plyrModule: PlyrModule ) { }
@@ -23,31 +24,32 @@ export class VideoComponent implements OnInit {
 
   played(event: Plyr.PlyrEvent) {
     if (event.type === 'play'){
-      console.log('play on ', this.player.currentTime);
+      console.log('Play en ', this.player.currentTime, ' s.');
     }
     else if (event.type === 'pause'){
-      console.log('pause on ', this.player.currentTime);
+      console.log('Pause en ', this.player.currentTime, ' s.');
     }
     else if (event.type === 'ratechange'){
-      console.log('cambio de speed to ', this.player.speed);
+      console.log('Cambio de velocidad a ', this.player.speed, ' en ', this.player.currentTime, ' s.');
     }
     else if (event.type === 'enterfullscreen'){
-      console.log('pantalla completa on ', this.player.currentTime);
+      console.log('Pantalla completa en ', this.player.currentTime, ' s.');
     }
     else if (event.type === 'exitfullscreen'){
-      console.log('salir de pantalla completa on ', this.player.currentTime);
+      console.log('Salir de pantalla completa en ', this.player.currentTime), ' s.';
     }
     else if (event.type === 'ended') {
-      console.log('video terminado');
+      console.log('Video terminado. Tiempo total: ');
     }
     else if (event.type === 'volumechange'){
-      console.log('volumen cambio a ', this.player.volume, ' on time ', this.player.currentTime);
-    }
-    else if (event.type === 'seeking'){ // Estos no funcionan bien bien
-      console.log('mover desde ', this.player.currentTime);
+      console.log('Volumen cambio a ', this.player.volume, ' en ', this.player.currentTime), ' s.';
     }
     else if (event.type === 'seeked'){
-      console.log('y dejar on ', this.player.currentTime);
+      if(this.player.currentTime != this.currentTime){
+        let valor = this.player.currentTime;
+        valor = parseFloat(valor.toFixed(2));
+        console.log('Cambiar tiempo a ', valor);
+      }
     }
   }
 
