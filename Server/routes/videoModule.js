@@ -6,12 +6,11 @@ const verifyToken = require('../middlewares/verifyToken');
 const authMiddleware = require("../middlewares/authMiddleware");
 const Role = require("../models/role");
 const Flow = require("../models/flow");
+const ObjectId = require('mongodb').ObjectID;
 
-//No workea aaaah
-router.get('/:id', [verifyToken], async (req,res) => {
-    const ID = req.params.id;
-    console.log(ID);
-    VideoModule.findOne({questionid: ID}, (err, data) => {
+// para llamar url -> http://localhost:3070/api/videoModule/001001001
+router.get('/:questionId', [verifyToken], async (req,res) => {
+    VideoModule.findOne({questionId: req.params.questionId}, (err, data) => {
         if(err){
             return res.status(404).json({ok: false, err});
         }
@@ -21,9 +20,7 @@ router.get('/:id', [verifyToken], async (req,res) => {
     });
 });
 
-//Pero este si mmmmmmm
 router.get('', [verifyToken], async (req,res) => {
-    //const questionId = req.params.questionID;
     VideoModule.find({}, (err, data) => {
         if(err){
             return res.status(404).json({ok: false, err});
@@ -35,10 +32,10 @@ router.get('', [verifyToken], async (req,res) => {
 });
 
 router.post('', [verifyToken], async (req, res) => {
-    console.log('routes VideoModule');
-    console.log("body: ", req.body);
     const data = new VideoModule({
+        userId: ObjectId(req.body.userId),
         questionId: req.body.questionId,
+        questionType: req.body.questionType,
         answerQuestion: req.body.answerQuestion,
         answerBonus: req.body.answerBonus
     });

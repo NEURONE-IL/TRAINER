@@ -83,22 +83,23 @@ export class QuizComponent implements OnInit {
 
   getAnswers(){
     const answers = document.getElementsByClassName('answer');
+    let finalAnswers = [];
     for (let i = 0; i < answers.length; i++){
       const answer = (answers[i] as HTMLInputElement);
       if (answer.type === 'text' || answer.type === 'textarea'){
         if (answer.value.length > 0){
           const string = answer.name.split('_');
           const bonus = this.getAnswerBonus(string[1]);
-          this.saveAnswer(string[1], answer.value, bonus);
-          console.log(string[1], ';', answer.value, ';', bonus, ';');
+          let a = string[1]+';'+answer.type+';'+answer.value+';'+bonus;
+          finalAnswers.push(string[1],answer.type,answer.value,bonus);
         }
       }
       else if (answer.type == 'radio'){
         if (answer.checked){
           const string = answer.name.split('_');
           const bonus = this.getAnswerBonus(string[1]);
-          this.saveAnswer(string[1], answer.value, bonus);
-          console.log(string[1], ';', answer.value, ';', bonus, ';');
+          let a = string[1]+';'+answer.type+';'+answer.value+';'+bonus;
+          finalAnswers.push(string[1],answer.type,answer.value,bonus);
         }
       }
       else if (answer.type == 'checkbox'){
@@ -106,30 +107,51 @@ export class QuizComponent implements OnInit {
           const alt = this.getAlternatives(answer.name);
           const string = answer.name.split('_');
           const bonus = this.getAnswerBonus(string[1]);
-          this.saveAnswer(string[1], alt, bonus);
-          console.log(string[1], ';', alt, ';', bonus, ';');
+          let yaEsta = false;
+          for (let ans of finalAnswers){
+            if (string[1] === ans){
+              yaEsta = true;
+              break;
+            }
+          }
+          if (!yaEsta){
+            finalAnswers.push(string[1],answer.type,alt,bonus);
+          }
+
         }
       }
     }
+    return finalAnswers;
   }
 
-  saveAnswer(question, answer, bonus){
-    console.log('quiz component ts');
-    const jsonAnswer = {questionId: question, answerQuestion: answer, answerBonus: bonus};
-    this.quizService.saveAnswer(jsonAnswer).subscribe((res) => {
-      console.log(res);
-    });
+  saveAnswer(){
+    let respuestas = this.getAnswers();
+    let index = 0;
+    let json = [];
+    let j = {};
+    for (let valor of respuestas){
+      if (index == 4){
+        index = 0;
+        this.quizService.saveAnswer(j).subscribe((res) => { });
+        j = {};
+
+      }
+
+      if (index == 0){
+        j["questionId"] = valor;
+      }
+      else if (index == 1){
+        j["questionType"] = valor;
+      }
+      else if (index == 2){
+        j["answerQuestion"] = valor;
+      }
+      else {
+        j["answerBonus"] = valor;
+      }
+      index++;
+    }
+    this.quizService.saveAnswer(j).subscribe((res) => { });
+
   }
 }
-/**
- * ¿Y ahora que?
- *  First timer en vista para saber cuanto tiempo estuvieron
- *  Setear todo al inicio del video (velocidad, volumen, etc) antes de empezar a tomar datos
- *  Hacer modelo de datos y conectar a la bdd
- *  Una vez echo lo anterior, hacer lo mismo para las acciones del video
- *  Crear acciones para quiz
- *  Hacer lo mismo con la bdd para acciones quiz
- *  Recrear string en respuestas para luego poder editar
- *  La funcion para recuperar datos del form debe soportar: agregar new y modificar respuesta anterior
- */
-

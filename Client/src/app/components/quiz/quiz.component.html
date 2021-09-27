@@ -53,7 +53,7 @@
 
 
           <div class="quiz_buttons">
-            <button (click)="saveExercise()">Guardar</button>
+            <button (click)="saveAnswer()">Guardar</button>
             <ng-template [ngIf]="first_exercise">
               <button (click)="decreaseExercise(first_exercise)" disabled>Atras</button>
             </ng-template>
@@ -73,10 +73,6 @@
           </div>
 
         </ng-template>
-      </div>
-
-      <div>
-        <button (click)="getAnswers()">Ver respuestas</button>
       </div>
 
     </ng-template>

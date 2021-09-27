@@ -24,8 +24,15 @@ export class QuizService {
     return quiz;
   }
 
-  saveAnswer(answer: any): Observable<any> {
+  getAnswer(questionId: any): Observable<any>{
     console.log('quiz service ts');
+    return this.http.get(this.uri + '/' + questionId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  }
+
+  saveAnswer(answer: any): Observable<any> {
+    const user = JSON.parse(localStorage.getItem('currentUser', ));
+    //necesito stage y flujo
+    answer["userId"] = user['_id'];
     return this.http.post(this.uri, answer, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 }
