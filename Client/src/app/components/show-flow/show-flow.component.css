@@ -38,7 +38,6 @@
 
 ::ng-deep mat-grid-tile.mat-grid-tile .mat-figure {
   align-items: center;
-  justify-content: flex-start;
 }
 
 .header-stage mat-card-title{
@@ -97,11 +96,8 @@
 }
 
 .mat-card-actions{
-  text-align: right;
+  text-align: center;
   margin-right: 40px;
-  border-bottom: solid 1px #CCCCCC;
-  border-left: solid 1px #EEEEEE;
-  border-right: solid 1px #EEEEEE;
   margin-left: 47px;
   padding-left: 10px;
   margin-top: 0px;
@@ -198,4 +194,24 @@ table {
 
 .buttons2 button{
   padding-left: 10px;
+}
+
+.azul {
+  background: lightblue;
+  padding-bottom: 15px;
+}
+
+.rojo {
+  background: indianred;
+  padding-bottom: 15px;
+}
+
+.mat-row .mat-cell {
+  border-bottom: 1px solid transparent;
+  border-top: 1px solid transparent;
+  cursor: pointer;
+}
+
+.mat-row-is-clicked {
+  background: lightseagreen;
 }

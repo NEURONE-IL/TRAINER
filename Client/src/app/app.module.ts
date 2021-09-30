@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatTabsModule} from '@angular/material/tabs';
+import {MatTableModule} from '@angular/material/table';
 import {MatIconModule} from '@angular/material/icon';
 import {MatGridListModule} from '@angular/material/grid-list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
@@ -60,6 +61,7 @@ import { QuizComponent } from './components/quiz/quiz.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { ConsentComponent } from './components/consent/consent.component';
 import { ModuleCreationComponent } from './views/module-creation/module-creation.component';
+import { ShowStagesComponent } from './views/show-stages/show-stages.component';
 
 
 
@@ -93,13 +95,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlowUpdateDialogComponent,
     StageUpdateDialogComponent,
     FlowCreationComponent,
-    FlowDisplayComponent
+    FlowDisplayComponent,
+    ShowStagesComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     MatTabsModule,
+    MatTableModule,
     MatIconModule,
     MatGridListModule,
     MatProgressSpinnerModule,

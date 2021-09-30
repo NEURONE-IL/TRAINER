@@ -3,8 +3,11 @@ import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from "../../services/trainer/flow.service";
 import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+
+import { ModuleService } from 'src/app/services/trainer/module.service';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'show-flow',
@@ -19,21 +22,35 @@ export class ShowFlowComponent implements OnInit {
   flow: Flow;
   stages = [];
   sortedStages: Stage[] = [];
+  columnHeader: string[] = ['NombreCol', 'TipoCol']
+  mostrarEtapas: boolean = false;
+  modules: any [];
+  selectedModule: any;
+
 
   constructor(
+    private route: ActivatedRoute,
     private stageService: StageService,
     private flowService: FlowService,
     private triviaService: ApiTriviaService,
+    private moduleService: ModuleService,
     private router: Router,
     private toastr: ToastrService,
     private apiSGService: ApiSGService
   ) { }
 
   ngOnInit(): void {
+    /*
     this.stageService.getStageByStudent(this.studentId)
       .subscribe(response => {
         this.sortedStages = response['stages'];
       });
+    */
+    this.moduleService.getModuleByFlow(this.route.snapshot.paramMap.get('flow_id'))
+      .subscribe(response => {
+        this.modules = response['modules'];
+    });
+    
   }
   getClass(active, type){
     if(!active){
@@ -76,5 +93,13 @@ export class ShowFlowComponent implements OnInit {
     this.stageService.updateProgress(this.studentId, this.flowId, stageId, 100).subscribe(response => {
       this.sortedStages = response['stages'];
     });
+  }
+
+  enClick(row){
+    this.selectedModule=row
+  }
+
+  displayStages(){
+    this.mostrarEtapas = !this.mostrarEtapas
   }
 }

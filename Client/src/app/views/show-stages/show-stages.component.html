@@ -1,0 +1,24 @@
+<div class="row col-md-12 mini-header">
+    <div class="row col-md-2">
+        <button
+            mat-raised-button color="basic"
+            (click)="volver()"
+        >Volver</button>
+    </div>
+    <div class="row col-md-10">
+        <h3>{{modulo.name}}</h3>
+    </div>
+</div>
+<div class="row col-md-12 azul">
+    <div class="col-md-3" *ngFor="let stage of stagesByModule; let index = index;">
+        <br>
+        <mat-card>
+            <mat-card-title>{{stage.title}}</mat-card-title>
+            <mat-card-subtitle>{{stage.type}}</mat-card-subtitle>
+            <mat-card-content>Descripción</mat-card-content>
+            <mat-card-actions>
+                <button mat-raised-button color="primary">Iniciar!</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
