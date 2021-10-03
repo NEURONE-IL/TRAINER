@@ -40,7 +40,7 @@
 
               <ng-template [ngIf]="question.QUESTION_TYPE == 3">
                   <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES; let i = index">
-                    <label><input class="answer" type="checkbox" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
+                    <label><input onload="getValue(question.QUESTION_ID)" class="answer" type="checkbox" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
                   </div>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
@@ -66,7 +66,7 @@
             <ng-template [ngIf]="!last_exercise">
               <button (click)="increaseExercise(last_exercise)">Siguiente</button>
             </ng-template>
-            <button (click)="editExercise()">Editar</button>
+            <button (click)="updateAnswer()">Editar</button>
           </div>
           <div class="quiz_buttons">
             <button class="quiz_buttons" (click)="sendQuiz()">Enviar Formulario</button>
@@ -74,6 +74,7 @@
 
         </ng-template>
       </div>
+      <!--<ng-template [ngIf]="exerciseActual == ">-->
 
     </ng-template>
   </div>

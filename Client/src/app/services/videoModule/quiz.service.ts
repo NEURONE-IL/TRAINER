@@ -35,5 +35,10 @@ export class QuizService {
     answer["userId"] = user['_id'];
     return this.http.post(this.uri, answer, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
+
+  updateAnswer(answer: any, questionId: any): Observable<any> {
+    return this.http.put(this.uri + '/' + questionId, answer, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  }
+
 }
 

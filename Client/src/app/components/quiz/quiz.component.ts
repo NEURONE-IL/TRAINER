@@ -15,6 +15,7 @@ export class QuizComponent implements OnInit {
 
   quiz;
   exerciseActual;
+  last;
 
   constructor(private quizService: QuizService,
               private route: ActivatedRoute) {  }
@@ -131,8 +132,16 @@ export class QuizComponent implements OnInit {
     let j = {};
     for (let valor of respuestas){
       if (index == 4){
-        index = 0;
-        this.quizService.saveAnswer(j).subscribe((res) => { });
+        index = 0
+        this.quizService.getAnswer(j["questionId"]).subscribe((res) => {
+          console.log(res.data);
+          if (res.data == null){
+            this.quizService.saveAnswer(j).subscribe((res) => { })
+          }
+          else{
+            this.quizService.updateAnswer(j,j["questionId"]).subscribe((res) => { })
+          }
+        });
         j = {};
 
       }
@@ -151,7 +160,54 @@ export class QuizComponent implements OnInit {
       }
       index++;
     }
-    this.quizService.saveAnswer(j).subscribe((res) => { });
+    this.quizService.getAnswer(j["questionId"]).subscribe((res) => {
+      console.log(res.data);
+      if (res.data == null){
+        this.quizService.saveAnswer(j).subscribe((res) => { })
+      }
+      else{
+        this.quizService.updateAnswer(j,j["questionId"]).subscribe((res) => { })
+      }
 
+    });
   }
+
+  updateAnswer(){
+    let respuestas = this.getAnswers();
+    let index = 0;
+    let json = [];
+    let j = {};
+    for (let valor of respuestas){
+      if (index == 4){
+        index = 0;
+        this.quizService.updateAnswer(j, j["questionId"]).subscribe((res) => { });
+        j = {};
+
+      }
+
+      if (index == 0){
+        j["questionId"] = valor;
+      }
+      else if (index == 1){
+        j["questionType"] = valor;
+      }
+      else if (index == 2){
+        j["answerQuestion"] = valor;
+      }
+      else {
+        j["answerBonus"] = valor;
+      }
+      index++;
+    }
+    this.quizService.updateAnswer(j, j["questionId"]).subscribe((res) => { });
+  }
+
+  getValue(questionId){
+    console.log("onload...");
+    this.quizService.getAnswer(questionId).subscribe((res) => {
+      console.log("Respuesta: ")
+      console.log(res.data);
+    });
+  }
+
 }
