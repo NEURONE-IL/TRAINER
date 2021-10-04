@@ -25,7 +25,6 @@ export class QuizService {
   }
 
   getAnswer(questionId: any): Observable<any>{
-    console.log('quiz service ts');
     return this.http.get(this.uri + '/' + questionId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 

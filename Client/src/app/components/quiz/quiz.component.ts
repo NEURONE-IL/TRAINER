@@ -16,6 +16,7 @@ export class QuizComponent implements OnInit {
   quiz;
   exerciseActual;
   last;
+  global = 0;
 
   constructor(private quizService: QuizService,
               private route: ActivatedRoute) {  }
@@ -27,35 +28,31 @@ export class QuizComponent implements OnInit {
 
   getQuiz() {
     this.quiz = this.quizService.getQuiz();
-    // console.log(this.quiz);
   }
 
   sendQuizResponse(value) {
     this.newItemEvent.emit(value);
   }
 
-  increaseExercise(lastExercise) {
+  increaseExercise(lastExercise){
+    this.saveAnswer();
     if (!lastExercise) {
       this.exerciseActual++;
     }
+    this.global = 0;
   }
 
   decreaseExercise(firstExercise) {
+    this.saveAnswer();
     if (!firstExercise){
       this.exerciseActual--;
     }
+    this.global = 0;
   }
 
   sendQuiz() {
-    console.log('Enviando quiz jeje');
-  }
-
-  editExercise() {
-    console.log('Editar el ejercicio ' + this.exerciseActual);
-  }
-
-  saveExercise() {
-    console.log('Guardar el ejercicio');
+    this.saveAnswer();
+    this.exerciseActual = -1;
   }
 
   resourceExist(url){
@@ -160,54 +157,101 @@ export class QuizComponent implements OnInit {
       }
       index++;
     }
+    if (respuestas.length > 0){
     this.quizService.getAnswer(j["questionId"]).subscribe((res) => {
-      console.log(res.data);
-      if (res.data == null){
-        this.quizService.saveAnswer(j).subscribe((res) => { })
-      }
-      else{
-        this.quizService.updateAnswer(j,j["questionId"]).subscribe((res) => { })
-      }
+        console.log(res.data);
+        if (res.data == null){
 
-    });
-  }
+          this.quizService.saveAnswer(j).subscribe((res) => { })
+        }
+        else{
+          this.quizService.updateAnswer(j,j["questionId"]).subscribe((res) => { })
+        }
 
-  updateAnswer(){
-    let respuestas = this.getAnswers();
-    let index = 0;
-    let json = [];
-    let j = {};
-    for (let valor of respuestas){
-      if (index == 4){
-        index = 0;
-        this.quizService.updateAnswer(j, j["questionId"]).subscribe((res) => { });
-        j = {};
-
-      }
-
-      if (index == 0){
-        j["questionId"] = valor;
-      }
-      else if (index == 1){
-        j["questionType"] = valor;
-      }
-      else if (index == 2){
-        j["answerQuestion"] = valor;
-      }
-      else {
-        j["answerBonus"] = valor;
-      }
-      index++;
+      });
     }
-    this.quizService.updateAnswer(j, j["questionId"]).subscribe((res) => { });
   }
 
-  getValue(questionId){
-    console.log("onload...");
-    this.quizService.getAnswer(questionId).subscribe((res) => {
-      console.log("Respuesta: ")
-      console.log(res.data);
-    });
+  /*
+  **  Cuando apace un nuevo ejercicio, esta funcion revisa en la base de datos si hay alguna respuesta
+  **  y la muestra al usuario.
+  **  RECORDAD: añadir flujo y stage para asegurar usuario
+  **/
+  ngAfterViewChecked(){
+    if (this.global == 0) {
+      let ids = [];
+      const answers = document.getElementsByClassName('answer');
+      for (let i = 0; i < answers.length; i++) {
+        const answer = (answers[i] as HTMLInputElement);
+        const string = answer.name.split('_');
+        let yaEsta = false;
+        for (let id of ids) {
+          if (id == string[1]) {
+            yaEsta = true;
+            break;
+          }
+        }
+        if (!yaEsta) {
+          ids.push(string[1])
+        }
+      }
+      if (ids.length != 0){
+        this.global = 1;
+      }
+
+
+      /* Aqui fro sobre los ids para obtener respuestas*/
+      for (let id of ids) {
+        this.quizService.getAnswer(id).subscribe((res) => {
+          if (res.data != null) {
+            if (res.data.answerBonus != null) {
+              let name = "answer_bonus" + res.data.questionId;
+              let bonusElement = document.getElementsByName(name);
+              const bonus = (bonusElement[0] as HTMLInputElement);
+              if (bonus) {
+                bonus.value = res.data.answerBonus;
+              }
+            }
+            if (res.data.answerQuestion != null) {
+              if (res.data.questionType == 'textarea') {
+                let name = "answer_" + res.data.questionId;
+                let questionElement = document.getElementsByName(name);
+                const question = (questionElement[0] as HTMLInputElement);
+                if (question) {
+                  question.value = res.data.answerBonus;
+                }
+              }
+              if (res.data.questionType == 'radio') {
+                let ans = res.data.answerQuestion;
+                let alt = ans[1];
+                let id = "answer_" + res.data.questionId + "_alt_" + alt;
+                let questionElement = document.getElementById(id);
+                const question = (questionElement as HTMLInputElement);
+                if (question) {
+                  question.checked = true;
+                }
+              }
+              if (res.data.questionType == 'checkbox'){
+                let ans = res.data.answerQuestion;
+                let string = ans.split("[");
+                for (let alt of string){
+                  if (alt) {
+                    let index = alt.charAt(0);
+                    let id = "answer_" + res.data.questionId + "_alt_" + index;
+                    let questionElement = document.getElementById(id);
+                    const question = (questionElement as HTMLInputElement);
+                    if (question) {
+                      question.checked = true;
+                    }
+                  }
+                }
+              }
+            }
+          }
+        })
+      }
+    }
   }
+
 
 }

@@ -29,7 +29,7 @@
 
               <ng-template [ngIf]="question.QUESTION_TYPE == 2">
                   <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES; let i = index">
-                    <label><input class="answer" type="radio" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label>
+                    <label><input class="answer" type="radio" id="answer_{{question.QUESTION_ID}}_alt_{{i}}" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label>
                   </div>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
@@ -40,7 +40,7 @@
 
               <ng-template [ngIf]="question.QUESTION_TYPE == 3">
                   <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES; let i = index">
-                    <label><input onload="getValue(question.QUESTION_ID)" class="answer" type="checkbox" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
+                    <label><input class="answer" type="checkbox" id="answer_{{question.QUESTION_ID}}_alt_{{i}}" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
                   </div>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
@@ -53,7 +53,6 @@
 
 
           <div class="quiz_buttons">
-            <button (click)="saveAnswer()">Guardar</button>
             <ng-template [ngIf]="first_exercise">
               <button (click)="decreaseExercise(first_exercise)" disabled>Atras</button>
             </ng-template>
@@ -66,7 +65,6 @@
             <ng-template [ngIf]="!last_exercise">
               <button (click)="increaseExercise(last_exercise)">Siguiente</button>
             </ng-template>
-            <button (click)="updateAnswer()">Editar</button>
           </div>
           <div class="quiz_buttons">
             <button class="quiz_buttons" (click)="sendQuiz()">Enviar Formulario</button>
@@ -74,7 +72,9 @@
 
         </ng-template>
       </div>
-      <!--<ng-template [ngIf]="exerciseActual == ">-->
+      <ng-template [ngIf]="exerciseActual == -1">
+        <h6>Respuestas recibidas!</h6>
+      </ng-template>
 
     </ng-template>
   </div>
