@@ -5,6 +5,7 @@ import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { ModuleService } from 'src/app/services/trainer/module.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
@@ -36,7 +37,8 @@ export class ShowFlowComponent implements OnInit {
     private moduleService: ModuleService,
     private router: Router,
     private toastr: ToastrService,
-    private apiSGService: ApiSGService
+    private apiSGService: ApiSGService,
+    private authService: AuthService
   ) { }
 
   ngOnInit(): void {
@@ -73,7 +75,7 @@ export class ShowFlowComponent implements OnInit {
       this.router.navigate(['/videoModule']);
     }
     if (stage.type === 'Trivia'){
-      window.location.href = this.triviaService.getStudyLink(stage.externalId);
+      window.location.href = this.triviaService.getStudyLink(stage.externalId, this.authService.getUser());
     }
     if (stage.type === 'SG'){
       window.location.href = this.apiSGService.getAdventureLink(stage.externalId);
@@ -82,7 +84,7 @@ export class ShowFlowComponent implements OnInit {
   }
 
   getLinkToTriviaStudy(studyId){
-    return this.triviaService.getStudyLink(studyId);
+    return this.triviaService.getStudyLink(studyId, this.authService.getUser());
   }
 
   formatDate(date){
