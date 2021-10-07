@@ -53,9 +53,18 @@ export class ApiTriviaService {
     header = header.append('x-api-key', this.apiKey);
     return this.http.get(this.urlApi + 'site/study', {headers: header});
   }
-  getStudyLink(idStudio) {
-    const user = JSON.parse(localStorage.getItem('currentUser', ));
+  
+  getStudyLink(idStudio, user) {
     return 'http://159.65.100.191:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
+  }
+
+  getProgress(userId){
+    let header = new HttpHeaders();
+    header = header.append('Content-Type', 'application/json');
+    header = header.append('x-api-key', this.apiKey);
+    console.log(this.urlApi + 'user/' + userId + '/advance');
+    console.log(this.apiKey);
+    return this.http.get(this.urlApi + 'user/' + userId + '/advance', { headers: header });
   }
 
 }

@@ -29,7 +29,8 @@ export class HomeComponent implements OnInit {
 
   flow;
   user;
-  flowId = '611d2ced4338490677404a91';
+  flowId;
+//  flowId = '615bd9a5cbadec1e849e94cc';
   apikey = this.triviaService.apiKey;
   stages;
 
@@ -37,6 +38,7 @@ export class HomeComponent implements OnInit {
     this.getActualUserInformation();
     this.getFlowStagesInformation();
     this.getFlowInformation();
+    this.getAdvance();
   }
 
   getFlowStagesInformation(){
@@ -52,7 +54,7 @@ export class HomeComponent implements OnInit {
 
   getActualUserInformation(){
     this.user = this.authService.getActualUserInformation();
-    console.log(this.user);
+    this.flowId = this.user.flow;
   }
   goToStage(stage){
     console.log(stage);
@@ -62,7 +64,8 @@ export class HomeComponent implements OnInit {
     }
     if (stage.type === 'Trivia'){
       this.stageVisited(stage);
-      window.location.href = this.triviaService.getStudyLink(stage.link);
+      window.location.href = this.triviaService.getStudyLink(stage.link, this.user);
+      console.log(this.triviaService.getStudyLink(stage.link, this.user));
     }
     if (stage.type === 'SG'){
       this.stageVisited(stage);
@@ -79,6 +82,12 @@ export class HomeComponent implements OnInit {
   getApiStudies(){
     this.triviaService.getStudies().subscribe((res) => {
       console.log(res);
+    });
+  }
+
+  getAdvance(){
+    this.triviaService.getProgress(this.user._id).subscribe((response) => {
+      console.log(response);
     });
   }
 

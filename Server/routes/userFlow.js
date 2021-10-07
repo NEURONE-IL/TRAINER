@@ -41,9 +41,8 @@ router.put('/updateProgress/:student_id/:flow_id/:external_id/:percentage', [ver
             }
             userFlow.stages.find(element => {
                 if(element.stage.equals(stage._id)){
-                    element.percentage += parseInt(req.params.percentage);
-                    if (Math.ceil(element.percentage) >= 100){
-                        element.percentage = 100;
+                    element.percentage = parseInt(req.params.percentage);
+                    if (element.percentage == 100){
                         element.active = false;
                         element.completed = true;              
                         /*If flow is sorted, check if new stages can be unlocked*/

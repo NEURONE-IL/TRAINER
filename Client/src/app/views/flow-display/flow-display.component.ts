@@ -21,6 +21,7 @@ export class FlowDisplayComponent implements OnInit {
   flow: Flow;
   stages: Stage[] = [];
   sortedStages: Stage[] = [];
+  triviaProgress: TriviaStudy[] = [];
   createStage: boolean;
   modules: any;
   registerLink = '';
@@ -89,9 +90,25 @@ export class FlowDisplayComponent implements OnInit {
   getTestUser(){
     this.flowService.getFlowDummy(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
       this.dummyUser = response['user'];
+      this.getProgress();
     });
   }
 
+  getProgress(){
+//    if(this.authService.isAdmin()){
+      this.triviaService.getProgress(this.dummyUser._id).subscribe(response => {
+        this.triviaProgress = response['progress'];
+        console.log(this.triviaProgress, 'progress');
+        console.log('testUser');
+      });
+//    }else{
+//      this.triviaService.getProgress(this.authService.getUser()._id).subscribe(response => {
+//        this.triviaProgress = response['progress'];
+//        console.log(this.triviaProgress, 'progress');
+//        console.log('realUser');
+//      });      
+//    }
+  }
 
   confirmFlowDelete(id: string){
     confirm(this.translate.instant("ADMIN.FLOWS.DELETE_CONFIRMATION")) && this.deleteFlow(id);
@@ -238,7 +255,7 @@ export class FlowDisplayComponent implements OnInit {
       }
 
   getLinkToTriviaStudy(studyId){
-    return this.triviaService.getStudyLink(studyId);
+    return this.triviaService.getStudyLink(studyId, this.dummyUser);
   }
 
   goToStage(stage){
@@ -246,7 +263,7 @@ export class FlowDisplayComponent implements OnInit {
       return this.videoModuleService.getModuleLink();
     }
     if (stage.type === 'Trivia'){
-      return this.triviaService.getStudyLink(stage.externalId);
+      return this.triviaService.getStudyLink(stage.externalId, this.dummyUser);
     }
     if (stage.type === 'SG'){
       return this.apiSGService.getAdventureLink(stage.externalId);
