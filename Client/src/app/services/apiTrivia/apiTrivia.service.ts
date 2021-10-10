@@ -19,7 +19,6 @@ export interface TriviaStudy {
   max_per_interval: number;
 }
 
-
 @Injectable({
   providedIn: 'root'
 })

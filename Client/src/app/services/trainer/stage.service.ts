@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { Observable } from 'rxjs';
+import { TriviaStudy } from '../apiTrivia/apiTrivia.service';
 
 export interface Stage {
   _id: string,
@@ -17,6 +18,13 @@ export interface Stage {
   updatedAt: string,
   image_url: string,
   image_id: string  
+}
+
+export interface StudyProgress {
+  challenges: number,
+  completedChallenges: number,
+  percentage: number,
+  study: TriviaStudy
 }
 
 @Injectable({

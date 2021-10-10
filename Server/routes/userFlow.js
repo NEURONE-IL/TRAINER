@@ -41,7 +41,7 @@ router.put('/updateProgress/:student_id/:flow_id/:external_id/:percentage', [ver
             }
             userFlow.stages.find(element => {
                 if(element.stage.equals(stage._id)){
-                    element.percentage = parseInt(req.params.percentage);
+                    element.percentage = parseFloat(req.params.percentage)*100;
                     if (element.percentage == 100){
                         element.active = false;
                         element.completed = true;              

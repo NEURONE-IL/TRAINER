@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
-import { StageService } from '../../services/trainer/stage.service';
+import { StudyProgress, StageService } from '../../services/trainer/stage.service';
 import { FlowService } from '../../services/trainer/flow.service';
 
 
@@ -33,6 +33,7 @@ export class HomeComponent implements OnInit {
 //  flowId = '615bd9a5cbadec1e849e94cc';
   apikey = this.triviaService.apiKey;
   stages;
+  progress: StudyProgress[];
 
   ngOnInit(): void {
     this.getActualUserInformation();
@@ -87,7 +88,15 @@ export class HomeComponent implements OnInit {
 
   getAdvance(){
     this.triviaService.getProgress(this.user._id).subscribe((response) => {
-      console.log(response);
+//      console.log(response, 'progress');
+      this.progress = response['progress'];
+      this.progress.forEach(element => {
+//        console.log('element', element)
+        this.stageService.updateProgress(this.user._id, this.flowId, element.study._id, element.percentage).subscribe(response => {
+          this.stages = response['stages'];
+//          console.log(response, 'TRAINER UpdateProgress');
+        });        
+      });
     });
   }
 

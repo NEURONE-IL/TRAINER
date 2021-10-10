@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from "../../services/trainer/flow.service";
-import {ApiTriviaService} from "../../services/apiTrivia/apiTrivia.service";
+import { ApiTriviaService } from "../../services/apiTrivia/apiTrivia.service";
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
