@@ -18,7 +18,7 @@ import { FlowService } from '../../services/trainer/flow.service';
 export class HomeComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
-              private authService: AuthService,
+              public authService: AuthService,
               private router: Router,
               private toastr: ToastrService,
               private apiSGService: ApiSGService,
@@ -30,7 +30,6 @@ export class HomeComponent implements OnInit {
   flow;
   user;
   flowId;
-//  flowId = '615bd9a5cbadec1e849e94cc';
   apikey = this.triviaService.apiKey;
   stages;
   progress: StudyProgress[];
@@ -55,7 +54,7 @@ export class HomeComponent implements OnInit {
 
   getActualUserInformation(){
     this.user = this.authService.getActualUserInformation();
-    this.flowId = this.user.flow;
+    this.flowId = this.authService.getActualUserInformation().flow;
   }
   goToStage(stage){
     console.log(stage);
@@ -88,10 +87,10 @@ export class HomeComponent implements OnInit {
 
   getAdvance(){
     this.triviaService.getProgress(this.user._id).subscribe((response) => {
-//      console.log(response, 'progress');
+      console.log(response, 'progress');
       this.progress = response['progress'];
       this.progress.forEach(element => {
-//        console.log('element', element)
+        console.log('elementAdv', element)
         this.stageService.updateProgress(this.user._id, this.flowId, element.study._id, element.percentage).subscribe(response => {
           this.stages = response['stages'];
 //          console.log(response, 'TRAINER UpdateProgress');

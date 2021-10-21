@@ -48,7 +48,7 @@ export class ShowFlowComponent implements OnInit {
         this.sortedStages = response['stages'];
       });
     */
-    this.moduleService.getModuleByFlow(this.route.snapshot.paramMap.get('flow_id'))
+    this.moduleService.getModuleByFlow(this.flowId)
       .subscribe(response => {
         this.modules = response['modules'];
     });
