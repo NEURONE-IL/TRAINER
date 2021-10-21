@@ -67,6 +67,9 @@ export class ShowFlowComponent implements OnInit {
     else if(type === 'Video'){
       return 'Video';
     }
+    else if(type === 'Video + Quiz'){
+      return 'VideoQuiz';
+    }    
   }
 
   goToStage(stage){

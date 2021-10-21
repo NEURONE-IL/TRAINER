@@ -8,6 +8,9 @@ import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivi
 import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
+import videoObjects from '../../../assets/static/videoObjects.json';
+import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
+
 
 @Component({
   selector: 'app-stage-creation',
@@ -21,16 +24,12 @@ export class StageCreationComponent implements OnInit {
   flows: Flow[];
   loading: Boolean;
   steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  typeOptions: string[] = ['Trivia', 'SG', 'Video'];
+  typeOptions: string[] = ['Trivia', 'SG', 'Video', 'Video + Quiz'];
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
   SGLinks: SGGame[] = [];
-  videoLinks: object[] = [
-    {
-      name: "Módulo de vídeos",
-      _id: this.videoModuleService.getModuleLink()
-    }
-  ];
+  videoLinks: object[] = videoObjects;
+  videoQuizLinks: object[] = videoQuizObjects;
   file: File;
 
   constructor(private formBuilder: FormBuilder,
@@ -155,6 +154,9 @@ export class StageCreationComponent implements OnInit {
     else if(value === 'Video'){
       this.currentLinks = this.videoLinks;
     }
+    else if(value === 'Video + Quiz'){
+      this.currentLinks = this.videoQuizLinks;
+    }    
   }
 
   handleFileInput(files: FileList) {

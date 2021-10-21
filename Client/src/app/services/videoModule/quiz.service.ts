@@ -17,9 +17,14 @@ export class QuizService {
   uri = environment.apiURL + 'videoModule';
   constructor( protected http: HttpClient ) { }
 
-  getModuleLink(){
-    return this.enviromentUrl + 'videoModule/';
+  getVideoLink(videoStageId: any){
+    return this.enviromentUrl + 'video/' + videoStageId;
   }
+
+  getVideoQuizLink(videoQuizStageId: any){
+    return this.enviromentUrl + 'videoModule/' + videoQuizStageId;
+  }
+  
   getQuiz() {
     return quiz;
   }
