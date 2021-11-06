@@ -18,7 +18,6 @@ export class VideoModuleComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       const id = params.id;
-      console.log(id);
       this.idNumber = id;
     });
   }

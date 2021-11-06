@@ -19,35 +19,37 @@
 
 
               <ng-template [ngIf]="question.QUESTION_TYPE == 1">
-                  <textarea class="textarea-question answer" name="answer_{{question.QUESTION_ID}}"></textarea>
+                  <textarea class="textarea-question answer" (change)="inputTextArea(question.QUESTION_ID, 'textarea')"  name="answer_{{question.QUESTION_ID}}"></textarea>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
-                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
+                    <input class="input-text" type="text" (change)="inputTextArea(question.QUESTION_ID, 'text')" name="answer_bonus{{question.QUESTION_ID}}">
                   </div>
               </ng-template>
 
 
               <ng-template [ngIf]="question.QUESTION_TYPE == 2">
                   <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES; let i = index">
-                    <label><input class="answer" type="radio" id="answer_{{question.QUESTION_ID}}_alt_{{i}}" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label>
+                    <label><input class="answer" type="radio" (click)="eventAnswers(question.QUESTION_ID, alternative, i, 'radio')" id="answer_{{question.QUESTION_ID}}_alt_{{i}}" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label>
                   </div>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
-                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
+                    <input class="input-text" type="text" (change)="inputTextArea(question.QUESTION_ID, 'text')" name="answer_bonus{{question.QUESTION_ID}}">
                   </div>
               </ng-template>
 
 
               <ng-template [ngIf]="question.QUESTION_TYPE == 3">
                   <div class="alternatives-class" *ngFor="let alternative of question.ALTERNATIVES; let i = index">
-                    <label><input class="answer" type="checkbox" id="answer_{{question.QUESTION_ID}}_alt_{{i}}" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
+                    <label><input class="answer" type="checkbox" (click)="eventAnswers(question.QUESTION_ID, alternative, i, 'checkbox')" id="answer_{{question.QUESTION_ID}}_alt_{{i}}" name="answer_{{question.QUESTION_ID}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
                   </div>
                   <div class="bonus-class" *ngIf="question.BONUS">
                     <p>{{question.BONUS}}</p>
-                    <input class="input-text" type="text" name="answer_bonus{{question.QUESTION_ID}}">
+                    <input class="input-text" type="text" (change)="inputTextArea(question.QUESTION_ID, 'text')" name="answer_bonus{{question.QUESTION_ID}}">
                   </div>
 
               </ng-template>
+
+
             </mat-card>
           </div>
 

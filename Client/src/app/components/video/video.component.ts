@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
 import {PlyrComponent, PlyrModule} from 'ngx-plyr';
+import {QuizService} from '../../services/videoModule/quiz.service';
 
 
 @Component({
@@ -18,45 +19,52 @@ export class VideoComponent implements OnInit {
   currentTime = 0;
 
 
-  constructor( private plyrModule: PlyrModule ) { }
+  constructor( private plyrModule: PlyrModule,
+               private quizService: QuizService) { }
 
 
 
   played(event: Plyr.PlyrEvent) {
+    let eventFinal;
     if (event.type === 'play'){
-      console.log('Play en ', this.player.currentTime, ' s.');
+      eventFinal = 'Play en ' + this.player.currentTime + ' s.';
     }
     else if (event.type === 'pause'){
-      console.log('Pause en ', this.player.currentTime, ' s.');
+      eventFinal = 'Pause en ' + this.player.currentTime + ' s.';
     }
     else if (event.type === 'ratechange'){
-      console.log('Cambio de velocidad a ', this.player.speed, ' en ', this.player.currentTime, ' s.');
+      eventFinal = 'Cambio de velocidad a ' + this.player.speed + ' en ' + this.player.currentTime + ' s.';
     }
     else if (event.type === 'enterfullscreen'){
-      console.log('Pantalla completa en ', this.player.currentTime, ' s.');
+      eventFinal = 'Pantalla completa en ' + this.player.currentTime + ' s.';
     }
     else if (event.type === 'exitfullscreen'){
-      console.log('Salir de pantalla completa en ', this.player.currentTime), ' s.';
+      eventFinal = 'Salir de pantalla completa en ' + this.player.currentTime + ' s.';
     }
-    else if (event.type === 'ended') {
-      console.log('Video terminado. Tiempo total: ');
-    }
+    /*else if (event.type === 'ended') {
+      eventFinal = 'Video terminado. Tiempo total: ';
+    }*/
     else if (event.type === 'volumechange'){
-      console.log('Volumen cambio a ', this.player.volume, ' en ', this.player.currentTime), ' s.';
+      eventFinal = 'Volumen cambio a ' + this.player.volume + ' en ' + this.player.currentTime + ' s.';
     }
     else if (event.type === 'seeked'){
       if(this.player.currentTime != this.currentTime){
         let valor = this.player.currentTime;
         valor = parseFloat(valor.toFixed(2));
-        console.log('Cambiar tiempo a ', valor);
+        eventFinal = 'Cambiar tiempo a ' + valor;
       }
+    }
+    if (eventFinal != null){
+      //console.log("Evento: " + eventFinal);
+      this.quizService.handleEvent(eventFinal, 'video').subscribe((res) => { });
     }
   }
 
 
   play(): void {
-    this.player.pip = false; // Hemos sido timados
     this.player.play();
+    this.player.volume = 1;
+    this.player.speed = 1;
   }
 
 
@@ -76,12 +84,12 @@ export class VideoComponent implements OnInit {
     return this.videoNumber;
   }
 
-
+/*
   sendVideoResponse(value) {
     this.newItemEvent.emit(value);
   }
 
   pause() {
     console.log('pause');
-  }
+  }*/
 }

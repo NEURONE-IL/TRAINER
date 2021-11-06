@@ -19,6 +19,7 @@ const userRoutes = require('./routes/user');
 const userFlowRoutes = require('./routes/userFlow');
 const imageRoutes = require('./routes/image');
 const videoModuleRoutes = require('./routes/videoModule');
+const eventsVideoModuleRoutes = require('./routes/EventsVideoModule');
 
 const Role = require('./models/role');
 
@@ -88,6 +89,7 @@ app.use('/api/image', imageRoutes);
 app.use('/api/module', moduleRoutes);
 app.use('/apiTrivia/auth', authRoutes);
 app.use('/api/videoModule', videoModuleRoutes);
+app.use('/api/eventsVideoModule', eventsVideoModuleRoutes);
 
 // Set client on root
 
