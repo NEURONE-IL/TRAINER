@@ -37,7 +37,9 @@
 }
 
 ::ng-deep mat-grid-tile.mat-grid-tile .mat-figure {
-  align-items: center;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 15px;
 }
 
 .header-stage mat-card-title{
@@ -78,10 +80,8 @@
 }
 
 .mat-card-content{
-  margin-left: 15px;
-  padding-left: 25px;
-  padding-bottom: 10px;
-  padding-right: 2px;
+
+  padding: 10px;
   margin-bottom: 0px;
   border-left: solid 1px #EEEEEE;
   border-right: solid 1px #EEEEEE;
@@ -201,22 +201,38 @@ table {
   padding-left: 10px;
 }
 
-.azul {
-  background: lightblue;
-  padding-bottom: 15px;
+.mat-row-is-clicked {
+  background: lightseagreen;
 }
 
-.rojo {
-  background: indianred;
-  padding-bottom: 15px;
+
+::ng-deep .mat-card-image{
+  margin-top: 0px !important;
+
 }
 
-.mat-row .mat-cell {
-  border-bottom: 1px solid transparent;
-  border-top: 1px solid transparent;
+.fila{
+  display: flex;
+  justify-content: space-between;
+}
+
+.moduleList{
+  height: 100%;
+  padding: 1%;
+  overflow-y: auto;
+  background-color: whitesmoke;
+}
+
+tr.filaModulo:not(.showStages):hover {
+  filter: brightness(80%);
   cursor: pointer;
 }
 
-.mat-row-is-clicked {
-  background: lightseagreen;
+tr.hidden {
+  height: 0;
+}
+
+.showStages{
+  overflow: hidden;
+  display: flex;
 }

@@ -7,7 +7,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { StudyProgress, StageService } from '../../services/trainer/stage.service';
-import { FlowService } from '../../services/trainer/flow.service';
+import { Flow, FlowService } from '../../services/trainer/flow.service';
+import { Module } from 'src/app/services/trainer/module.service';
 
 
 @Component({
@@ -27,18 +28,24 @@ export class HomeComponent implements OnInit {
               private translate: TranslateService,
               private triviaService: ApiTriviaService) { }
 
-  flow;
+  flow: Flow;
+  modulo: any;
   user;
-  flowId;
+//  flowId = null;                        //usuario sin flujo asignado
+//  flowId = "6154b334b40ac2106a87d2f0";  //flujo libre de prueba
+  flowId = "618ec5e213fb7313d7ca77d7"; //flujo ordenado de prueba
   apikey = this.triviaService.apiKey;
   stages;
   progress: StudyProgress[];
+  dummyUser: any;
+  currentView: string;
 
   ngOnInit(): void {
-    this.getActualUserInformation();
-    this.getFlowStagesInformation();
-    this.getFlowInformation();
-    this.getAdvance();
+//    this.getActualUserInformation();
+//    this.getFlowStagesInformation();
+      this.getFlowInformation();
+//    this.getAdvance();
+      this.dummyUser = this.authService.getUser();
   }
 
   getFlowStagesInformation(){
@@ -49,6 +56,7 @@ export class HomeComponent implements OnInit {
   getFlowInformation(){
     this.flowService.getFlow(this.flowId).subscribe((res: any) => {
       this.flow = res.flow;
+      
     });
   }
 
@@ -59,16 +67,16 @@ export class HomeComponent implements OnInit {
   goToStage(stage){
     console.log(stage);
     if (stage.type === 'Video'){
-      this.stageVisited(stage);
+
       this.router.navigate(['/videoModule']);
     }
     if (stage.type === 'Trivia'){
-      this.stageVisited(stage);
+
       window.location.href = this.triviaService.getStudyLink(stage.link, this.user);
       console.log(this.triviaService.getStudyLink(stage.link, this.user));
     }
     if (stage.type === 'SG'){
-      this.stageVisited(stage);
+
       window.location.href = this.apiSGService.getAdventureLink(stage.link);
       return;
     }
@@ -99,9 +107,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  stageVisited(stage){
-    return;
-  }
+
   getClass(type){
     if (type === 'Trivia'){
       return 'Trivia';

@@ -29,6 +29,7 @@ export class FlowDisplayComponent implements OnInit {
   registerLink = '';
   dummyUser: any;
   resetingUser = false;
+  mostrarFlujos: boolean = true;
 
   constructor(private router: Router,
               private route: ActivatedRoute,

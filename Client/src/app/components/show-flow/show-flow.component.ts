@@ -7,27 +7,34 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
-import { ModuleService } from 'src/app/services/trainer/module.service';
+import { Module, ModuleService } from 'src/app/services/trainer/module.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { MatSelectModule } from '@angular/material/select';
 
 @Component({
   selector: 'show-flow',
   templateUrl: './show-flow.component.html',
   encapsulation: ViewEncapsulation.Emulated, // ???
-  styleUrls: ['./show-flow.component.css']
+  styleUrls: ['./show-flow.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class ShowFlowComponent implements OnInit {
 
-  @Input() flowId: string;
+  @Input() flow: Flow;
   @Input() studentId: string;
-  flow: Flow;
-  stages = [];
+  stages: Stage[] = [];
   sortedStages: Stage[] = [];
   columnHeader: string[] = ['NombreCol', 'TipoCol']
-  mostrarEtapas: boolean = false;
-  modules: any [];
-  selectedModule: any;
-
+  vacio: boolean = true;
+  modules: Module [];
+  selectedModule: Module | null;
 
   constructor(
     private route: ActivatedRoute,
@@ -42,16 +49,33 @@ export class ShowFlowComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+
     /*
     this.stageService.getStageByStudent(this.studentId)
       .subscribe(response => {
         this.sortedStages = response['stages'];
       });
-    */
-    this.moduleService.getModuleByFlow(this.flowId)
+    
+    this.moduleService.getModuleByFlow(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.modules = response['modules'];
+        if(this.modules.length != 0){
+          this.selectedModule = this.modules[0];
+          this.vacio = false;
+        }
     });
+    */
+    //DEBUG
+      
+    
+    this.moduleService.getModuleByFlow(this.flow._id)
+    .subscribe(response => {
+      this.modules = response['modules'];
+      if(this.modules.length != 0){
+        this.selectedModule = this.modules[0];
+        this.vacio = false;
+      }
+  });
     
   }
   getClass(active, type){
@@ -95,16 +119,39 @@ export class ShowFlowComponent implements OnInit {
   }
 
   updateProgress(stageId){
-    this.stageService.updateProgress(this.studentId, this.flowId, stageId, 100).subscribe(response => {
+    this.stageService.updateProgress(this.studentId, this.flow._id, stageId, 100).subscribe(response => {
       this.sortedStages = response['stages'];
     });
   }
 
   enClick(row){
-    this.selectedModule=row
+    this.selectedModule = this.selectedModule == row ? null : row;
+    
   }
 
-  displayStages(){
-    this.mostrarEtapas = !this.mostrarEtapas
+  getCover(type: string): string{
+    switch (type) {
+      case 'Trivia':
+        return '../../../assets/stage-images/00Trivia.jpg';
+      case 'SG':
+        return '../../../assets/stage-images/01Adventure.jpg';
+      case 'Video':
+        return '../../../assets/stage-images/02Video.jpg';
+      default:
+        return '../../../assets/flow-images/Flow00.jpg';
+    }
   }
+
+  //obtiene un string para mostrar en la columna de completados (en la tabla de modulos)
+  getCompleted(modulo: any){
+    if (modulo.stages.length == 0){
+      return "-";
+    }
+
+    //necesito ver las etapas completadas para poder asignar un valor distinto de 0
+    else {
+      return "0/" + modulo.stages.length;
+    }
+  }
+
 }

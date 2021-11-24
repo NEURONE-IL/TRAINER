@@ -1,10 +1,42 @@
-.azul {
-  background: lightblue;
-  padding-bottom: 15px;
+.contenedorEtapas{
+  width: 100%;
 }
 
-.mini-header{
-  background: sandybrown;
-  padding-bottom: 15px;
-  padding-top: 15px;
+.fondo {
+
+  background: lightblue;
+
+}
+
+mat-card-title{
+  height: 72px;
+}
+
+.centro{
+  display: flex;
+  align-items: flex-start;
+}
+
+.margenBottom{
+  margin-bottom: 1%;
+}
+
+.trivia{
+  background-image: url('../../../assets/stage-images/bg-test-trivia.svg');
+  /* background by SVGBackgrounds.com */
+}
+
+.adventure{
+  background-image: url('../../../assets/stage-images/bg-test-SG.svg');
+  /* background by SVGBackgrounds.com */
+}
+
+.video{
+  background-image: url('../../../assets/stage-images/bg-test-video.svg');
+  /* background by SVGBackgrounds.com */
+}
+
+.mat-card-content{
+  justify-content: center;
+  display: flex;
 }

@@ -1,24 +1,50 @@
-<div class="row col-md-12 mini-header">
-    <div class="row col-md-2">
-        <button
-            mat-raised-button color="basic"
-            (click)="volver()"
-        >Volver</button>
-    </div>
-    <div class="row col-md-10">
-        <h3>{{modulo.name}}</h3>
-    </div>
-</div>
-<div class="row col-md-12 azul">
-    <div class="col-md-3" *ngFor="let stage of stagesByModule; let index = index;">
-        <br>
-        <mat-card>
-            <mat-card-title>{{stage.title}}</mat-card-title>
-            <mat-card-subtitle>{{stage.type}}</mat-card-subtitle>
-            <mat-card-content>Descripción</mat-card-content>
-            <mat-card-actions>
-                <button mat-raised-button color="primary">Iniciar!</button>
-            </mat-card-actions>
-        </mat-card>
-    </div>
-</div>
+<mat-card class="contenedorEtapas">
+    <mat-card class="fondo">
+        <div class="row col-md-12 centro">
+            <div 
+                class="col-md-2 margenBottom" 
+                *ngFor="let stage of stagesByModule; let index = index;"
+                fxLayout="row"
+                fxLayoutAlign="center center"
+            >
+                <mat-card
+                    [ngClass]="{
+                        'trivia'    :   stage.type == 'Trivia',
+                        'video'     :   stage.type == 'Video',
+                        'adventure' :   stage.type == 'SG'
+                    }">
+                    <mat-card-title align="center">{{stage.title}}</mat-card-title>
+                    <mat-card-subtitle align="center">{{stage.type}} - {{stage.step}}</mat-card-subtitle>
+                    <mat-card-content>
+                        <circle-progress
+                            showUnits = "true"
+                            titleFontSize = "40"
+                            unitsFontSize = "25"
+                            [percent] = "stage.percentage"
+                            [title] = "stage.percentage"
+                        ></circle-progress>
+                        
+                        <!--
+                        <mat-progress-spinner mode="determinate" value="{{progreso}}"></mat-progress-spinner>
+                        <div class="progressLabel">  sacado de https://stackoverflow.com/questions/46365836/how-to-set-text-inside-md-progress-spinner-in-angular-4 
+                            <p class="porcentaje">{{progreso}}%</p>
+                        </div>
+                        --> 
+                    </mat-card-content>
+                    <mat-card-actions align="center">
+                        <button
+                            mat-raised-button color="primary"
+                            (click)="goToStage(stage)"
+                            [disabled] = "sorted && (stage.step <= accessStage ? false : true)"
+                        >Iniciar!</button>
+                        <button
+                            mat-raised-button color="primary"
+                            (click)="setPercentage(stage)"
+                        >Completar</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+        </div>
+    </mat-card>
+</mat-card>
+
