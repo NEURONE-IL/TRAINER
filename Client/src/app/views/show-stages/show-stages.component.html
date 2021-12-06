@@ -7,12 +7,18 @@
                 fxLayout="row"
                 fxLayoutAlign="center center"
             >
+                <!--
                 <mat-card
                     [ngClass]="{
                         'trivia'    :   stage.type == 'Trivia',
                         'video'     :   stage.type == 'Video',
                         'adventure' :   stage.type == 'SG'
-                    }">
+                    }"
+
+                -->
+
+                <mat-card
+                    >
                     <mat-card-title align="center">{{stage.title}}</mat-card-title>
                     <mat-card-subtitle align="center">{{stage.type}} - {{stage.step}}</mat-card-subtitle>
                     <mat-card-content>
@@ -22,14 +28,10 @@
                             unitsFontSize = "25"
                             [percent] = "stage.percentage"
                             [title] = "stage.percentage"
+                            imageSrc= "{{ getIcon(stage.type, stage.percentage) }}"
+                            [showImage]= "true"
+                            [responsive] = "true"
                         ></circle-progress>
-                        
-                        <!--
-                        <mat-progress-spinner mode="determinate" value="{{progreso}}"></mat-progress-spinner>
-                        <div class="progressLabel">  sacado de https://stackoverflow.com/questions/46365836/how-to-set-text-inside-md-progress-spinner-in-angular-4 
-                            <p class="porcentaje">{{progreso}}%</p>
-                        </div>
-                        --> 
                     </mat-card-content>
                     <mat-card-actions align="center">
                         <button
@@ -39,7 +41,7 @@
                         >Iniciar!</button>
                         <button
                             mat-raised-button color="primary"
-                            (click)="setPercentage(stage)"
+                            (click)="addPercentage(stage)"
                         >Completar</button>
                     </mat-card-actions>
                 </mat-card>

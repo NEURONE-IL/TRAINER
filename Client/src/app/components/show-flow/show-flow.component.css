@@ -219,7 +219,6 @@ table {
 .moduleList{
   height: 100%;
   padding: 1%;
-  overflow-y: auto;
   background-color: whitesmoke;
 }
 
@@ -235,4 +234,12 @@ tr.hidden {
 .showStages{
   overflow: hidden;
   display: flex;
+}
+
+.questionMark:hover{
+  transform: scale(120%);
+}
+
+.tabla{
+  padding-bottom: 15px;
 }

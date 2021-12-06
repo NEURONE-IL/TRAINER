@@ -98,10 +98,68 @@ export class ShowStagesComponent implements OnInit {
 
   }
 
-  //funcion para completar etapa
-  setPercentage(stage: any){
-    stage.percentage = 100;
+  //funcion para simular completado de etapa
+  addPercentage(stage: any){
+    if(stage.percentage < 100){
+      stage.percentage = stage.percentage + 25;
+    }
+  }
+
+  clickeado(){
+    console.log("clickeaste el circulo");
     
   }
 
+  getIcon(tipo: string, porcentaje: number): string {
+    switch(tipo){
+      case "Trivia":
+        if(porcentaje >= 50 && porcentaje < 75){
+          return '../../../assets/stage-images/TriviaIconBronze.svg'
+        }
+        else if(porcentaje >= 75 && porcentaje < 90){
+          return '../../../assets/stage-images/TriviaIconSilver.svg'
+        }
+        else if(porcentaje >= 90){
+          return '../../../assets/stage-images/TriviaIconGold.svg'
+        }
+        else{
+          return '../../../assets/stage-images/TriviaIcon.svg'
+        }
+        break;
+      
+      case "Video":
+        if(porcentaje >= 50 && porcentaje < 75){
+          return '../../../assets/stage-images/VideoIconBronze.svg'
+        }
+        else if(porcentaje >= 75 && porcentaje < 90){
+          return '../../../assets/stage-images/VideoIconSilver.svg'
+        }
+        else if(porcentaje >= 90){
+          return '../../../assets/stage-images/VideoIconGold.svg'
+        }
+        else{
+          return '../../../assets/stage-images/VideoIcon.svg'
+        }
+        break;
+
+      case "SG":
+        if(porcentaje >= 50 && porcentaje < 75){
+          return '../../../assets/stage-images/AdventureIconBronze.svg'
+        }
+        else if(porcentaje >= 75 && porcentaje < 90){
+          return '../../../assets/stage-images/AdventureIcon.svg'
+        }
+        else if(porcentaje >= 90){
+          return '../../../assets/stage-images/AdventureIconBronze.svg'
+        }
+        else{
+          return '../../../assets/stage-images/AdventureIcon.svg'
+        }
+        break;
+
+      default:
+        return ""
+    }
+
+  }
 }

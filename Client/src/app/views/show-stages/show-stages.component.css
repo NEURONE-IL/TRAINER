@@ -21,20 +21,24 @@ mat-card-title{
   margin-bottom: 1%;
 }
 
+
+/*para revertir cambiar nombres a los tests respectivos. ej triviabutton.svg -> bg-test-trivia.svg
 .trivia{
-  background-image: url('../../../assets/stage-images/bg-test-trivia.svg');
-  /* background by SVGBackgrounds.com */
+  background-image: url('../../../assets/stage-images/triviaIcon.svg');
+  /* background by SVGBackgrounds.com 
 }
 
 .adventure{
-  background-image: url('../../../assets/stage-images/bg-test-SG.svg');
-  /* background by SVGBackgrounds.com */
+  background-image: url('../../../assets/stage-images/SGIcon.svg');
+  /* background by SVGBackgrounds.com 
 }
 
 .video{
-  background-image: url('../../../assets/stage-images/bg-test-video.svg');
-  /* background by SVGBackgrounds.com */
+  background-image: url('../../../assets/stage-images/videoIcon.svg');
+  /* background by SVGBackgrounds.com 
+
 }
+*/
 
 .mat-card-content{
   justify-content: center;

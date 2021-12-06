@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from "../../services/trainer/flow.service";
 import { ApiTriviaService } from "../../services/apiTrivia/apiTrivia.service";
@@ -11,6 +11,7 @@ import { Module, ModuleService } from 'src/app/services/trainer/module.service';
 import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'show-flow',
@@ -31,7 +32,7 @@ export class ShowFlowComponent implements OnInit {
   @Input() studentId: string;
   stages: Stage[] = [];
   sortedStages: Stage[] = [];
-  columnHeader: string[] = ['NombreCol', 'TipoCol']
+  columnHeader: string[] = ['NombreCol', 'TipoCol', 'DescriptionCol']
   vacio: boolean = true;
   modules: Module [];
   selectedModule: Module | null;
@@ -45,7 +46,8 @@ export class ShowFlowComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private apiSGService: ApiSGService,
-    private authService: AuthService
+    private authService: AuthService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -124,7 +126,13 @@ export class ShowFlowComponent implements OnInit {
     });
   }
 
-  enClick(row){
+  //funcion que permite asignar la fila seleccionada al atributo selectedModule.
+  //En caso de que se seleccione abrir la ventanilla de descripcion este metodo no debe llamarse.
+  enClick(event: MouseEvent, row: Module){
+
+    event.preventDefault();
+    event.stopPropagation();
+
     this.selectedModule = this.selectedModule == row ? null : row;
     
   }
@@ -154,4 +162,35 @@ export class ShowFlowComponent implements OnInit {
     }
   }
 
+  openDialog(event: MouseEvent, modulo: Module) {
+
+    event.preventDefault();
+    event.stopPropagation();
+
+    this.dialog.open(DescriptionDialogComponent, { data: modulo })
+  }
+
 }
+
+@Component({
+  selector: 'description-dialog',
+  templateUrl: 'description-dialog.html'
+})
+export class DescriptionDialogComponent{
+
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    private data: Module  
+  ) {}
+
+  getCode(): string {
+    return this.data.code;
+  }
+
+  getDescription(): string{
+    return this.data.description;
+  }
+
+}
+
+
