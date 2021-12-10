@@ -20,11 +20,11 @@ export class QuizService {
                private stageService: StageService) { }
 
   getVideoLink(videoStageId: any){
-    return this.enviromentUrl + 'video/' + videoStageId;
+    return this.enviromentUrl + 'video?id=' + videoStageId;
   }
 
   getVideoQuizLink(videoQuizStageId: any){
-    return this.enviromentUrl + 'videoModule/' + videoQuizStageId;
+    return this.enviromentUrl + 'videoModule?id=' + videoQuizStageId;
   }
 
   getQuiz() {

@@ -9,6 +9,7 @@ import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { StudyProgress, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { Module } from 'src/app/services/trainer/module.service';
+import { ActionsTrackerService } from 'src/app/services/logger/actions-tracker.service';
 
 
 @Component({
@@ -26,14 +27,15 @@ export class HomeComponent implements OnInit {
               private flowService: FlowService,
               private stageService: StageService,
               private translate: TranslateService,
-              private triviaService: ApiTriviaService) { }
+              private triviaService: ApiTriviaService,
+              private actionsTrackerService: ActionsTrackerService) { }
 
   flow: Flow;
   modulo: any;
   user;
 //  flowId = null;                        //usuario sin flujo asignado
 //  flowId = "6154b334b40ac2106a87d2f0";  //flujo libre de prueba
-  flowId = "618ec5e213fb7313d7ca77d7"; //flujo ordenado de prueba
+  flowId = "6167ae01efc88e2254ffc349"; //flujo ordenado de prueba
   apikey = this.triviaService.apiKey;
   stages;
   progress: StudyProgress[];
@@ -46,6 +48,7 @@ export class HomeComponent implements OnInit {
       this.getFlowInformation();
 //    this.getAdvance();
       this.dummyUser = this.authService.getUser();
+      this.actionsTrackerService.start();      
   }
 
   getFlowStagesInformation(){

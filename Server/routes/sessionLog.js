@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const userAgent = require('useragent');
 const SessionLog = require('../models/sessionLog');
 const User = require('../models/user');
 const authMiddleware = require('../middlewares/authMiddleware');
@@ -32,6 +33,14 @@ router.get('/:sessionLog_id', [verifyToken] , async (req, res) => {
 
 router.post('',  [verifyToken], async (req, res) => {
     const sessionLog = new SessionLog(req.body);
+    /*UserAgent*/
+    let userAgentString = (req.get('user-agent'));
+    let userAgentObject = userAgent.parse(userAgentString);
+    sessionLog.user_agent = userAgentString;
+    sessionLog.browser = userAgentObject.toAgent();
+    sessionLog.os = userAgentObject.os.toString();
+    sessionLog.device = userAgentObject.device.toString();
+    /*End UserAgent*/    
     sessionLog.save((err, sessionLog) => {
         if (err) {
             return res.status(404).json({

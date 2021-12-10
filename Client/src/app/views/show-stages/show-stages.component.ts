@@ -68,8 +68,12 @@ export class ShowStagesComponent implements OnInit {
 
   goToStage(stage){
     console.log(stage);
+    /*Dispatch pageenter event*/
+    var evt = new CustomEvent('stageenter', { detail: 'Enter to "' + stage._id + '" stage' });
+    window.dispatchEvent(evt);
+    /*End dispatch pageenter event*/    
     if (stage.type === 'Video'){
-      this.router.navigate(['/videoModule']);
+      window.location.href = this.videoModuleService.getVideoLink(stage.externalId);
     }
     if (stage.type === 'Trivia'){
       window.location.href = this.triviaService.getStudyLink(stage.externalId, this.authService.getUser());
