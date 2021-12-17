@@ -211,11 +211,6 @@ table {
 
 }
 
-.fila{
-  display: flex;
-  justify-content: space-between;
-}
-
 .moduleList{
   height: 100%;
   padding: 1%;

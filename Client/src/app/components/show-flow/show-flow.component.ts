@@ -74,6 +74,7 @@ export class ShowFlowComponent implements OnInit {
     .subscribe(response => {
       this.modules = response['modules'];
       if(this.modules.length != 0){
+        //eventualmente cambiar selectedModule al primer modulo no completado por el usuario.
         this.selectedModule = this.modules[0];
         this.vacio = false;
       }

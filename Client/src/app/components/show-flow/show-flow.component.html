@@ -1,6 +1,6 @@
 
 <div
-  *ngIf = "flow; else noFlow"
+  *ngIf = "modules.length > 0; else noModules"
   class = "moduleList"
 >
   
@@ -62,8 +62,8 @@
   <br>
 </div>
 
-<ng-template #noFlow>
-  <h1>No tienes asignado un flujo</h1>
+<ng-template #noModules>
+  <h1>No hay modulos</h1>
 </ng-template>
 
 

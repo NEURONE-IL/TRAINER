@@ -31,24 +31,30 @@ export class HomeComponent implements OnInit {
               private actionsTrackerService: ActionsTrackerService) { }
 
   flow: Flow;
-  modulo: any;
-  user;
+  flowId: string;
 //  flowId = null;                        //usuario sin flujo asignado
 //  flowId = "6154b334b40ac2106a87d2f0";  //flujo libre de prueba
-  flowId = "6167ae01efc88e2254ffc349"; //flujo ordenado de prueba
+//  flowId = "618ec5e213fb7313d7ca77d7"; //flujo ordenado de prueba
   apikey = this.triviaService.apiKey;
   stages;
   progress: StudyProgress[];
-  dummyUser: any;
+  user: any;
   currentView: string;
 
   ngOnInit(): void {
 //    this.getActualUserInformation();
 //    this.getFlowStagesInformation();
-      this.getFlowInformation();
+//    this.actionsTrackerService.start();
 //    this.getAdvance();
-      this.dummyUser = this.authService.getUser();
-      this.actionsTrackerService.start();      
+
+      this.user = this.authService.getUser(); //obtener datos del usuario
+      this.flowId = this.user.flow;
+
+      console.log("datos del usuario: ", this.user);
+      console.log("id del flujo: ", this.flowId);
+
+      this.getFlowInformation();              //obtener datos del flujo
+
   }
 
   getFlowStagesInformation(){
