@@ -13,6 +13,7 @@ import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
 import videoObjects from '../../../assets/static/videoObjects.json';
 import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
+import { AssistantService } from 'src/app/services/assistant/assistant.service';
 
 @Component({
   selector: 'app-flow-display',
@@ -30,6 +31,7 @@ export class FlowDisplayComponent implements OnInit {
   dummyUser: any;
   resetingUser = false;
   mostrarFlujos: boolean = true;
+  url= '';
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -52,6 +54,8 @@ export class FlowDisplayComponent implements OnInit {
       response => {
         this.flow = response['flow'];
         this.registerLink = this.authService.getRegisterLink(this.flow._id);
+        this.url = 'http://va.neurone.info/api/assistant/'+this.flow.assistant;
+
       },
       err => {
         this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
@@ -304,6 +308,7 @@ export class FlowUpdateDialogComponent implements OnInit{
   flowForm: FormGroup;
   loading: Boolean;
   file: File;
+  assistants: any;
 
   constructor(@Inject(MAT_DIALOG_DATA)
     public flow: Flow,
@@ -311,12 +316,15 @@ export class FlowUpdateDialogComponent implements OnInit{
     private flowService: FlowService,
     private toastr: ToastrService,
     private translate: TranslateService,
+    private assistantService: AssistantService,
     public matDialog: MatDialog) { }
 
   ngOnInit(): void {
+    this.getAssistants();
     this.flowForm = this.formBuilder.group({
       name: [this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: [this.flow.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
+      assistant: [this.flow.assistant, [Validators.required]],
       sorted: [this.flow.sorted, [Validators.required]]
     });
     this.loading = false;
@@ -337,6 +345,7 @@ export class FlowUpdateDialogComponent implements OnInit{
     formData.append('name', flow.name);
     formData.append('description', flow.description);
     formData.append('sorted', this.flow.sorted.toString());
+    formData.append('assistant', flow.assistant);
     if(this.file){
       formData.append('file', this.file);
     }
@@ -360,6 +369,20 @@ export class FlowUpdateDialogComponent implements OnInit{
 
   handleFileInput(files: FileList) {
     this.file = files.item(0);
+  }
+
+  getAssistants(){
+    this.assistantService.getAssistants().subscribe(
+      response => {
+        this.assistants = response;
+      },
+      err => {
+        /*this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });*/
+      }
+    );
   }
 }
 

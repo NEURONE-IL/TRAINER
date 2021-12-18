@@ -64,6 +64,7 @@ import { ModuleCreationComponent } from './views/module-creation/module-creation
 import { ShowStagesComponent } from './views/show-stages/show-stages.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { SafeurlPipe } from './services/assistant/safeurl.pipe';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -98,7 +99,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     StageUpdateDialogComponent,
     FlowCreationComponent,
     FlowDisplayComponent,
-    ShowStagesComponent
+    ShowStagesComponent,
+    SafeurlPipe
   ],
   imports: [
     BrowserModule,

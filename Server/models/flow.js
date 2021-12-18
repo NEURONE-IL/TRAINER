@@ -5,6 +5,7 @@ const FlowSchema = new Schema({
     name: { type: String, required: true },
     description: {type: String },
     sorted: { type: Boolean, required: true },
+    assistant: { type: String },
     image_url: { type: String },
     image_id: { type: String },
     createdAt: { type: Date, default: Date.now },

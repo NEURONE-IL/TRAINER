@@ -11,6 +11,8 @@ const schema = Joi.object({
 
     sorted: Joi.boolean()
         .required(),    
+
+    assistant: Joi.string()
 });
 
 const editSchema = Joi.object({
@@ -19,7 +21,9 @@ const editSchema = Joi.object({
 
     description: Joi.string(),
 
-    sorted: Joi.boolean()    
+    sorted: Joi.boolean(),    
+
+    assistant: Joi.string()
 });
 
 verifyBody = async (req, res, next) => {

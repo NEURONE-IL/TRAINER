@@ -65,6 +65,7 @@
     "FORM": {
       "FIELDS": {
         "DESCRIPTION": "Descripción",
+        "ASSISTANT": "Asistente",
         "IMAGE": "Seleccione una imagen (opcional)",
         "NAME": "Nombre",
         "STEP": "Orden",
