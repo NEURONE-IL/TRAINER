@@ -41,13 +41,6 @@ export class ShowStagesComponent implements OnInit {
       this.stagesByModule = this.modulo.stages.sort((n1,n2) => {
         return n1.step - n2.step;
       });
-
-      //prueba para manejar etapas completadas
-      this.stagesByModule.forEach((stage) => {
-        stage["percentage"] = 0;
-        
-      })
-      console.log(this.stagesByModule);
       
       this.accessStage = this.extractCurrentLevel(this.stagesByModule);
     }
@@ -56,6 +49,12 @@ export class ShowStagesComponent implements OnInit {
       this.stagesByModule = this.modulo.stages
     }
     
+    //prueba para manejar etapas completadas
+    this.stagesByModule.forEach((stage) => {
+      stage["percentage"] = 0;
+      
+    })
+
   }
   
   //se actualiza el nivel para desbloquear etapas correspondientes
@@ -107,11 +106,6 @@ export class ShowStagesComponent implements OnInit {
     if(stage.percentage < 100){
       stage.percentage = stage.percentage + 25;
     }
-  }
-
-  clickeado(){
-    console.log("clickeaste el circulo");
-    
   }
 
   getIcon(tipo: string, porcentaje: number): string {

@@ -18,7 +18,7 @@
   
     <ng-container matColumnDef="NombreCol">
       <th mat-header-cell *matHeaderCellDef> Nombre </th>
-      <td mat-cell *matCellDef="let module"> <strong>{{module.name}} </strong> </td>
+      <td mat-cell *matCellDef="let module"> <strong> <mat-icon *ngIf="module.locked">lock</mat-icon> {{module.name}}</strong> </td>
     </ng-container>
 
     <ng-container matColumnDef="TipoCol">
@@ -54,7 +54,8 @@
     <tr mat-header-row *matHeaderRowDef="columnHeader"></tr>
     <tr class="filaModulo"
       mat-row *matRowDef="let row; columns: columnHeader;"
-      (click)="enClick($event, row)"
+      (click)="!row.locked && enClick($event, row)"
+      [class.isBlocked]="row.locked"
       [class.mat-row-is-clicked]="selectedModule==row"
     ></tr>
     <tr mat-row *matRowDef="let fila; columns: ['showStages']" class="hidden"></tr>

@@ -238,3 +238,7 @@ tr.hidden {
 .tabla{
   padding-bottom: 15px;
 }
+
+.isBlocked{
+  background-color: silver;
+}

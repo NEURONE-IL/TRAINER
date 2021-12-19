@@ -34,7 +34,7 @@ export class ShowFlowComponent implements OnInit {
   sortedStages: Stage[] = [];
   columnHeader: string[] = ['NombreCol', 'TipoCol', 'DescriptionCol']
   vacio: boolean = true;
-  modules: Module [];
+  modules: any [];
   selectedModule: Module | null;
 
   constructor(
@@ -77,10 +77,37 @@ export class ShowFlowComponent implements OnInit {
         //eventualmente cambiar selectedModule al primer modulo no completado por el usuario.
         this.selectedModule = this.modules[0];
         this.vacio = false;
+
+        //En caso de flujo ordenado se deben bloquear los modulos, por lo tanto 
+        //se agrega estado de bloqueado desde el segundo en adelante.
+        //Se agrega estado desbloqueado al primero por consistencia de modelo.
+
+        if(this.flow.sorted){
+          this.modules[0]["locked"] = false;
+
+          for(let i=1; i<this.modules.length; i++){
+            this.modules[i]["locked"] = true;
+          }
+          
+        }
+        console.log("modulos: ", this.modules);
+        
       }
-  });
-    
+    });
+
   }
+
+  ngDoCheck(): void{
+    //revisar si se han completado todas las etapas del modulo anterior
+    for(let i=1; i<this.modules.length; i++){
+
+      if(this.modules[i-1].stages.every(etapa => etapa.percentage == 100)){
+        this.modules[i].locked = false;
+      }
+
+    }
+  }
+
   getClass(active, type){
     if(!active){
       return 'Disabled';
@@ -128,7 +155,7 @@ export class ShowFlowComponent implements OnInit {
   }
 
   //funcion que permite asignar la fila seleccionada al atributo selectedModule.
-  //En caso de que se seleccione abrir la ventanilla de descripcion este metodo no debe llamarse.
+  //En caso de que se clickee el icono de descripcion este metodo no debe llamarse.
   enClick(event: MouseEvent, row: Module){
 
     event.preventDefault();
@@ -163,6 +190,7 @@ export class ShowFlowComponent implements OnInit {
     }
   }
 
+  // para abrir ventana de descripcion
   openDialog(event: MouseEvent, modulo: Module) {
 
     event.preventDefault();
@@ -181,7 +209,7 @@ export class DescriptionDialogComponent{
 
   constructor(
     @Inject(MAT_DIALOG_DATA)
-    private data: Module  
+    private data  
   ) {}
 
   getCode(): string {
@@ -190,6 +218,10 @@ export class DescriptionDialogComponent{
 
   getDescription(): string{
     return this.data.description;
+  }
+
+  getModulo(){
+    return this.data;
   }
 
 }
