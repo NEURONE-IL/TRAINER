@@ -1,4 +1,4 @@
-import {Component, Inject, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, EventEmitter, Input, OnInit, ViewEncapsulation} from '@angular/core';
 import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from "../../services/trainer/flow.service";
 import { ApiTriviaService } from "../../services/apiTrivia/apiTrivia.service";
@@ -8,9 +8,7 @@ import { ToastrService } from 'ngx-toastr';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
 import { Module, ModuleService } from 'src/app/services/trainer/module.service';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { trigger, state, style, transition, animate } from '@angular/animations';
-import { MatSelectModule } from '@angular/material/select';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -72,7 +70,7 @@ export class ShowFlowComponent implements OnInit {
     
     this.moduleService.getModuleByFlow(this.flow._id)
     .subscribe(response => {
-      this.modules = response['modules'];
+      this.modules = response['modules'].filter(modulo => modulo.stages.length > 0); //Se eliminan los modulos sin etapas
       if(this.modules.length != 0){
         //eventualmente cambiar selectedModule al primer modulo no completado por el usuario.
         this.selectedModule = this.modules[0];
@@ -106,6 +104,7 @@ export class ShowFlowComponent implements OnInit {
       }
 
     }
+
   }
 
   getClass(active, type){
@@ -180,14 +179,20 @@ export class ShowFlowComponent implements OnInit {
 
   //obtiene un string para mostrar en la columna de completados (en la tabla de modulos)
   getCompleted(modulo: any){
+    /* improbable que suceda, dado que se filtran los modulos sin etapas
     if (modulo.stages.length == 0){
       return "-";
     }
+    */
 
-    //necesito ver las etapas completadas para poder asignar un valor distinto de 0
-    else {
-      return "0/" + modulo.stages.length;
+    let completado = 0;
+    for(let i = 0; i < modulo.stages.length; i++){
+      if(modulo.stages[i].percentage == 100){
+        completado = completado + 1;
+      }
     }
+    return completado + "/" + modulo.stages.length;
+    
   }
 
   // para abrir ventana de descripcion
