@@ -142,7 +142,7 @@ export class AuthService {
     console.log('redirect');
     if (role == 'admin') {
       console.log('admin');
-      this.router.navigate(['home']);
+      this.router.navigate(['/admin_panel']);
     } else {
       this.router.navigate(['/home']);
     }

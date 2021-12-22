@@ -47,10 +47,10 @@ export class LoginComponent implements OnInit {
     console.log('redirect');
     if (role=='admin') {
       console.log('admin');
-      this.router.navigate(['home']);
+      this.router.navigate(['/admin_panel']);
     } else {
       console.log('student');
-      this.router.navigate(['home']);
+      this.router.navigate(['/home']);
     }
   }
 
