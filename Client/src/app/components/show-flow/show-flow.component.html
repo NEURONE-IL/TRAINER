@@ -1,6 +1,6 @@
 
 <div
-  *ngIf = "modules.length > 0; else noModules"
+  *ngIf = "modules && modules.length > 0; else noModules"
   class = "moduleList"
 >
   

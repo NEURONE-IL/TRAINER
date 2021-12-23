@@ -97,12 +97,14 @@ export class ShowFlowComponent implements OnInit {
 
   ngDoCheck(): void{
     //revisar si se han completado todas las etapas del modulo anterior
-    for(let i=1; i<this.modules.length; i++){
+    if(this.modules){
+      for(let i=1; i<this.modules.length; i++){
 
-      if(this.modules[i-1].stages.every(etapa => etapa.percentage == 100)){
-        this.modules[i].locked = false;
+        if(this.modules[i-1].stages.every(etapa => etapa.percentage == 100)){
+          this.modules[i].locked = false;
+        }
+
       }
-
     }
 
   }

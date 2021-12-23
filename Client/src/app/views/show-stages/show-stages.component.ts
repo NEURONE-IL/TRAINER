@@ -32,9 +32,11 @@ export class ShowStagesComponent implements OnInit {
   @Input() sorted: boolean;
   @Input() modulo: any;
 
-
+  user: any;
 
   ngOnInit(): void {
+
+    this.user = this.authService.getUser();
 
     if(this.sorted){
 
@@ -66,20 +68,24 @@ export class ShowStagesComponent implements OnInit {
 
 
   goToStage(stage){
+    /*
     console.log(stage);
-    /*Dispatch pageenter event*/
+    //Dispatch pageenter event
     var evt = new CustomEvent('stageenter', { detail: 'Enter to "' + stage._id + '" stage' });
     window.dispatchEvent(evt);
-    /*End dispatch pageenter event*/
+    //End dispatch pageenter event
+    */
     if (stage.type === 'Video'){
-      window.location.href = this.videoModuleService.getVideoLink(stage.externalId);
+      return this.videoModuleService.getVideoLink(stage.externalId);
     }
+    if (stage.type === 'Video + Quiz'){
+      return this.videoModuleService.getVideoQuizLink(stage.externalId);
+    }    
     if (stage.type === 'Trivia'){
-      window.location.href = this.triviaService.getStudyLink(stage.externalId, this.authService.getUser());
+      return this.triviaService.getStudyLink(stage.externalId, this.user);
     }
     if (stage.type === 'SG'){
-      window.location.href = this.apiSGService.getAdventureLink(stage.externalId);
-      return;
+      return this.apiSGService.getAdventureLink(stage.externalId);
     }
   }
 
@@ -104,59 +110,29 @@ export class ShowStagesComponent implements OnInit {
   //funcion para simular completado de etapa
   addPercentage(stage: any){
     if(stage.percentage < 100){
-      stage.percentage = stage.percentage + 25;
+      stage.percentage = stage.percentage + 100;
     }
   }
 
-  getIcon(tipo: string, porcentaje: number): string {
-    switch(tipo){
-      case "Trivia":
-        if(porcentaje >= 50 && porcentaje < 75){
-          return '../../../assets/stage-images/TriviaIconBronze.svg'
-        }
-        else if(porcentaje >= 75 && porcentaje < 90){
-          return '../../../assets/stage-images/TriviaIconSilver.svg'
-        }
-        else if(porcentaje >= 90){
-          return '../../../assets/stage-images/TriviaIconGold.svg'
-        }
-        else{
-          return '../../../assets/stage-images/TriviaIcon.svg'
-        }
-        break;
+  getIcon(tipo: string): string {
+    if(tipo == "Trivia"){
+      return '../../../assets/stage-images/TriviaIconGold.svg'
+    }
+    
+    else if(tipo == "Video"){
+      return '../../../assets/stage-images/VideoIconGold.svg'
+    }
 
-      case "Video":
-        if(porcentaje >= 50 && porcentaje < 75){
-          return '../../../assets/stage-images/VideoIconBronze.svg'
-        }
-        else if(porcentaje >= 75 && porcentaje < 90){
-          return '../../../assets/stage-images/VideoIconSilver.svg'
-        }
-        else if(porcentaje >= 90){
-          return '../../../assets/stage-images/VideoIconGold.svg'
-        }
-        else{
-          return '../../../assets/stage-images/VideoIcon.svg'
-        }
-        break;
+    else if(tipo == "SG"){
+      return '../../../assets/stage-images/AdventureIconBronze.svg'
+    }
 
-      case "SG":
-        if(porcentaje >= 50 && porcentaje < 75){
-          return '../../../assets/stage-images/AdventureIconBronze.svg'
-        }
-        else if(porcentaje >= 75 && porcentaje < 90){
-          return '../../../assets/stage-images/AdventureIcon.svg'
-        }
-        else if(porcentaje >= 90){
-          return '../../../assets/stage-images/AdventureIconBronze.svg'
-        }
-        else{
-          return '../../../assets/stage-images/AdventureIcon.svg'
-        }
-        break;
+    else if(tipo == "Video + Quiz"){
+      return '../../../assets/stage-images/videoQuiz.svg'
+    }
 
-      default:
-        return ""
+    else{
+      return '../../../assets/stage-images/notFound.svg'
     }
 
   }

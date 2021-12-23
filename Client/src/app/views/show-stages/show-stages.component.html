@@ -33,17 +33,21 @@
                             unitsFontSize = "25"
                             [percent] = "stage.percentage"
                             [title] = "stage.percentage"
-                            imageSrc= "{{ getIcon(stage.type, stage.percentage) }}"
+                            [class.blackAndWhite] = "stage.percentage < 100"
+                            imageSrc= "{{ getIcon(stage.type) }}"
+                            imageWidth="80"
+                            imageHeight="80"
                             [showImage]= "true"
                             [responsive] = "true"
                         ></circle-progress>
                     </mat-card-content>
                     <mat-card-actions align="center">
+                        <a href="{{goToStage(stage)}}">
                         <button
                             mat-raised-button color="primary"
-                            (click)="goToStage(stage)"
                             [disabled] = "sorted && (stage.step <= accessStage ? false : true)"
                         >Iniciar!</button>
+                        </a>
                         <button
                             mat-raised-button color="primary"
                             (click)="addPercentage(stage)"

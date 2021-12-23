@@ -24,6 +24,11 @@ mat-card-title{
   margin-bottom: 0.5%;
 }
 
+.blackAndWhite{
+  filter: grayscale(1);
+
+}
+
 
 /*para revertir cambiar nombres a los tests respectivos. ej triviabutton.svg -> bg-test-trivia.svg
 .trivia{
