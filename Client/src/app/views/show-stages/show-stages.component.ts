@@ -41,27 +41,27 @@ export class ShowStagesComponent implements OnInit {
       this.stagesByModule = this.modulo.stages.sort((n1,n2) => {
         return n1.step - n2.step;
       });
-      
+
       this.accessStage = this.extractCurrentLevel(this.stagesByModule);
     }
 
     else{
       this.stagesByModule = this.modulo.stages
     }
-    
+
     //prueba para manejar etapas completadas
     this.stagesByModule.forEach((stage) => {
       stage["percentage"] = 0;
-      
+
     })
 
   }
-  
+
   //se actualiza el nivel para desbloquear etapas correspondientes
   ngDoCheck(): void{
 
     this.accessStage = this.extractCurrentLevel(this.stagesByModule);
-    
+
   }
 
 
@@ -70,7 +70,7 @@ export class ShowStagesComponent implements OnInit {
     /*Dispatch pageenter event*/
     var evt = new CustomEvent('stageenter', { detail: 'Enter to "' + stage._id + '" stage' });
     window.dispatchEvent(evt);
-    /*End dispatch pageenter event*/    
+    /*End dispatch pageenter event*/
     if (stage.type === 'Video'){
       window.location.href = this.videoModuleService.getVideoLink(stage.externalId);
     }
@@ -93,10 +93,10 @@ export class ShowStagesComponent implements OnInit {
       if(etapa.percentage < 100){
         niveles.push(etapa.step);
       }
-    }      
+    }
     );
     //obtener el valor minimo y guardarlo en accessStage
-    
+
     return Math.min.apply(null, niveles);
 
   }
@@ -124,7 +124,7 @@ export class ShowStagesComponent implements OnInit {
           return '../../../assets/stage-images/TriviaIcon.svg'
         }
         break;
-      
+
       case "Video":
         if(porcentaje >= 50 && porcentaje < 75){
           return '../../../assets/stage-images/VideoIconBronze.svg'

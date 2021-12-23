@@ -16,15 +16,16 @@ export interface VideoModule {
 export class QuizService {
   enviromentUrl = 'http://localhost:4200/';
   uri = environment.apiURL + 'videoModule';
+  urlServer = 'http://138.197.200.50:3070/';
   constructor( protected http: HttpClient,
                private stageService: StageService) { }
 
   getVideoLink(videoStageId: any){
-    return this.enviromentUrl + 'video?id=' + videoStageId;
+    return this.urlServer + 'video?id=' + videoStageId;
   }
 
   getVideoQuizLink(videoQuizStageId: any){
-    return this.enviromentUrl + 'videoModule?id=' + videoQuizStageId;
+    return this.urlServer + 'videoModule?id=' + videoQuizStageId;
   }
 
   getQuiz() {

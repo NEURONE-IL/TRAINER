@@ -10,6 +10,8 @@ import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
 import videoObjects from '../../../assets/static/videoObjects.json';
 import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
+import quizQuestions from '../../../assets/static/quizQuestions.json';
+
 
 
 @Component({
@@ -30,6 +32,7 @@ export class StageCreationComponent implements OnInit {
   SGLinks: SGGame[] = [];
   videoLinks: object[] = videoObjects;
   videoQuizLinks: object[] = videoQuizObjects;
+  questions: object[] = quizQuestions;
   file: File;
 
   constructor(private formBuilder: FormBuilder,
@@ -151,12 +154,24 @@ export class StageCreationComponent implements OnInit {
     else if(value === 'SG'){
       this.currentLinks = this.SGLinks;
     }
+
     else if(value === 'Video'){
-      this.currentLinks = this.videoLinks;
+      this.currentLinks = [];
+      for (let question of this.questions){
+        if (question["EXERCISES"].length == 0 && question["VIDEO"] != 0){ // Si existe el video y no hay quiz
+          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
+        }
+      }
     }
+
     else if(value === 'Video + Quiz'){
-      this.currentLinks = this.videoQuizLinks;
-    }    
+      this.currentLinks = [];
+      for (let question of this.questions){
+        if (question["EXERCISES"].length != 0 && question["VIDEO"] != 0){ // si existe el video y el quiz tiene data
+          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
+        }
+      }
+    }
   }
 
   handleFileInput(files: FileList) {
