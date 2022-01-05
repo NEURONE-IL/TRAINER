@@ -153,7 +153,7 @@ router.get("/:flow_id/findTestUser", async (req, res) => {
 		}
 	});
 	// Find User
-	const user = await User.findOne({email: flow_id+"@testuser.cl"});
+	const user = await User.findOne({email: flow_id+"@test.com"});
 	res.status(200).json({
 		ok: true,
 		user
@@ -172,7 +172,7 @@ router.get("/:flow_id/resetTestUser", async (req, res) => {
 		}
 	});
 	// Find User
-	const user = await User.findOne({email: flow_id+"@testuser.cl"});
+	const user = await User.findOne({email: flow_id+"@test.com"});
 	await UserFlow.deleteOne({user: user._id},  err => {
 	  if(err){
 		res.status(500).json(err);

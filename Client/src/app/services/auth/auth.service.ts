@@ -122,7 +122,7 @@ export class AuthService {
 
   signupTestUser(flow_id){
     const user = {
-      email: flow_id+"@testuser.cl",
+      email: flow_id+"@test.com",
       names: "Test",
       last_names: "User",
       password: "test12345"
