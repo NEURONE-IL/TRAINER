@@ -66,4 +66,12 @@ export class ApiTriviaService {
     return this.http.get(this.urlApi + 'user/' + userId + '/advance', { headers: header });
   }
 
+  postAssistant(studyId, assistantId){
+    return this.http.post(this.urlApi + 'site/study/'+studyId + '/assistant', {assistant: assistantId});
+  }
+
+  putAssistant(studyId, assistantId){
+    return this.http.put(this.urlApi + 'site/study/'+studyId + '/assistant', {assistant: assistantId});
+  }
+
 }
