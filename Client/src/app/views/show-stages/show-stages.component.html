@@ -42,12 +42,11 @@
                         ></circle-progress>
                     </mat-card-content>
                     <mat-card-actions align="center">
-                        <a href="{{goToStage(stage)}}">
                         <button
                             mat-raised-button color="primary"
-                            [disabled] = "sorted && (stage.step <= accessStage ? false : true)"
+                            [disabled] = "(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true))"
+                            (click) = "redirectToStage(stage)"
                         >Iniciar!</button>
-                        </a>
                         <button
                             mat-raised-button color="primary"
                             (click)="addPercentage(stage)"

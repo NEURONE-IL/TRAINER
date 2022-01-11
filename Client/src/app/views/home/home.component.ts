@@ -32,12 +32,13 @@ export class HomeComponent implements OnInit {
 
   flow: Flow;
   flowId: string;
+//  triviaProgress: TriviaStudy[] = [];
 //  flowId = null;                        //usuario sin flujo asignado
 //  flowId = "6154b334b40ac2106a87d2f0";  //flujo libre de prueba
 //  flowId = "618ec5e213fb7313d7ca77d7"; //flujo ordenado de prueba
   apikey = this.triviaService.apiKey;
   stages;
-  progress: StudyProgress[];
+  progress: any;
   user: any;
   currentView: string;
 
@@ -47,13 +48,26 @@ export class HomeComponent implements OnInit {
 //    this.actionsTrackerService.start();
 //    this.getAdvance();
 
-      this.user = this.authService.getUser(); //obtener datos del usuario
-      this.flowId = this.user.flow;
-
+      //id del flujo esta dentro del usuario, pero para obtener el usuario necesito el id del flujo
+/*      this.flowService.getFlowDummy("618ec5e213fb7313d7ca77d7").subscribe(response => {
+        this.user = response['user'];
+        console.log("datos del usuario: ", this.user);
+        this.flowId = this.user.flow;
+        console.log("id del flujo: ", this.flowId);
+        this.getFlowInformation(this.flowId);              //obtener datos del flujo
+        this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
+      });*/
+      this.user = this.authService.getUser();             //obtener datos del usuario de localstorage
       console.log("datos del usuario: ", this.user);
+      this.flowId = this.user.flow;
       console.log("id del flujo: ", this.flowId);
+      this.getFlowInformation(this.flowId);              //obtener datos del flujo
+//      this.getAdvance();
+      this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
+//      console.log("datos del usuario: ", this.user);
 
-      this.getFlowInformation();              //obtener datos del flujo
+
+
 
   }
 
@@ -62,12 +76,34 @@ export class HomeComponent implements OnInit {
       this.stages = res.stages;
     } );
   }
-  getFlowInformation(){
-    this.flowService.getFlow(this.flowId).subscribe((res: any) => {
+  getFlowInformation(flowId: string){
+    this.flowService.getFlow(flowId).subscribe((res: any) => {
       this.flow = res.flow;
       
     });
   }
+
+  getProgress(){
+    //    if(this.authService.isAdmin()){
+          this.triviaService.getProgress(this.user._id).subscribe(response => {
+              
+              this.progress = response['progress'];
+            
+//            console.log(this.progress, 'progress');
+//            console.log('testUser');
+          },
+          error => {
+            console.error(error);
+          });
+    //    }else{
+    //      this.triviaService.getProgress(this.authService.getUser()._id).subscribe(response => {
+    //        this.triviaProgress = response['progress'];
+    //        console.log(this.triviaProgress, 'progress');
+    //        console.log('realUser');
+    //      });      
+    //    }
+      }
+
 
   getActualUserInformation(){
     this.user = this.authService.getActualUserInformation();
@@ -111,7 +147,7 @@ export class HomeComponent implements OnInit {
         this.stageService.updateProgress(this.user._id, this.flowId, element.study._id, element.percentage).subscribe(response => {
           this.stages = response['stages'];
 //          console.log(response, 'TRAINER UpdateProgress');
-        });        
+        });
       });
     });
   }
