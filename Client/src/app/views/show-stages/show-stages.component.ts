@@ -31,11 +31,12 @@ export class ShowStagesComponent implements OnInit {
 
   @Input() sorted: boolean;
   @Input() modulo: any;
+  @Input() progress: any;
 
   user: any;
 
   ngOnInit(): void {
-
+    console.log(this.progress, 'progress');
     this.user = this.authService.getUser();
 
     if(this.sorted){
@@ -53,8 +54,8 @@ export class ShowStagesComponent implements OnInit {
 
     //prueba para manejar etapas completadas
     this.stagesByModule.forEach((stage) => {
-      stage["percentage"] = 0;
 
+      stage["percentage"] = 0; //asignar a todas las etapas el atributo de porcentaje, inicializado en 0
     })
 
   }
@@ -64,6 +65,19 @@ export class ShowStagesComponent implements OnInit {
 
     this.accessStage = this.extractCurrentLevel(this.stagesByModule);
 
+    //actualizar porcentaje de etapas si es que existe el arreglo de progreso
+    this.stagesByModule.forEach((stage) => {
+
+      let saved;  //elemento del arreglo de progreso
+
+      if(this.progress){
+        saved = this.progress.find(estudio => estudio.study._id == stage.externalId)
+      }
+
+      if(saved){
+        stage.percentage = saved.percentage * 100;
+      }
+    })
   }
 
 
@@ -89,6 +103,10 @@ export class ShowStagesComponent implements OnInit {
     }
   }
 
+  redirectToStage(stage){
+    window.location.href = this.goToStage(stage);
+  }
+
   //cambiar el tipo de stage a Stage(), lo deje en any para realizar pruebas con etapas completadas ya que asigno el elemento percentage al interface Stage
   extractCurrentLevel(stages: any[]) :number{
     let niveles: number[] = [];
@@ -110,7 +128,7 @@ export class ShowStagesComponent implements OnInit {
   //funcion para simular completado de etapa
   addPercentage(stage: any){
     if(stage.percentage < 100){
-      stage.percentage = stage.percentage + 100;
+      stage.percentage = 100;
     }
   }
 

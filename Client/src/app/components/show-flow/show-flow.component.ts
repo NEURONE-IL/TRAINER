@@ -1,4 +1,4 @@
-import {Component, Inject, EventEmitter, Input, OnInit, ViewEncapsulation} from '@angular/core';
+import {Component, Inject, EventEmitter, Input, OnInit, ViewEncapsulation, ChangeDetectorRef} from '@angular/core';
 import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from "../../services/trainer/flow.service";
 import { ApiTriviaService } from "../../services/apiTrivia/apiTrivia.service";
@@ -28,6 +28,8 @@ export class ShowFlowComponent implements OnInit {
 
   @Input() flow: Flow;
   @Input() studentId: string;
+  @Input() progress: any;
+
   stages: Stage[] = [];
   sortedStages: Stage[] = [];
   columnHeader: string[] = ['NombreCol', 'TipoCol', 'DescriptionCol']
@@ -45,7 +47,8 @@ export class ShowFlowComponent implements OnInit {
     private toastr: ToastrService,
     private apiSGService: ApiSGService,
     private authService: AuthService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
@@ -106,7 +109,11 @@ export class ShowFlowComponent implements OnInit {
 
       }
     }
+  }
 
+  //para evitar error "Expression has changed after it was checked"
+  ngAfterContentChecked(): void {
+    this.cdRef.detectChanges();
   }
 
   getClass(active, type){
