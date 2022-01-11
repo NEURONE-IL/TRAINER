@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
 
   isLoggedIn = false;
   homeTooltip: string;
+  user: any;  
 
   constructor( private authService: AuthService,
                private translate: TranslateService,
@@ -19,6 +20,9 @@ export class HeaderComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn = this.authService.loggedIn;
+    if( this.isLoggedIn){
+      this.user = this.authService.getUser();
+    }    
   }
 
   ngAfterContentChecked() {

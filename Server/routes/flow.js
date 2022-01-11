@@ -45,9 +45,6 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
         flow.image_url = image_url;
         flow.image_id = req.file.id;
     }
-    if(req.body.assistant){
-        flow.assistant = req.body.assistant;
-    }
     flow.save((err, flow) => {
         if (err) {
             return res.status(404).json({
@@ -76,10 +73,7 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
         }
         if(req.body.sorted){
             flow.sorted = req.body.sorted;
-        }
-        if(req.body.assistant){
-            flow.assistant = req.body.assistant;
-        }        
+        }    
         if(req.file){
             if(flow.image_id){
                 imageStorage.gfs.delete(flow.image_id);

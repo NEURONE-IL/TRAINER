@@ -65,7 +65,6 @@
     "FORM": {
       "FIELDS": {
         "DESCRIPTION": "Descripción",
-        "ASSISTANT": "Asistente",
         "IMAGE": "Seleccione una imagen (opcional)",
         "NAME": "Nombre",
         "STEP": "Orden",
@@ -94,6 +93,7 @@
   "STAGE": {
     "FORM": {
       "FIELDS": {
+        "ASSISTANT": "Asistente virtual",
         "DESCRIPTION": "Descripción",
         "IMAGE": "Seleccione una imagen (opcional)",
         "LINK": "Enlace",
@@ -150,6 +150,7 @@
     "MAIL_FORMAT": "Debe ingresar en email válido",
     "MAX_LENGTH_2": "El largo del campo no puede exceder los 2 caracteres",
     "MAX_LENGTH_3": "El largo del campo no puede exceder los 3 caracteres",
+    "MAX_LENGTH_25": "El largo del campo no puede exceder los 25 caracteres",
     "MAX_LENGTH_50": "El largo del campo no puede exceder los 50 caracteres",
     "MAX_LENGTH_100": "El largo del campo no puede exceder los 100 caracteres",
     "MAX_LENGTH_200": "El largo del campo no puede exceder los 200 caracteres",

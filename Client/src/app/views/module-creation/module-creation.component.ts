@@ -27,7 +27,7 @@ export class ModuleCreationComponent implements OnInit {
     this.moduleForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
-      code: ['', [Validators.required]]
+      code: ['', [Validators.required, Validators.maxLength(25)]]
     });
 
     this.flowService.getFlows().subscribe(

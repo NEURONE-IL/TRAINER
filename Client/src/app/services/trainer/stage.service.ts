@@ -13,6 +13,11 @@ export interface Stage {
   type: string,
   externalId: string,
   externalName: string,
+  module: {
+    _id: string,
+    name: string
+  },
+  assistant: string,
   active: boolean,
   createdAt: string,
   updatedAt: string,

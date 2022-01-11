@@ -11,9 +11,10 @@ import { AuthService } from '../../services/auth/auth.service';
 import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
+import { AssistantService } from 'src/app/services/assistant/assistant.service';
 import videoObjects from '../../../assets/static/videoObjects.json';
 import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
-import { AssistantService } from 'src/app/services/assistant/assistant.service';
+import quizQuestions from '../../../assets/static/quizQuestions.json';
 
 @Component({
   selector: 'app-flow-display',
@@ -54,8 +55,6 @@ export class FlowDisplayComponent implements OnInit {
       response => {
         this.flow = response['flow'];
         this.registerLink = this.authService.getRegisterLink(this.flow._id);
-        this.url = 'http://va.neurone.info/api/assistant/'+this.flow.assistant;
-
       },
       err => {
         this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
@@ -308,7 +307,6 @@ export class FlowUpdateDialogComponent implements OnInit{
   flowForm: FormGroup;
   loading: Boolean;
   file: File;
-  assistants: any;
 
   constructor(@Inject(MAT_DIALOG_DATA)
     public flow: Flow,
@@ -316,15 +314,13 @@ export class FlowUpdateDialogComponent implements OnInit{
     private flowService: FlowService,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private assistantService: AssistantService,
     public matDialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.getAssistants();
     this.flowForm = this.formBuilder.group({
       name: [this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: [this.flow.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
-      assistant: [this.flow.assistant, [Validators.required]],
+
       sorted: [this.flow.sorted, [Validators.required]]
     });
     this.loading = false;
@@ -345,7 +341,6 @@ export class FlowUpdateDialogComponent implements OnInit{
     formData.append('name', flow.name);
     formData.append('description', flow.description);
     formData.append('sorted', this.flow.sorted.toString());
-    formData.append('assistant', flow.assistant);
     if(this.file){
       formData.append('file', this.file);
     }
@@ -370,20 +365,6 @@ export class FlowUpdateDialogComponent implements OnInit{
   handleFileInput(files: FileList) {
     this.file = files.item(0);
   }
-
-  getAssistants(){
-    this.assistantService.getAssistants().subscribe(
-      response => {
-        this.assistants = response;
-      },
-      err => {
-        /*this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });*/
-      }
-    );
-  }
 }
 
 @Component({
@@ -403,11 +384,16 @@ export class StageUpdateDialogComponent implements OnInit{
   SGLinks: SGGame[] = [];
   videoLinks: object[] = videoObjects;
   videoQuizLinks: object[] = videoQuizObjects;
+  questions: object[] = quizQuestions;
   file: File;
+  assistants: any;
+  modules: [];
+  module: any;
 
   constructor(@Inject(MAT_DIALOG_DATA)
     public stage: Stage,
     private formBuilder: FormBuilder,
+    private moduleService: ModuleService,
     private router: Router,
     private stageService: StageService,
     private flowService: FlowService,
@@ -416,18 +402,23 @@ export class StageUpdateDialogComponent implements OnInit{
     private apiSGService: ApiSGService,
     private videoModuleService: QuizService,
     private triviaService: ApiTriviaService,
-    public matDialog: MatDialog) { }
+    public matDialog: MatDialog,
+    private assistantService: AssistantService) { }
 
   ngOnInit(): void {
 
     this.getApiStudies();
-
+    this.getModules();
+    this.getAssistants();
+    console.log(this.stage)
     this.stageForm = this.formBuilder.group({
       title: [this.stage.title, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: [this.stage.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
+      description: [this.stage.description, [Validators.minLength(3), Validators.maxLength(250)]],
       step: [this.stage.step, [Validators.required]],
       type: [this.stage.type, [Validators.required]],
-      externalId: [this.stage.externalId, [Validators.required]]
+      externalId: [this.stage.externalId, [Validators.required]],
+      module: [this.stage.module._id, []],
+      assistant: [this.stage.assistant, []],      
     });
 
     this.flowService.getFlows().subscribe(
@@ -481,31 +472,12 @@ export class StageUpdateDialogComponent implements OnInit{
     }    
   }
 
-  changeLinks(event: any){
-    let value = event.value;
-    this.stageForm.patchValue({ externalId: null });
-    if(value === 'Trivia'){
-      this.currentLinks = this.triviaLinks;
-    }
-    else if(value === 'SG'){
-      this.currentLinks = this.SGLinks;
-    }
-    else if(value === 'Video'){
-      this.currentLinks = this.videoLinks;
-    }
-    else if(value === 'Video + Quiz'){
-      this.currentLinks = this.videoLinks;
-    }    
-  }
-
   updateStage(stageId: string){
     this.loading = true;
     let stage = this.stageForm.value;
-    console.log(this.stageForm.value, 'stage');
     /*Stage properties*/
     stage.flow = this.stage.flow;
     let externalObject = this.currentLinks.find(element => element._id === stage.externalId);
-    console.log(externalObject, 'ext');
     stage.externalName = externalObject.name;
     /*End stage properties*/
     /*Stage FormData*/
@@ -517,11 +489,12 @@ export class StageUpdateDialogComponent implements OnInit{
     formData.append('externalId', stage.externalId);
     formData.append('flow', stage.flow);
     formData.append('externalName', stage.externalName);
+    formData.append('module', stage.module);
+    formData.append('assistant', stage.assistant);    
     /*End stage FormData*/
     if(this.file){
       formData.append('file', this.file);
     }
-    console.log(stageId, 'new', stage)
     this.stageService.putStage(stageId, stage).subscribe(
       stage => {
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
@@ -540,8 +513,56 @@ export class StageUpdateDialogComponent implements OnInit{
     );
   }
 
+  getModules(){
+    this.moduleService.getModuleByFlow(this.stage.flow)
+          .subscribe(response => {
+            this.modules = response['modules'];
+     });
+  }  
+
+  changeLinks(event: any){
+    let value = event.value;
+    if(value === 'Trivia'){
+      this.currentLinks = this.triviaLinks;
+    }
+    else if(value === 'SG'){
+      this.currentLinks = this.SGLinks;
+    }
+
+    else if(value === 'Video'){
+      this.currentLinks = [];
+      for (let question of this.questions){
+        if (question["EXERCISES"].length == 0 && question["VIDEO"] != 0){ // Si existe el video y no hay quiz
+          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
+        }
+      }
+    }
+
+    else if(value === 'Video + Quiz'){
+      this.currentLinks = [];
+      for (let question of this.questions){
+        if (question["EXERCISES"].length != 0 && question["VIDEO"] != 0){ // si existe el video y el quiz tiene data
+          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
+        }
+      }
+    }
+  }
+
   handleFileInput(files: FileList) {
     this.file = files.item(0);
   }
-}
 
+  getAssistants(){
+    this.assistantService.getAssistants().subscribe(
+      response => {
+        this.assistants = response;
+      },
+      err => {
+        /*this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });*/
+      }
+    );
+  }  
+}

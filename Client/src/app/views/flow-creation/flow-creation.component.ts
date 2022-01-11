@@ -5,7 +5,6 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { AssistantService } from 'src/app/services/assistant/assistant.service';
 
 @Component({
   selector: 'app-flow-creation',
@@ -16,7 +15,6 @@ export class FlowCreationComponent implements OnInit {
   flowForm: FormGroup;
   loading: boolean;
   file: File;
-  assistants: any;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -24,15 +22,12 @@ export class FlowCreationComponent implements OnInit {
     private authService: AuthService,
     private toastr: ToastrService,
     private translate: TranslateService,
-    private assistantService: AssistantService,
     private router: Router) { }
 
   ngOnInit(): void {
-    this.getAssistants();
     this.flowForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
-      assistant: ['', [Validators.required]],
       sorted: ['', [Validators.required]]
     });
     this.loading = false;
@@ -52,7 +47,6 @@ export class FlowCreationComponent implements OnInit {
     let formData = new FormData();
     formData.append('name', flow.name);
     formData.append('description', flow.description);
-    formData.append('assistant', flow.assistant);
     /*Type*/
     if(flow.sorted){
       formData.append('sorted', 'true');
@@ -97,17 +91,4 @@ export class FlowCreationComponent implements OnInit {
     this.file = files.item(0);
   }
 
-  getAssistants(){
-    this.assistantService.getAssistants().subscribe(
-      response => {
-        this.assistants = response;
-      },
-      err => {
-        /*this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });*/
-      }
-    );
-  }
 }

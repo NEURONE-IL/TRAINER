@@ -35,17 +35,6 @@
 						</mat-error>							
 					</mat-form-field>
 				</mat-grid-tile>
-				<mat-grid-tile colspan="6">
-					<mat-form-field>
-						<mat-label>{{ "FLOW.FORM.FIELDS.ASSISTANT" | translate }}</mat-label>
-						<mat-select formControlName="assistant" required>
-							<mat-option *ngFor="let assistant of assistants" [value]="assistant._id"> {{ assistant.name }} </mat-option>
-						</mat-select>						
-						<mat-error *ngIf="flowFormControls.assistant.hasError('required')">
-							{{ "ERRORS.REQUIRED" | translate }}
-						</mat-error>
-					</mat-form-field>
-				</mat-grid-tile>
 				<mat-grid-tile colspan="2">
 					<mat-card-header>
 						<mat-card-subtitle style="margin-bottom: 5%;">{{ "FLOW.FORM.FIELDS.TYPE" | translate }}:</mat-card-subtitle>

@@ -94,3 +94,9 @@
 .carousel-control-next, .carousel-control-prev {
   color: #666666;
 }
+
+.image-span {
+  margin-left: 1.5%;
+  width: 10%;
+  margin-right: 3%;
+}

@@ -76,15 +76,13 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
             type: req.body.type,
             externalId: req.body.externalId,
             externalName: req.body.externalName,
-            module: req.body.module
+            module: req.body.module,
+            assistant: req.body.assistant
         })
         if(req.file){
             let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
             stage.image_url = image_url;
             stage.image_id = req.file.id;
-        }
-        if(req.body.module){
-            stage.module = req.body.module
         }
         stage.save((err, stage) => {
             if (err) {
@@ -133,6 +131,9 @@ router.put('/:stage_id', [verifyToken, authMiddleware.isAdmin, stageMiddleware.v
         }
         if(req.body.module){
             stage.module = req.body.module
+        }
+        if(req.body.assistant){
+            stage.assistant = req.body.assistant;
         }
         if(req.file){
             if(stage.image_id){

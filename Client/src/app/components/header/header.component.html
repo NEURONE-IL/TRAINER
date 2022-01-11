@@ -1,11 +1,14 @@
 <div class="header" role="banner">
   <!--Student Implementation-->
-  <a class="title-span" *ngIf="isLoggedIn"
+  <a class="title-span" *ngIf="isLoggedIn && user.role.name === 'user'"
 		#tooltip="matTooltip"
 		[(matTooltip)]="homeTooltip"
 		matTooltipPosition="right">
-		NEURONE <mat-icon class="home">home</mat-icon>
+		NEURONE <mat-icon class="home">home</mat-icon>    
 	</a>
+
+  <!--ADMIN Implementation-->
+  <img class="image-span" #tooltip="matTooltip" [(matTooltip)]="homeTooltip" src="assets/images/tutelage-negativo.png" *ngIf="isLoggedIn && user.role.name === 'admin'" [routerLink]="['/admin_panel']"/>
 
   <!-- para personas logeadas -->
 	<a class="title-span" *ngIf="isLoggedIn"></a>

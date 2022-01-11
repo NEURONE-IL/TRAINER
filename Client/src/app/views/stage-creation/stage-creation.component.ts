@@ -8,6 +8,7 @@ import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivi
 import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
+import { AssistantService } from 'src/app/services/assistant/assistant.service';
 import videoObjects from '../../../assets/static/videoObjects.json';
 import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
 import quizQuestions from '../../../assets/static/quizQuestions.json';
@@ -34,6 +35,7 @@ export class StageCreationComponent implements OnInit {
   videoQuizLinks: object[] = videoQuizObjects;
   questions: object[] = quizQuestions;
   file: File;
+  assistants: any;
 
   constructor(private formBuilder: FormBuilder,
               private moduleService: ModuleService,
@@ -43,19 +45,22 @@ export class StageCreationComponent implements OnInit {
               private translate: TranslateService,
               private videoModuleService: QuizService,
               private apiSGService: ApiSGService,
-              private triviaService: ApiTriviaService) { }
+              private triviaService: ApiTriviaService,
+              private assistantService: AssistantService) { }
 
   ngOnInit(): void {
 
     this.getApiStudies();
     this.getModules();
+    this.getAssistants();
     this.stageForm = this.formBuilder.group({
       title: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
       step: ['', [Validators.required]],
       type: ['', [Validators.required]],
       externalId: ['', [Validators.required]],
-      module: ['', []]
+      module: ['', []],
+      assistant: ['', []],
     });
 
     this.flowService.getFlows().subscribe(
@@ -103,6 +108,7 @@ export class StageCreationComponent implements OnInit {
     formData.append('flow', stage.flow);
     formData.append('externalName', stage.externalName);
     formData.append('module', stage.module);
+    formData.append('assistant', stage.assistant);
     /*End stage FormData*/
     if(this.file){
       formData.append('file', this.file);
@@ -177,4 +183,18 @@ export class StageCreationComponent implements OnInit {
   handleFileInput(files: FileList) {
     this.file = files.item(0);
   }
+
+  getAssistants(){
+    this.assistantService.getAssistants().subscribe(
+      response => {
+        this.assistants = response;
+      },
+      err => {
+        /*this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });*/
+      }
+    );
+  }  
 }

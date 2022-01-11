@@ -70,20 +70,41 @@
 							{{ "ERRORS.REQUIRED" | translate }}
 						</mat-error>
 					</mat-form-field>
-				</mat-grid-tile>								
+				</mat-grid-tile>
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.MODULE" | translate }}</mat-label>
+						<mat-select formControlName="module" required>
+							<mat-option *ngFor="let module of modules" [value]="module._id"> {{ module.name }} </mat-option>
+						</mat-select>						
+						<mat-error *ngIf="stageFormControls.module.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>		
+			</mat-grid-list>		
+			<mat-card-header>
+				<mat-card-subtitle style="margin-top: 7%; margin-bottom: 0%;">{{ "STAGE.FORM.FIELDS.IMAGE" | translate }}:</mat-card-subtitle>
+			</mat-card-header>
+			<mat-grid-list cols="12">
+				<mat-grid-tile colspan="6">
+					<input type="file"
+						id="file"
+						(change)="handleFileInput($event.target.files)">
+				</mat-grid-tile>
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>{{ "STAGE.FORM.FIELDS.ASSISTANT" | translate }}</mat-label>
+						<mat-select formControlName="assistant">
+							<mat-option *ngFor="let assistant of assistants" [value]="assistant._id"> {{ assistant.type}}: {{ assistant.name }} </mat-option>
+						</mat-select>						
+						<mat-error *ngIf="stageFormControls.assistant.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>									
 			</mat-grid-list>
 		</form>
-		<mat-card-header>
-			<mat-card-subtitle style="margin-top: 7%; margin-bottom: 0%;">{{ "STAGE.FORM.FIELDS.IMAGE" | translate }}:</mat-card-subtitle>
-		</mat-card-header>
-		<mat-grid-list cols="12">
-			<mat-grid-tile colspan="6">
-				<input type="file"
-					id="file"
-					(change)="handleFileInput($event.target.files)">
-
-			</mat-grid-tile>	
-		</mat-grid-list>	
 	</mat-card-content>
 	<mat-card-actions class="cardActions" *ngIf="!loading; else elseBlock">
 		<button mat-raised-button class="saveButton" [disabled]="!stageForm.valid" (click)="updateStage(stage._id)">
