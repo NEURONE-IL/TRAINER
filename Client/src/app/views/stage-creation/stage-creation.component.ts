@@ -44,6 +44,7 @@ export class StageCreationComponent implements OnInit {
               private toastr: ToastrService,
               private translate: TranslateService,
               private videoModuleService: QuizService,
+              private apiTriviaService: ApiTriviaService,
               private apiSGService: ApiSGService,
               private triviaService: ApiTriviaService,
               private assistantService: AssistantService) { }
@@ -109,12 +110,25 @@ export class StageCreationComponent implements OnInit {
     formData.append('externalName', stage.externalName);
     formData.append('module', stage.module);
     formData.append('assistant', stage.assistant);
+    let type = stage.type;
+    let externalId = stage.externalId;
+    let assistant = stage.assistant;
     /*End stage FormData*/
     if(this.file){
       formData.append('file', this.file);
     }
     this.stageService.postStage(formData).subscribe(
       stage => {
+        if(type === "Trivia"){
+          this.apiTriviaService.postAssistant(externalId, assistant).subscribe(
+            response => {
+
+            },
+            err => {
+              console.log(err)
+            }
+          )
+        }
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'

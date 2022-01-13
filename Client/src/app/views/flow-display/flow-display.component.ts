@@ -491,12 +491,25 @@ export class StageUpdateDialogComponent implements OnInit{
     formData.append('externalName', stage.externalName);
     formData.append('module', stage.module);
     formData.append('assistant', stage.assistant);    
+    let type = stage.type;
+    let externalId = stage.externalId;
+    let assistant = stage.assistant;
     /*End stage FormData*/
     if(this.file){
       formData.append('file', this.file);
     }
     this.stageService.putStage(stageId, stage).subscribe(
       stage => {
+        if(type === "Trivia"){
+          this.triviaService.putAssistant(externalId, assistant).subscribe(
+            response => {
+
+            },
+            err => {
+              console.log(err)
+            }
+          )
+        }
         this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'

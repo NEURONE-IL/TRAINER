@@ -41,7 +41,7 @@ export class ApiTriviaService {
     header = header.append('Content-Type', 'application/json');
     this.http.post(this.urlApi + 'site/register', post, {headers: header}).subscribe((res: any) => {
       this.apiKey = res.site.api_key;
-      this.toastr.success('Se ha establecido la coneccion con Trivia', 'Coneccion Exitosa!');
+      this.toastr.success('Se ha establecido la coneccion con Trivia', 'Conexion Exitosa!');
     });
     return this.http.post(this.urlApi + 'site/register', post, {headers: header});
   }
@@ -54,7 +54,10 @@ export class ApiTriviaService {
   }
   
   getStudyLink(idStudio, user) {
-    return 'http://159.89.132.126:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
+    if(user){
+      return 'http://159.89.132.126:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
+    }
+    
   }
 
   getProgress(userId){
@@ -67,11 +70,11 @@ export class ApiTriviaService {
   }
 
   postAssistant(studyId, assistantId){
-    return this.http.post(this.urlApi + 'site/study/'+studyId + '/assistant', {assistant: assistantId});
+    return this.http.post(this.urlApi + 'study/'+studyId + '/assistant', {assistant: assistantId});
   }
 
   putAssistant(studyId, assistantId){
-    return this.http.put(this.urlApi + 'site/study/'+studyId + '/assistant', {assistant: assistantId});
+    return this.http.put(this.urlApi + 'study/'+studyId + '/assistant', {assistant: assistantId});
   }
 
 }
