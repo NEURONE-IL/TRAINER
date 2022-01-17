@@ -12,6 +12,8 @@ import { AssistantService } from 'src/app/services/assistant/assistant.service';
 import videoObjects from '../../../assets/static/videoObjects.json';
 import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
 import quizQuestions from '../../../assets/static/quizQuestions.json';
+import {MatDialogRef} from '@angular/material/dialog';
+import {FlowDisplayComponent} from '../flow-display/flow-display.component';
 
 
 
@@ -38,6 +40,7 @@ export class StageCreationComponent implements OnInit {
   assistants: any;
 
   constructor(private formBuilder: FormBuilder,
+              private dialogRef: MatDialogRef<FlowDisplayComponent>,
               private moduleService: ModuleService,
               private stageService: StageService,
               private flowService: FlowService,
@@ -143,6 +146,11 @@ export class StageCreationComponent implements OnInit {
         });
       }
     );
+    this.closeDialog();
+  }
+
+  closeDialog(){
+    this.dialogRef.close();
   }
 
   getApiStudies(){
@@ -210,5 +218,5 @@ export class StageCreationComponent implements OnInit {
         });*/
       }
     );
-  }  
+  }
 }

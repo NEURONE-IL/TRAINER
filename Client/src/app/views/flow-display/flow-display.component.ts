@@ -16,6 +16,10 @@ import videoObjects from '../../../assets/static/videoObjects.json';
 import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
 import quizQuestions from '../../../assets/static/quizQuestions.json';
 
+import { ModuleCreationComponent } from '../module-creation/module-creation.component';
+import {StageCreationComponent} from '../stage-creation/stage-creation.component';
+
+
 @Component({
   selector: 'app-flow-display',
   templateUrl: './flow-display.component.html',
@@ -32,7 +36,7 @@ export class FlowDisplayComponent implements OnInit {
   dummyUser: any;
   resetingUser = false;
   mostrarFlujos: boolean = true;
-  url= '';
+  url = '';
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -112,7 +116,7 @@ export class FlowDisplayComponent implements OnInit {
 //        this.triviaProgress = response['progress'];
 //        console.log(this.triviaProgress, 'progress');
 //        console.log('realUser');
-//      });      
+//      });
 //    }
   }
 
@@ -227,7 +231,7 @@ export class FlowDisplayComponent implements OnInit {
     }
     else if(type === 'Video + Quiz'){
       return 'VideoQuiz';
-    }    
+    }
   }
 
   formatDate(date){
@@ -273,7 +277,7 @@ export class FlowDisplayComponent implements OnInit {
     }
     if (stage.type === 'Video + Quiz'){
       return this.videoModuleService.getVideoQuizLink(stage.externalId);
-    }    
+    }
     if (stage.type === 'Trivia'){
       return this.triviaService.getStudyLink(stage.externalId, this.dummyUser);
     }
@@ -296,6 +300,29 @@ export class FlowDisplayComponent implements OnInit {
         return '../../../assets/flow-images/Flow00.jpg';
     }
   }
+
+  openModuleCreation(): void {
+    const modal = this.matDialog.open(ModuleCreationComponent, {
+      width: '100%'
+    });
+    const data = modal.componentInstance;
+    data.flow = this.flow._id;
+    modal.afterClosed().subscribe(result => {
+      this.reloadModules();
+    });
+  }
+
+  openStageCreation(): void {
+    const modal = this.matDialog.open(StageCreationComponent, {
+      width: '100%'
+    });
+    const data = modal.componentInstance;
+    data.flow = this.flow._id;
+    modal.afterClosed().subscribe(result => {
+      this.reloadStages();
+    });
+  }
+
 }
 
 @Component({
@@ -418,7 +445,7 @@ export class StageUpdateDialogComponent implements OnInit{
       type: [this.stage.type, [Validators.required]],
       externalId: [this.stage.externalId, [Validators.required]],
       module: [this.stage.module._id, []],
-      assistant: [this.stage.assistant, []],      
+      assistant: [this.stage.assistant, []],
     });
 
     this.flowService.getFlows().subscribe(
@@ -469,7 +496,7 @@ export class StageUpdateDialogComponent implements OnInit{
     }
     else if(type === 'Video + Quiz'){
       this.currentLinks = this.videoQuizLinks;
-    }    
+    }
   }
 
   updateStage(stageId: string){
@@ -490,7 +517,7 @@ export class StageUpdateDialogComponent implements OnInit{
     formData.append('flow', stage.flow);
     formData.append('externalName', stage.externalName);
     formData.append('module', stage.module);
-    formData.append('assistant', stage.assistant);    
+    formData.append('assistant', stage.assistant);
     let type = stage.type;
     let externalId = stage.externalId;
     let assistant = stage.assistant;
@@ -531,7 +558,7 @@ export class StageUpdateDialogComponent implements OnInit{
           .subscribe(response => {
             this.modules = response['modules'];
      });
-  }  
+  }
 
   changeLinks(event: any){
     let value = event.value;
@@ -577,5 +604,5 @@ export class StageUpdateDialogComponent implements OnInit{
         });*/
       }
     );
-  }  
+  }
 }

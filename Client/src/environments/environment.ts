@@ -4,12 +4,12 @@
 
 export const environment = {
   production: false,
-   serverRoot: 'http://138.197.200.50:3070/',
-   apiURL: 'http://138.197.200.50:3070/api/',
-   frontURL: 'http://138.197.200.50:3070/',
- // serverRoot: 'http://localhost:3070/',
- // apiURL: 'http://localhost:3070/api/',
- // frontURL: 'http://localhost:3070/',
+  // serverRoot: 'http://138.197.200.50:3070/',
+  // apiURL: 'http://138.197.200.50:3070/api/',
+  // frontURL: 'http://138.197.200.50:3070/',
+  serverRoot: 'http://localhost:3070/',
+  apiURL: 'http://localhost:3070/api/',
+  frontURL: 'http://localhost:3070/',
   locale: 'es-CL'
 };
 

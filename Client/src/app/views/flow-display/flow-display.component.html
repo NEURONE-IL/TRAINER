@@ -15,11 +15,14 @@
   <!-- Nuevo diseño de Tabs -->
   <mat-tab-group mat-align-tabs="end">
 
-    <mat-tab >
+    <mat-tab id="id1" >
       <ng-template mat-tab-label>
         <span (click)="reloadModules()"> {{'ADMIN.TABS.MODULES' | translate }} </span>
       </ng-template>
       <ng-template matTabContent>
+
+        <button mat-raised-button class="actionButton" color="primary" (click)="openModuleCreation()">{{ "ADMIN.TABS.CREATE_MODULE" | translate }} </button>
+
         <div class="row col-md-12">
           <div class="col-md-4" *ngFor="let module of modules;">
             <br>
@@ -66,20 +69,26 @@
           </div>
         </div>
       </ng-template>
+
+
     </mat-tab>
 
+<!--
     <mat-tab label="{{'ADMIN.TABS.CREATE_MODULE' | translate }}">
       <ng-template matTabContent>
         <app-module-creation [flow]="flow._id"> </app-module-creation>
       </ng-template>
     </mat-tab>
-
+-->
 
     <mat-tab >
       <ng-template mat-tab-label>
         <span (click)="reloadStages()"> {{'ADMIN.TABS.STAGES' | translate }} </span>
       </ng-template>
       <ng-template matTabContent>
+
+        <button mat-raised-button class="actionButton" color="primary" (click)="openStageCreation()">{{ "ADMIN.TABS.CREATE_STAGE" | translate }} </button>
+
         <div class="row col-md-12">
           <div class="col-md-4" *ngFor="let stage of sortedStages;">
             <br>
@@ -135,18 +144,21 @@
       </ng-template>
     </mat-tab>
 
+<!--
     <mat-tab label="{{'ADMIN.TABS.CREATE_STAGE' | translate }}">
       <ng-template matTabContent>
         <app-stage-creation [flow]="flow._id"> </app-stage-creation>
       </ng-template>
     </mat-tab>
+-->
 
     <mat-tab label="{{'ADMIN.TABS.PREVIEW' | translate }}">
       <ng-template matTabContent>
         <button mat-raised-button color="primary" (click)="this.resetFlowDummy()"> Reset User</button>
-        <show-flow [studentId]="dummyUser._id"  [flow]="flow"></show-flow> 
+        <show-flow [studentId]="dummyUser._id"  [flow]="flow"></show-flow>
       </ng-template>
     </mat-tab>
+
   </mat-tab-group>
 </mat-card>
 

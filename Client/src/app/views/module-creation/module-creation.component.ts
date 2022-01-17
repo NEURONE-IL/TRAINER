@@ -4,6 +4,8 @@ import { ModuleService } from '../../services/trainer/module.service';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
+import {MatDialogRef} from '@angular/material/dialog';
+import {FlowDisplayComponent} from '../flow-display/flow-display.component';
 
 @Component({
   selector: 'app-module-creation',
@@ -18,6 +20,7 @@ export class ModuleCreationComponent implements OnInit {
   file: File;
 
   constructor(private formBuilder: FormBuilder,
+              private dialogRef: MatDialogRef<FlowDisplayComponent>,
               private moduleService: ModuleService,
               private flowService: FlowService,
               private toastr: ToastrService,
@@ -68,7 +71,7 @@ export class ModuleCreationComponent implements OnInit {
     /*End module FormData*/
     if(this.file){
       formData.append('file', this.file);
-    }    
+    }
     this.moduleService.postModule(formData).subscribe(
       module => {
         this.toastr.success(this.translate.instant("MODULE.TOAST.SUCCESS_MESSAGE") + ': ' + module['module'].name, this.translate.instant("MODULE.TOAST.SUCCESS"), {
@@ -85,9 +88,14 @@ export class ModuleCreationComponent implements OnInit {
         });
       }
     );
+    this.closeDialog();
+  }
+
+  closeDialog(){
+    this.dialogRef.close();
   }
 
   handleFileInput(files: FileList) {
     this.file = files.item(0);
-  }  
+  }
 }
