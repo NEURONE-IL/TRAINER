@@ -17,6 +17,7 @@ export class AuthGuard implements CanActivate {
       return true;
     }
     else{
+      console.log("Bloqueado por AuthGuard");
       this.router.navigate(['login']);
       return false;
     }

@@ -20,9 +20,11 @@ export class NotLoggedInGuard implements CanActivate {
       else{
         this.router.navigate(['user-profile']);
       }
+      console.log("Bloqueado por NotLoggedInGuard");
       return false;
     }
     else{
+      console.log("Bloqueado por NotLoggedInGuard");
       return true;
     }
   }

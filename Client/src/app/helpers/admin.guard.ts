@@ -16,6 +16,7 @@ export class AdminGuard implements CanActivate {
     if(this.authService.isAdmin()){
       return true;
     }
+    console.log("Bloqueado por AdminGuard");
     this.router.navigate(['/']);
     return false;
   }

@@ -1,0 +1,38 @@
+table{
+  width:100%;
+}
+
+.moduleList{
+  height: 100%;
+  padding: 1%;
+  background-color: whitesmoke;
+}
+
+.tabla{
+  padding-bottom: 15px;
+}
+
+.questionMark:hover{
+  transform: scale(120%);
+}
+
+tr.filaModulo:not(.showStages):hover {
+  filter: brightness(80%);
+  cursor: pointer;
+}
+
+.isBlocked{
+  background-color: silver;
+}
+
+.mat-row-is-clicked {
+  background: lightseagreen;
+}
+
+tr.hidden {
+  height: 0;
+}
+
+.showStages{
+  overflow: hidden;
+}

@@ -1,0 +1,34 @@
+.margen {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.listadoEtapas{
+  width: 100%;
+}
+
+.fondo {
+
+  background: lightblue;
+
+}
+
+mat-card{
+  max-width: 302px;
+}
+
+mat-card-title{
+  height: 72px;
+}
+
+.blackAndWhite{
+  filter: grayscale(1);
+
+}
+
+.stageTitle{
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}

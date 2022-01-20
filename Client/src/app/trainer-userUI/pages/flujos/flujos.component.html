@@ -1,0 +1,22 @@
+<!-- <mat-toolbar color="primary">
+    <span>Neurone Trainer</span>
+    <span class="spacer"></span>
+    <button mat-icon-button
+        (click)=logout()>
+        <mat-icon>logout</mat-icon>
+    </button>
+</mat-toolbar> -->
+
+<app-modulos
+    *ngIf="flow; else noFlow"
+    [flow]="flow"
+    [user]="user"
+    [flowId]="flow._id"
+>
+</app-modulos>
+
+<ng-template #noFlow>
+    <div class="noFlow">
+        <mat-spinner></mat-spinner>
+    </div>
+</ng-template>

@@ -14,6 +14,7 @@ export class DirectAccessGuard implements CanActivate {
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     // If the previous URL was blank, then the user is directly accessing this page
     if (this.router.url === '/') {
+      console.log("Bloqueado por DirectAccessGuard");
       this.router.navigate(['login']); // Navigate away to some other page
       return false;
     }

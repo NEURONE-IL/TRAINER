@@ -1,0 +1,9 @@
+.noFlow {
+    margin: auto;
+    width: 0%;
+    padding: 20px;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}

@@ -1,0 +1,80 @@
+<div
+    *ngIf = "modules && modules.length > 0; else noModules"
+    class = "moduleList"
+>
+
+<mat-card-title>
+  {{flow.name}}
+</mat-card-title>
+
+<br>
+
+<table mat-table
+  *ngIf="modules"
+  [dataSource] = "modules" 
+  class="mat-elevation-z4 tabla"
+  multiTemplateDataRows  
+>
+
+  <ng-container matColumnDef="NombreCol">
+    <th mat-header-cell *matHeaderCellDef> Nombre </th>
+    <td mat-cell mat-list-item *matCellDef="let module"> <strong> <mat-icon mat-list-icon *ngIf="module.locked">lock</mat-icon> {{module.name}}</strong> </td>
+  </ng-container>
+
+  <ng-container matColumnDef="TipoCol">
+    <th mat-header-cell *matHeaderCellDef> Completado </th>
+    <td mat-cell *matCellDef="let module"> {{getCompleted(module)}}</td>
+  </ng-container>
+
+  <ng-container matColumnDef="DescriptionCol">
+    <th mat-header-cell *matHeaderCellDef> Descripcion </th>
+    <td mat-cell *matCellDef="let module"> 
+      <mat-icon 
+        class = "questionMark"
+        (click)="openDialog($event, module)"
+      >
+        help_outline
+      </mat-icon>
+    </td>
+  </ng-container>
+
+  <!-- Expanded content column -->
+  <ng-container matColumnDef="showStages">
+    <td mat-cell *matCellDef="let module" [attr.colspan]="3">
+        <div class="showStages">
+            <app-etapas
+              [@detailExpand]="module == selectedModule ? 'expanded' : 'collapsed'"
+              [modulo] = module
+              [sorted] = flow.sorted
+              fxLayout = "row wrap"
+              fxLayout.xs = "column center"
+              fxLayoutAlign="space-evenly stretch"
+              ></app-etapas>
+        </div>
+
+      <!-- <show-stages
+        class = "showStages"
+        [@detailExpand]="module == selectedModule ? 'expanded' : 'collapsed'"
+        [modulo] = "module"
+        [sorted] = "flow.sorted"
+        [progress] = "progress"
+      >
+      </show-stages> -->
+    </td>
+  </ng-container>
+  
+  <tr mat-header-row *matHeaderRowDef="columnHeader"></tr>
+  <tr class="filaModulo"
+    mat-row *matRowDef="let row; columns: columnHeader;"
+    (click)="!row.locked && enClick($event, row)"
+    [class.isBlocked]="row.locked"
+    [class.mat-row-is-clicked]="selectedModule==row"
+  ></tr>
+  <tr mat-row *matRowDef="let fila; columns: ['showStages']" class="hidden"></tr>
+</table>
+<br>
+</div>
+
+<ng-template #noModules>
+<h1>No hay modulos</h1>
+</ng-template>

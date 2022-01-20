@@ -155,7 +155,8 @@
     <mat-tab label="{{'ADMIN.TABS.PREVIEW' | translate }}">
       <ng-template matTabContent>
         <button mat-raised-button color="primary" (click)="this.resetFlowDummy()"> Reset User</button>
-        <show-flow [studentId]="dummyUser._id"  [flow]="flow"></show-flow>
+        <!-- <show-flow [studentId]="dummyUser._id"  [flow]="flow"></show-flow> -->
+        <app-modulos [flow]="flow" [flowId]="flow._id" [user]="dummyUser"></app-modulos>
       </ng-template>
     </mat-tab>
 

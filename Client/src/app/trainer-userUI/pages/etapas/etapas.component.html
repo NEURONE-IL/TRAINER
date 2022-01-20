@@ -1,0 +1,54 @@
+
+<div 
+    class="margen"
+    *ngFor="let stage of stagesByModule; let index = index;"
+    fxLayoutAlign="stretch"
+    fxFlex="23"
+    fxFlex.sm="35"
+>
+    <!--
+    <mat-card
+        [ngClass]="{
+            'trivia'    :   stage.type == 'Trivia',
+            'video'     :   stage.type == 'Video',
+            'adventure' :   stage.type == 'SG'
+        }"
+
+    -->
+
+    <mat-card>
+        <mat-card-title
+            #stageTitleId
+            [title] = "stage.title"
+            class = "stageTitle"
+        >{{stage.title}}</mat-card-title>
+        <mat-card-subtitle>{{stage.type}} - {{stage.step}}</mat-card-subtitle>
+        <mat-card-content>
+            <circle-progress
+                showUnits = "true"
+                titleFontSize = "40"
+                unitsFontSize = "25"
+                [percent] = "stage.percentage"
+                [title] = "stage.percentage"
+                [class.blackAndWhite] = "stage.percentage < 100"
+                imageSrc= "{{ getIcon(stage.type) }}"
+                imageWidth="80"
+                imageHeight="80"
+                [showImage]= "true"
+                [responsive] = "true"
+            ></circle-progress>
+        </mat-card-content>
+        <mat-card-actions>
+            <button
+                mat-raised-button color="primary"
+                [disabled] = "(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true))"
+                (click) = "redirectToStage(stage)"
+            >Iniciar!</button>
+            <button
+                mat-raised-button color="primary"
+                (click)="addPercentage(stage)"
+            >Completar</button>
+        </mat-card-actions>
+    </mat-card>
+</div>
+
