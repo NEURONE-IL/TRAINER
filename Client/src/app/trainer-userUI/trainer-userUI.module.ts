@@ -5,24 +5,26 @@ import { FlujosComponent } from './pages/flujos/flujos.component';
 import { ModulosComponent } from './pages/modulos/modulos.component';
 import { EtapasComponent } from './pages/etapas/etapas.component';
 
-import { MaterialAngularModule } from '../material-angular/material-angular.module';
 import { DescriptionDialogComponent } from './components/description-dialog/description-dialog.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { SharedModule } from '../shared/shared.module';
 import { NgCircleProgressModule } from 'ng-circle-progress';
+import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [
     FlujosComponent,
     ModulosComponent, 
     EtapasComponent,
-    DescriptionDialogComponent
+    DescriptionDialogComponent,
   ],
   imports: [
     CommonModule,
-    SharedModule,
-    MaterialAngularModule,
     FlexLayoutModule,
+    MatCardModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
     NgCircleProgressModule.forRoot({
       "radius": 60,
       "space": -10,
