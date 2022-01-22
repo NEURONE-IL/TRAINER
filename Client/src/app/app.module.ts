@@ -62,6 +62,7 @@ import { SignupComponent } from './views/signup/signup.component';
 import { ConsentComponent } from './components/consent/consent.component';
 import { ModuleCreationComponent } from './views/module-creation/module-creation.component';
 import { ShowStagesComponent } from './views/show-stages/show-stages.component';
+import { AdminVideoModuleComponent } from './views/videoModule-admin/videoModule-admin.component';
 
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { SafeurlPipe } from './services/assistant/safeurl.pipe';
@@ -101,7 +102,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlowCreationComponent,
     FlowDisplayComponent,
     ShowStagesComponent,
-    SafeurlPipe
+    SafeurlPipe,
+    AdminVideoModuleComponent
   ],
   imports: [
     BrowserModule,

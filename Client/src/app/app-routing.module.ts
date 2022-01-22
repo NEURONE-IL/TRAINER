@@ -18,6 +18,7 @@ import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoOnlyComponent } from './views/video-only/video-only.component';
 import { SignupComponent } from './views/signup/signup.component';
+import { AdminVideoModuleComponent } from './views/videoModule-admin/videoModule-admin.component';
 
 const routes: Routes = [
   {
@@ -83,6 +84,11 @@ const routes: Routes = [
     canActivate: [ AuthGuard ]
   },
   {
+    path: 'admin_videoModule',
+    component: AdminVideoModuleComponent,
+    canActivate: [ AuthGuard ]
+  },
+  {
     path: 'login/confirmedOK',
     component: StudentLandPageComponent,
     canActivate: [ NotLoggedInGuard ]
@@ -115,7 +121,7 @@ const routes: Routes = [
   {
     path: 'user/resetPassword/:token',
     component: RecoveryComponent,
-    canActivate: [ NotLoggedInGuard ]    
+    canActivate: [ NotLoggedInGuard ]
   },
   { path: '**', redirectTo: 'home' }
 ];

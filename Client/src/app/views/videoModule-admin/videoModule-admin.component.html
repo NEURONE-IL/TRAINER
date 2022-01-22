@@ -1,0 +1,153 @@
+<mat-card class="flow-display-card">
+
+  <mat-grid-list cols="24" rowHeight="100px">
+    <mat-grid-tile colspan="12">
+      <mat-card-header>
+        <mat-card-title>{{ "QUIZ.ADMIN_TITLE" | translate }}</mat-card-title>
+      </mat-card-header>
+    </mat-grid-tile>
+  </mat-grid-list>
+
+  <!-- Nuevo diseño de Tabs -->
+  <mat-tab-group mat-align-tabs="end">
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span (click)="reloadVideos()">{{ "VIDEOS.VIDEOS" | translate}}</span>
+      </ng-template>
+      <ng-template matTabContent>
+
+        <button mat-raised-button class="actionButton" color="primary" (click)="openVideoCreation()">{{ "VIDEOS.ADD" | translate }}</button>
+
+        <div class="row col-md-12">
+          <div class="col-md-4" *ngFor="let video of videos;">
+            <br>
+            <mat-card-header class="header-stage">
+              <div class="  stages" >
+                <mat-card-title class="Trivia">
+                  <div class="col-md-8" style="padding-top: 3%;">
+                    {{ "VIDEOS.NAME" | translate }}: {{video["name"]}}
+                  </div>
+                  <div class="buttons col-md-4">
+                    <button mat-icon-button (click)="videoEdit()" title="{{ 'BUTTONS.EDIT' | translate }} "><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="confirmVideoDelete(video['_id'])" title="{{ 'BUTTONS.DELETE' | translate }}"> <mat-icon>delete</mat-icon></button>
+                  </div>
+                </mat-card-title>
+              </div>
+            </mat-card-header>
+
+            <img mat-card-image *ngIf="video.image_url" [src]="video.image_url">
+            <img mat-card-image *ngIf="!video.image_url" [src]="getCover()">
+            <mat-card-content>
+              <br>
+              <div class=" stages-content">
+                <div *ngIf="video['quiz_id']">
+                  <mat-icon>list</mat-icon><span class="aligned-with-icon">{{ "VIDEOS.QUIZ" | translate }}: {{video["quiz_id"]}} </span>
+                </div>
+
+                <div *ngIf="!video['quiz_id']">
+                  <mat-icon>list</mat-icon><span class="aligned-with-icon">{{ "VIDEOS.QUIZ" | translate }}: - </span>
+                </div>
+
+                <div>
+                  <mat-icon>language</mat-icon><span class="aligned-with-icon">{{ "VIDEOS.LANGUAGE" | translate }}: {{video["language"]}}</span>
+                </div>
+
+
+                <div>
+                  <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{video["createdAt"]}}</span>
+                </div>
+
+                <div>
+                  <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{video["updatedAt"]}}</span>
+                </div>
+
+                <div>
+                  <mat-icon>movie</mat-icon><a type="button" onclick="console.log('holis')" class="aligned-with-icon button">Ver video</a>
+                </div>
+
+              </div>
+            </mat-card-content>
+          </div>
+        </div>
+      </ng-template>
+
+
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <span (click)="reloadQuizzes()">{{ "QUIZ.QUIZZES" | translate }}</span>
+      </ng-template>
+    </mat-tab>
+
+<!--
+
+    <mat-tab >
+      <ng-template mat-tab-label>
+        <span (click)="reloadStages()"> {{'ADMIN.TABS.STAGES' | translate }} </span>
+      </ng-template>
+      <ng-template matTabContent>
+
+        <button mat-raised-button class="actionButton" color="primary" (click)="openStageCreation()">{{ "ADMIN.TABS.CREATE_STAGE" | translate }} </button>
+
+        <div class="row col-md-12">
+          <div class="col-md-4" *ngFor="let stage of sortedStages;">
+            <br>
+            <mat-card-header class="header-stage">
+              <div class="  stages" >
+                <mat-card-title class="{{getClass(stage.active, stage.type)}}">
+                  <div class="col-md-8" style="padding-top: 3%;">
+                    {{ "ADMIN.STAGES.TITLE" | translate }}: {{stage.title}}
+                  </div>
+                  <div class="buttons col-md-4">
+                    <button mat-icon-button (click)="showStageUpdateDialog(stage)" title="{{ 'BUTTONS.EDIT' | translate }} "><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="confirmStageDelete(stage._id)" title="{{ 'BUTTONS.DELETE' | translate }}"> <mat-icon>delete</mat-icon></button>
+                  </div>
+                </mat-card-title>
+              </div>
+            </mat-card-header>
+            <img mat-card-image *ngIf="stage.image_url" [src]="stage.image_url">
+            <img mat-card-image *ngIf="!stage.image_url" [src]="getCover(stage.type)">
+            <mat-card-content>
+              <div class=" stages-content">
+                <div >
+                  <mat-card-subtitle>{{ "ADMIN.STAGES.TYPE" | translate }}: {{ stage.type }} </mat-card-subtitle>
+                </div>
+
+                <div>
+                  <mat-icon>format_list_numbered</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.STEP" | translate }}: {{stage.step}}</span>
+
+                </div>
+
+                <div>
+                  <mat-icon >link</mat-icon><span class="aligned-with-icon"><a href="{{goToStage(stage)}}" >{{ "ADMIN.STAGES.LINK" | translate }}: {{stage.externalName}}</a></span>
+                </div>
+
+                <div>
+                  <mat-icon (click)="showStageUpdateDialog(stage)" style="cursor: pointer;">view_module</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.MODULE" | translate }}: {{ stage.module.name }}</span>
+                </div>
+
+                <div>
+                  <mat-icon>add_task</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.CREATED_AT" | translate }}: {{formatDate(stage.createdAt)}}</span>
+                </div>
+
+                <div>
+                  <mat-icon>updated</mat-icon><span class="aligned-with-icon">{{ "ADMIN.STAGES.UPDATED_AT" | translate }}: {{formatDate(stage.updatedAt)}}</span>
+                </div>
+
+              </div>
+            </mat-card-content>
+
+
+
+          </div>
+        </div>
+      </ng-template>
+    </mat-tab>
+
+-->
+
+  </mat-tab-group>
+</mat-card>
+

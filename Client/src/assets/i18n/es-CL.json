@@ -23,6 +23,29 @@
   "HEADER": {
     "TOOLTIP": "Ir a la página principal"
   },
+  "VIDEOS": {
+    "VIDEOS": "VIDEOS",
+    "ADD": "Agregar Video",
+    "NAME": "Nombre",
+    "QUIZ": "Quiz Asociado",
+    "LANGUAGE": "Idioma",
+    "TOAST": {
+      "ERROR": "¡Error!",
+      "ERROR_MESSAGE": "No se ha agregado el video",
+      "ERROR_MESSAGE_DELETE": "No se ha eliminado el video",
+      "ERROR_MESSAGE_UPDATE": "No se ha actualizado el video",
+      "NOT_LOADED_MULTIPLE_ERROR": "Los videos no han sido cargados",
+      "SUCCESS": "Éxito!",
+      "SUCCESS_MESSAGE": "Se ha agregado el video",
+      "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el video",
+      "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el video",
+      "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el video?"
+    }
+  },
+  "QUIZ": {
+    "ADMIN_TITLE": "Administrador Modulo de Videos",
+    "QUIZZES": "CUESTIONARIOS"
+  },
   "ADMIN": {
     "SUBTITLE": "Panel de Creación de Flujos",
     "STAGES": {
@@ -88,8 +111,8 @@
       "SUCCESS_MESSAGE": "Se ha creado el flujo",
       "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el flujo",
       "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el flujo"
-    } 
-  },  
+    }
+  },
   "STAGE": {
     "FORM": {
       "FIELDS": {
@@ -117,7 +140,7 @@
       "SUCCESS_MESSAGE": "Se ha creado la etapa",
       "SUCCESS_MESSAGE_DELETE": "Se ha eliminado la etapa",
       "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado la etapa"
-    }    
+    }
   },
   "MODULE": {
     "FORM": {
@@ -141,7 +164,7 @@
       "SUCCESS_MESSAGE": "Se ha creado el módulo",
       "SUCCESS_MESSAGE_DELETE": "Se ha eliminado el módulo",
       "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado el módulo"
-    }    
+    }
   },
   "USER": {
   },

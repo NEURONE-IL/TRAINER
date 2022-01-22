@@ -4,6 +4,8 @@ import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
 import {StageService} from '../trainer/stage.service';
+import videos from '../../../assets/static/videoObjects.json';
+
 
 export interface VideoModule {
   variablePrueba: string;
@@ -14,6 +16,7 @@ export interface VideoModule {
 })
 
 export class QuizService {
+
   enviromentUrl = 'http://localhost:4200/';
   uri = environment.apiURL + 'videoModule';
   urlServer = 'http://138.197.200.50:3070/';
@@ -24,6 +27,23 @@ export class QuizService {
     return this.urlServer + 'video?id=' + videoStageId;
   }
 
+  deleteVideo(id: number) {
+    let finalJson = [];
+    let videosJson = videos;
+    for (let video of videosJson) {
+      console.log(video["_id"])
+      if (video["_id"] === id){
+        console.log("Se elimina esta shit");
+        console.log("Index: ", videosJson.indexOf(video));
+      }
+      else{
+        finalJson.push(video);
+      }
+    }
+    console.log(finalJson);
+
+  }
+
   getVideoQuizLink(videoQuizStageId: any){
     return this.urlServer + 'videoModule?id=' + videoQuizStageId;
   }
@@ -32,7 +52,14 @@ export class QuizService {
     const user = JSON.parse(localStorage.getItem('currentUser', ));
     /*const stage = this.stageService.getStageByStudent(user['_id']).subscribe((res) => {
     }) ESTO TIRA CORE CRASHED*/
+    console.log("get quiz");
+    console.log(quiz);
     return quiz;
+  }
+
+  getVideos() {
+    console.log("GETTING VIDEOS");
+    return videos;
   }
 
   getAnswer(questionId: any): Observable<any>{
@@ -66,6 +93,7 @@ export class QuizService {
 
     return this.http.post(urlEvents, value, {headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
+
 
 }
 
