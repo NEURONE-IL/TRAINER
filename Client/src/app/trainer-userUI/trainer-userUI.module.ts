@@ -1,3 +1,4 @@
+//Modulo relacionado a las interfaces de cara al usuario, reemplazando las funcionalidades de home, show-flow y show-stages.
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -11,6 +12,8 @@ import { NgCircleProgressModule } from 'ng-circle-progress';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
+import { MatTableModule } from '@angular/material/table';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -22,6 +25,8 @@ import { MatIconModule } from '@angular/material/icon';
   imports: [
     CommonModule,
     FlexLayoutModule,
+    MatTableModule,
+    MatButtonModule,
     MatCardModule,
     MatProgressSpinnerModule,
     MatIconModule,
