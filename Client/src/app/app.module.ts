@@ -51,7 +51,7 @@ import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfigura
 import { AdminPanelComponent } from './views/admin-panel/admin-panel.component';
 import { FlowsDisplayComponent } from './views/flows-display/flows-display.component';
 import { FlowCreationComponent } from './views/flow-creation/flow-creation.component';
-import { FlowDisplayComponent, FlowUpdateDialogComponent, StageUpdateDialogComponent } from './views/flow-display/flow-display.component';
+import { FlowDisplayComponent } from './views/flow-display/flow-display.component';
 import { StageCreationComponent } from './views/stage-creation/stage-creation.component';
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
@@ -67,6 +67,8 @@ import { AdminVideoModuleComponent } from './views/videoModule-admin/videoModule
 import { NgCircleProgressModule } from 'ng-circle-progress';
 import { SafeurlPipe } from './services/assistant/safeurl.pipe';
 import { TrainerUserUIModule } from './trainer-userUI/trainer-userUI.module';
+import { FlowUpdateComponent } from './views/flow-update/flow-update.component';
+import { StageUpdateComponent } from './views/stage-update/stage-update.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -97,8 +99,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ConsentComponent,
     ModuleCreationComponent,
     FlowsDisplayComponent,
-    FlowUpdateDialogComponent,
-    StageUpdateDialogComponent,
+    FlowUpdateComponent,
+    StageUpdateComponent,
     FlowCreationComponent,
     FlowDisplayComponent,
     ShowStagesComponent,

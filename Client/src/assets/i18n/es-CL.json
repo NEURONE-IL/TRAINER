@@ -68,6 +68,7 @@
       "LOADING": "Cargando, por favor espere..."
     },
     "MODULES": {
+      "CODE":"Código",
       "CREATE": "CREAR MODULO",
       "FLOW": "Flujo",
       "NAME": "Nombre",

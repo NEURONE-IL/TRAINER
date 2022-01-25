@@ -182,7 +182,7 @@ export class ShowFlowComponent implements OnInit {
       case 'Video':
         return '../../../assets/stage-images/02Video.jpg';
       default:
-        return '../../../assets/flow-images/Flow00.jpg';
+        return '../../../assets/flow-images/Flow00_Ext.jpg';
     }
   }
 

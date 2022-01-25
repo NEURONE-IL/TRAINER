@@ -1,23 +1,20 @@
-import {Component, Inject, Input, OnInit, ViewChild} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Stage, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivia.service';
 import { AuthService } from '../../services/auth/auth.service';
-import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
+import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
-import { AssistantService } from 'src/app/services/assistant/assistant.service';
-import videoObjects from '../../../assets/static/videoObjects.json';
-import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
-import quizQuestions from '../../../assets/static/quizQuestions.json';
+import { FlowUpdateComponent } from 'src/app/views/flow-update/flow-update.component';
+import { StageUpdateComponent } from 'src/app/views/stage-update/stage-update.component';
 
 import { ModuleCreationComponent } from '../module-creation/module-creation.component';
-import {StageCreationComponent} from '../stage-creation/stage-creation.component';
+import { StageCreationComponent } from '../stage-creation/stage-creation.component';
 
 
 @Component({
@@ -203,7 +200,7 @@ export class FlowDisplayComponent implements OnInit {
   }
 
   showFlowUpdateDialog(): void {
-    const dialogRef = this.matDialog.open(FlowUpdateDialogComponent, {
+    const dialogRef = this.matDialog.open(FlowUpdateComponent, {
       width: '60%',
       data: this.flow
     }).afterClosed()
@@ -211,7 +208,7 @@ export class FlowDisplayComponent implements OnInit {
   }
 
   showStageUpdateDialog(stage: Stage): void {
-    const dialogRef = this.matDialog.open(StageUpdateDialogComponent, {
+    const dialogRef = this.matDialog.open(StageUpdateComponent, {
       width: '60%',
       data: stage
     }).afterClosed()
@@ -297,7 +294,7 @@ export class FlowDisplayComponent implements OnInit {
       case 'Video + Quiz':
         return '../../../assets/stage-images/03VideoQuiz.jpg';
       default:
-        return '../../../assets/flow-images/Flow00.jpg';
+        return '../../../assets/flow-images/Flow00_Ext.jpg';
     }
   }
 
@@ -323,286 +320,4 @@ export class FlowDisplayComponent implements OnInit {
     });
   }
 
-}
-
-@Component({
-  selector: 'app-flow-update-dialog',
-  templateUrl: 'flow-update-dialog.component.html',
-  styleUrls: ['./flow-update-dialog.component.css']
-})
-export class FlowUpdateDialogComponent implements OnInit{
-  flowForm: FormGroup;
-  loading: Boolean;
-  file: File;
-
-  constructor(@Inject(MAT_DIALOG_DATA)
-    public flow: Flow,
-    private formBuilder: FormBuilder,
-    private flowService: FlowService,
-    private toastr: ToastrService,
-    private translate: TranslateService,
-    public matDialog: MatDialog) { }
-
-  ngOnInit(): void {
-    this.flowForm = this.formBuilder.group({
-      name: [this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: [this.flow.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
-
-      sorted: [this.flow.sorted, [Validators.required]]
-    });
-    this.loading = false;
-  }
-
-  get flowFormControls(): any {
-    return this.flowForm['controls'];
-  }
-
-  resetForm() {
-    this.flowForm.reset();
-  }
-
-  updateFlow(flowId: string){
-    this.loading = true;
-    let flow = this.flowForm.value;
-    let formData = new FormData();
-    formData.append('name', flow.name);
-    formData.append('description', flow.description);
-    formData.append('sorted', this.flow.sorted.toString());
-    if(this.file){
-      formData.append('file', this.file);
-    }
-    this.flowService.putFlow(flowId, formData).subscribe(
-      flow => {
-        this.toastr.success(this.translate.instant("FLOW.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + flow['flow'].name, this.translate.instant("FLOW.TOAST.SUCCESS"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-        this.loading = false;
-        this.matDialog.closeAll();
-      },
-      err => {
-        this.toastr.error(this.translate.instant("FLOW.TOAST.ERROR_MESSAGE_UPDATE"), this.translate.instant("FLOW.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-      }
-    );
-  }
-
-  handleFileInput(files: FileList) {
-    this.file = files.item(0);
-  }
-}
-
-@Component({
-  selector: 'app-stage-update-dialog',
-  templateUrl: 'stage-update-dialog.component.html',
-  styleUrls: ['./stage-update-dialog.component.css']
-})
-export class StageUpdateDialogComponent implements OnInit{
-  @Input() flow: string;
-  stageForm: FormGroup;
-  flows: Flow[];
-  loading: Boolean;
-  steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  typeOptions: string[] = ['Trivia', 'SG', 'Video', 'Video + Quiz'];
-  currentLinks: any[];
-  triviaLinks: TriviaStudy[];
-  SGLinks: SGGame[] = [];
-  videoLinks: object[] = videoObjects;
-  videoQuizLinks: object[] = videoQuizObjects;
-  questions: object[] = quizQuestions;
-  file: File;
-  assistants: any;
-  modules: [];
-  module: any;
-
-  constructor(@Inject(MAT_DIALOG_DATA)
-    public stage: Stage,
-    private formBuilder: FormBuilder,
-    private moduleService: ModuleService,
-    private router: Router,
-    private stageService: StageService,
-    private flowService: FlowService,
-    private toastr: ToastrService,
-    private translate: TranslateService,
-    private apiSGService: ApiSGService,
-    private videoModuleService: QuizService,
-    private triviaService: ApiTriviaService,
-    public matDialog: MatDialog,
-    private assistantService: AssistantService) { }
-
-  ngOnInit(): void {
-
-    this.getApiStudies();
-    this.getModules();
-    this.getAssistants();
-    console.log(this.stage)
-    this.stageForm = this.formBuilder.group({
-      title: [this.stage.title, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
-      description: [this.stage.description, [Validators.minLength(3), Validators.maxLength(250)]],
-      step: [this.stage.step, [Validators.required]],
-      type: [this.stage.type, [Validators.required]],
-      externalId: [this.stage.externalId, [Validators.required]],
-      module: [this.stage.module._id, []],
-      assistant: [this.stage.assistant, []],
-    });
-
-    this.flowService.getFlows().subscribe(
-      response => {
-        this.flows = response['flows'];
-      },
-      err => {
-        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-      }
-    );
-
-    this.loading = false;
-  }
-
-  get stageFormControls(): any {
-    return this.stageForm['controls'];
-  }
-
-  getApiStudies(){
-    this.triviaService.getStudies().subscribe((res: any) => {
-      this.triviaLinks = res.studys;
-      this.initLinks(this.stage.type);
-    });
-    this.apiSGService.getStudies().subscribe((res: any) => {
-      console.log("ESTUDIOS RESCATADOS DESDE SG:");
-      console.log("ESTUDIOS RESCATADOS DESDE SG:");
-      console.log("ESTUDIOS RESCATADOS DESDE SG:");
-      console.log(res.adventures);
-      this.SGLinks = res.adventures;
-      console.log(this.SGLinks);
-      this.initLinks(this.stage.type);
-    });
-  }
-
-  initLinks(type: string){
-    console.log('init', type);
-    if(type === 'Trivia'){
-      this.currentLinks = this.triviaLinks;
-    }
-    else if(type === 'SG'){
-      this.currentLinks = this.SGLinks;
-    }
-    else if(type === 'Video'){
-      this.currentLinks = this.videoLinks;
-    }
-    else if(type === 'Video + Quiz'){
-      this.currentLinks = this.videoQuizLinks;
-    }
-  }
-
-  updateStage(stageId: string){
-    this.loading = true;
-    let stage = this.stageForm.value;
-    /*Stage properties*/
-    stage.flow = this.stage.flow;
-    let externalObject = this.currentLinks.find(element => element._id === stage.externalId);
-    stage.externalName = externalObject.name;
-    /*End stage properties*/
-    /*Stage FormData*/
-    let formData = new FormData();
-    formData.append('title', stage.title);
-    formData.append('description', stage.description);
-    formData.append('step', stage.step);
-    formData.append('type', stage.type);
-    formData.append('externalId', stage.externalId);
-    formData.append('flow', stage.flow);
-    formData.append('externalName', stage.externalName);
-    formData.append('module', stage.module);
-    formData.append('assistant', stage.assistant);
-    let type = stage.type;
-    let externalId = stage.externalId;
-    let assistant = stage.assistant;
-    /*End stage FormData*/
-    if(this.file){
-      formData.append('file', this.file);
-    }
-    this.stageService.putStage(stageId, stage).subscribe(
-      stage => {
-        if(type === "Trivia"){
-          this.triviaService.putAssistant(externalId, assistant).subscribe(
-            response => {
-
-            },
-            err => {
-              console.log(err)
-            }
-          )
-        }
-        this.toastr.success(this.translate.instant("STAGE.TOAST.SUCCESS_MESSAGE_UPDATE") + ': ' + stage['stage'].title, this.translate.instant("STAGE.TOAST.SUCCESS"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-        this.loading = false;
-        this.matDialog.closeAll();
-      },
-      err => {
-        this.toastr.error(this.translate.instant("STAGE.TOAST.ERROR_MESSAGE_UPDATE"), this.translate.instant("STAGE.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-      }
-    );
-  }
-
-  getModules(){
-    this.moduleService.getModuleByFlow(this.stage.flow)
-          .subscribe(response => {
-            this.modules = response['modules'];
-     });
-  }
-
-  changeLinks(event: any){
-    let value = event.value;
-    if(value === 'Trivia'){
-      this.currentLinks = this.triviaLinks;
-    }
-    else if(value === 'SG'){
-      this.currentLinks = this.SGLinks;
-    }
-
-    else if(value === 'Video'){
-      this.currentLinks = [];
-      for (let question of this.questions){
-        if (question["EXERCISES"].length == 0 && question["VIDEO"] != 0){ // Si existe el video y no hay quiz
-          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
-        }
-      }
-    }
-
-    else if(value === 'Video + Quiz'){
-      this.currentLinks = [];
-      for (let question of this.questions){
-        if (question["EXERCISES"].length != 0 && question["VIDEO"] != 0){ // si existe el video y el quiz tiene data
-          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
-        }
-      }
-    }
-  }
-
-  handleFileInput(files: FileList) {
-    this.file = files.item(0);
-  }
-
-  getAssistants(){
-    this.assistantService.getAssistants().subscribe(
-      response => {
-        this.assistants = response;
-      },
-      err => {
-        /*this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });*/
-      }
-    );
-  }
 }
