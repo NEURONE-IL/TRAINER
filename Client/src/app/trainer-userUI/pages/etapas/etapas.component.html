@@ -16,13 +16,16 @@
 
     -->
 
-    <mat-card>
+    <mat-card [class.z-depth]="!(stage.percentage == 100) && !(sorted && (stage.step <= accessStage ? false : true))"
+              [class.bloqueado] = "(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true))"
+              [class.completed] = "stage.percentage == 100"
+              (click)="(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true)) ? false : redirectToStage(stage)">
         <mat-card-title
             #stageTitleId
             [title] = "stage.title"
             class = "stageTitle"
         >{{stage.title}}</mat-card-title>
-        <mat-card-subtitle>{{stage.type}} - {{stage.step}}</mat-card-subtitle>
+        <mat-card-subtitle>{{stage.type | tipoEtapa}} - {{stage.step}}</mat-card-subtitle>
         <mat-card-content>
             <circle-progress
                 showUnits = "true"
@@ -30,7 +33,6 @@
                 unitsFontSize = "25"
                 [percent] = "stage.percentage"
                 [title] = "stage.percentage"
-                [class.blackAndWhite] = "stage.percentage < 100"
                 imageSrc= "{{ getIcon(stage.type) }}"
                 imageWidth="80"
                 imageHeight="80"
@@ -38,16 +40,27 @@
                 [responsive] = "true"
             ></circle-progress>
         </mat-card-content>
-        <mat-card-actions>
+        <mat-card-actions fxLayoutAlign="center center">
+            <!-- <button *ngIf="activo; else countdown" -->
             <button
+                *ngIf="stage.percentage < 100; else completed"
                 mat-raised-button color="primary"
-                [disabled] = "(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true))"
-                (click) = "redirectToStage(stage)"
-            >Iniciar!</button>
+                [disabled] = "(sorted && (stage.step <= accessStage ? false : true))"
+            >{{ 'USER.INITIATE' | translate }}</button>
+
+            <ng-template #completed>
+                <h4>¡Completado!</h4>
+            </ng-template>
+
+            <!-- <ng-template #countdown>
+                <h2>{{ minutosDisplay }}:{{ segundosDisplay }}</h2>
+            </ng-template> -->
+
             <button
+                *ngIf="user.role.name === 'admin'"
                 mat-raised-button color="primary"
                 (click)="addPercentage(stage)"
-            >Completar</button>
+            >{{ 'USER.COMPLETE' | translate }}</button>
         </mat-card-actions>
     </mat-card>
 </div>

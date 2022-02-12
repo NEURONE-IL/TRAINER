@@ -1,0 +1,118 @@
+<div [ngSwitch]="getMedalData().medalID">
+
+    <div *ngSwitchCase="'primeraMedalla'"
+        fxLayout="column">
+        <div fxLayout="row"
+             fxLayoutAlign="center center">
+            <img fxFlex="70" src="./assets/medals/recompensa1.jpeg" alt="panel 1">
+        </div>
+        <br>
+        <div fxLayout="row">
+            <h1>Has realizado tu primer login</h1>
+        </div>
+    
+    </div>
+
+
+    <div *ngSwitchCase="'segundaMedalla'">
+
+        <div *ngIf="!getMedalData().lockStatus; else medalla2bloqueada"
+             fxLayout="column">
+
+            <div fxLayout="row"
+                 fxLayoutAlign="center center">
+                <img fxFlex="70" src="./assets/medals/recompensa2.png" alt="panel 2">
+            </div>
+            
+            <br>
+            <div fxLayout="column"
+                 fxLayoutAlign="center center">             
+                <h1>¡Has completado tu primer nivel!</h1>
+                <br>
+                <h3>Preparas tu equipaje para realizar un viaje</h3>
+            </div>
+        </div>
+        
+        <ng-template #medalla2bloqueada>
+            <h1>Debes completar al menos un nivel</h1>
+        </ng-template>
+    </div>
+
+
+    <div *ngSwitchCase="'terceraMedalla'">
+
+        <div *ngIf="!getMedalData().lockStatus; else medalla3bloqueada"
+             fxLayout="column">
+            <div fxLayout="row"
+                 fxLayoutAlign="center center">
+                <img fxFlex="70" src="./assets/medals/recompensa3.jpg" alt="panel 3">
+            </div>
+            <br>
+
+            <div fxLayout="column"
+                 fxLayoutAlign="center center"> 
+                <h1>¡Felicidades, has completado tu primer mundo!</h1>
+                <br>
+                <h3>Llegas a la base de la montaña</h3>
+            </div>
+        </div>
+
+        <ng-template #medalla3bloqueada>
+            <h1>Debes completar al menos un mundo</h1>
+        </ng-template>
+    </div>
+
+
+    <div *ngSwitchCase="'cuartaMedalla'">
+        <div *ngIf="!getMedalData().lockStatus; else medalla4bloqueada"
+             fxLayout="column">
+
+            <div fxLayout="row"
+                 fxLayoutAlign="center center">
+                <img fxFlex="70" src="./assets/medals/recompensa4.jpg" alt="panel 4">
+            </div>
+
+            <br>
+
+            <div fxLayout="column"
+                 fxLayoutAlign="center center"> 
+                <h1>Llegaste a la mitad... ¡vamos por el 100%!</h1>
+                <br>
+                <h3>Al escalar te encuentras con muchos desafíos, pero la cima se ve cada vez más cerca</h3>
+            </div>
+        </div>
+        
+        <ng-template #medalla4bloqueada>
+            <h1>Debes completar al menos la mitad del total de etapas</h1>
+        </ng-template>
+    </div>
+
+
+    <div *ngSwitchCase="'quintaMedalla'">
+        <div *ngIf="!getMedalData().lockStatus; else medalla5bloqueada"
+             fxLayout="column">
+            <div fxLayout="row"
+                 fxLayoutAlign="center center">
+                <img fxFlex="70" src="./assets/medals/recompensa5.jpg" alt="panel 5">
+            </div>
+
+            <br>
+
+            <div fxLayout="column"
+                 fxLayoutAlign="center center">
+                <h1>¡¡No... puede... ser!! ¡¿Cómo completaste TODO?!</h1>
+                <br>
+                <h3>Contemplas un paisaje único y te tomas un merecido descanso... ¡Felicidades! </h3>
+            </div>
+        </div>
+        
+        <ng-template #medalla5bloqueada>
+            <h1>Debes terminar... todo</h1>
+        </ng-template>
+    </div>
+
+
+    <div *ngSwitchDefault>
+        <h3>Que raro... no deberías estar aquí. <br> Si estas viendo este mensaje por favor comunicate con un administrador</h3>
+    </div>
+</div>

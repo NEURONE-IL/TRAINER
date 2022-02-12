@@ -3,11 +3,12 @@
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable, of } from 'rxjs';
 
 import { environment } from 'src/environments/environment';
 
 import { Flow } from '../interfaces/flow.interface';
+import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +24,60 @@ export class TrainerUserUIService {
   uriFlow = environment.apiURL + 'flow/';
   uriModule = environment.apiURL + 'module/';
   uriStage = environment.apiURL + 'stage/';
-  constructor( protected http: HttpClient) { }
+  
+  modulosTotal  : number = 0;
+  etapasTotal   : number = 0;
+  modulosCompletados  : number = 0;
+  etapasCompletadas   : number = 0;
+
+  // TODO: borrar observable de prueba
+  myObservable = of(1, 2, 3);
+
+  myObserver = {
+    next: (x: number) => console.log('Observer got a next value: ' + x),
+    error: (err: Error) => console.error('Observer got an error: ' + err),
+    complete: () => console.log('Observer got a complete notification'),
+  };
+  //hasta aqui
+
+  constructor( protected http: HttpClient,
+              //  private triviaService: ApiTriviaService,
+              //  private adventureService
+              //  private videoService
+              //  private videoQuizService
+              ) { }
+
+  // observable de prueba (TODO: borrar)
+  observableTest():Observable<number>{
+    return of(123);
+  }
+
+  //hasta aqui
+
+
+  setModulosCompletados() {
+    let base = +localStorage.getItem('modulosCompletados');
+    localStorage.setItem('modulosCompletados', (base + 1).toString());
+  }
+
+  setEtapasCompletadas(){
+    let base = +localStorage.getItem('etapasCompletadas');
+    localStorage.setItem('etapasCompletadas', (base + 1).toString());
+  }
+
+  getTotalProgress(user){
+    //prueba para verificar como funciona forkjoin
+    return forkJoin([this.getProgress(user._id), this.getProgress(user._id) ]);
+
+    //TODO: unificar los progresos de todos los ambientes
+    //(llamando los metodos que obtienen el progreso de sus respectivos servicios)
+    // return forkJoin([
+    //    this.triviaService.getProgress(this.getUser()._id),
+    //    this.adventureService.getAdventureProgress(),
+    //    this.videoService.getVideoProgress(),
+    //    this.videoQuizService.getVideoQuizProgress()
+    // ]);
+  }
 
   //obtine el usuario de localStorage
   public getUser() {
@@ -87,5 +141,7 @@ export class TrainerUserUIService {
     header = header.append('x-api-key', apiKey);
     return this.http.get(urlApi + 'user/' + userId + '/advance', { headers: header });
   }
-  
+
+  getVideoProgr
+
 }

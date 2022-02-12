@@ -1,3 +1,5 @@
+import { Module } from "./module.interface";
+
 export interface Flow {
     _id: string,
     name: string,
@@ -7,5 +9,6 @@ export interface Flow {
     image_url: string,
     image_id: string,
     createdAt: string,
-    updatedAt: string
+    updatedAt: string,
+    modules?: Module[]
   }

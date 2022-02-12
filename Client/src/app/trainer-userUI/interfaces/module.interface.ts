@@ -10,4 +10,6 @@ export interface Module {
     stages: Stage[],
     image_url: string,
     image_id: string
+
+    completed?: boolean;
   }

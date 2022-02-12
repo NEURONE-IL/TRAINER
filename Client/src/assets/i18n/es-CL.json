@@ -168,6 +168,19 @@
     }
   },
   "USER": {
+    "MODULES_PROGRESS": "Mundos completados",
+    "STAGES_PROGRESS": "Niveles completados",
+    "BADGES": "Logros",
+    "MODULE_TABLE": {
+      "NAME": "Nombre",
+      "COMPLETED": "Completado",
+      "DESCRIPTION": "Descripción",
+      "LOCKED": "Bloqueado",
+      "CODE": "Código"
+    },
+    "INITIATE": "Iniciar",
+    "COMPLETE": "Completar"
+
   },
   "ERRORS": {
     "CHECK_REQUIRED": "La confirmación es requerida",

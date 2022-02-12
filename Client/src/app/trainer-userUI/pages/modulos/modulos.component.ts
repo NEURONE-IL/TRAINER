@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -11,6 +11,7 @@ import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DescriptionDialogComponent } from '../../components/description-dialog/description-dialog.component';
+import { ModuleService } from 'src/app/services/trainer/module.service';
 
 @Component({
   selector: 'app-modulos',
@@ -29,6 +30,15 @@ export class ModulosComponent implements OnInit {
   @Input() flow: Flow;
   @Input() user: User;
   @Input() flowId: string;
+
+  @Output() onModulosCargados: EventEmitter<number> = new EventEmitter();
+  @Output() onEtapasCargadas: EventEmitter<number> = new EventEmitter();
+  @Output() onModulosCompletados: EventEmitter<number> = new EventEmitter();
+  @Output() onEtapasCompletadas: EventEmitter<number> = new EventEmitter();
+
+
+  modulosCompletadosContador: number = 0;
+  etapasCompletadasContador : number = 0;
   
   columnHeader  : string[] = ['NombreCol', 'TipoCol', 'DescriptionCol'];
 
@@ -39,15 +49,16 @@ export class ModulosComponent implements OnInit {
   descriptionDialog : DescriptionDialogComponent;
 
   constructor(
-    private trainerUserUIService : TrainerUserUIService,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
-//    private moduleService : ModuleService
+    private moduleService : ModuleService
   ) { }
 
   ngOnInit(): void {
  
     this.getModules(this.flowId);
+
+
 
   }
 
@@ -61,22 +72,27 @@ export class ModulosComponent implements OnInit {
         }
 
       }
+
     }
   }
 
   //para evitar error "Expression has changed after it was checked"
   ngAfterContentChecked(): void {
     this.cdRef.detectChanges();
+
   }
 
   getModules(id: string){
 
-//    this.moduleService.getModuleByFlow(this.flow._id)
-    this.trainerUserUIService.getModuleByFlow(this.flow._id)
+    this.moduleService.getModuleByFlow(this.flow._id)
       .subscribe(response => {
         this.modules = response.modules.filter(modulo => modulo.stages.length > 0); //Se eliminan los modulos sin etapas
         
         if(this.modules.length != 0){
+
+          //emitir evento para mostrar al usuario la cantidad de modulos totales
+          this.onModulosCargados.emit(this.modules.length);
+
           //eventualmente cambiar selectedModule al primer modulo no completado por el usuario.
           this.selectedModule = this.modules[0];
 
@@ -89,9 +105,18 @@ export class ModulosComponent implements OnInit {
 
             for(let i=1; i<this.modules.length; i++){
               this.modules[i].locked = true;
+
             }
           }
+
+          //emitir el total de etapas para cargar en el perfil de usuario
+          for(let i=0; i<this.modules.length; i++){
+            this.onEtapasCargadas.emit(this.modules[i].stages.length);
+          }
+
+
         }
+
       },
       (err) => { console.error(err); }
     )
@@ -130,5 +155,14 @@ export class ModulosComponent implements OnInit {
     event.stopPropagation();
 
     this.dialog.open(DescriptionDialogComponent, { data: modulo })
+  }
+
+  actualizarModulosCompletados( argumento: number ){
+    this.modulosCompletadosContador += argumento;
+    this.onModulosCompletados.emit(this.modulosCompletadosContador);
+  }
+
+  actualizarEtapasCompletadas( argumento: number ){
+    this.etapasCompletadasContador += argumento
   }
 }

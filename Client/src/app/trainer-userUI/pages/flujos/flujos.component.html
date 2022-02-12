@@ -1,17 +1,104 @@
-<!-- <mat-toolbar color="primary">
-    <span>Neurone Trainer</span>
-    <span class="spacer"></span>
-    <button mat-icon-button
-        (click)=logout()>
-        <mat-icon>logout</mat-icon>
-    </button>
-</mat-toolbar> -->
+<div *ngIf="flow"
+     class="contenedor"
+     fxLayout="row"
+     fxLayout.xs="column"
+     fxLayoutGap="20px">
+    <div fxFlex="20"
+         fxShow.sm="false"
+         fxShow.xs="false">
+        <!-- TODO: cambiar src por el avatar real del usuario (no estoy seguro si el usuario final tendra un avatar)-->
+        <img src="./assets/img_avatar.png" alt="avatar usuario">
+        <!-- <img *ngIf="user.image_url" src="user.image_url" alt="avatar usuario"> -->
+    </div>
+    <div fxFlex="40"
+        fxFlex.md="50"
+        fxFlex.sm="60">
+        <h1> {{ user.names }} </h1>
+        <h2> {{ 'USER.MODULES_PROGRESS' | translate }}: {{ modulosCompletados }} / {{ totalDeModulos }} </h2>
+        <h2> {{ 'USER.STAGES_PROGRESS' | translate }}: {{ etapasCompletadas }} / {{ totalDeEtapas }}</h2>
+        <h3> <mat-icon>emoji_events</mat-icon>{{ 'USER.BADGES' | translate }}<mat-icon>emoji_events</mat-icon></h3>
+
+        <!-- medallas -->
+
+        <div fxLayout="row"
+             fxLayoutAlign="space-between center"
+             >
+            <div fxFlex="10">
+                <img 
+                    class="z-depth" 
+                    src="./assets/medals/medalla2.svg" 
+                    alt="medalla"
+                    (click)="openDialog(false, 'primeraMedalla' )"
+                >
+            </div>
+            <div fxFlex="10">
+                <img 
+                    class="z-depth" 
+                    [class.locked]="condicionMedallaB()"
+                    src="./assets/medals/medalla2.svg" 
+                    alt="medalla"
+                    (click)="openDialog(condicionMedallaB(), 'segundaMedalla' )"
+                >
+            </div>
+            <div fxFlex="10">
+                <img 
+                    class="z-depth" 
+                    [class.locked]="condicionMedallaC()"
+                    src="./assets/medals/medalla2.svg" 
+                    alt="medalla"
+                    (click)="openDialog(condicionMedallaC(), 'terceraMedalla' )"
+                >
+            </div>
+            <div fxFlex="10">
+                <img 
+                    class="z-depth"
+                    [class.locked]="condicionMedallaD()"
+                    src="./assets/medals/medalla2.svg" 
+                    alt="medalla"
+                    (click)="openDialog(condicionMedallaD(), 'cuartaMedalla' )"
+                >
+            </div>
+            <div fxFlex="15">
+                <img 
+                    class="z-depth"
+                    [class.locked]="condicionMedallaE()"
+                    src="./assets/medals/medalla1.svg" 
+                    alt="medalla"
+                    (click)="openDialog(condicionMedallaE(), 'quintaMedalla' )"
+                >
+            </div>
+        </div>
+
+        <!-- experimento encerrando datos del usuario en una mat-card 
+            <mat-card-title-group>
+            <mat-card-title> {{ user.names }} </mat-card-title>
+            <mat-card-title> {{ 'USER.MODULES_PROGRESS' | translate }}: {{ modulosCompletados }} / {{ totalDeModulos }} </mat-card-title>
+            <mat-card-title> {{ 'USER.STAGES_PROGRESS' | translate }}: {{ etapasCompletadas }} / {{ totalDeEtapas }}</mat-card-title>
+            <h3> {{ 'USER.BADGES' | translate }} | <mat-icon>emoji_events</mat-icon></h3>
+        </mat-card-title-group> -->
+    </div>
+
+    <div
+         fxFlex="40"
+         fxFlex.md="30"
+         fxFill.sm
+         fxShow.xs="false"
+         >
+        <img *ngIf="!flow.image_url" src="./assets/flow-images/Flow03.jpg" alt="imagen del flujo">
+        <img *ngIf="flow.image_url" [src]="flow.image_url" alt="imagen del flujo">
+    </div>
+</div>
 
 <app-modulos
     *ngIf="flow; else noFlow"
     [flow]="flow"
     [user]="user"
     [flowId]="flow._id"
+
+    (onModulosCargados)="obtenerTotalDeModulos( $event )"
+    (onEtapasCargadas)="obtenerTotalDeEtapas( $event )"
+
+    (onModulosCompletados)="obtenerModulosCompletados( $event )"
 >
 </app-modulos>
 

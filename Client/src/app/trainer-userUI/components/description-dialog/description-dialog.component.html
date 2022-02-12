@@ -1,3 +1,9 @@
-<h5> {{ getModulo().locked ? "bloqueado" : ""}}</h5>
-<h4> Código: {{ getCode() }} </h4>
+<div *ngIf="getModulo().image_url"
+     fxLayout="row" 
+     fxLayoutAlign="center start">
+    <img fxFlex="50" [src]="getModulo().image_url" alt="Imagen del modulo">
+</div>
+
+<h5 *ngIf="getModulo().locked"> {{ 'USER.MODULE_TABLE.LOCKED' | translate }}</h5>
+<h4> {{ 'USER.MODULE_TABLE.CODE' | translate }}: {{ getCode() }} </h4>
 <h3>{{ getDescription() }}</h3>

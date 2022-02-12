@@ -3,9 +3,10 @@ table{
 }
 
 .moduleList{
-  height: 100%;
+  min-height: 100%;
+  height: auto !important;
   padding: 1%;
-  background-color: whitesmoke;
+  background-color: #b4a7d6;
 }
 
 .tabla{

@@ -14,6 +14,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
 import { MatButtonModule } from '@angular/material/button';
+import { TipoEtapaPipe } from './pipes/tipo-etapa.pipe';
+import { TranslateModule } from '@ngx-translate/core';
+import { MedalDialogComponent } from './components/medal-dialog/medal-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,15 +24,21 @@ import { MatButtonModule } from '@angular/material/button';
     ModulosComponent, 
     EtapasComponent,
     DescriptionDialogComponent,
+    TipoEtapaPipe,
+    MedalDialogComponent,
   ],
   imports: [
     CommonModule,
     FlexLayoutModule,
+
     MatTableModule,
     MatButtonModule,
     MatCardModule,
     MatProgressSpinnerModule,
     MatIconModule,
+
+    TranslateModule,
+
     NgCircleProgressModule.forRoot({
       "radius": 60,
       "space": -10,
