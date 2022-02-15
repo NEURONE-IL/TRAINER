@@ -27,7 +27,9 @@
         >{{stage.title}}</mat-card-title>
         <mat-card-subtitle>{{stage.type | tipoEtapa}} - {{stage.step}}</mat-card-subtitle>
         <mat-card-content>
+            <!-- si etapa contiene link a una imagen -->
             <circle-progress
+                *ngIf="!stage.image_url"
                 showUnits = "true"
                 titleFontSize = "40"
                 unitsFontSize = "25"
@@ -39,6 +41,22 @@
                 [showImage]= "true"
                 [responsive] = "true"
             ></circle-progress>
+            <!-- en caso contrario -->
+            <circle-progress
+            *ngIf="stage.image_url"
+            class="imagenEtapa"
+            showUnits = "true"
+            titleFontSize = "40"
+            unitsFontSize = "25"
+            [percent] = "stage.percentage"
+            [title] = "stage.percentage"
+            [renderOnClick]="false"
+            [imageSrc]= "stage.image_url"
+            imageWidth="100"
+            imageHeight="100"
+            [showImage]= "true"
+            [responsive] = "true"
+        ></circle-progress>
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
             <!-- <button *ngIf="activo; else countdown" -->
