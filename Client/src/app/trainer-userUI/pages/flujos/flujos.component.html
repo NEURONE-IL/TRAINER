@@ -1,6 +1,7 @@
 <div *ngIf="flow"
      class="contenedor"
      fxLayout="row"
+     fxLayoutAlign="center center"
      fxLayout.xs="column"
      fxLayoutGap="20px">
     <div fxFlex="20"
@@ -28,7 +29,7 @@
                     class="z-depth" 
                     src="./assets/medals/medalla2.svg" 
                     alt="medalla"
-                    (click)="openDialog(false, 'primeraMedalla' )"
+                    (click)="openMedalDialog(false, 'primeraMedalla' )"
                 >
             </div>
             <div fxFlex="10">
@@ -37,7 +38,7 @@
                     [class.locked]="condicionMedallaB()"
                     src="./assets/medals/medalla2.svg" 
                     alt="medalla"
-                    (click)="openDialog(condicionMedallaB(), 'segundaMedalla' )"
+                    (click)="openMedalDialog(condicionMedallaB(), 'segundaMedalla' )"
                 >
             </div>
             <div fxFlex="10">
@@ -46,7 +47,7 @@
                     [class.locked]="condicionMedallaC()"
                     src="./assets/medals/medalla2.svg" 
                     alt="medalla"
-                    (click)="openDialog(condicionMedallaC(), 'terceraMedalla' )"
+                    (click)="openMedalDialog(condicionMedallaC(), 'terceraMedalla' )"
                 >
             </div>
             <div fxFlex="10">
@@ -55,7 +56,7 @@
                     [class.locked]="condicionMedallaD()"
                     src="./assets/medals/medalla2.svg" 
                     alt="medalla"
-                    (click)="openDialog(condicionMedallaD(), 'cuartaMedalla' )"
+                    (click)="openMedalDialog(condicionMedallaD(), 'cuartaMedalla' )"
                 >
             </div>
             <div fxFlex="15">
@@ -64,7 +65,7 @@
                     [class.locked]="condicionMedallaE()"
                     src="./assets/medals/medalla1.svg" 
                     alt="medalla"
-                    (click)="openDialog(condicionMedallaE(), 'quintaMedalla' )"
+                    (click)="openMedalDialog(condicionMedallaE(), 'quintaMedalla' )"
                 >
             </div>
         </div>

@@ -30,11 +30,13 @@
             <!-- si etapa contiene link a una imagen -->
             <circle-progress
                 *ngIf="!stage.image_url"
+                [class.blackAndWhite]="sorted && (stage.step <= accessStage ? false : true)"
                 showUnits = "true"
                 titleFontSize = "40"
                 unitsFontSize = "25"
                 [percent] = "stage.percentage"
                 [title] = "stage.percentage"
+                [renderOnClick]="false"
                 imageSrc= "{{ getIcon(stage.type) }}"
                 imageWidth="80"
                 imageHeight="80"
@@ -43,23 +45,23 @@
             ></circle-progress>
             <!-- en caso contrario -->
             <circle-progress
-            *ngIf="stage.image_url"
-            class="imagenEtapa"
-            showUnits = "true"
-            titleFontSize = "40"
-            unitsFontSize = "25"
-            [percent] = "stage.percentage"
-            [title] = "stage.percentage"
-            [renderOnClick]="false"
-            [imageSrc]= "stage.image_url"
-            imageWidth="100"
-            imageHeight="100"
-            [showImage]= "true"
-            [responsive] = "true"
-        ></circle-progress>
+                *ngIf="stage.image_url"
+                class="imagenEtapa"
+                [class.blackAndWhite]="sorted && (stage.step <= accessStage ? false : true)"
+                showUnits = "true"
+                titleFontSize = "40"
+                unitsFontSize = "25"
+                [percent] = "stage.percentage"
+                [title] = "stage.percentage"
+                [renderOnClick]="false"
+                [imageSrc]= "stage.image_url"
+                imageWidth="100"
+                imageHeight="100"
+                [showImage]= "true"
+                [responsive] = "true"
+            ></circle-progress>
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
-            <!-- <button *ngIf="activo; else countdown" -->
             <button
                 *ngIf="stage.percentage < 100; else completed"
                 mat-raised-button color="primary"
@@ -69,10 +71,6 @@
             <ng-template #completed>
                 <h4>¡Completado!</h4>
             </ng-template>
-
-            <!-- <ng-template #countdown>
-                <h2>{{ minutosDisplay }}:{{ segundosDisplay }}</h2>
-            </ng-template> -->
 
             <button
                 *ngIf="user.role.name === 'admin'"

@@ -6,9 +6,10 @@ import { Flow } from '../../interfaces/flow.interface';
 import { User } from '../../interfaces/user.interface';
 import { AuthService } from '../../../services/auth/auth.service';
 
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MedalDialogComponent } from '../../components/medal-dialog/medal-dialog.component';
 import { FlowService } from 'src/app/services/trainer/flow.service';
+import { TimerDialogComponent } from '../../components/timer-dialog/timer-dialog.component';
 
 @Component({
   selector: 'app-flujos',
@@ -37,7 +38,6 @@ export class FlujosComponent implements OnInit{
 
   ngOnInit(): void {
     
-    
     //conseguir datos del usuario
     this.user = this.authService.getUser()
     console.log(this.user);
@@ -52,6 +52,10 @@ export class FlujosComponent implements OnInit{
     localStorage.setItem('modulosCompletados', (0).toString());
     localStorage.setItem('etapasCompletadas', (0).toString());
 
+    //TODO: bloquear usuario en caso de que haya cumplido su cuota de niveles por dia
+    // if(etapasPorCompletar == 0){
+    // this.openTimerDialog();
+    // }
   }
 
   //para evitar error "Expression has changed after it was checked"
@@ -147,9 +151,24 @@ export class FlujosComponent implements OnInit{
     }
   }
 
-  openDialog(lockStatus: boolean, medalID: string) {
+  openMedalDialog(lockStatus: boolean, medalID: string) {
 
     let objeto = {lockStatus, medalID}
     this.dialog.open(MedalDialogComponent, { data: objeto })
+  }
+
+  openTimerDialog() {
+    const dialogConfig = new MatDialogConfig();
+
+    dialogConfig.disableClose = true;
+    dialogConfig.autoFocus = true;
+
+    dialogConfig.data = {
+      user: this.user,
+      timer: true,
+      test: 'prueba'
+    }
+    
+    this.dialog.open(TimerDialogComponent, dialogConfig)
   }
 }

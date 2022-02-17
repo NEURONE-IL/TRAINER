@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { TipoEtapaPipe } from './pipes/tipo-etapa.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { MedalDialogComponent } from './components/medal-dialog/medal-dialog.component';
+import { TimerDialogComponent } from './components/timer-dialog/timer-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { MedalDialogComponent } from './components/medal-dialog/medal-dialog.com
     DescriptionDialogComponent,
     TipoEtapaPipe,
     MedalDialogComponent,
+    TimerDialogComponent
   ],
   imports: [
     CommonModule,

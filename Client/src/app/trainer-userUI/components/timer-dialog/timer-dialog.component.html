@@ -1,0 +1,27 @@
+<h1>Puedes volver a jugar en:</h1>
+
+<div
+  fxLayout="row" 
+  fxLayoutAlign="center center">
+    <h2>{{horasDisplay}}:{{minutosDisplay}}:{{segundosDisplay}}</h2>
+</div>
+
+<button 
+    *ngIf="getTimerData().user.role.name == 'admin'"
+    mat-raised-button 
+    color="primary" 
+    (click)="closeDialog()">
+        Cerrar
+</button>
+
+<div
+  *ngIf="getTimerData().user.role.name != 'admin'"
+  fxLayout="row" 
+  fxLayoutAlign="center center">
+    <button
+      mat-raised-button
+      color="primary"
+      (click)="logout()">
+        Cerrar sesión
+    </button>
+</div>
