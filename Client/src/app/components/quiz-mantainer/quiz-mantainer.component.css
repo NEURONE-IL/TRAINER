@@ -25,9 +25,6 @@
 	text-align: left;
 	vertical-align: middle;
 	display: block;
-
-
-	
 }
 .activeMenu{
 	list-style-type: none;
@@ -37,11 +34,6 @@
 	text-align: left;
 	vertical-align: middle;
 	display: block;
-}
-.submenu{
-	display: none;
-	margin-left: 30px;
-	margin-top: 0px;
 }
 
 mat-card{
@@ -67,7 +59,6 @@ mat-card{
 
 
 .flows-display-card{
-	min-height: 700px;
 	margin-left: 10%;
 	margin-right: 10%;
 	margin-top: 5%;
@@ -103,9 +94,25 @@ mat-card{
 }
 
 mat-card-subtitle{
-	font-size: larger;
+	font-size: larger !important;
 	vertical-align: baseline;
 	padding-top: 15px;
 	padding-bottom: 5px;;
 	border-bottom: 3px solid rgba(238,227,255,1) ; 
+}
+
+.quizPreview{
+    min-height: 200px;
+
+}
+mat-card-content{
+	margin-top: 10px;
+}
+
+.card-footer{
+	text-align: center;
+}
+
+.card-footer button{
+	width: 200px;
 }

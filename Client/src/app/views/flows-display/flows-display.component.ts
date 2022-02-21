@@ -11,7 +11,10 @@ import { TranslateService } from '@ngx-translate/core';
 })
 export class FlowsDisplayComponent implements OnInit {
   flows: Flow[] = [];
-
+  flujoActivo = true;
+  quizActivo = false;
+  editar= false;
+  crear=true;
   constructor(private flowService: FlowService, private router: Router, private toastr: ToastrService, private translate: TranslateService) { }
 
   ngOnInit(): void {
@@ -27,6 +30,22 @@ export class FlowsDisplayComponent implements OnInit {
         });
       }
     );
+  }
+
+  //eventos
+  select(nombre, event) {
+    console.log(nombre);
+    let target= event.path[0].id;
+    if(target=="flujo"){
+      this.flujoActivo=true;
+      this.quizActivo=false;
+    }else{
+      this.flujoActivo=false;
+      this.quizActivo=true;
+    }
+  }
+  selectSubMenu(nombre, event){
+
   }
 
   getCover(index: number): string{
@@ -56,4 +75,7 @@ export class FlowsDisplayComponent implements OnInit {
   showShortDescription(description){
     return (description.substr(0, 40));
   }
+
+  
 }
+

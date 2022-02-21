@@ -1,0 +1,41 @@
+<div class="row">
+    <div class="col-md-8" style="padding-top: 10px">
+        <mat-card-subtitle> Mantenedor de Quizes:</mat-card-subtitle>
+    </div>
+    <div class="col-md-4">
+        <div class="options" >
+     
+    <button class="btn btn-primary creationButton" >CREAR QUIZ <b>+</b> </button>
+        
+            
+        </div>
+    </div>
+</div>
+<mat-card-content>
+    <mat-card class="quizPreview">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="/assets/stage-images/03VideoQuiz.jpg" class="img-fluid img-thumbnail">
+            </div>
+            <div class="col-md-8">
+                <mat-card-header>Quiz N.1: TITULO QUIZ</mat-card-header>
+                <mat-card-content>
+                    <p>Este Questionario abarca preguntas relacionadas a...</p>
+                    <p>No. de Ejercicios: 12</p>
+                    <p>Video Relacionado: <a href="#">video</a></p>
+
+                </mat-card-content>
+            </div>
+        </div>
+        <div class="card-footer">
+            <div class="btn-group" role="group" aria-label="Basic example">
+                <button type="button" id="ver" class="btn btn-secondary" (click)=" toggleDiv()">Ver</button>
+                <button type="button" class="btn btn-secondary">Editar</button>
+                <button type="button" class="btn btn-secondary">Borrar</button>
+              </div>
+        </div>
+    </mat-card>
+</mat-card-content>
+
+
+<div *ngIf="visible" [@slideInOut]>This element will slide up and down when the value of 'visible' changes from true to false and vice versa.</div>
