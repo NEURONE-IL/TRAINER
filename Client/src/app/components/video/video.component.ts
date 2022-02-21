@@ -17,6 +17,7 @@ export class VideoComponent implements OnInit {
   poster;
   videoSources: Plyr.Source[];
   currentTime = 0;
+  videoJson;
 
 
   constructor( private plyrModule: PlyrModule,
@@ -69,16 +70,20 @@ export class VideoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.getVideo();
-    this.poster = '/assets/videoModule-images/banner-video' + this.getVideo() + '.jpg';
+    this.videoJson = this.getVideoJson();
+
+    this.poster = this.videoJson.image_url;
     this.videoSources = [
       {
-        src: '/assets/videoModule-videos/video' + this.getVideo() + '.mp4',
+        src: this.videoJson.video_url,
         type: 'video/mp4'
       }
     ];
   }
 
+  getVideoJson() {
+    return this.quizService.getVideoJson(Number(this.videoNumber));
+  }
 
   getVideo() {
     return this.videoNumber;

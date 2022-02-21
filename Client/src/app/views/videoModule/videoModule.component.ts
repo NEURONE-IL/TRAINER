@@ -22,6 +22,7 @@ export class VideoModuleComponent implements OnInit {
     });
   }
 
+
   videoResponse(valueVideo) {
     this.status = valueVideo;
     this.showQuiz();
@@ -29,7 +30,7 @@ export class VideoModuleComponent implements OnInit {
 
   quizResponse(valueQuiz){
     this.status = valueQuiz;
-    if(this.status == 'Atras'){
+    if(this.status === 'Atras'){
       this.showVideo();
     }
   }

@@ -1,6 +1,6 @@
 [
   {
-    "name": "Video 1",
+    "name": "Video 1 titulo",
     "_id": 1,
     "quiz_id": "1",
     "image_url": "../assets/videoModule-images/banner-video1.jpg",

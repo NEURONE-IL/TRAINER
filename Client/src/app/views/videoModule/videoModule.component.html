@@ -10,9 +10,6 @@
             <button type="button" class="button" (click)="showVideo()" mat-raised-button>{{"Video" | translate}}</button>
             <button type="button" class="button" (click)="showQuiz()" mat-raised-button>{{"Quiz" | translate}}</button>
           </div>
-          <!--<div>
-            <p>Respuesta: {{status}}</p>
-          </div>-->
         </mat-card>
       </div>
 
@@ -27,7 +24,7 @@
           <app-video [videoNumber]=idNumber (newItemEvent)="videoResponse($event)"></app-video>
         </ng-template>
         <ng-template [ngIf]="!video && !quiz">
-          <mat-card-title>Seleccionar modulo...</mat-card-title>
+          <mat-card-title>Espacio destinado para instrucciones</mat-card-title>
         </ng-template>
       </mat-card>
     </div>

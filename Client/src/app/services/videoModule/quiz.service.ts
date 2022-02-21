@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import quiz from '../../../assets/static/quizQuestions.json';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
@@ -20,6 +20,8 @@ export class QuizService {
   enviromentUrl = 'http://localhost:4200/';
   uri = environment.apiURL + 'videoModule';
   urlServer = 'http://138.197.200.50:3070/';
+
+  uriVideoObjects = environment.apiURL + 'videoObjects';
   constructor( protected http: HttpClient,
                private stageService: StageService) { }
 
@@ -95,5 +97,19 @@ export class QuizService {
   }
 
 
+  // Return the video with id=videoNumber as a json
+  getVideoJson(videoNumber: number) {
+    console.log("Aqui el estatico: ");
+    console.log(videos);
+    console.log("Aqui el de la bdd: ");
+    let data = this.http.get(this.uriVideoObjects, { headers: {'x-access-token': localStorage.getItem('auth_token')} } )
+    let data2 = JSON.stringify(data);
+    console.log(data2);
+    for (const vid of videos) {
+      if (vid._id === videoNumber){
+        return vid;
+      }
+    }
+  }
 }
 
