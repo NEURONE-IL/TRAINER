@@ -116,3 +116,37 @@ mat-card-content{
 .card-footer button{
 	width: 200px;
 }
+
+.vistaQuiz{
+	min-height: 400px;
+}
+
+.preguntas{
+	min-height: 100px;
+	background-color: #f8f9fa;
+	border-radius: 5px;
+	vertical-align:middle;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: auto;
+	padding-right: auto;
+}
+
+.infoBox1{
+	height: fit-content;
+	background-color: #914dff;
+	text-align: center;
+	color: white;
+	display: inline-block;
+	width: 250px;
+	border-radius: 10px;
+	padding: 20px;
+	margin: 10px;
+
+}
+
+.infoBox1 h1{
+	display: inline;
+	text-align: center;
+	font-size: large;
+}

@@ -5,13 +5,107 @@
     <div class="col-md-4">
         <div class="options" >
      
-    <button class="btn btn-primary creationButton" >CREAR QUIZ <b>+</b> </button>
-        
+    <button *ngIf="verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >CREAR QUIZ <b>+</b> </button>
+    <button *ngIf="!verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >VOLVER </button>
+       
             
         </div>
     </div>
 </div>
-<mat-card-content>
+<mat-card-content *ngIf="!verQuizes">
+    <form class="form-horizontal" >
+
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="title">Titulo Quiz:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="title" placeholder="ingrese titulo">
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label class="control-label col-sm-4" for="file">Titulo Quiz:</label>
+                    <div class="col-sm-10">
+                        <input type="file" class="form-control-file" id="file">
+                    </div>
+                  </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="control-label col-sm-4" for="desc">Descripción Quiz:</label>
+                    <div class="col-sm-10">
+                      <input type="text" class="form-control" id="desc" placeholder="Ingresar Descripción">
+                    </div>
+                  </div>
+
+                  <div class="form-group">
+                    <label class="control-label col-sm-4" for="video">Seleccionar Video</label>
+                    <div class="col-sm-10">
+                        <select class="form-control">
+                            <option>Video 1: dos oruguitas</option>
+                        </select>
+                    </div>
+                  </div>
+
+            </div>
+
+        
+        </div>
+        <div class="row preguntas">
+
+            <div class="col-md-3">
+                <div class="infoBox1">
+                    <h1>Ejercicios Actuales: 0</h1>
+                    <button class="btn btn-block btn-light">Agregar <b>+</b></button>
+                </div>
+            </div>
+            
+            <div class="col-md-9">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="title">Titulo Quiz:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="title" placeholder="ingrese titulo">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-sm-4" for="file">Titulo Quiz:</label>
+                        <div class="col-sm-10">
+                            <input type="file" class="form-control-file" id="file">
+                        </div>
+                      </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="control-label col-sm-4" for="desc">Descripción Quiz:</label>
+                        <div class="col-sm-10">
+                          <input type="text" class="form-control" id="desc" placeholder="Ingresar Descripción">
+                        </div>
+                      </div>
+    
+                      <div class="form-group">
+                        <label class="control-label col-sm-4" for="video">Seleccionar Video</label>
+                        <div class="col-sm-10">
+                            <select class="form-control">
+                                <option>Video 1: dos oruguitas</option>
+                            </select>
+                        </div>
+                      </div>
+    
+                </div>
+
+            </div>
+            
+        </div>
+        
+        
+
+
+        
+      </form>
+      
+</mat-card-content>
+<mat-card-content *ngIf="verQuizes">
     <mat-card class="quizPreview">
         <div class="row">
             <div class="col-md-4">
@@ -29,13 +123,19 @@
         </div>
         <div class="card-footer">
             <div class="btn-group" role="group" aria-label="Basic example">
-                <button type="button" id="ver" class="btn btn-secondary" (click)=" toggleDiv()">Ver</button>
+                <button type="button" id="ver" class="btn btn-secondary">Ver</button>
                 <button type="button" class="btn btn-secondary">Editar</button>
                 <button type="button" class="btn btn-secondary">Borrar</button>
               </div>
         </div>
+        <div>
+
+    </div>
     </mat-card>
+
+
+    
+
 </mat-card-content>
 
 
-<div *ngIf="visible" [@slideInOut]>This element will slide up and down when the value of 'visible' changes from true to false and vice versa.</div>
