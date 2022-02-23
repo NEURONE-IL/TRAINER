@@ -1,5 +1,5 @@
 <app-header></app-header>
-
+<!--
 <mat-card class="module-card">
   <mat-card-title>Modulo de Videos</mat-card-title>
   <div class="row ">
@@ -32,4 +32,31 @@
 
 
   </div>
+</mat-card>
+-->
+
+
+<mat-card class="flows-display-card">
+  <div class="banner">
+
+  </div>
+  <div class="row">
+    <div class="lateralSelector col-md-3">
+      <ul class="menu" id="lateralMenu">
+        <li id="video" class="menuItem {{videoActive?'activeMenu':''}}" (click)="select('video')">Video</li>
+        <li id="quiz" class="menuItem {{quizActive?'activeMenu':''}}" (click)="select('quiz')">Quiz</li>
+      </ul>
+    </div>
+    <div class="contenidoPrincipal col-md-9">
+      <div class="flujosView" *ngIf="quizActive">
+        <app-quiz [quizNumber]=quizId (newItemEvent)="quizResponse($event)"></app-quiz>
+      </div>
+      <div class="flujosView" *ngIf="videoActive">
+        <app-video [videoNumber]=videoId (newItemEvent)="videoResponse($event)"></app-video>
+      </div>
+    </div>
+
+  </div>
+
+
 </mat-card>

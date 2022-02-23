@@ -24,3 +24,116 @@
   margin: 1%;
   background-color: #fafafa;
 }
+
+.menu{
+  margin-top: 5%;
+  padding: 0px;;
+
+}
+
+.menuItem{
+  padding-left: 5%;
+  list-style-type: none;
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  vertical-align: middle;
+  display: block;
+  border-left: 5px solid #a66fff ;
+  transition: background 0.5s, border 0.5s;
+}
+
+.menuItem:hover{
+  list-style-type: none;
+  background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
+  border-left: 9px solid #914dff ;
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  vertical-align: middle;
+  display: block;
+
+
+
+}
+.activeMenu{
+  list-style-type: none;
+  background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
+  height: 50px;
+  line-height: 50px;
+  text-align: left;
+  vertical-align: middle;
+  display: block;
+}
+.submenu{
+  display: none;
+  margin-left: 30px;
+  margin-top: 0px;
+}
+
+mat-card{
+  padding-top: 0px;
+}
+.banner{
+  background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
+  height:50px;
+  margin-left: -16px;
+  margin-right: -16px;
+
+
+}
+.creationButton{
+  background: #914dff;
+}
+.creationButton b{
+  font-size: larger;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+
+
+.flows-display-card{
+  min-height: 700px;
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 5%;
+}
+
+mat-card{
+  /**/
+  align-self: flex-start;
+
+}
+
+.flow-card:hover{
+  cursor: pointer;
+  box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.8);
+  /*border-color: #2196F3 !important;*/
+}
+
+.options{
+  text-align: right;
+  padding-right: 5%;
+  padding-left: 5%;
+}
+.options button{
+  margin: 10px;
+}
+
+.emptyText{
+  padding-left: 15px
+}
+
+.registerLink{
+  font-weight: 500;
+  font-size: xx-small;
+}
+
+mat-card-subtitle{
+  font-size: larger;
+  vertical-align: baseline;
+  padding-top: 15px;
+  padding-bottom: 5px;;
+  border-bottom: 3px solid rgba(238,227,255,1) ;
+}

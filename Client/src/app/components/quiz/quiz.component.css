@@ -23,3 +23,12 @@
 .quiz_buttons{
  text-align: center;
 }
+
+
+mat-card-subtitle{
+  font-size: larger;
+  vertical-align: baseline;
+  padding-top: 15px;
+  padding-bottom: 5px;;
+  border-bottom: 3px solid rgba(238,227,255,1) ;
+}

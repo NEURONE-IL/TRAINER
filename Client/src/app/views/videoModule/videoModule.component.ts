@@ -17,6 +17,8 @@ export class VideoModuleComponent implements OnInit {
   status;
   quizId;
   videoId;
+  videoActive;
+  quizActive;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
@@ -30,6 +32,18 @@ export class VideoModuleComponent implements OnInit {
       });
     });
 
+  }
+
+  //eventos
+  select(nombre) {
+    let target= nombre;
+    if(target=="video"){
+      this.videoActive=true;
+      this.quizActive=false;
+    }else{
+      this.videoActive=false;
+      this.quizActive=true;
+    }
   }
 
 
