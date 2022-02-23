@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const VideoObjects = require("../models/videoObjects");
+const QuizObjects = require("../models/quizObjects");
 const verifyToken = require('../middlewares/verifyToken');
 const authMiddleware = require("../middlewares/authMiddleware");
 const imageStorage = require("../middlewares/imageStorage");
@@ -8,9 +9,9 @@ const flowMiddleware = require("../middlewares/flowMiddleware");
 const Flow = require("../models/flow");
 const ObjectId = require('mongodb').ObjectID;
 
-// Return the collection 'videoObjects' as a json
+// Return the collection 'quizObjects' as a json
 router.get('', [verifyToken], async (req, res) => {
-    VideoObjects.find({}, (err, data) => {
+    QuizObjects.find({}, (err, data) => {
         if(err){
             return res.status(404).json({ok: false, err});
         }
@@ -22,8 +23,8 @@ router.get('', [verifyToken], async (req, res) => {
 });
 
 // Get one video
-router.get('/:video_id', async (req, res) => {
-    VideoObjects.findOne({_id: req.params.video_id}, (err, data) =>{
+router.get('/:quiz_id', async (req, res) => {
+    QuizObjects.findOne({_id: req.params.quiz_id}, (err, data) =>{
         if(err){
             return res.status(404).json({
                 ok: false,
@@ -36,13 +37,14 @@ router.get('/:video_id', async (req, res) => {
 
 // Add a video
 router.post('', [verifyToken], async (req, res) => {
-    const video = new VideoObjects({
+    const quiz = new QuizObjects({
+        video_id: req.body.video_id,
         name: req.body.name,
-        image_url: req.body.image_url,
-        video_url: req.body.video_url,
-        language: req.body.language
+        instructions: req.body.instructions,
+        resource_url: req.body.resource_url,
+        exercises: req.body.exercises
     })
-    video.save((err, data) => {
+    quiz.save((err, data) => {
         if (err) {
             return res.status(404).json({
                 err
@@ -55,8 +57,8 @@ router.post('', [verifyToken], async (req, res) => {
 });
 
 // Delete a video
-router.delete('/:video_id',  [verifyToken] , async (req, res) => {
-    VideoObjects.deleteOne({_id: req.params.video_id}, (err, data) => {
+router.delete('/:quiz_id',  [verifyToken] , async (req, res) => {
+    QuizObjects.deleteOne({_id: req.params.quiz_id}, (err, data) => {
         if (err) {
             return res.status(404).json({
                 err

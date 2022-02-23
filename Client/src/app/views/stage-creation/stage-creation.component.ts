@@ -9,9 +9,6 @@ import { ApiSGService, SGGame } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
 import { AssistantService } from 'src/app/services/assistant/assistant.service';
-import videoObjects from '../../../assets/static/videoObjects.json';
-import videoQuizObjects from '../../../assets/static/videoQuizObjects.json';
-import quizQuestions from '../../../assets/static/quizQuestions.json';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FlowDisplayComponent} from '../flow-display/flow-display.component';
 
@@ -33,9 +30,6 @@ export class StageCreationComponent implements OnInit {
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
   SGLinks: SGGame[] = [];
-  videoLinks: object[] = videoObjects;
-  videoQuizLinks: object[] = videoQuizObjects;
-  questions: object[] = quizQuestions;
   file: File;
   assistants: any;
 
@@ -185,20 +179,20 @@ export class StageCreationComponent implements OnInit {
 
     else if(value === 'Video'){
       this.currentLinks = [];
-      for (let question of this.questions){
-        if (question["EXERCISES"].length == 0 && question["VIDEO"] != 0){ // Si existe el video y no hay quiz
-          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
+      this.videoModuleService.getVideos().subscribe(res => {
+        for (const video of res['data']){
+          this.currentLinks.push({"name": video["name"], "_id": video["_id"]});
         }
-      }
+      });
     }
 
     else if(value === 'Video + Quiz'){
       this.currentLinks = [];
-      for (let question of this.questions){
-        if (question["EXERCISES"].length != 0 && question["VIDEO"] != 0){ // si existe el video y el quiz tiene data
-          this.currentLinks.push({"name": question["QUIZ_NAME"], "_id": question["QUIZ_ID"]})
+      this.videoModuleService.getQuizzes().subscribe(res => {
+        for (const quiz of res['data']){
+          this.currentLinks.push({"name": quiz["name"], "_id": quiz["_id"]});
         }
-      }
+      });
     }
   }
 

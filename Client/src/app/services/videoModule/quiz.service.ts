@@ -2,9 +2,8 @@ import {Injectable} from '@angular/core';
 import quiz from '../../../assets/static/quizQuestions.json';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {Observable} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {StageService} from '../trainer/stage.service';
-import videos from '../../../assets/static/videoObjects.json';
 
 
 export interface VideoModule {
@@ -18,36 +17,23 @@ export interface VideoModule {
 export class QuizService {
 
   enviromentUrl = 'http://localhost:4200/';
-  uri = environment.apiURL + 'videoModule';
+  uri = environment.apiURL + 'videoModule/';
   urlServer = 'http://138.197.200.50:3070/';
 
-  uriVideoObjects = environment.apiURL + 'videoObjects';
+  urlEnviroment = environment.frontURL;
+
+  uriVideoObjects = environment.apiURL + 'videoObjects/';
+  uriQuizObjects = environment.apiURL + 'quizObjects/';
   constructor( protected http: HttpClient,
                private stageService: StageService) { }
 
   getVideoLink(videoStageId: any){
-    return this.urlServer + 'video?id=' + videoStageId;
+    return this.enviromentUrl + 'video?id=' + videoStageId;
   }
 
-  deleteVideo(id: number) {
-    let finalJson = [];
-    let videosJson = videos;
-    for (let video of videosJson) {
-      console.log(video["_id"])
-      if (video["_id"] === id){
-        console.log("Se elimina esta shit");
-        console.log("Index: ", videosJson.indexOf(video));
-      }
-      else{
-        finalJson.push(video);
-      }
-    }
-    console.log(finalJson);
-
-  }
 
   getVideoQuizLink(videoQuizStageId: any){
-    return this.urlServer + 'videoModule?id=' + videoQuizStageId;
+    return this.enviromentUrl + 'videoModule?id=' + videoQuizStageId;
   }
 
   getQuiz() {
@@ -57,11 +43,6 @@ export class QuizService {
     console.log("get quiz");
     console.log(quiz);
     return quiz;
-  }
-
-  getVideos() {
-    console.log("GETTING VIDEOS");
-    return videos;
   }
 
   getAnswer(questionId: any): Observable<any>{
@@ -97,19 +78,56 @@ export class QuizService {
   }
 
 
-  // Return the video with id=videoNumber as a json
-  getVideoJson(videoNumber: number) {
-    console.log("Aqui el estatico: ");
-    console.log(videos);
-    console.log("Aqui el de la bdd: ");
-    let data = this.http.get(this.uriVideoObjects, { headers: {'x-access-token': localStorage.getItem('auth_token')} } )
-    let data2 = JSON.stringify(data);
-    console.log(data2);
-    for (const vid of videos) {
-      if (vid._id === videoNumber){
-        return vid;
-      }
-    }
+
+  /*
+  * Functions to handle videos
+  **/
+
+  // Returns all videos in a json
+  getVideos(): Observable<any> {
+    return this.http.get(this.uriVideoObjects, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
   }
+
+  // Get one video by id
+  getVideo(videoId: number): Observable<any> {
+    return this.http.get(this.uriVideoObjects + videoId, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
+  }
+
+  // Delete a video
+  deleteVideo(videoId: number): Observable<any> {
+    return this.http.delete(this.uriVideoObjects + videoId, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
+  }
+
+  // Add a video {quiz_id <ObjectId>, name <String>, image_url <String>, video_url <String>, language <String>}
+  addVideo(video: any): Observable<any> {
+    return this.http.post(this.uriVideoObjects, video, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
+  }
+
+
+  /*
+  * Functions to handle quizzes
+  * */
+
+  // Returns all quizzes in a json
+  getQuizzes(): Observable<any> {
+    return this.http.get(this.uriQuizObjects, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
+  }
+
+  // Get one quiz by id
+  getQuiz2(quizId: number): Observable<any> {
+    return this.http.get(this.uriQuizObjects + quizId, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
+  }
+
+  // Delete a video
+  deleteQuiz(quizId: number): Observable<any> {
+    return this.http.delete(this.uriQuizObjects + quizId, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
+  }
+
+  // Add a video {video_id <ObjectId>, name <String>, instructions <String>, resource_url <String>, exercises <String>}
+  addQuiz(quiz: any): Observable<any> {
+    return this.http.post(this.uriQuizObjects, quiz, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
+  }
+
+
 }
 

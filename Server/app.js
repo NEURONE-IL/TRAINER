@@ -21,6 +21,8 @@ const imageRoutes = require('./routes/image');
 const videoModuleRoutes = require('./routes/videoModule');
 const eventsVideoModuleRoutes = require('./routes/EventsVideoModule');
 const eventRoutes = require('./routes/event');
+const videoObjectsRoutes = require('./routes/videoObjects');
+const quizObjectsRoutes = require('./routes/quizObjects');
 
 const Role = require('./models/role');
 
@@ -92,6 +94,8 @@ app.use('/apiTrivia/auth', authRoutes);
 app.use('/api/videoModule', videoModuleRoutes);
 app.use('/api/eventsVideoModule', eventsVideoModuleRoutes);
 app.use('/api/event', eventRoutes);
+app.use('/api/videoObjects', videoObjectsRoutes);
+app.use('/api/quizObjects', quizObjectsRoutes);
 
 // Set client on root
 

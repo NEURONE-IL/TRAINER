@@ -1,17 +1,18 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
-const VideoObjectsSchema = new Schema({
+const QuizObjectsSchema = new Schema({
+    video_id: { type: Schema.Types.ObjectId, ref: "VideoObjects" },
     name: { type: String, required: true },
-    image_url: { type: String, required: true },
-    video_url: { type: String, required: true },
-    language: { type: String, required: true },
+    instructions: { type: String },
+    resource_url: { type: String },
+    exercises: { type: Array },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });
 
 // Sets the createdAt parameter equal to the current time
-VideoObjectsSchema.pre('save', next => {
+QuizObjectsSchema.pre('save', next => {
     now = new Date();
     if(!this.createdAt) {
         this.createdAt = now;
@@ -23,6 +24,6 @@ VideoObjectsSchema.pre('save', next => {
 });
 
 const myDB = mongoose.connection.useDb('trainer');
-const VideoObjects = myDB.model('VideoObjects', VideoObjectsSchema);
+const QuizObjects = myDB.model('QuizObjects', QuizObjectsSchema);
 
-module.exports = VideoObjects;
+module.exports = QuizObjects;

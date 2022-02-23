@@ -32,21 +32,15 @@ export class QuizComponent implements OnInit {
   * Inicializa la variable del ejercicio actual en 0 y llama a la funcion para obtener el quiz que corresponde.
   * */
   ngOnInit(): void {
-    //console.log("FUNCTION: ngOnInit()");
-    // Obtener quiz
-    this.getQuiz();
-
-    // Setear ejercicio actual en 0
+    this.quizService.getQuiz2(this.quizNumber).subscribe(res => {
+      //this.quiz = res['data'];
+      console.log(res['data']);
+      console.log(res['data']['_id']);
+    });
+    this.quizService.getQuizzes().subscribe(res => {
+      this.quiz = res['data'];
+    });
     this.exerciseActual = 0;
-  }
-
-  /*
-  * Setea this.quiz con el quiz que corresponde.
-  * */
-  getQuiz() {
-    //console.log("FUNCTION: getQuiz()");
-    // Obtener quiz
-    this.quiz = this.quizService.getQuiz();
   }
 
   /*
@@ -57,7 +51,7 @@ export class QuizComponent implements OnInit {
     if ( questionType == 'checkbox' ){
       let estaSeleccionado = document.getElementById("answer_"+questionId+"_alt_"+numAlternative) as HTMLInputElement;
       if ( estaSeleccionado.checked ){
-        value = "Evento: Usuario seleccionò alternativa " + numAlternative + ": " + alternativa;
+        value = 'Evento: Usuario seleccionò alternativa ' + numAlternative + ": " + alternativa;
       }
       else{
         value = "Evento: Usuario deseleccionò alternativa " + numAlternative + ": " + alternativa;

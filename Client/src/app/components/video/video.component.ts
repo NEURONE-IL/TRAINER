@@ -70,24 +70,21 @@ export class VideoComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.videoJson = this.getVideoJson();
-
-    this.poster = this.videoJson.image_url;
-    this.videoSources = [
-      {
-        src: this.videoJson.video_url,
-        type: 'video/mp4'
+    // Get the video
+    console.log('Buscamos... ', this.videoNumber);
+    this.quizService.getVideo(this.videoNumber).subscribe(res => {
+      this.videoJson = res["data"];
+      this.poster = this.videoJson.image_url;
+      this.videoSources = [
+        {
+          src: this.videoJson.video_url,
+          type: 'video/mp4'
+        }
+      ];
       }
-    ];
+    );
   }
 
-  getVideoJson() {
-    return this.quizService.getVideoJson(Number(this.videoNumber));
-  }
-
-  getVideo() {
-    return this.videoNumber;
-  }
 
 /*
   sendVideoResponse(value) {

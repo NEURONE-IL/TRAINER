@@ -1,5 +1,6 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
+import {QuizService} from '../../services/videoModule/quiz.service';
 
 @Component({
   selector: 'app-video-module',
@@ -8,18 +9,27 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class VideoModuleComponent implements OnInit {
 
-  constructor( private activatedRoute: ActivatedRoute ) { }
+  constructor( private activatedRoute: ActivatedRoute,
+               private quizService: QuizService) { }
 
   quiz;
   video;
   status;
-  idNumber;
+  quizId;
+  videoId;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       const id = params.id;
-      this.idNumber = id;
+      this.quizId = id;
+
+      this.quizService.getQuiz2(this.quizId).subscribe(res => {
+        console.log(res);
+        const idVid = res['data']['video_id'];
+        this.videoId = idVid;
+      });
     });
+
   }
 
 
