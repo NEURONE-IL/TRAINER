@@ -43,16 +43,16 @@
   <div class="row">
     <div class="lateralSelector col-md-3">
       <ul class="menu" id="lateralMenu">
-        <li id="video" class="menuItem {{videoActive?'activeMenu':''}}" (click)="select('video')">Video</li>
-        <li id="quiz" class="menuItem {{quizActive?'activeMenu':''}}" (click)="select('quiz')">Quiz</li>
+        <li id="video" class="menuItem {{videoActive?'activeMenu':''}}" (click)="select('video')">{{ "VIDEOS.VIDEO" | translate }}</li>
+        <li id="quiz" class="menuItem {{quizActive?'activeMenu':''}}" (click)="select('quiz')">{{ "QUIZZES.QUIZ" | translate }}</li>
       </ul>
     </div>
     <div class="contenidoPrincipal col-md-9">
       <div class="flujosView" *ngIf="quizActive">
-        <app-quiz [quizNumber]=quizId (newItemEvent)="quizResponse($event)"></app-quiz>
+        <app-quiz [quizNumber]=quizId [saveUserData]=saveData (newItemEvent)="quizResponse($event)"></app-quiz>
       </div>
       <div class="flujosView" *ngIf="videoActive">
-        <app-video [videoNumber]=videoId (newItemEvent)="videoResponse($event)"></app-video>
+        <app-video [videoNumber]=videoId [saveUserData]=saveData (newItemEvent)="videoResponse($event)"></app-video>
       </div>
     </div>
 

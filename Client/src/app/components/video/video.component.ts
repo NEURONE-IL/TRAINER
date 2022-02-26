@@ -13,6 +13,8 @@ export class VideoComponent implements OnInit {
 
   @Input() videoNumber: number;
   @Output() newItemEvent = new EventEmitter<string>();
+
+  @Input() saveUserData: string;
   player: Plyr;
   poster;
   videoSources: Plyr.Source[];
@@ -55,8 +57,7 @@ export class VideoComponent implements OnInit {
         eventFinal = 'Cambiar tiempo a ' + valor;
       }
     }
-    if (eventFinal != null){
-      //console.log("Evento: " + eventFinal);
+    if (eventFinal != null && this.saveUserData === 'Yes'){
       this.quizService.handleEvent(eventFinal, 'video').subscribe((res) => { });
     }
   }

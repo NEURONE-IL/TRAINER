@@ -13,6 +13,8 @@ export class QuizComponent implements OnInit {
   @Input() quizNumber: number;
   @Output() newItemEvent = new EventEmitter<string>();
 
+  @Input() saveUserData: string;
+
   /*
   * quiz -> guarda el quiz
   * exerciseActual -> guarda el numero del ejercicio actual

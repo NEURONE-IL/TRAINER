@@ -23,7 +23,11 @@
   "HEADER": {
     "TOOLTIP": "Ir a la página principal"
   },
+  "QUIZZES": {
+    "QUIZ": "Quiz"
+  },
   "VIDEOS": {
+    "VIDEO": "Video",
     "VIDEOS": "VIDEOS",
     "ADD": "Agregar Video",
     "NAME": "Nombre",

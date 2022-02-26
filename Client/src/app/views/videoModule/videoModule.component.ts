@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {QuizService} from '../../services/videoModule/quiz.service';
 
@@ -12,62 +12,44 @@ export class VideoModuleComponent implements OnInit {
   constructor( private activatedRoute: ActivatedRoute,
                private quizService: QuizService) { }
 
-  quiz;
-  video;
   status;
   quizId;
   videoId;
   videoActive;
   quizActive;
+  saveData;
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      const id = params.id;
-      this.quizId = id;
+      this.quizId = params.id;
 
       this.quizService.getQuiz2(this.quizId).subscribe(res => {
         console.log(res);
-        const idVid = res['data']['video_id'];
-        this.videoId = idVid;
+        this.videoId = res.data.video_id;
       });
     });
 
+    this.saveData = "Yes";
+
   }
 
-  //eventos
   select(nombre) {
-    let target= nombre;
-    if(target=="video"){
-      this.videoActive=true;
-      this.quizActive=false;
-    }else{
-      this.videoActive=false;
-      this.quizActive=true;
+    if (nombre === 'video') {
+      this.videoActive = true;
+      this.quizActive = false;
+    }
+    else {
+      this.videoActive = false;
+      this.quizActive = true;
     }
   }
 
-
   videoResponse(valueVideo) {
     this.status = valueVideo;
-    this.showQuiz();
   }
 
   quizResponse(valueQuiz){
     this.status = valueQuiz;
-    if(this.status === 'Atras'){
-      this.showVideo();
-    }
   }
-
-  showQuiz(){
-    this.quiz = true;
-    this.video = false;
-  }
-
-  showVideo(){
-    this.video = true;
-    this.quiz = false;
-  }
-
 
 }

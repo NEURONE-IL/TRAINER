@@ -33,9 +33,9 @@ export class FlowsDisplayComponent implements OnInit {
   }
 
   //eventos
-  select(nombre, event) {
+  select(nombre) {
     console.log(nombre);
-    let target= event.path[0].id;
+    let target= nombre;
     if(target=="flujo"){
       this.flujoActivo=true;
       this.quizActivo=false;
@@ -76,6 +76,6 @@ export class FlowsDisplayComponent implements OnInit {
     return (description.substr(0, 40));
   }
 
-  
+
 }
 

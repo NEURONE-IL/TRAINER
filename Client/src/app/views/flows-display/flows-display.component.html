@@ -1,15 +1,15 @@
 
 <mat-card class="flows-display-card">
 	<div class="banner">
-		
+
 	</div>
     <div class="row">
-		<div class="lateralSelector col-md-3"> 
+		<div class="lateralSelector col-md-3">
 			<ul class="menu" id="lateralMenu">
-				<li id="flujo" class="menuItem {{flujoActivo?'activeMenu':''}}" (click)="select('flujo', $event)">Flujos</li>
-				<li id="quiz" class="menuItem {{quizActivo?'activeMenu':''}}" (click)="select('quizes', $event)">Quizes</li>
-		
-			</ul>	
+				<li id="flujo" class="menuItem {{flujoActivo?'activeMenu':''}}" (click)="select('flujo')">Flujos</li>
+				<li id="quiz" class="menuItem {{quizActivo?'activeMenu':''}}" (click)="select('quizes')">Quizes</li>
+
+			</ul>
 		</div>
 		<div class="contenidoPrincipal col-md-9">
 			<div class="flujosView" *ngIf="quizActivo">
@@ -22,15 +22,15 @@
 					</div>
 					<div class="col-md-4">
 						<div class="options" >
-					 
+
 					<button class="btn btn-primary creationButton" (click)="createFlow()">{{"" +"ADMIN.FLOWS.CREATE" | translate}} <b>+</b> </button>
-					<!-- 
+					<!--
 					{{"" +"ADMIN.FLOWS.CREATE" | translate}}
 					<button mat-mini-fab color="primary" (click)="createFlow()">
 					<mat-icon>add</mat-icon>
 					</button>
 					-->
-					
+
 						</div>
 					</div>
 				</div>
@@ -60,8 +60,8 @@
 				</mat-card-content>
 			</div>
 		</div>
-		
+
 	</div>
 
-	
+
 </mat-card>
