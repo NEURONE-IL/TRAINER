@@ -133,7 +133,7 @@ mat-card-content{
 }
 
 .infoBox1{
-	height: fit-content;
+	height:90%;
 	background-color: #914dff;
 	text-align: center;
 	color: white;
@@ -149,5 +149,39 @@ mat-card-content{
 	display: inline;
 	text-align: center;
 	font-size: large;
+}
+
+
+.infoBox1 button{
+	position: absolute;
+	bottom: 50px;
+	width: 200px;
+	margin-left: 5px;
+}
+
+.preguntaHeader{
+	background-color: #914dff;
+	height: 50px;
+	line-height: 50px;
+	vertical-align: baseline;
+	text-align: center;
+	border-radius: 20px 20px 0px 0px;
+	color: white;
+	font-size: medium;
+}
+
+mat-form-field{
+	width: 100%;
+
+}
+
+.selectVideo{
+	width: 80%;
+	margin: 15px;
+
+}
+mat-select{
+	background-color: white;
+	border-color: white;
 }
 

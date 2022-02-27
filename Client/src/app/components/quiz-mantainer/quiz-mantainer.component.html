@@ -38,17 +38,16 @@
                     </div>
                   </div>
 
-                  <div class="form-group">
-                    <label class="control-label col-sm-4" for="video">Seleccionar Video</label>
-                    <div class="col-sm-10">
-                        <select class="form-control">
-                            <option>Video 1: dos oruguitas</option>
-                        </select>
-                    </div>
-                  </div>
+                  <mat-form-field class="selectVideo" appearance="fill">
+                    <mat-label>Tipo de pregunta</mat-label>
+                    <mat-select [(ngModel)]="video" name="video">
+                      <mat-option [value]="'text'">
+                        Video 1: Dos Oruguitas
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
 
             </div>
-
 
         </div>
         <div class="row preguntas">
@@ -60,39 +59,71 @@
                 </div>
             </div>
 
-            <div class="col-md-9">
-                <div class="col-md-6">
+            
+            <div class="col-md-4">
+                <div >
+                    
                     <div class="form-group">
-                        <label class="control-label col-sm-4" for="title">Titulo Quiz:</label>
-                        <div class="col-sm-10">
+                        <label class="control-label " for="title">Titulo Ejercicio:</label>
                           <input type="text" class="form-control" id="title" placeholder="ingrese titulo">
-                        </div>
                       </div>
                       <div class="form-group">
-                        <label class="control-label col-sm-4" for="file">Titulo Quiz:</label>
-                        <div class="col-sm-10">
-                            <input type="file" class="form-control-file" id="file">
-                        </div>
+                        <label class="control-label" for="file">Recurso (Imagen):</label>
+                        <input type="file" class="form-control-file" id="file">
                       </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label class="control-label col-sm-4" for="desc">Descripción Quiz:</label>
-                        <div class="col-sm-10">
-                          <input type="text" class="form-control" id="desc" placeholder="Ingresar Descripción">
-                        </div>
+                      <div class="form-group">
+                        <label class="control-label" for="desc">Descripción Quiz:</label>
+                        <textarea class="form-control" id="desc" placeholder="Ingresar Descripción"></textarea>
+                        
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-sm-4" for="video">Seleccionar Video</label>
-                        <div class="col-sm-10">
-                            <select class="form-control">
-                                <option>Video 1: dos oruguitas</option>
-                            </select>
-                        </div>
+                        <label>Preguntas Aactuales:</label> 1
+                        <table>
+                            <tr>
+                                <th>Preguntas Aactuales:</th>
+                            </tr>
+                            <tr>
+                                <td>¿Cúal es el....?</td>
+                            </tr>
+                        </table>
                       </div>
 
                 </div>
+
+            </div>
+
+            <div class="col-md-4 preguntas">
+                <h1 class="preguntaHeader">Agregar Preguntas al Ejercicio</h1>
+                <mat-form-field appearance="fill">
+                    <mat-label>Tipo de pregunta</mat-label>
+                    <mat-select [(ngModel)]="pregunta" name="pregunta">
+                      <mat-option [value]="'text'">
+                        Texto
+                      </mat-option>
+                      <mat-option [value]="'multy'">
+                        Selección Multiple
+                      </mat-option>
+                      <mat-option [value]="'simple'">
+                        Selección Simple
+                      </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                
+                <div *ngIf="pregunta=='text'">
+                    Pregunta de texto
+                </div>
+                <div *ngIf="pregunta=='multy'">
+                    Pregunta de multiple
+                </div>
+                <div *ngIf="pregunta=='simple'">
+                    Pregunta de simple
+                </div>
+
+                  <div class="form-group">
+                    <button class="btn btn-primary creationButton">Guardar</button>
+                    <button class="btn btn-light">Cancelar</button>
+                  </div>
 
             </div>
 
