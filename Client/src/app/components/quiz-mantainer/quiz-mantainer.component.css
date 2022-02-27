@@ -1,7 +1,7 @@
 .menu{
 	margin-top: 5%;
 	padding: 0px;;
-	
+
 }
 
 .menuItem{
@@ -44,8 +44,8 @@ mat-card{
 	height:50px;
 	margin-left: -16px;
 	margin-right: -16px;
-	
-	
+
+
 }
 .creationButton{
 	background: #914dff;
@@ -98,7 +98,7 @@ mat-card-subtitle{
 	vertical-align: baseline;
 	padding-top: 15px;
 	padding-bottom: 5px;;
-	border-bottom: 3px solid rgba(238,227,255,1) ; 
+	border-bottom: 3px solid rgba(238,227,255,1) ;
 }
 
 .quizPreview{
@@ -150,3 +150,4 @@ mat-card-content{
 	text-align: center;
 	font-size: large;
 }
+

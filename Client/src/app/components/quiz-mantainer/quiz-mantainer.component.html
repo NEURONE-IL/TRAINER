@@ -105,6 +105,8 @@
       </form>
 
 </mat-card-content>
+
+
 <mat-card-content *ngIf="verQuizes">
   <div *ngFor="let quiz of quizzes">
     <mat-card class="quizPreview">
@@ -123,9 +125,9 @@
         </div>
         <div class="card-footer">
             <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" id="ver" class="btn btn-secondary" (click)="openQuizComponent(quiz._id)">Ver</button>
+              <button type="button" id="ver" class="btn btn-secondary" (click)="openQuizModal(quiz._id)">Ver</button>
               <button type="button" class="btn btn-secondary">Editar</button>
-              <button type="button" class="btn btn-secondary">Borrar</button>
+              <button type="button" class="btn btn-secondary" (click)="confirmQuizDelete(quiz._id)">Borrar</button>
             </div>
         </div>
         <div>
@@ -138,5 +140,4 @@
 
 
 </mat-card-content>
-
 

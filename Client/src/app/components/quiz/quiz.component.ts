@@ -70,15 +70,18 @@ export class QuizComponent implements OnInit {
     }
     //console.log("Pregunta:", questionId, "Tipo:", questionType, value);
     let finalEvent = "Pregunta: " + questionId + " Tipo: " + questionType + " " + value;
-    this.quizService.handleEvent(finalEvent, 'quiz').subscribe((res) => { });
+
+    if (this.saveUserData === 'Yes') {
+      this.quizService.handleEvent(finalEvent, 'quiz').subscribe((res) => { });
+    }
   }
 
   /*
   * Maneja los eventos de texto
   * */
   inputTextArea(questionId, questionType){
-    let answer
-    let timeout
+    let answer;
+    let timeout;
 
     if ( questionType == 'textarea' ){
       answer = document.getElementsByName("answer_"+questionId)[0];
