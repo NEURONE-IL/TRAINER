@@ -1,12 +1,15 @@
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
+
 import { trigger, transition, animate, style } from '@angular/animations';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import {ActivatedRoute} from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { VideoComponent } from '../video/video.component';
 import { QuizComponent } from '../quiz/quiz.component';
+import { FormsModule } from '@angular/forms';
+
 
 
 @Component({
@@ -15,9 +18,12 @@ import { QuizComponent } from '../quiz/quiz.component';
   encapsulation: ViewEncapsulation.None,
   styleUrls: ['./quiz-mantainer.component.css']
 })
+
 export class QuizMantainerComponent implements OnInit{
  verQuizes = true;
  quizzes;
+ pregunta="????";
+ video;
 
   constructor(private quizService: QuizService,
               public matDialog: MatDialog) {  }
