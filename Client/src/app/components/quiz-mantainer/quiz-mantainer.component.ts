@@ -1,7 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit, ViewEncapsulation  } from '@angular/core';
 import { AuthService } from '../../services/auth/auth.service';
 import { TranslateService } from '@ngx-translate/core';
-
 import { trigger, transition, animate, style } from '@angular/animations';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +9,6 @@ import { VideoComponent } from '../video/video.component';
 import { QuizComponent } from '../quiz/quiz.component';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
-
 
 
 @Component({
