@@ -48,54 +48,57 @@
                 </mat-form-field>
 
             </div>
-
+            <h1>Ejercicios Actuales: 0</h1>
+            <button class="btn btn-block btn-primary creationButton">Agregar <b>+</b></button> 
         </div>
         <div class="row preguntas">
-
-            <div class="col-md-3">
-                <div class="infoBox1">
-                    <h1>Ejercicios Actuales: 0</h1>
-                    <button class="btn btn-block btn-light">Agregar <b>+</b></button>
-                </div>
-            </div>
-
-            
-            <div class="col-md-4">
+            <div class="col-md-6">
                 <div >
-
+                  <div class="crearEjercicio">
                     <div class="form-group">
                         <label class="control-label " for="title">Titulo Ejercicio:</label>
                           <input type="text" class="form-control" id="title" placeholder="ingrese titulo">
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label" for="file">Recurso (Imagen):</label>
-                        <input type="file" class="form-control-file" id="file">
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label" for="desc">Descripción Quiz:</label>
-                        <textarea class="form-control" id="desc" placeholder="Ingresar Descripción"></textarea>
-                        
-                      </div>
-
-                      <div class="form-group">
-                        <label>Preguntas Aactuales:</label> 1
-                        <table>
-                            <tr>
-                                <th>Preguntas Aactuales:</th>
-                            </tr>
-                            <tr>
-                                <td>¿Cúal es el....?</td>
-                            </tr>
-                        </table>
-                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" for="file">Recurso (Imagen):</label>
+                      <input type="file" class="form-control-file" id="file">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" for="desc">Descripción Quiz:</label>
+                      <textarea class="form-control" id="desc" placeholder="Ingresar Descripción"></textarea>
+                      
+                    </div>
+                  </div>
+                      
+                    <label>Preguntas Aactuales:</label> {{questions.length}}
+                    <table *ngIf="questions.length>0" class="table  tablaPreguntas">
+                        <tr>
+                          <th>No.</th>
+                          <th>Enunciado</th>
+                          <th>Tipo</th>
+                          <th>Acciones</th>
+                        </tr>
+                        <tr *ngFor="let question of questions;index as i ">
+                            <td>{{question.question_num}}</td>
+                            <td>{{question.question}}</td>
+                            <td>{{question.question_type==1?"pregunta de texto":question.question_type==2?"pregunta de seleccion simple":"Pregunta de seleccion múltiple"}}</td>
+                            <td> 
+                              <button class="btn btn-warning" (click)="editQuestion(i)" style="margin-right: 10px;">Editar</button> 
+                              <button class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar</button>
+                            </td>
+                          </tr>
+                    </table>
+                      
 
                 </div>
 
             </div>
 
-            <div class="col-md-4 preguntas">
+            <div class="col-md-6 preguntas">
                 <h1 class="preguntaHeader">Agregar Preguntas al Ejercicio</h1>
+                <h4>Tipo de Pregunta</h4>
                 <mat-form-field appearance="fill">
+
                     <mat-label>Tipo de pregunta</mat-label>
                     <mat-select [(ngModel)]="pregunta" name="pregunta">
                       <mat-option [value]="'text'">
@@ -110,20 +113,80 @@
                     </mat-select>
                 </mat-form-field>
                 
-                <div *ngIf="pregunta=='text'">
-                    Pregunta de texto
+                <!-- INGRESO DE PREGUNTAS POR TIPO -->
+                <div>
+                  <h4>Ingresar Pregunta</h4>
+                    <div class="form-group">
+                      <label class="control-label" for="pregunta">Texto de la Pregunta:</label>
+                      <input type="text" class="form-control-file" id="pregunta">
+                    </div>
+                    <div class="form-group">
+                      <label class="control-label" for="file" >Imagen (Opcional):</label>
+                      <input type="file" class="form-control-file" id="file" >
+                    </div>
+                    <!-- Preguntas de seleccion Multiple -->
+                    <div *ngIf="pregunta=='multy' ||pregunta=='simple'" class="ingresarAlternativas">
+                      <h4>Ingresar Alternativas</h4>
+                      <div class="row">
+                        <div class="col-md-6"> 
+                          <div class="form-group" >
+                            <label class="control-label" for="alternativa">Ingresar alternativas:</label>
+                            <input type="text" class="form-control-file" id="alternativa">
+                          </div>
+                        </div>
+                        <div class="col-md-6"> 
+                          <div class="form-check" *ngIf="pregunta=='multy'">
+                            <br>
+                            <input type="checkbox" class="form-check-input" id="alternativaCorrecta">
+                            <label class="form-check-label" for="alternativaCorrecta">Marcar si la opción es correcta</label>
+                          </div>
+                        </div>
+                      </div>
+                                         
+                      <button class="btn btn-primary btn-block creationButton" (click)="addAlternative()">Añadir Alternativa</button>
+
+                      <table *ngIf="alternatives.length>0" class="table  tablaPreguntas">
+                        <tr>
+                          <th>No.</th>
+                          <th>Enunciado</th>
+                          <th>Correcta?</th>
+                          <th>Acciones</th>
+                        </tr>
+                        <tr *ngFor="let alternative of alternatives;index as i ">
+                            <td>{{alternative.alternative_num}}</td>
+                            <td>{{alternative.alternative_text}}</td>
+                            <td>{{alternative.alternative_right? "Si": "No"}}</td>
+                            <td> 
+                              <button *ngIf="!alternative.alternative_right && pregunta=='simple'" 
+                                class="btn btn-success" 
+                                (click)="markCorrect(i)"
+                                style="margin-right:10px">Marcar como Correcta</button>
+                              <button class="btn btn-danger" (click)="deleteAlternative(i)">Eliminar</button>
+                            </td>
+                          </tr>
+                    </table>
+                    </div>
+
+                  
+
+
+                    <div class="form-check">
+                      <input type="checkbox" class="form-check-input" id="justificacion">
+                      <label class="form-check-label" for="justificacion">Solicitar justificacion</label>
+                    </div>
+
+                    <!-- ACCIONES -->
+                    <div class="form-group">
+                      <button class="btn btn-primary creationButton" (click)="guardarPregunta(pregunta)">Guardar</button>
+                      <button class="btn btn-light" (click)="cleanForm()">Cancelar</button>
+                    </div>
                 </div>
-                <div *ngIf="pregunta=='multy'">
-                    Pregunta de multiple
-                </div>
+                
                 <div *ngIf="pregunta=='simple'">
                     Pregunta de simple
                 </div>
 
-                  <div class="form-group">
-                    <button class="btn btn-primary creationButton">Guardar</button>
-                    <button class="btn btn-light">Cancelar</button>
-                  </div>
+                  
 
             </div>
 

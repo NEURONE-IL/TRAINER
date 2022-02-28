@@ -76,6 +76,7 @@ export class FlowsDisplayComponent implements OnInit {
     return (description.substr(0, 40));
   }
 
+  
 
 }
 

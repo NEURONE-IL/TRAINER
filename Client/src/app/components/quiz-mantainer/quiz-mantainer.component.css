@@ -159,6 +159,7 @@ mat-card-content{
 }
 
 .preguntaHeader{
+	margin-top: 30px ;
 	background-color: #914dff;
 	height: 50px;
 	line-height: 50px;
@@ -182,4 +183,35 @@ mat-form-field{
 mat-select{
 	background-color: white;
 	
+}
+.mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex{
+	background-color: white;
+}
+
+.crearEjercicio{
+	padding-top: 30px ;
+	padding-right: 30%;
+}
+
+.tablaPreguntas{
+	background: white;
+}
+.tablaPreguntas td{
+	border-left: #914dff;
+}
+
+.form-check, .form-group{
+	font-size: large;
+}
+
+.form-check{
+	margin-top: 10px;
+}
+
+.ingresarAlternativas{
+	padding: 10px;
+	background-color: white;
+	border: solid 1px #914dff;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
