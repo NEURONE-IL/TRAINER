@@ -104,7 +104,8 @@ export class ShowStagesComponent implements OnInit {
   }
 
   redirectToStage(stage){
-    window.location.href = this.goToStage(stage);
+    localStorage.setItem('stageId', stage);
+//    window.location.href = this.goToStage(stage);
   }
 
   //cambiar el tipo de stage a Stage(), lo deje en any para realizar pruebas con etapas completadas ya que asigno el elemento percentage al interface Stage

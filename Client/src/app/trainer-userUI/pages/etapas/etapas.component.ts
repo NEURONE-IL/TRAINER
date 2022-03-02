@@ -215,6 +215,7 @@ export class EtapasComponent implements OnInit{
   }
 
   redirectToStage(stage){
+    localStorage.setItem('stageId', stage._id);
     window.location.href = this.getStageLink(stage);
   }
 
