@@ -43,4 +43,18 @@ router.get('', async (req, res) => {
     })
 });
 
+router.post('',  [imageStorage.upload.single('file')], async (req, res) => {
+    if(req.file){
+        let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
+        res.status(200).json({
+            url: image_url
+        });
+    }
+    else{
+        return res.status(404).json({
+            err: 'NO_FILES'
+        })
+    }
+});
+
 module.exports = router;
