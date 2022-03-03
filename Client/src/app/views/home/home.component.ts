@@ -9,6 +9,7 @@ import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { StudyProgress, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { Module } from 'src/app/services/trainer/module.service';
+import { KmTrackerService } from 'src/app/services/logger/km-tracker.service';
 import { ActionsTrackerService } from 'src/app/services/logger/actions-tracker.service';
 
 
@@ -28,7 +29,8 @@ export class HomeComponent implements OnInit {
               private stageService: StageService,
               private translate: TranslateService,
               private triviaService: ApiTriviaService,
-              private actionsTrackerService: ActionsTrackerService) { }
+              private actionsTrackerService: ActionsTrackerService,
+              private kmTrackerService: KmTrackerService) { }
 
   flow: Flow;
   flowId: string;
@@ -45,7 +47,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
 //    this.getActualUserInformation();
 //    this.getFlowStagesInformation();
-//    this.actionsTrackerService.start();
+    localStorage.removeItem('stageId');
+    this.actionsTrackerService.start();
+    this.kmTrackerService.start();
 //    this.getAdvance();
 
       //id del flujo esta dentro del usuario, pero para obtener el usuario necesito el id del flujo
@@ -65,11 +69,12 @@ export class HomeComponent implements OnInit {
 //      this.getAdvance();
       this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
 //      console.log("datos del usuario: ", this.user);
-
-
-
-
   }
+
+  ngOnDestroy(): void {
+    this.kmTrackerService.stop();
+    this.actionsTrackerService.stop();
+  }  
 
   getFlowStagesInformation(){
     this.stageService.getStagesByFlow(this.flowId).subscribe((res: any) => {

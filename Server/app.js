@@ -17,12 +17,18 @@ const moduleRoutes = require('./routes/module');
 const flowRoutes = require('./routes/flow');
 const userRoutes = require('./routes/user');
 const userFlowRoutes = require('./routes/userFlow');
+
 const imageRoutes = require('./routes/image');
 const videoModuleRoutes = require('./routes/videoModule');
 const eventsVideoModuleRoutes = require('./routes/EventsVideoModule');
-const eventRoutes = require('./routes/event');
 const videoObjectsRoutes = require('./routes/videoObjects');
 const quizObjectsRoutes = require('./routes/quizObjects');
+
+const keystrokeRoutes = require('./routes/keystroke');
+const mouseClickRoutes = require('./routes/mouseClick');
+const mouseCoordinateRoutes = require('./routes/mouseCoordinate');
+const ScrollRoutes = require('./routes/scroll');
+const EventRoutes = require('./routes/event');
 
 const Role = require('./models/role');
 
@@ -85,17 +91,23 @@ app.use(bodyParser.json({ type: 'application/json'}));
 app.use('/api/auth', authRoutes);
 app.use('/api/sessionLog', sessionLogRoutes);
 app.use('/api/stage', stageRoutes);
+app.use('/api/module', moduleRoutes);
 app.use('/api/flow', flowRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/userFlow', userFlowRoutes);
-app.use('/api/image', imageRoutes);
-app.use('/api/module', moduleRoutes);
 app.use('/apiTrivia/auth', authRoutes);
+
+app.use('/api/image', imageRoutes);
 app.use('/api/videoModule', videoModuleRoutes);
 app.use('/api/eventsVideoModule', eventsVideoModuleRoutes);
-app.use('/api/event', eventRoutes);
 app.use('/api/videoObjects', videoObjectsRoutes);
 app.use('/api/quizObjects', quizObjectsRoutes);
+
+app.use('/api/keystroke', keystrokeRoutes);
+app.use('/api/mouseClick', mouseClickRoutes);
+app.use('/api/mouseCoordinate', mouseCoordinateRoutes);
+app.use('/api/scroll', ScrollRoutes);
+app.use('/api/event', EventRoutes);
 
 // Set client on root
 
