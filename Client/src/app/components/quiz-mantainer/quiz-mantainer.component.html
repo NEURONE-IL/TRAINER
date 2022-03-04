@@ -3,7 +3,7 @@
         <mat-card-subtitle> Mantenedor de Quizes:</mat-card-subtitle>
     </div>
     <div class="col-md-4">
-        <div class="options" >
+    <div class="options" >
 
     <button *ngIf="verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >CREAR QUIZ <b>+</b> </button>
     <button *ngIf="!verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >VOLVER </button>
@@ -11,6 +11,7 @@
 
         </div>
     </div>
+    
 </div>
 <mat-card-content *ngIf="!verQuizes">
     <form class="form-horizontal" >
@@ -18,29 +19,29 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="title">Titulo Quiz:</label>
+                    <label class="control-label col-sm-4" for="titleQuiz">Titulo Quiz:</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="title" placeholder="ingrese titulo">
+                      <input type="text" class="form-control" id="titleQuiz" placeholder="ingrese titulo">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="control-label col-sm-4" for="file">Titulo Quiz:</label>
+                    <label class="control-label col-sm-4" for="fileQuiz">Titulo Quiz:</label>
                     <div class="col-sm-10">
-                        <input type="file" class="form-control-file" id="file">
+                        <input type="file" class="form-control-file" id="fileQuiz">
                     </div>
                   </div>
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="desc">Descripción Quiz:</label>
+                    <label class="control-label col-sm-4" for="descQuiz">Descripción Quiz:</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="desc" placeholder="Ingresar Descripción">
+                      <input type="text" class="form-control" id="descQuiz" placeholder="Ingresar Descripción">
                     </div>
                   </div>
 
                   <mat-form-field class="selectVideo" appearance="fill">
-                    <mat-label>Tipo de pregunta</mat-label>
-                    <mat-select [(ngModel)]="video" name="video">
+                    <mat-label>Seleccionar Video</mat-label>
+                    <mat-select [(ngModel)]="videoSelected" name="video">
                       <mat-option [value]="'text'">
                         Video 1: Dos Oruguitas
                       </mat-option>
@@ -48,53 +49,70 @@
                 </mat-form-field>
 
             </div>
-            <h1>Ejercicios Actuales: 0</h1>
-            <button class="btn btn-block btn-primary creationButton">Agregar <b>+</b></button> 
+
+            
+            
+            <h4>Ejercicios Actuales: 0</h4>
+            <div class="col-md-12">
+              <label>Ejercicios Actuales:</label> {{ejercicios.length}}
+                      <table *ngIf="ejercicios.length>0" class="table  tablaPreguntas">
+                          <tr>
+                            <th>No.</th>
+                            <th>Titulo</th>
+                            <th>Enunciado</th>
+                            <th>No.Preguntas</th>
+                            <th>Acciones</th>
+                          </tr>
+                          <tr *ngFor="let ex of ejercicios;index as i ">
+                              <td>{{ex.exercise_id}}</td>
+                              <td>{{ex.title}}</td>
+                              <td>{{ex.introduction}}</td>
+                              <td>{{ ex.questions.length }}</td>
+                              <td> 
+                                <button class="btn btn-warning" (click)="editExercise(i)" style="margin-right: 10px;">Editar</button> 
+                                <button class="btn btn-danger" (click)="deleteExercise(i)">Eliminar</button>
+                              </td>
+        
+                            </tr>
+                      </table>
+                      <div *ngIf="ejercicios.length>0" class="accionesQuiz col-md-12">
+                        <button (click)="guardarQuiz()" class="btn btn-primary creationButton">Guardar Quiz</button>
+                        <button (click)="cancelarQuiz()" class="btn btn-default">Cancelar</button>
+                      </div>
+            </div>
+            <!-- 
+              <button  class="btn btn-block btn-primary creationButton">Agregar Ejercicio</button> 
+            -->
+            
         </div>
-        <div class="row preguntas">
+        <div class="row preguntas" >
             <div class="col-md-6">
                 <div >
                   <div class="crearEjercicio">
                     <div class="form-group">
                         <label class="control-label " for="title">Titulo Ejercicio:</label>
-                          <input type="text" class="form-control" id="title" placeholder="ingrese titulo">
+                          <input type="text" class="form-control" id="titleEx" placeholder="ingrese titulo">
                     </div>
                     <div class="form-group">
                       <label class="control-label" for="file">Recurso (Imagen):</label>
-                      <input type="file" class="form-control-file" id="file">
+                      <input type="file" class="form-control-file" id="fileEx">
                     </div>
                     <div class="form-group">
-                      <label class="control-label" for="desc">Descripción Quiz:</label>
-                      <textarea class="form-control" id="desc" placeholder="Ingresar Descripción"></textarea>
+                      <label class="control-label" for="desc">Descripción Ejercicio:</label>
+                      <textarea class="form-control" id="descEx" placeholder="Ingresar Descripción"></textarea>
                       
                     </div>
                   </div>
                       
-                    <label>Preguntas Aactuales:</label> {{questions.length}}
-                    <table *ngIf="questions.length>0" class="table  tablaPreguntas">
-                        <tr>
-                          <th>No.</th>
-                          <th>Enunciado</th>
-                          <th>Tipo</th>
-                          <th>Acciones</th>
-                        </tr>
-                        <tr *ngFor="let question of questions;index as i ">
-                            <td>{{question.question_num}}</td>
-                            <td>{{question.question}}</td>
-                            <td>{{question.question_type==1?"pregunta de texto":question.question_type==2?"pregunta de seleccion simple":"Pregunta de seleccion múltiple"}}</td>
-                            <td> 
-                              <button class="btn btn-warning" (click)="editQuestion(i)" style="margin-right: 10px;">Editar</button> 
-                              <button class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar</button>
-                            </td>
-                          </tr>
-                    </table>
+                  
+                    
                       
 
                 </div>
 
             </div>
 
-            <div class="col-md-6 preguntas">
+            <div class="col-md-6 preguntas2">
                 <h1 class="preguntaHeader">Agregar Preguntas al Ejercicio</h1>
                 <h4>Tipo de Pregunta</h4>
                 <mat-form-field appearance="fill">
@@ -171,8 +189,15 @@
 
 
                     <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="justificacion">
+                      <input type="checkbox" class="form-check-input" id="justificacion" (click)="setJustifique()">
                       <label class="form-check-label" for="justificacion">Solicitar justificacion</label>
+
+                      <div *ngIf="justificacion">
+                        <div class="form-group" >
+                          <label class="control-label" for="justifique">Texto para solicitar la justificación:</label>
+                          <input type="text" class="form-control-file" id="justifique">
+                        </div>
+                      </div>
                     </div>
 
                     <!-- ACCIONES -->
@@ -182,17 +207,46 @@
                     </div>
                 </div>
                 
-                <div *ngIf="pregunta=='simple'">
-                    Pregunta de simple
-                </div>
+                
 
                   
 
             </div>
 
+            <div class="col-md-12">
+              <label>Preguntas Aactuales:</label> {{questions.length}}
+              <table *ngIf="questions.length>0" class="table  tablaPreguntas">
+                  <tr>
+                    <th>No.</th>
+                    <th>Enunciado</th>
+                    <th>Tipo</th>
+                    <th>justifique</th>
+                    <th>alternativas</th>
+                    <th>Acciones</th>
+                  </tr>
+                  <tr *ngFor="let question of questions;index as i ">
+                      <td>{{question.question_num}}</td>
+                      <td>{{question.question}}</td>
+                      <td>{{question.question_type==1?"Texto":question.question_type==2?"Seleccion Simple":"Seleccion Múltiple"}}</td>
+                      <td>{{ question.bonus? question.bonus:'' }}</td>
+                      <td>{{ question.alternatives? textAlternatives(question.alternatives):'' }}</td>
+                      <td> 
+                        <button class="btn btn-warning" (click)="editQuestion(i)" style="margin-right: 10px;">Editar</button> 
+                        <button class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar</button>
+                      </td>
+
+                    </tr>
+              </table>
+
+              <div class="accionesEjercicio">
+                <button (click)="crearEjercicio()" class="btn btn-primary creationButton">Guardar Ejercicio</button>
+                <button (click)="cancelarEjercicio()" class="btn btn-default">Cancelar</button>
+              </div>
+            </div>
         </div>
 
 
+        
 
 
 
@@ -229,7 +283,6 @@
     </div>
     </mat-card>
   </div>
-
 
 
 

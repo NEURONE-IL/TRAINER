@@ -41,6 +41,9 @@ export class QuizMantainerComponent implements OnInit{
 
   crearQuizToogle(){
     this.verQuizes = !this.verQuizes;
+    if(!this.verQuizes){
+      this.quizCreate();
+    }
   }
 
 
@@ -89,31 +92,46 @@ export class QuizMantainerComponent implements OnInit{
     });
   }
 
-
-  ejercicio= 21;
+  ejercicios=[];
+  ejercicio= this.ejercicios.length+1;
   calcularCodigoTresDigitos(numero){
     let codigo= ((numero -(((numero-numero%10)%100))-numero%10)/100).toString()+(((numero-numero%10)%100)/10).toString()+(numero%10).toString();
     return codigo;
   }
 
   /* PARA GENERAR LAS PREGUNTAS */
+  quizId;
+  justificacion = false;
   questions=[];
   file: File;
   editingQuestion= -1;
+  videoSelected;
+
   guardarPregunta(tipo){
     /* leer datos desde el formulario */
     let pregunta= (document.getElementById("pregunta")  as HTMLInputElement).value;
-    let justifique= (document.getElementById("justificacion")  as HTMLInputElement).checked;
+    let justifique;
+    if(this.justificacion && this.editingQuestion<0){
+      justifique= (document.getElementById("justifique")  as HTMLInputElement).value;
+    }
     this.file = (document.getElementById("file")  as HTMLInputElement).files[0];
-    let exerciseCode= this.calcularCodigoTresDigitos(this.ejercicio);
+    let questionCode= this.calcularCodigoTresDigitos(this.questions.length+1);
+    //
+    //RESOURCE
+    //
 
+    let resourceCode= this.calcularCodigoTresDigitos(this.quizId)+ this.calcularCodigoTresDigitos(this.ejercicio)+ this.calcularCodigoTresDigitos(this.questions.length+1);
    
 
     /*Si se esta editando editar los campos */
     if(this.editingQuestion>=0){
       this.questions[this.editingQuestion].question=pregunta;
-      this.questions[this.editingQuestion].bonus=justifique;
+      if("bonus" in this.questions[this.editingQuestion]){
+        this.justificacion=true;
+        this.questions[this.editingQuestion].bonus=justifique;
+      }
       this.questions[this.editingQuestion].resource_url=this.file;
+      this.editingQuestion=-1;
     }else{
       let question;
       /* generar pregunta */
@@ -121,9 +139,8 @@ export class QuizMantainerComponent implements OnInit{
         question={
           "question_num": this.questions.length+1,
           "question_type": 1 ,
-          "question_id": exerciseCode, //Falta concatenar con el del quiz y el del ejercicio. 
+          "question_id": questionCode, //Falta concatenar con el del quiz y el del ejercicio. 
           "question": pregunta,
-          "bonus": justifique, 
           "resource_url":this.file,//esto es el elemento file, no se como se procesa rly. 
         }
       }
@@ -132,15 +149,17 @@ export class QuizMantainerComponent implements OnInit{
         question={
           "question_num": this.questions.length+1,
           "question_type": 3 ,
-          "question_id": exerciseCode, //Falta concatenar con el del quiz y el del ejercicio. 
+          "question_id": questionCode, //Falta concatenar con el del quiz y el del ejercicio. 
           "question": pregunta,
-          "alternatives":this.alternatives,
-          "bonus": justifique, 
+          "alternatives":this.alternatives, 
           "resource_url":this.file,//esto es el elemento file, no se como se procesa rly. 
         }
         this.alternatives=[];
       }
 
+      if(this.justificacion){
+        question["bonus"]=justifique;
+      }
       /*agregar a las preguntas */
       this.questions.push(question);
     }
@@ -150,9 +169,44 @@ export class QuizMantainerComponent implements OnInit{
     
   }
   
+  textAlternatives(alternatives){
+    console.log(alternatives);
+    let text="";        
+    for (let alternative of alternatives){
+              text=text + alternative.alternative_num +": "+alternative.alternative_text + "  -  "
+            }
+    return text;
+  }
+
   editQuestion(i){
+    //Obtiene la pregunta: 
     (document.getElementById("pregunta")  as HTMLInputElement).value= this.questions[i].question;
-    (document.getElementById("justificacion")  as HTMLInputElement).checked=this.questions[i].bonus;
+    
+    //Obtiene el bonus
+    if("bonus" in this.questions[i]){
+      console.log("found the thing!");
+      console.log(this.questions[i]);
+      (document.getElementById("justificacion")  as HTMLInputElement).checked=this.questions[i].bonus;
+      this.justificacion=true;
+      setTimeout(
+        ()=>{(document.getElementById("justifique")  as HTMLInputElement).value = this.questions[i].bonus;}
+        ,100) 
+    }
+    
+    //Obtiene las alternatives: 
+    if(this.questions[i].question_type==2 || this.questions[i].question_type==3){
+      console.log("pregunta de alternativas");
+      
+      this.alternatives= Object.assign([], this.questions[i].alternatives);
+      if(this.questions[i].question_type==2){
+        this.pregunta= "simple"
+      }
+      if(this.questions[i].question_type==3){
+        this.pregunta= "multy"
+      }
+    }
+
+    //Obtiene la file
     (document.getElementById("file")  as HTMLInputElement).value= "";
     this.editingQuestion= i;
   }
@@ -160,6 +214,12 @@ export class QuizMantainerComponent implements OnInit{
   cleanForm(){
     (document.getElementById("pregunta")  as HTMLInputElement).value= "";
     (document.getElementById("justificacion")  as HTMLInputElement).checked=false;
+    
+    if(this.justificacion){
+      this.justificacion=false;
+      (document.getElementById("justifique")  as HTMLInputElement).value="";
+    }
+    
     (document.getElementById("file")  as HTMLInputElement).value= "";
 
     if(this.pregunta=="multy"){
@@ -179,7 +239,10 @@ export class QuizMantainerComponent implements OnInit{
     
   }
 
-
+  setJustifique(){
+    console.log("nani?!");
+    this.justificacion= (document.getElementById("justificacion")  as HTMLInputElement).checked;
+  }
 
   /* PROCESAR ALTERNATIVAS */
   alternatives=[];
@@ -240,5 +303,170 @@ export class QuizMantainerComponent implements OnInit{
       }
     }
   }
+
+
+/* PARA GENERAR EJERCICIOS */
+
+clearEjercicio(){
+  (document.getElementById("titleEx")  as HTMLInputElement).value="";
+  (document.getElementById("fileEx")  as HTMLInputElement).value="";
+  (document.getElementById("descEx")  as HTMLInputElement).value="";
+  this.cleanForm;
+  this.alternatives=[];
+  this.questions=[];
+  this.justificacion = false;
+  this.file=null;
+  this.editingQuestion= -1;
+}
+
+cancelarEjercicio(){
+  this.clearEjercicio();
+  this.mostrarPanelEjercicio=false;
+  this.editingExercise=-1;
+}
+
+crearEjercicio(){
+  let titulo= (document.getElementById("titleEx")  as HTMLInputElement).value;
+  let file = (document.getElementById("fileEx")  as HTMLInputElement).files[0];
+  let descripcion= (document.getElementById("descEx")  as HTMLInputElement).value;
+  let id= this.ejercicios.length+1;
+  let ejercicio={
+    "exercise_id": this.calcularCodigoTresDigitos(id),
+    "introduction": descripcion,
+    "title": titulo, 
+    "questions": this.questions,
+    "resourse_url":file, 
+  }
+  if(this.editingExercise>=0){
+    this.ejercicios[this.editingExercise]=ejercicio;
+  }else{
+    this.ejercicios.push(ejercicio);
+  }
+  
+  this.clearEjercicio();
+  console.log(this.ejercicios);
+}
+
+mostrarPanelEjercicio=false;
+agregarEjercicio(){
+  this.mostrarPanelEjercicio=true;
+}
+
+editingExercise=-1;
+editExercise(i){
+  setTimeout(()=>{this.mostrarPanelEjercicio=true}, 100);
+  (document.getElementById("titleEx")  as HTMLInputElement).value=this.ejercicios[i].title;
+  (document.getElementById("fileEx")  as HTMLInputElement).value="";
+  (document.getElementById("descEx")  as HTMLInputElement).value=this.ejercicios[i].introduction;
+  this.cleanForm;
+  this.alternatives=[];
+  this.questions=Object.assign([], this.ejercicios[i].questions);
+  this.justificacion = false;
+  this.file=null;
+  this.editingQuestion= -1;
+  this.editingExercise=i;
+  
+}
+
+deleteExercise(i){
+  this.ejercicios.splice(i,i);
+    if(i==0){
+      this.ejercicios.splice(0,1);
+    }
+    for(let k=0; k< this.ejercicios.length; k++){
+      this.ejercicios[k].exercise_id=this.calcularCodigoTresDigitos(k+1) ;
+      
+    }
+}
+
+/* GUARDAR QUIZ */
+
+
+quizCreate(){
+  console.log(this.quizzes.length);
+  if(this.quizzes && this.quizzes!= NaN ){
+    this.quizId=this.quizzes.length+1;
+  }else{
+    this.quizId=1;
+  }
+  
+}
+
+editingQuiz= -1;
+
+cancelarQuiz(){
+  this.clearQuiz;
+  this.verQuizes=true;
+}
+
+clearQuiz(){
+  (document.getElementById("titleQuiz")  as HTMLInputElement).value="";
+  (document.getElementById("fileQuiz")  as HTMLInputElement).value="";
+  (document.getElementById("descQuiz")  as HTMLInputElement).value="";
+  let id= this.quizId;
+  let video=null;
+  if(this.mostrarPanelEjercicio){
+    this.clearEjercicio();
+  }
+
+  this.editingQuiz=-1;
+  this.ejercicios=[];
+}
+
+guardarQuiz(){
+  let titulo= (document.getElementById("titleQuiz")  as HTMLInputElement).value;
+  let file = (document.getElementById("fileQuiz")  as HTMLInputElement).files[0];
+  let descripcion= (document.getElementById("descQuiz")  as HTMLInputElement).value;
+  let id= this.quizId;
+  let video= this.videoSelected;
+
+  let quiz={
+    "quiz_id": this.calcularCodigoTresDigitos(id),
+    "name": descripcion,
+    "instructions": titulo, 
+    "exercises": this.ejercicios,
+    "resourse_url":file, 
+  }
+
+  //NOT SURE ABOUT THIS
+  //editando
+
+  //GUARDAR EN BD
+  console.log(quiz);
+  this.clearQuiz();
+}
+
+
+//
+//FALTA
+//
+
+obtenerUrlImagen(){
+  return;
+}
+
+saveQuiz(){
+  return;
+}
+
+getVideosLista(){
+  return;
+}
+
+validateFormQuestion(){
+  return;
+}
+
+validateFormExercise(){
+  return;
+}
+
+validateFormQuiz(){
+  return;
+}
+
+
+
+
 
 }

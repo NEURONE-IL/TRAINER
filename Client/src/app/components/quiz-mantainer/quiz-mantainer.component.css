@@ -122,6 +122,17 @@ mat-card-content{
 }
 
 .preguntas{
+	border-top: solid 5px #914dff;
+	min-height: 100px;
+	background-color: #f8f9fa;
+	border-radius: 5px;
+	vertical-align:middle;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: auto;
+	padding-right: auto;
+}
+.preguntas2{
 	min-height: 100px;
 	background-color: #f8f9fa;
 	border-radius: 5px;
@@ -189,6 +200,7 @@ mat-select{
 }
 
 .crearEjercicio{
+	
 	padding-top: 30px ;
 	padding-right: 30%;
 }
@@ -214,4 +226,20 @@ mat-select{
 	border: solid 1px #914dff;
 	margin-top: 10px;
 	margin-bottom: 10px;
+}
+
+.accionesEjercicio{
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	padding:  30px 0px 10px 0px;
+}
+
+.accionesQuiz{
+	border-top: solid 5px #914dff;
+
+	margin-left: auto;
+	margin-right: auto;
+	text-align: center;
+	padding:  30px 0px 30px 0px;
 }
