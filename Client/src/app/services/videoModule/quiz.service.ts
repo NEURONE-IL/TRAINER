@@ -28,8 +28,16 @@ export class QuizService {
 
   /*
   * Handle images */
-  getImage(){
-    console.log("image?")
+  getImage(fileName){
+    return this.http.get(this.uriImage + '/' + fileName, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  }
+
+  getImages(){
+    return this.http.get(this.uriImage, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  }
+
+  saveImage(file){
+    return this.http.post(this.uriImage, file, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
   /*

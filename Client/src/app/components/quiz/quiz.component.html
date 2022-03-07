@@ -30,7 +30,7 @@
 
               <ng-template [ngIf]="question.question_type == 2">
                   <div class="alternatives-class" *ngFor="let alternative of question.alternatives; let i = index">
-                    <label><input class="answer" type="radio" (click)="eventAnswers(question.question_id, alternative, i, 'radio')" id="answer_{{question.question_id}}_alt_{{i}}" name="answer_{{question.question_id}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label>
+                    <label><input class="answer" type="radio" (click)="eventAnswers(question.question_id, alternative.alternative_text, i, 'radio')" id="answer_{{question.question_id}}_alt_{{i}}" name="answer_{{question.question_id}}" value="[{{i}}]{{alternative.alternative_text}}"> {{alternative.alternative_text}}</label>
                   </div>
                   <div class="bonus-class" *ngIf="question.bonus">
                     <p>{{question.bonus}}</p>
@@ -41,7 +41,7 @@
 
               <ng-template [ngIf]="question.question_type == 3">
                   <div class="alternatives-class" *ngFor="let alternative of question.alternatives; let i = index">
-                    <label><input class="answer" type="checkbox" (click)="eventAnswers(question.question_id, alternative, i, 'checkbox')" id="answer_{{question.question_id}}_alt_{{i}}" name="answer_{{question.question_id}}" value="[{{i}}]{{alternative}}"> {{alternative}}</label><br>
+                    <label><input class="answer" type="checkbox" (click)="eventAnswers(question.question_id, alternative.alternative_text, i, 'checkbox')" id="answer_{{question.question_id}}_alt_{{i}}" name="answer_{{question.question_id}}" value="[{{i}}]{{alternative.alternative_text}}"> {{alternative.alternative_text}}</label><br>
                   </div>
                   <div class="bonus-class" *ngIf="question.bonus">
                     <p>{{question.bonus}}</p>

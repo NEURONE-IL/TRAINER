@@ -121,7 +121,7 @@ export class QuizMantainerComponent implements OnInit{
     //
 
     let resourceCode= this.calcularCodigoTresDigitos(this.quizId)+ this.calcularCodigoTresDigitos(this.ejercicio)+ this.calcularCodigoTresDigitos(this.questions.length+1);
-   
+
 
     /*Si se esta editando editar los campos */
     if(this.editingQuestion>=0){
@@ -139,20 +139,32 @@ export class QuizMantainerComponent implements OnInit{
         question={
           "question_num": this.questions.length+1,
           "question_type": 1 ,
-          "question_id": questionCode, //Falta concatenar con el del quiz y el del ejercicio. 
+          "question_id": questionCode, //Falta concatenar con el del quiz y el del ejercicio.
           "question": pregunta,
-          "resource_url":this.file,//esto es el elemento file, no se como se procesa rly. 
+          "resource_url":this.file,//esto es el elemento file, no se como se procesa rly.
         }
       }
-      
-      if(tipo=="multy" || tipo=="simple" ){
+
+      if(tipo=="simple" ){
+        question={
+          "question_num": this.questions.length+1,
+          "question_type": 2 ,
+          "question_id": questionCode, //Falta concatenar con el del quiz y el del ejercicio.
+          "question": pregunta,
+          "alternatives":this.alternatives,
+          "resource_url":this.file,//esto es el elemento file, no se como se procesa rly.
+        }
+        this.alternatives=[];
+      }
+
+      if(tipo=="multy"){
         question={
           "question_num": this.questions.length+1,
           "question_type": 3 ,
-          "question_id": questionCode, //Falta concatenar con el del quiz y el del ejercicio. 
+          "question_id": questionCode, //Falta concatenar con el del quiz y el del ejercicio.
           "question": pregunta,
-          "alternatives":this.alternatives, 
-          "resource_url":this.file,//esto es el elemento file, no se como se procesa rly. 
+          "alternatives":this.alternatives,
+          "resource_url":this.file,//esto es el elemento file, no se como se procesa rly.
         }
         this.alternatives=[];
       }
@@ -166,12 +178,12 @@ export class QuizMantainerComponent implements OnInit{
 
     this.cleanForm();
     console.log(this.questions);
-    
+
   }
-  
+
   textAlternatives(alternatives){
     console.log(alternatives);
-    let text="";        
+    let text="";
     for (let alternative of alternatives){
               text=text + alternative.alternative_num +": "+alternative.alternative_text + "  -  "
             }
@@ -179,9 +191,9 @@ export class QuizMantainerComponent implements OnInit{
   }
 
   editQuestion(i){
-    //Obtiene la pregunta: 
+    //Obtiene la pregunta:
     (document.getElementById("pregunta")  as HTMLInputElement).value= this.questions[i].question;
-    
+
     //Obtiene el bonus
     if("bonus" in this.questions[i]){
       console.log("found the thing!");
@@ -190,13 +202,13 @@ export class QuizMantainerComponent implements OnInit{
       this.justificacion=true;
       setTimeout(
         ()=>{(document.getElementById("justifique")  as HTMLInputElement).value = this.questions[i].bonus;}
-        ,100) 
+        ,100)
     }
-    
-    //Obtiene las alternatives: 
+
+    //Obtiene las alternatives:
     if(this.questions[i].question_type==2 || this.questions[i].question_type==3){
       console.log("pregunta de alternativas");
-      
+
       this.alternatives= Object.assign([], this.questions[i].alternatives);
       if(this.questions[i].question_type==2){
         this.pregunta= "simple"
@@ -214,12 +226,12 @@ export class QuizMantainerComponent implements OnInit{
   cleanForm(){
     (document.getElementById("pregunta")  as HTMLInputElement).value= "";
     (document.getElementById("justificacion")  as HTMLInputElement).checked=false;
-    
+
     if(this.justificacion){
       this.justificacion=false;
       (document.getElementById("justifique")  as HTMLInputElement).value="";
     }
-    
+
     (document.getElementById("file")  as HTMLInputElement).value= "";
 
     if(this.pregunta=="multy"){
@@ -236,7 +248,7 @@ export class QuizMantainerComponent implements OnInit{
     for(let k=0; k< this.questions.length; k++){
       this.questions[k].question_num=k+1;
     }
-    
+
   }
 
   setJustifique(){
@@ -254,7 +266,7 @@ export class QuizMantainerComponent implements OnInit{
     }
     for(let k=0; k< this.alternatives.length; k++){
       this.alternatives[k].alternative_num=k+1;
-      
+
     }
   }
 
@@ -265,9 +277,9 @@ export class QuizMantainerComponent implements OnInit{
     if(this.pregunta=="multy"){
       correcta= (document.getElementById("alternativaCorrecta")  as HTMLInputElement).checked;
     }
-    
+
     let alternativa={
-      "alternative_num": numero, 
+      "alternative_num": numero,
       "alternative_text":opcion,
       "alternative_right": correcta
     }
@@ -285,7 +297,7 @@ export class QuizMantainerComponent implements OnInit{
     let numero= this.alternatives.length+1;
     let correcta= (document.getElementById("alternativaCorrecta")  as HTMLInputElement).checked;
     let alternativa={
-      "alternative_num": numero, 
+      "alternative_num": numero,
       "alternative_text":opcion,
       "alternative_right": false
     }
@@ -333,16 +345,16 @@ crearEjercicio(){
   let ejercicio={
     "exercise_id": this.calcularCodigoTresDigitos(id),
     "introduction": descripcion,
-    "title": titulo, 
+    "title": titulo,
     "questions": this.questions,
-    "resourse_url":file, 
+    "resourse_url":file,
   }
   if(this.editingExercise>=0){
     this.ejercicios[this.editingExercise]=ejercicio;
   }else{
     this.ejercicios.push(ejercicio);
   }
-  
+
   this.clearEjercicio();
   console.log(this.ejercicios);
 }
@@ -365,7 +377,7 @@ editExercise(i){
   this.file=null;
   this.editingQuestion= -1;
   this.editingExercise=i;
-  
+
 }
 
 deleteExercise(i){
@@ -375,7 +387,7 @@ deleteExercise(i){
     }
     for(let k=0; k< this.ejercicios.length; k++){
       this.ejercicios[k].exercise_id=this.calcularCodigoTresDigitos(k+1) ;
-      
+
     }
 }
 
@@ -389,7 +401,7 @@ quizCreate(){
   }else{
     this.quizId=1;
   }
-  
+
 }
 
 editingQuiz= -1;
@@ -422,10 +434,11 @@ guardarQuiz(){
 
   let quiz={
     "quiz_id": this.calcularCodigoTresDigitos(id),
-    "name": descripcion,
-    "instructions": titulo, 
+    "name": titulo,
+    "instructions": descripcion,
+    "description": descripcion,
     "exercises": this.ejercicios,
-    "resourse_url":file, 
+    "resource_url":file,
   }
 
   //NOT SURE ABOUT THIS
@@ -433,6 +446,7 @@ guardarQuiz(){
 
   //GUARDAR EN BD
   console.log(quiz);
+  this.saveQuiz(quiz);
   this.clearQuiz();
 }
 
@@ -445,8 +459,8 @@ obtenerUrlImagen(){
   return;
 }
 
-saveQuiz(){
-  return;
+saveQuiz(quiz){
+  return this.quizService.addQuiz(quiz).subscribe(res => {});
 }
 
 getVideosLista(){
