@@ -9,8 +9,28 @@ const Flow = require("../models/flow");
 const ObjectId = require('mongodb').ObjectID;
 
 // para llamar url -> http://localhost:3070/api/videoModule/001001001
+// Falta filtrar por flowid y stageid y userID
+router.get('/:questionId/:userId/:stageId/:flowId', [verifyToken], async (req,res) => {
+    const questionId = req.params.questionId;
+    const userId = req.params.userId;
+    const stageId = req.params.stageId;
+    const flowId = req.params.flowId;
+    VideoModule.findOne({questionId: questionId, userId: userId, stageId: stageId, flowId: flowId}, (err, data) => {
+        if(err){
+            return res.status(404).json({ok: false, err});
+        }
+        else{
+            res.status(200).json({data});
+        }
+    });
+});
+
 router.get('/:questionId', [verifyToken], async (req,res) => {
-    VideoModule.findOne({questionId: req.params.questionId}, (err, data) => {
+    const questionId = req.params.questionId;
+    const userId = req.params.userId;
+    const stageId = req.params.stageId;
+    const flowId = req.params.flowId;
+    VideoModule.findOne({questionId: questionId}, (err, data) => {
         if(err){
             return res.status(404).json({ok: false, err});
         }
@@ -34,6 +54,8 @@ router.get('', [verifyToken], async (req,res) => {
 router.post('', [verifyToken], async (req, res) => {
     const data = new VideoModule({
         userId: ObjectId(req.body.userId),
+        stageId: ObjectId(req.body.stageId),
+        flowId: ObjectId(req.body.flowId),
         questionId: req.body.questionId,
         questionType: req.body.questionType,
         answerQuestion: req.body.answerQuestion,
@@ -45,9 +67,13 @@ router.post('', [verifyToken], async (req, res) => {
     });
 });
 
-router.put('/:questionId', [verifyToken], async (req, res) => {
-    const id = req.params.questionId;
-    const answer = await VideoModule.findOne({questionId: id}, (err, answer) => {
+
+router.put('/:questionId/:userId/:stageId/:flowId', [verifyToken], async (req, res) => {
+    const questionId = req.params.questionId;
+    const userId = req.params.userId;
+    const stageId = req.params.stageId;
+    const flowId = req.params.flowId;
+    const answer = await VideoModule.findOne({questionId: questionId, userId: userId, stageId: stageId, flowId: flowId}, (err, answer) => {
         if (err) {
             return res.status(404).json({
                 err
@@ -56,12 +82,12 @@ router.put('/:questionId', [verifyToken], async (req, res) => {
         if(req.body.userId){
             answer.userId = req.body.userId;
         }
-        /*if(req.body.flow){
-            answer.flow = req.body.flow;
+        if(req.body.flow){
+            answer.flowId = req.body.flowId;
         }
         if(req.body.stageId){
             answer.stageId = req.body.stageId;
-        }*/
+        }
         if(req.body.questionId){
             answer.questionId = req.body.questionId;
         }

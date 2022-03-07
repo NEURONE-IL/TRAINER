@@ -14,6 +14,8 @@ router.post('', [verifyToken], async (req, res) => {
     console.log("BDD?");
    const data = new EventsVideoModule({
        userId: ObjectId(req.body.userId),
+       stageId: ObjectId(req.body.stageId),
+       flowId: ObjectId(req.body.flow),
        component: req.body.component,
        event: req.body.event
    });

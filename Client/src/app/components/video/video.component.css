@@ -24,3 +24,20 @@ mat-card-subtitle{
   border-bottom: 3px solid rgba(238,227,255,1) ;
 }
 
+.creationButton{
+  background: #914dff;
+}
+.creationButton b{
+  font-size: larger;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.options{
+  text-align: right;
+  padding-right: 5%;
+  padding-left: 5%;
+}
+.options button{
+  margin: 10px;
+}

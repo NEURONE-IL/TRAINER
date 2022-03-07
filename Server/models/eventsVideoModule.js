@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 const EventsVideoModuleSchema = new Schema({ // ?
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    //flow: { type: Schema.Types.ObjectId, ref: 'Flow', required: true },
-    //stageId: { type: Schema.Types.ObjectId, ref: 'Stage', required: true },
+    flowId: { type: Schema.Types.ObjectId, ref: 'Flow', required: true },
+    stageId: { type: Schema.Types.ObjectId, ref: 'Stage', required: true },
     component: { type: String, required: true},
     event: { type: String, required: true},
     createdAt: { type: Date, default: Date.now },

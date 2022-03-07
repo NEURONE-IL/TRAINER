@@ -1,35 +1,25 @@
 <mat-card-subtitle>{{videoJson.name}}</mat-card-subtitle>
-<!--
-<div class="title-class">
-  <h1>{{"Video" | translate}} {{videoJson._id}}: {{videoJson.name}}</h1>
-</div>
--->
-  <mat-card class="mat-card-video">
 
-    <plyr class="video"
-          plyrTitle="Video 1"
-          [plyrSources]="videoSources"
-          [plyrPoster]="poster"
-          (plyrInit)="player = $event"
-          (plyrPlay)="played($event)"
-          (plyrPause)="played($event)"
-          (plyrRateChange)="played($event)"
-          (plyrEnterFullScreen)="played($event)"
-          (plyrExitFullScreen)="played($event)"
-          (plyrEnded)="played($event)"
-          (plyrVolumeChange)="played($event)"
+<mat-card class="mat-card-video">
+   <plyr class="video"
+         plyrTitle="Video 1"
+         [plyrSources]="videoSources"
+         [plyrPoster]="poster"
+         (plyrInit)="player = $event"
+         (plyrPlay)="played($event)"
+         (plyrPause)="played($event)"
+         (plyrRateChange)="played($event)"
+         (plyrEnterFullScreen)="played($event)"
+         (plyrExitFullScreen)="played($event)"
+         (plyrEnded)="played($event)"
+         (plyrVolumeChange)="played($event)"
+         (plyrSeeking)="played($event)"
+         (plyrSeeked)="played($event)"
+         (plyrTimeUpdate)="played($event)"
+         (plyrQualityChange)="played($event)"
+         (plyrStateChange)="played($event)">
+   </plyr>
+</mat-card>
 
 
-
-          (plyrSeeking)="played($event)"
-          (plyrSeeked)="played($event)"
-
-          (plyrTimeUpdate)="played($event)"
-          (plyrQualityChange)="played($event)"
-          (plyrStateChange)="played($event)">
-    </plyr>
-
-  </mat-card>
-<!--<button (click)="sendVideoResponse('Siguiente')">Siguiente</button>
--->
 

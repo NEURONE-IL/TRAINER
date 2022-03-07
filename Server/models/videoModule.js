@@ -3,8 +3,8 @@ const { Schema } = mongoose;
 
 const VideoModuleSchema = new Schema({ // ?
     userId: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    //flow: { type: Schema.Types.ObjectId, ref: 'Flow', required: true },
-    //stageId: { type: Schema.Types.ObjectId, ref: 'Stage', required: true },
+    flowId: { type: Schema.Types.ObjectId, ref: 'Flow', required: true },
+    stageId: { type: Schema.Types.ObjectId, ref: 'Stage', required: true },
     questionId: { type: String, required: true },
     questionType: { type: String, required: true },
     answerQuestion: { type: String, required: true },

@@ -16,67 +16,75 @@ export interface VideoModule {
 
 export class QuizService {
 
-  enviromentUrl = 'http://localhost:4200/';
-  uri = environment.apiURL + 'videoModule/';
-  urlServer = 'http://138.197.200.50:3070/';
+  environmentUrl = 'http://localhost:4200/';
+  environmentApiUrl = environment.apiURL;
+  uri = this.environmentApiUrl + 'videoModule/';
+  uriVideoObjects = this.environmentApiUrl + 'videoObjects/';
+  uriQuizObjects = this.environmentApiUrl + 'quizObjects/';
+  uriEvents = this.environmentApiUrl + 'eventsVideoModule/';
+  uriImage = this.environmentApiUrl + 'image/';
 
-  urlEnviroment = environment.frontURL;
+  constructor( protected http: HttpClient) { }
 
-  uriVideoObjects = environment.apiURL + 'videoObjects/';
-  uriQuizObjects = environment.apiURL + 'quizObjects/';
-  constructor( protected http: HttpClient,
-               private stageService: StageService) { }
+  /*
+  * Handle images */
+  getImage(){
+    console.log("image?")
+  }
+
+  /*
+  * Handle links*/
 
   getVideoLink(videoStageId: any){
-    return this.enviromentUrl + 'video?id=' + videoStageId;
+    return this.environmentUrl + 'video?id=' + videoStageId;
   }
-
 
   getVideoQuizLink(videoQuizStageId: any){
-    return this.enviromentUrl + 'videoModule?id=' + videoQuizStageId;
+    return this.environmentUrl + 'videoModule?id=' + videoQuizStageId;
   }
 
-  getQuiz() {
-    const user = JSON.parse(localStorage.getItem('currentUser', ));
-    /*const stage = this.stageService.getStageByStudent(user['_id']).subscribe((res) => {
-    }) ESTO TIRA CORE CRASHED*/
-    console.log("get quiz");
-    console.log(quiz);
-    return quiz;
+
+  /*
+  * Handle quiz answers
+  */
+
+  getAnswer(questionId: any, userId: any, stageId: any, flowId: any): Observable<any>{
+    return this.http.get(this.uri + '/' + questionId + '/' + userId + '/' + stageId + '/' + flowId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  getAnswer(questionId: any): Observable<any>{
-    return this.http.get(this.uri + '/' + questionId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
-  }
-
-  saveAnswer(answer: any): Observable<any> {
-    const user = JSON.parse(localStorage.getItem('currentUser', ));
-    //necesito stage y flujo
-    answer["userId"] = user['_id'];
+  saveAnswer(answer: any, userId: any, stageId: any, flowId: any): Observable<any> {
+    answer.userId = userId;
+    answer.stageId = stageId;
+    answer.flowId = flowId;
     return this.http.post(this.uri, answer, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  updateAnswer(answer: any, questionId: any): Observable<any> {
-    return this.http.put(this.uri + '/' + questionId, answer, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  updateAnswer(answer: any, questionId: any, userId: any, stageId: any, flowId: any): Observable<any> {
+    answer.userId = userId;
+    answer.stageId = stageId;
+    answer.flowId = flowId;
+    return this.http.put(this.uri + '/' + questionId + '/' + userId + '/' + stageId + '/' + flowId, answer, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  handleEvent(event: String, component: String): Observable<any>{
-    console.log("HANDLE EVENT SERVICE");
-    const user = JSON.parse(localStorage.getItem('currentUser', ));
-    // falta stage y flow
-    let value = {
-      "userId": user['_id'],
-      "component": component,
-      "event": event
+
+  /*
+  * Handle events*/
+
+  handleEvent(event: string, component: string, userId: any, stageId: any, flowId: any): Observable<any>{
+    const value = {
+      userId,
+      stageId,
+      flowId,
+      component,
+      event
     };
 
-    console.log("Evento: ", value);
-    let urlEvents = environment.apiURL + 'eventsVideoModule/';
-    console.log("Consulta: ", urlEvents);
+    console.log('- - - Quiz Service - - -');
+    console.log(' - Evento: ', value);
+    console.log(' - Consulta: ', this.uriEvents);
 
-    return this.http.post(urlEvents, value, {headers: {'x-access-token': localStorage.getItem('auth_token')} });
+    return this.http.post(this.uriEvents, value, {headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
-
 
 
   /*
@@ -114,7 +122,7 @@ export class QuizService {
   }
 
   // Get one quiz by id
-  getQuiz2(quizId: number): Observable<any> {
+  getQuiz(quizId: number): Observable<any> {
     return this.http.get(this.uriQuizObjects + quizId, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
   }
 

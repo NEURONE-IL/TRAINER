@@ -269,6 +269,7 @@ export class FlowDisplayComponent implements OnInit {
   }
 
   goToStage(stage){
+    localStorage.setItem('stageId', stage._id);
     if (stage.type === 'Video'){
       return this.videoModuleService.getVideoLink(stage.externalId);
     }

@@ -71,17 +71,17 @@ export class EtapasComponent implements OnInit{
   ngOnInit(): void {
 
     this.user = this.authService.getUser();
-    
+
     // //TODO borrar esta prueba con observable
     // this.trainerUserUIService.myObservable.subscribe(this.trainerUserUIService.myObserver);
 
     // this.trainerUserUIService.getTotalProgress(this.user)
-    //       .subscribe(x => { 
+    //       .subscribe(x => {
     //         this.totalProgress = x;
     //         console.log("la respuesta del progreso total es: ", x);
-            
+
     //         console.log("el progreso total es:", this.totalProgress);
-          
+
     //       });
     // //hasta aqui
 
@@ -92,7 +92,7 @@ export class EtapasComponent implements OnInit{
       });
 
       this.accessStage = this.extractCurrentLevel(this.stagesByModule);
-      
+
     }
 
     else{
@@ -100,7 +100,7 @@ export class EtapasComponent implements OnInit{
     }
 
     console.log("etapas de ", this.modulo.name,  this.stagesByModule);
-    
+
 
     //las etapas no vienen con porcentaje
     this.stagesByModule.forEach((stage) => {
@@ -112,7 +112,7 @@ export class EtapasComponent implements OnInit{
     //this.trainerUserUIService.getProgress(this.user._id)
     this.triviaService.getProgress(this.user._id)
     .subscribe( resp => {
-      
+
       this.triviaProgress = resp['progress']
 
       //actualizar porcentaje de etapas si es que existe el arreglo de progreso
@@ -145,12 +145,12 @@ export class EtapasComponent implements OnInit{
 
     },
     (error) => console.error(error));
-    
+
     // TODO: cambiar a esta funcion cuando la obtencion de progresos de los otros ambientes esten listos
     // probablemente se deben realizar cambios porque resp será un arreglo de arreglos en lugar de un arreglo simple
     // this.trainerUserUIService.getTotalProgress(this.user)
-    //   .subscribe( resp => {        
-        
+    //   .subscribe( resp => {
+
     //     this.totalProgress = resp;
 
     //     //actualizar porcentaje de etapas si es que existe el arreglo de progreso
@@ -158,7 +158,7 @@ export class EtapasComponent implements OnInit{
 
     //       let saved;  //elemento del arreglo de progreso
 
-    //       // revisando progreso de trivia, repetir para adventure, video y videoquiz         
+    //       // revisando progreso de trivia, repetir para adventure, video y videoquiz
     //       if(this.totalProgress[0]['progress']){
     //         saved = this.totalProgress[0]['progress'].find(estudio => estudio.study._id == stage.externalId)
     //       }
@@ -232,7 +232,7 @@ export class EtapasComponent implements OnInit{
     }
     if (stage.type === 'Video + Quiz'){
       return this.videoModuleService.getVideoQuizLink(stage.externalId);
-    }    
+    }
     if (stage.type === 'Trivia'){
       return this.triviaService.getStudyLink(stage.externalId, this.user);
     }
@@ -252,7 +252,7 @@ export class EtapasComponent implements OnInit{
     if(tipo == "Trivia"){
       return '../../../assets/stage-images/TriviaIconGold.svg'
     }
-    
+
     else if(tipo == "Video"){
       return '../../../assets/stage-images/VideoIconGold.svg'
     }

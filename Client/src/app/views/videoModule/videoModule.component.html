@@ -44,7 +44,7 @@
     <div class="lateralSelector col-md-3">
       <ul class="menu" id="lateralMenu">
         <li id="video" class="menuItem {{videoActive?'activeMenu':''}}" (click)="select('video')">{{ "VIDEOS.VIDEO" | translate }}</li>
-        <li id="quiz" class="menuItem {{quizActive?'activeMenu':''}}" (click)="select('quiz')">{{ "QUIZZES.QUIZ" | translate }}</li>
+        <li id="quiz" class="menuItem {{quizActive?'activeMenu':''}}" (click)="select('quiz'); updateProgress(50)">{{ "QUIZZES.QUIZ" | translate }}</li>
       </ul>
     </div>
     <div class="contenidoPrincipal col-md-9">

@@ -1,18 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {QuizService} from '../../services/videoModule/quiz.service';
 import {ActivatedRoute} from '@angular/router';
+import {StageService} from '../../services/trainer/stage.service';
 
 @Component({
   selector: 'app-quiz',
   templateUrl: './quiz.component.html',
-  encapsulation: ViewEncapsulation.Emulated, // ??
+  encapsulation: ViewEncapsulation.Emulated,
   styleUrls: ['./quiz.component.css']
 })
 export class QuizComponent implements OnInit {
 
   @Input() quizNumber: number;
-  @Output() newItemEvent = new EventEmitter<string>();
-
   @Input() saveUserData: string;
 
   /*
@@ -26,90 +25,73 @@ export class QuizComponent implements OnInit {
   last;
   global = 0;
 
-  constructor(private quizService: QuizService,
-              private route: ActivatedRoute) {  }
+  stageId;
+  userId;
+  flowId;
 
-  /*
-  * Se ejecuta al iniciar la vista.
-  * Inicializa la variable del ejercicio actual en 0 y llama a la funcion para obtener el quiz que corresponde.
-  * */
+  constructor(private quizService: QuizService,
+              private route: ActivatedRoute,
+              private stageService: StageService) {  }
+
   ngOnInit(): void {
-    this.quizService.getQuiz2(this.quizNumber).subscribe(res => {
-      //this.quiz = res['data'];
-      console.log(res['data']);
-      console.log(res['data']['_id']);
-    });
     this.quizService.getQuizzes().subscribe(res => {
       this.quiz = res['data'];
     });
     this.exerciseActual = 0;
+
+    this.stageId = localStorage.getItem('stageId', );
+    this.userId = JSON.parse(localStorage.getItem('currentUser', ))._id;
+    this.stageService.getStage(this.stageId).subscribe(res => {
+      this.flowId = res['stage'].flow;
+    });
   }
 
-  /*
-  * Maneja los eventos.
-  * */
   eventAnswers(questionId, alternativa, numAlternative, questionType){
-    let value = ""
-    if ( questionType == 'checkbox' ){
-      let estaSeleccionado = document.getElementById("answer_"+questionId+"_alt_"+numAlternative) as HTMLInputElement;
-      if ( estaSeleccionado.checked ){
-        value = 'Evento: Usuario seleccionò alternativa ' + numAlternative + ": " + alternativa;
+    let value = '';
+    if ( questionType === 'checkbox' ){
+      const isSelected = document.getElementById('answer_' + questionId + '_alt_' + numAlternative) as HTMLInputElement;
+      if ( isSelected.checked ){
+        value = 'Evento: Usuario seleccionò alternativa ' + numAlternative + ': ' + alternativa;
       }
       else{
-        value = "Evento: Usuario deseleccionò alternativa " + numAlternative + ": " + alternativa;
+        value = 'Evento: Usuario deseleccionò alternativa ' + numAlternative + ': ' + alternativa;
       }
     }
-    else if ( questionType == 'radio' ){
-      value = "Evento: Usuario seleccionò alternativa " + numAlternative + ": " + alternativa;
+    else if ( questionType === 'radio' ){
+      value = 'Evento: Usuario seleccionò alternativa ' + numAlternative + ': ' + alternativa;
     }
-    else if ( questionType == 'textarea' ){
-      value = "Evento: Usuario escribio: " + alternativa;
+    else if ( questionType === 'textarea' ){
+      value = 'Evento: Usuario escribio: ' + alternativa;
     }
     else{
-      value = "Evento: Usuario escribio en bonus: " + alternativa;
+      value = 'Evento: Usuario escribio en bonus: ' + alternativa;
     }
-    //console.log("Pregunta:", questionId, "Tipo:", questionType, value);
-    let finalEvent = "Pregunta: " + questionId + " Tipo: " + questionType + " " + value;
+    const finalEvent = 'Pregunta: ' + questionId + ' Tipo: ' + questionType + ' ' + value;
 
     if (this.saveUserData === 'Yes') {
-      this.quizService.handleEvent(finalEvent, 'quiz').subscribe((res) => { });
+      this.quizService.handleEvent(finalEvent, 'quiz', this.userId, this.stageId, this.flowId).subscribe((res) => { });
     }
   }
 
-  /*
-  * Maneja los eventos de texto
-  * */
   inputTextArea(questionId, questionType){
     let answer;
-    let timeout;
 
-    if ( questionType == 'textarea' ){
-      answer = document.getElementsByName("answer_"+questionId)[0];
+    if ( questionType === 'textarea' ){
+      answer = document.getElementsByName('answer_' + questionId)[0];
     }
-    else if ( questionType == 'text' ){
-      answer = document.getElementsByName("answer_bonus"+questionId)[0];
+    else if ( questionType === 'text' ){
+      answer = document.getElementsByName('answer_bonus' + questionId)[0];
     }
 
-    let value = answer.value;
+    const value = answer.value;
     this.eventAnswers(questionId, value, 0, questionType);
   }
 
-  /*
-  sendQuizResponse(value) {
-    //console.log("FUNCTION: sendQuizResponse()");
-    this.newItemEvent.emit(value);
-  }*/
-
-  /*
-  * Incrementa la variable del ejercicio actual si es que no corresponde al ultimo ejercicio.
-  * Guarda las respuestas del ejercicio actual antes de cambiar.
-  * */
   increaseExercise(lastExercise){
-    //console.log("FUNCTION: increaseExercise()");
-    // Guardar ejercicio actual
-    this.saveAnswer();
+    if (this.saveUserData === 'Yes'){
+      this.saveAnswer();
+    }
 
-    // Incrementar ejercicio
     if (!lastExercise) {
       this.exerciseActual++;
     }
@@ -117,16 +99,11 @@ export class QuizComponent implements OnInit {
     this.global = 0;
   }
 
-  /*
-  * Decrementa la variable del ejercicio actual si es que no corresponde al primer ejercicio.
-  * Guarda las respuestas del ejercicio actual antes de cambiar.
-  * */
   decreaseExercise(firstExercise) {
-    //console.log("FUNCTION: decreaseExercise()");
-    // Guardar respuestas
-    this.saveAnswer();
+    if (this.saveUserData === 'Yes'){
+      this.saveAnswer();
+    }
 
-    // Decrementar ejercicio
     if (!firstExercise){
       this.exerciseActual--;
     }
@@ -134,25 +111,15 @@ export class QuizComponent implements OnInit {
     this.global = 0;
   }
 
-  /*
-  * Al presionar el usuario enviar respuestas.
-  * Var ejercicio actual cambia a -1 para que en la vista aparezca una ventana de finalizacion del quiz.
-  * */
   sendQuiz() {
-    //console.log("FUNCTION: sendQuiz()");
-    // Guardar respuestas del ejercicio actual.
-    this.saveAnswer();
-
-    // Cambiar variable ejercicio actual a -1.
+    if (this.saveUserData === 'Yes'){
+      this.saveAnswer();
+    }
     this.exerciseActual = -1;
   }
 
-  /*
-  * Retorna True si el recurso asociado a la pregunta questionId existe.
-  * */
   resourceExist(questionId){
-    //console.log("FUNCTION: resourceExist()");
-    var img = new Image();
+    const img = new Image();
     img.src = '/assets/videoModule-images/' + questionId + '.png';
     return img.height !== 0;
   }
@@ -161,9 +128,8 @@ export class QuizComponent implements OnInit {
   * Retorna la respuesta del bonus de una pregunta questionId
   * */
   getAnswerBonus(questionId: string){
-    //console.log("FUNCTION: getAnswerBonus()");
-    const new_id = 'answer_bonus' + questionId;
-    const answer = (document.getElementsByName(new_id)[0] as HTMLInputElement);
+    const newId = 'answer_bonus' + questionId;
+    const answer = (document.getElementsByName(newId)[0] as HTMLInputElement);
     return (answer.value);
   }
 
@@ -171,7 +137,6 @@ export class QuizComponent implements OnInit {
   * Retorna las respuestas de una pregunta questionId de alternativas multiples
   * */
   getAlternatives(questionId: string){
-    //console.log("FUNCTION: getAlternatives()");
     const alternatives = document.getElementsByName(questionId);
     let value = '';
     for (let i = 0; i < alternatives.length; i++){
@@ -187,7 +152,6 @@ export class QuizComponent implements OnInit {
   * Obtiene las respuestas de la vista actual y las retorna como un arreglo
   * */
   getAnswers(){
-    //console.log("FUNCTION: getAnswers()");
     const answers = document.getElementsByClassName('answer');
     let finalAnswers = [];
     for (let i = 0; i < answers.length; i++){
@@ -235,20 +199,16 @@ export class QuizComponent implements OnInit {
   * Obtiene la respuesta, si existe se actualiza la bdd, en caso contrario se guarda.
   * */
   getAnswerExist(questionId, answer){
-    //console.log("LLAMANDO A FUNCION EXTERNA CON: ", questionId);
-    if ( answer == "" || answer == null){
+    if ( answer === '' || answer == null){
       return;
     }
-    console.log(answer);
-    this.quizService.getAnswer(questionId).subscribe((res) => {
+
+    this.quizService.getAnswer(questionId, this.userId, this.stageId, this.flowId).subscribe((res) => {
       if (res.data == null){
-      //  console.log("          GUARDAR");
-        this.quizService.saveAnswer(answer).subscribe((res) => { })
+        this.quizService.saveAnswer(answer, this.userId, this.stageId, this.flowId).subscribe((res) => { })
       }
       else{
-      //  console.log("          ACTUALIZAR");
-      //  console.log("               ",answer)
-        this.quizService.updateAnswer(answer,questionId).subscribe((res) => { })
+        this.quizService.updateAnswer(answer, questionId, this.userId, this.stageId, this.flowId).subscribe((res) => { })
       }
 
     });
@@ -258,28 +218,25 @@ export class QuizComponent implements OnInit {
   * Guarda las respuestas en la base de datos.
   * */
   saveAnswer(){
-  //  console.log("FUNCTION: saveAnswer()");
     let respuestas = this.getAnswers();
-    //console.log("     RESPUESTAS: ", respuestas);
     let index = 0;
     let json = [];
     let j = {};
     for (let valor of respuestas){
-      if (index == 4){
+      if (index === 4){
         index = 0
-      //  console.log("       VALOR: ",j);
         this.getAnswerExist(j["questionId"], j);
         j = {};
 
       }
 
-      if (index == 0){
+      if (index === 0){
         j["questionId"] = valor;
       }
-      else if (index == 1){
+      else if (index === 1){
         j["questionType"] = valor;
       }
-      else if (index == 2){
+      else if (index === 2){
         j["answerQuestion"] = valor;
       }
       else {
@@ -288,7 +245,6 @@ export class QuizComponent implements OnInit {
       index++;
     }
     if (respuestas.length > 0){
-    //  console.log("       VALOR: ",j);
       this.getAnswerExist(j["questionId"], j);
     }
   }
@@ -296,12 +252,10 @@ export class QuizComponent implements OnInit {
   /*
   **  Cuando aparece un nuevo ejercicio, esta funcion revisa en la base de datos si hay alguna respuesta
   **  y la muestra al usuario.
-  **  RECORDAD: añadir flujo y stage para asegurar usuario
   **/
   ngAfterViewChecked(){
-    if (this.exerciseActual != 0) {
-    //  console.log("FUNCTION: ngAfterViewChecked()");
-      if (this.global == 0) {
+    if (this.exerciseActual !== 0) {
+      if (this.global === 0) {
         let ids = [];
         const answers = document.getElementsByClassName('answer');
         for (let i = 0; i < answers.length; i++) {
@@ -309,23 +263,23 @@ export class QuizComponent implements OnInit {
           const string = answer.name.split('_');
           let yaEsta = false;
           for (let id of ids) {
-            if (id == string[1]) {
+            if (id === string[1]) {
               yaEsta = true;
               break;
             }
           }
           if (!yaEsta) {
-            ids.push(string[1])
+            ids.push(string[1]);
           }
         }
-        if (ids.length != 0) {
+        if (ids.length !== 0) {
           this.global = 1;
         }
 
 
         /* Aqui for sobre los ids para obtener respuestas*/
         for (let id of ids) {
-          this.quizService.getAnswer(id).subscribe((res) => {
+          this.quizService.getAnswer(id, this.userId, this.stageId, this.flowId).subscribe((res) => {
             if (res.data != null) {
               if (res.data.answerBonus != null) {
                 let name = "answer_bonus" + res.data.questionId;
@@ -376,6 +330,15 @@ export class QuizComponent implements OnInit {
       }
     }
 
+  }
+
+
+  updateProgress(percentage) {
+    console.log('- Actualizar progreso -');
+    console.log('UserId: ', this.userId);
+    console.log('StageId: ', this.stageId);
+    console.log('FlowId: ', this.flowId);
+    // this.stageService.updateProgress(this.userId, this.flowId, this.stageId, percentage).subscribe(res => {});
   }
 
 }

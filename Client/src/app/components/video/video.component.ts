@@ -1,6 +1,7 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation} from '@angular/core';
-import {PlyrComponent, PlyrModule} from 'ngx-plyr';
-import {QuizService} from '../../services/videoModule/quiz.service';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild, ViewEncapsulation } from '@angular/core';
+import { PlyrComponent, PlyrModule } from 'ngx-plyr';
+import { QuizService } from '../../services/videoModule/quiz.service';
+import { StageService } from '../../services/trainer/stage.service';
 
 
 @Component({
@@ -21,9 +22,14 @@ export class VideoComponent implements OnInit {
   currentTime = 0;
   videoJson;
 
+  stageId;
+  userId;
+  flowId;
+
 
   constructor( private plyrModule: PlyrModule,
-               private quizService: QuizService) { }
+               private quizService: QuizService,
+               private stageService: StageService) { }
 
 
 
@@ -58,7 +64,7 @@ export class VideoComponent implements OnInit {
       }
     }
     if (eventFinal != null && this.saveUserData === 'Yes'){
-      this.quizService.handleEvent(eventFinal, 'video').subscribe((res) => { });
+      this.quizService.handleEvent(eventFinal, 'video', this.userId, this.stageId, this.flowId).subscribe((res) => { });
     }
   }
 
@@ -84,6 +90,12 @@ export class VideoComponent implements OnInit {
       ];
       }
     );
+
+    this.stageId = localStorage.getItem('stageId', );
+    this.userId = JSON.parse(localStorage.getItem('currentUser', ))._id;
+    this.stageService.getStage(this.stageId).subscribe(res => {
+      this.flowId = res['stage'].flow;
+    });
   }
 
 

@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {QuizService} from '../../services/videoModule/quiz.service';
+import {StageService} from '../../services/trainer/stage.service';
 
 @Component({
   selector: 'app-video-module',
@@ -10,7 +11,8 @@ import {QuizService} from '../../services/videoModule/quiz.service';
 export class VideoModuleComponent implements OnInit {
 
   constructor( private activatedRoute: ActivatedRoute,
-               private quizService: QuizService) { }
+               private quizService: QuizService,
+               private stageService: StageService) { }
 
   status;
   quizId;
@@ -19,18 +21,27 @@ export class VideoModuleComponent implements OnInit {
   quizActive;
   saveData;
 
+  stageId;
+  flowId;
+  userId;
+
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.quizId = params.id;
 
-      this.quizService.getQuiz2(this.quizId).subscribe(res => {
+      this.quizService.getQuiz(this.quizId).subscribe(res => {
         console.log(res);
         this.videoId = res.data.video_id;
       });
     });
 
-    this.saveData = "Yes";
+    this.saveData = 'Yes';
 
+    this.stageId = localStorage.getItem('stageId', );
+    this.userId = JSON.parse(localStorage.getItem('currentUser', ))._id;
+    this.stageService.getStage(this.stageId).subscribe(res => {
+      this.flowId = res['stage'].flow;
+    });
   }
 
   select(nombre) {
@@ -41,6 +52,7 @@ export class VideoModuleComponent implements OnInit {
     else {
       this.videoActive = false;
       this.quizActive = true;
+
     }
   }
 
@@ -50,6 +62,15 @@ export class VideoModuleComponent implements OnInit {
 
   quizResponse(valueQuiz){
     this.status = valueQuiz;
+  }
+
+
+  updateProgress(percentage) {
+    console.log('- Actualizar progreso -');
+    console.log('UserId: ', this.userId);
+    console.log('StageId: ', this.stageId);
+    console.log('FlowId: ', this.flowId);
+    // this.stageService.updateProgress(this.userId, this.flowId, this.stageId, percentage).subscribe(res => {});
   }
 
 }
