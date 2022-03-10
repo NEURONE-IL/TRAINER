@@ -171,6 +171,8 @@
     },
     "SUBTITLE": "Complete el siguiente formulario para crear un nuevo módulo en el estudio",
     "TITLE": "Creación de módulo",
+    "UPDATE_TITLE": "Edición de módulos",
+    "UPDATE_SUBTITLE": "Complete el siguiente formulario para etitar el módulo seleccionado",    
     "TOAST": {
       "ERROR": "¡Error!",
       "ERROR_MESSAGE": "No se ha creado el nuevo módulo",

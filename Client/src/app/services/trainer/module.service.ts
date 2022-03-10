@@ -9,6 +9,7 @@ export interface Module {
   name: string,
   description: string,
   code: string,
+  flow: string,
   image_url: string,
   image_id: string
 }
@@ -42,8 +43,8 @@ export class ModuleService {
     return this.http.post(this.uri, flow, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  putModule(modeuleId: string, updatedModule: any): Observable<any> {
-    return this.http.put(this.uri+modeuleId, updatedModule, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  putModule(moduleId: string, updatedModule: any): Observable<any> {
+    return this.http.put(this.uri+moduleId, updatedModule, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
 }

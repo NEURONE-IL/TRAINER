@@ -216,6 +216,10 @@ export class StageUpdateComponent implements OnInit{
     this.file = files.item(0);
   }
 
+  cancelAndReturn(){
+    this.matDialog.closeAll();
+  }
+
   getAssistants(){
     this.assistantService.getAssistants().subscribe(
       response => {

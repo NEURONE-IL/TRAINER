@@ -37,7 +37,7 @@
                     {{ "ADMIN.MODULES.NAME" | translate }}: {{module.name}}
                   </div>
                   <div class="buttons col-md-4">
-                    <button mat-icon-button title="{{ 'BUTTONS.EDIT' | translate }} "><mat-icon>edit</mat-icon></button>
+                    <button mat-icon-button (click)="showModuleUpdateDialog(module)" title="{{ 'BUTTONS.EDIT' | translate }} "><mat-icon>edit</mat-icon></button>
                     <button mat-icon-button (click)="confirmModuleDelete(module._id)" title="{{ 'BUTTONS.DELETE' | translate }}"> <mat-icon>delete</mat-icon></button>
                   </div>
                 </mat-card-title>

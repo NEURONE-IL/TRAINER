@@ -110,7 +110,7 @@
 		<button mat-raised-button class="saveButton" [disabled]="!stageForm.valid" (click)="updateStage(stage._id)">
 			{{ "BUTTONS.SAVE" | translate }}
 		</button>
-		<button mat-raised-button class="closeButton" (click)="updateStage(stage._id)">
+		<button mat-raised-button class="closeButton" (click)="cancelAndReturn()">
 			{{ "BUTTONS.CLOSE" | translate }}
 		</button>
 	</mat-card-actions>

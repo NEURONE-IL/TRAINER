@@ -70,6 +70,7 @@ import { SafeurlPipe } from './services/assistant/safeurl.pipe';
 import { TrainerUserUIModule } from './trainer-userUI/trainer-userUI.module';
 import { FlowUpdateComponent } from './views/flow-update/flow-update.component';
 import { StageUpdateComponent } from './views/stage-update/stage-update.component';
+import { ModuleUpdateComponent } from './views/module-update/module-update.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -107,7 +108,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlowDisplayComponent,
     ShowStagesComponent,
     SafeurlPipe,
-    AdminVideoModuleComponent
+    AdminVideoModuleComponent,
+    ModuleUpdateComponent
   ],
   imports: [
     BrowserModule,

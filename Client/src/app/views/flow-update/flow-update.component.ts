@@ -69,6 +69,10 @@ export class FlowUpdateComponent implements OnInit{
     );
   }
 
+  cancelAndReturn(){
+    this.matDialog.closeAll();
+  }
+
   handleFileInput(files: FileList) {
     this.file = files.item(0);
   }

@@ -1,44 +1,39 @@
-.module-creation-card{
-	margin-top: 3%;
-  margin-left: 3%;
-  margin-right: 3%;
-  margin-bottom: 2%;
-}
-
 .mat-form-field{
 	width: 85%;
+	margin: 5%;
 }
-
+.fileInput input{
+	width: 85%;
+	margin: 5%;
+}
 .checkbox-section{
 	margin-top: 5%;
 	text-align: center;
 }
-
 .checkbox{
 	margin: 0 10px;
 }
-
 .cardActions{
 	text-align: center;
 	margin-bottom: 5%;
 }
-
 .saveButton{
 	background-color: #4CAF50;
 	color: #FFFFFF;
 }
-
 .clearButton{
 	background-color: #FF9800;
 	color: #FFFFFF;
 }
-
+.closeButton{
+	background-color: #B00020;
+	color: #FFFFFF;
+}
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-
 .spinnerCard{
 	text-align: -webkit-center;
 }

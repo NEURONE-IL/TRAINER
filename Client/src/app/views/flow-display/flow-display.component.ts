@@ -9,12 +9,13 @@ import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivi
 import { AuthService } from '../../services/auth/auth.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
-import { ModuleService } from 'src/app/services/trainer/module.service';
+import { Module, ModuleService } from 'src/app/services/trainer/module.service';
 import { FlowUpdateComponent } from 'src/app/views/flow-update/flow-update.component';
 import { StageUpdateComponent } from 'src/app/views/stage-update/stage-update.component';
 
 import { ModuleCreationComponent } from '../module-creation/module-creation.component';
 import { StageCreationComponent } from '../stage-creation/stage-creation.component';
+import { ModuleUpdateComponent } from '../module-update/module-update.component';
 
 
 @Component({
@@ -211,6 +212,14 @@ export class FlowDisplayComponent implements OnInit {
     const dialogRef = this.matDialog.open(StageUpdateComponent, {
       width: '60%',
       data: stage
+    }).afterClosed()
+    .subscribe(() => this.ngOnInit());
+  }
+
+  showModuleUpdateDialog(module1: Module): void {
+    const dialogRef = this.matDialog.open(ModuleUpdateComponent, {
+      width: '60%',
+      data: module1
     }).afterClosed()
     .subscribe(() => this.ngOnInit());
   }
