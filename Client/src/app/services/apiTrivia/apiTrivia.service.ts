@@ -55,7 +55,7 @@ export class ApiTriviaService {
   
   getStudyLink(idStudio, user) {
     if(user){
-      return 'http://159.89.132.126:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
+      return 'http://159.89.132.126:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/' + environment.serverRoot.split("/").join("-");
     }
     
   }

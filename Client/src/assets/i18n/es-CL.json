@@ -72,7 +72,8 @@
       "TITLE": "Título",
       "TYPE": "Tipo de etapa",
       "UPDATED_AT": "Modificado",
-      "MODULE": "Módulo"
+      "MODULE": "Módulo",
+      "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar la etapa?"
     },
     "FLOWS": {
       "CREATE": "CREAR FLUJO",

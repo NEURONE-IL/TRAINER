@@ -40,7 +40,7 @@ export class ApiSGService {
     header = header.append('Content-Type', 'application/json');
     this.http.post(this.urlApi + 'register', post, {headers: header}).subscribe((res: any) => {
       this.apiKey = res.site.api_key;
-      this.toastr.success('Se ha establecido la coneccion con SG', 'Coneccion Exitosa!');
+      this.toastr.success('Se ha establecido la conexion con SG', 'Conexion Exitosa!');
     });
   }
 

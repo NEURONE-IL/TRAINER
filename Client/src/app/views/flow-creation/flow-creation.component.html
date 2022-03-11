@@ -25,8 +25,11 @@
 				<mat-grid-tile colspan="6">
 					<mat-form-field>						
 						<mat-label>{{ "FLOW.FORM.FIELDS.DESCRIPTION" | translate }}</mat-label>
-						<input matInput formControlName="description" #inputDescription maxlength="250" ng-required="true">
+						<input matInput formControlName="description" required #inputDescription maxlength="250" ng-required="true">
 						<mat-hint align="end">{{inputDescription.value?.length || 0}}/250</mat-hint>
+						<mat-error *ngIf="flowFormControls.description.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>						
 						<mat-error *ngIf="flowFormControls.description.hasError('minlength')">
 							{{ "ERRORS.MIN_LENGTH_3" | translate }}
 						</mat-error>
