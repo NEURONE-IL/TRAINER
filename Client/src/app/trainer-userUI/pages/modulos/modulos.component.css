@@ -37,3 +37,25 @@ tr.hidden {
 .showStages{
   overflow: hidden;
 }
+
+.mat-column-NombreCol{
+  text-align: center;
+}
+
+.mat-column-NombreCol .mat-icon{
+  padding-bottom: 34px;
+}
+
+.mat-column-TipoCol{
+  text-align: center;
+}
+
+.mat-column-DescriptionCol{
+  text-align: center;
+}
+
+
+
+.mat-icon {
+  vertical-align: middle;
+}

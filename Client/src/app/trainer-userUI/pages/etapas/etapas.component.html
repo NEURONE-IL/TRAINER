@@ -2,8 +2,8 @@
 <div 
     class="margen"
     *ngFor="let stage of stagesByModule; let index = index;"
-    fxLayoutAlign="stretch"
     fxFlex="23"
+    fxFlex.md="30"
     fxFlex.sm="35"
 >
     <!--
@@ -25,7 +25,10 @@
             [title] = "stage.title"
             class = "stageTitle"
         >{{stage.title}}</mat-card-title>
-        <mat-card-subtitle>{{stage.type | tipoEtapa}} - {{stage.step}}</mat-card-subtitle>
+        <mat-card-subtitle *ngIf="stage.type; else noTipo">{{stage.type | tipoEtapa}} - {{stage.step}}</mat-card-subtitle>
+        <ng-template #noTipo>
+            <mat-card-subtitle>Sin tipo</mat-card-subtitle>
+        </ng-template>
         <mat-card-content>
             <!-- si etapa contiene link a una imagen -->
             <circle-progress
@@ -69,7 +72,7 @@
             >{{ 'USER.INITIATE' | translate }}</button>
 
             <ng-template #completed>
-                <h4>¡Completado!</h4>
+                <h4>{{ 'USER.FINISHED' | translate }}</h4>
             </ng-template>
 
             <button

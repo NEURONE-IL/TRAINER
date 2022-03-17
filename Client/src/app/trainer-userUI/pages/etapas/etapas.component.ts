@@ -34,33 +34,6 @@ export class EtapasComponent implements OnInit{
   //videoquizprogress : VideoQuizProgress = [];
   //adventureprogress : AdventureProgress = [];
 
-  // TIMER SECTION START
-  // tiempo: number = 100;
-
-  // minutos: string | number = Math.floor(this.tiempo / 60);
-  // segundos: string | number = Math.floor(this.tiempo % 60);
-
-  // minutosDisplay = (this.minutos < 10) ? '0' + this.minutos : this.minutos;
-  // segundosDisplay = (this.segundos < 10) ? '0' + this.segundos : this.segundos;
-
-  // activo: boolean = false;
-  // miObservable = interval(1000)
-  //   .subscribe( x => {
-  //     this.tiempo -= 1;
-  //     this.minutos = Math.floor(this.tiempo / 60);
-  //     this.segundos = Math.floor(this.tiempo % 60);
-  //     this.minutosDisplay = (this.minutos < 10) ? '0' + this.minutos : this.minutos;
-  //     this.segundosDisplay = (this.segundos < 10) ? '0' + this.segundos : this.segundos;
-  //   });
-
-  // timer = new Promise( (resolve, reject) =>{
-  //   setTimeout(() => {
-  //     resolve( this.activo=true );
-  //   }, this.tiempo*1000)
-  // });
-
-  //TIMER SECTION END
-
   constructor(  private cdRef: ChangeDetectorRef,
                 private authService: AuthService,
                 private videoModuleService: QuizService,
@@ -108,9 +81,14 @@ export class EtapasComponent implements OnInit{
       stage["percentage"] = 0; //asignar a todas las etapas el atributo de porcentaje, inicializado en 0
     })
 
+    this.trainerUserUIService.getTotalProgress(this.user)
+      .subscribe(resp => {
+        console.log(resp);
+      } )
+
     //Obtener progreso
-    //this.trainerUserUIService.getProgress(this.user._id)
-    this.triviaService.getProgress(this.user._id)
+    // this.trainerUserUIService.getProgress(this.user._id)
+     this.triviaService.getProgress(this.user._id)
     .subscribe( resp => {
 
       this.triviaProgress = resp['progress']
@@ -165,6 +143,7 @@ export class EtapasComponent implements OnInit{
 
     //       if(saved){
     //         stage.percentage = saved.percentage * 100;
+    //         saved = false;
     //       }
 
     //       if(stage.percentage == 100){

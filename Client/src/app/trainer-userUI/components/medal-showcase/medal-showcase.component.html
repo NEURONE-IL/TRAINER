@@ -1,0 +1,48 @@
+<div fxLayout="row"     
+     fxLayoutAlign="space-between center">
+
+
+
+    <div fxFlex="10">
+        <img class="z-depth" 
+             src="./assets/medals/medalla2.svg" 
+             alt="medalla"
+             (click)="openMedalDialog(false, 'primeraMedalla' )">
+    </div>
+
+    <!-- <div *ngFor="let medalla of medals; let i = index">
+        <img class="z-depth" 
+             src="./assets/medals/medalla2.svg" 
+             alt="medalla"
+             (click)="openMedalDialog(medalla{{i+1}}Condicion, 'primeraMedalla' )">
+    </div> -->
+
+
+    <div fxFlex="10">
+        <img class="z-depth" 
+             [class.locked]="condicionMedallaB()" 
+             src="./assets/medals/medalla2.svg" alt="medalla"
+             (click)="openMedalDialog(condicionMedallaB(), 'segundaMedalla')">
+    </div>
+
+    <div fxFlex="10">
+        <img class="z-depth" 
+             [class.locked]="condicionMedallaC()" 
+             src="./assets/medals/medalla2.svg" alt="medalla"
+             (click)="openMedalDialog(condicionMedallaC(), 'terceraMedalla' )">
+    </div>
+
+    <div fxFlex="10">
+        <img class="z-depth" 
+             [class.locked]="condicionMedallaD()" 
+             src="./assets/medals/medalla2.svg" alt="medalla"
+             (click)="openMedalDialog(condicionMedallaD(), 'cuartaMedalla' )">
+    </div>
+
+    <div fxFlex="15">
+        <img class="z-depth" 
+             [class.locked]="condicionMedallaE()" 
+             src="./assets/medals/medalla1.svg" alt="medalla"
+             (click)="openMedalDialog(condicionMedallaE(), 'quintaMedalla' )">
+    </div>
+</div>

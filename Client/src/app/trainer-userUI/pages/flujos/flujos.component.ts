@@ -7,7 +7,6 @@ import { User } from '../../interfaces/user.interface';
 import { AuthService } from '../../../services/auth/auth.service';
 
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { MedalDialogComponent } from '../../components/medal-dialog/medal-dialog.component';
 import { FlowService } from 'src/app/services/trainer/flow.service';
 import { TimerDialogComponent } from '../../components/timer-dialog/timer-dialog.component';
 
@@ -106,55 +105,6 @@ export class FlujosComponent implements OnInit{
 
   obtenerEtapasCompletadas( argumento: number ){
     this.etapasCompletadas += argumento;
-  }
-
-  // Primera medalla se asigna por el primer login, por lo tanto siempre estara desbloqueado
-  // condicionMedallaA() : boolean {}
-
-  // Segunda medalla se asigna por completar la primera etapa
-  condicionMedallaB(): boolean{
-    if(this.etapasCompletadas >= 1){
-      return false;
-    }
-    else{
-      return true;
-    }
-  }
-
-  // Tercera medalla se asigna por completar el primer modulo
-  condicionMedallaC(): boolean{
-    if(this.modulosCompletados >= 1){
-      return false;
-    }
-    else{
-      return true;
-    }
-  }
-
-  // Cuarta medalla se asigna por completar el 50% de las etapas totales
-  condicionMedallaD(): boolean{
-    if(this.etapasCompletadas >= this.totalDeEtapas/2){
-      return false;
-    }
-    else{
-      return true;
-    }
-  }
-
-  // Quinta medalla se asigna por completar todo el flujo (100% de etapas totales)
-  condicionMedallaE(): boolean{
-    if(this.etapasCompletadas == this.totalDeEtapas){
-      return false;
-    }
-    else{
-      return true;
-    }
-  }
-
-  openMedalDialog(lockStatus: boolean, medalID: string) {
-
-    let objeto = {lockStatus, medalID}
-    this.dialog.open(MedalDialogComponent, { data: objeto })
   }
 
   openTimerDialog() {

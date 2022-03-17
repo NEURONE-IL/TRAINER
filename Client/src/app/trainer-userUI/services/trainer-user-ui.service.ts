@@ -33,11 +33,6 @@ export class TrainerUserUIService {
   // TODO: borrar observable de prueba
   myObservable = of(1, 2, 3);
 
-  myObserver = {
-    next: (x: number) => console.log('Observer got a next value: ' + x),
-    error: (err: Error) => console.error('Observer got an error: ' + err),
-    complete: () => console.log('Observer got a complete notification'),
-  };
   //hasta aqui
 
   constructor( protected http: HttpClient,
@@ -67,7 +62,7 @@ export class TrainerUserUIService {
 
   getTotalProgress(user){
     //prueba para verificar como funciona forkjoin
-    return forkJoin([this.getProgress(user._id), this.getProgress(user._id) ]);
+    return forkJoin([this.getProgress(user._id), this.observableTest()]);
 
     //TODO: unificar los progresos de todos los ambientes
     //(llamando los metodos que obtienen el progreso de sus respectivos servicios)
@@ -79,56 +74,56 @@ export class TrainerUserUIService {
     // ]);
   }
 
-  //obtine el usuario de localStorage
-  public getUser() {
-    return JSON.parse(localStorage.getItem('currentUser'));
-  }
+  // //obtine el usuario de localStorage
+  // public getUser() {
+  //   return JSON.parse(localStorage.getItem('currentUser'));
+  // }
 
-  //obtiene el objeto del flujo
-  getFlow(id: string): Observable<any> {
-    return this.http.get(this.uriFlow+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
-  }
+  // //obtiene el objeto del flujo
+  // getFlow(id: string): Observable<any> {
+  //   return this.http.get(this.uriFlow+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  // }
 
-  //obtiene los modulos de un flujo
-  getModuleByFlow(flowId: string): Observable<any> {
-    return this.http.get(this.uriModule + 'byFlow/' + flowId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
-  }
+  // //obtiene los modulos de un flujo
+  // getModuleByFlow(flowId: string): Observable<any> {
+  //   return this.http.get(this.uriModule + 'byFlow/' + flowId, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  // }
 
-  getStageById(id: string) {
-    return this.http.get(this.uriStage+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
-  }
+  // getStageById(id: string) {
+  //   return this.http.get(this.uriStage+id, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+  // }
 
 
-  //TRIVIA
+  // //TRIVIA
 
-  getStudyLink(idStudio) {
-    let user = JSON.parse(localStorage.getItem('currentUser'));
-    let apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
-    return 'http://159.65.100.191:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + apiKey + '/http:--localhost:4200-home';
-  }
+  // getStudyLink(idStudio) {
+  //   let user = JSON.parse(localStorage.getItem('currentUser'));
+  //   let apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
+  //   return 'http://159.65.100.191:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + apiKey + '/http:--localhost:4200-home';
+  // }
 
-  //ADVENTURE
-  // urlApi = 'http://143.198.136.174:3002/';
-  getAdventureLink(idAdventure) {
-    let user = JSON.parse(localStorage.getItem('currentUser'));
-    let apiKey = 'wxlsdn2i3fviyqff31nw6dsvqxolka';
-    return 'http://143.198.136.174:3002/login_redirect/' + user.email + '/' + user.names + '/' + idAdventure + '/' + user._id + '/' + apiKey + '/http:--localhost:4200-home';
-  }
+  // //ADVENTURE
+  // // urlApi = 'http://143.198.136.174:3002/';
+  // getAdventureLink(idAdventure) {
+  //   let user = JSON.parse(localStorage.getItem('currentUser'));
+  //   let apiKey = 'wxlsdn2i3fviyqff31nw6dsvqxolka';
+  //   return 'http://143.198.136.174:3002/login_redirect/' + user.email + '/' + user.names + '/' + idAdventure + '/' + user._id + '/' + apiKey + '/http:--localhost:4200-home';
+  // }
 
-  //VIDEO
-  //link de ejemplo http://138.197.200.50:3070/video?id=1
+  // //VIDEO
+  // //link de ejemplo http://138.197.200.50:3070/video?id=1
   
-  urlServer = 'http://138.197.200.50:3070/';
+  // urlServer = 'http://138.197.200.50:3070/';
 
-  getVideoLink(videoStageId: any){
-    let link = this.urlServer + 'video?id=' + videoStageId;
+  // getVideoLink(videoStageId: any){
+  //   let link = this.urlServer + 'video?id=' + videoStageId;
     
-    return this.urlServer + 'video?id=' + videoStageId;
-  }
+  //   return this.urlServer + 'video?id=' + videoStageId;
+  // }
 
-  getVideoQuizLink(videoQuizStageId: any){
-    return this.urlServer + 'videoModule?id=' + videoQuizStageId;
-  }
+  // getVideoQuizLink(videoQuizStageId: any){
+  //   return this.urlServer + 'videoModule?id=' + videoQuizStageId;
+  // }
 
 
   //PROGRESO
@@ -141,7 +136,5 @@ export class TrainerUserUIService {
     header = header.append('x-api-key', apiKey);
     return this.http.get(urlApi + 'user/' + userId + '/advance', { headers: header });
   }
-
-  getVideoProgr
 
 }

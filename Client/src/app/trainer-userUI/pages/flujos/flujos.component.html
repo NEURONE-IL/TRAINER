@@ -1,7 +1,7 @@
 <div *ngIf="flow"
      class="contenedor"
      fxLayout="row"
-     fxLayoutAlign="center center"
+     fxLayoutAlign="space-around center"
      fxLayout.xs="column"
      fxLayoutGap="20px">
     <div fxFlex="20"
@@ -20,68 +20,15 @@
         <h3> <mat-icon>emoji_events</mat-icon>{{ 'USER.BADGES' | translate }}<mat-icon>emoji_events</mat-icon></h3>
 
         <!-- medallas -->
+        <app-medal-showcase
+            [totalDeEtapas]="totalDeEtapas"
+            [userId]="user._id"
+        ></app-medal-showcase>
 
-        <div fxLayout="row"
-             fxLayoutAlign="space-between center"
-             >
-            <div fxFlex="10">
-                <img 
-                    class="z-depth" 
-                    src="./assets/medals/medalla2.svg" 
-                    alt="medalla"
-                    (click)="openMedalDialog(false, 'primeraMedalla' )"
-                >
-            </div>
-            <div fxFlex="10">
-                <img 
-                    class="z-depth" 
-                    [class.locked]="condicionMedallaB()"
-                    src="./assets/medals/medalla2.svg" 
-                    alt="medalla"
-                    (click)="openMedalDialog(condicionMedallaB(), 'segundaMedalla' )"
-                >
-            </div>
-            <div fxFlex="10">
-                <img 
-                    class="z-depth" 
-                    [class.locked]="condicionMedallaC()"
-                    src="./assets/medals/medalla2.svg" 
-                    alt="medalla"
-                    (click)="openMedalDialog(condicionMedallaC(), 'terceraMedalla' )"
-                >
-            </div>
-            <div fxFlex="10">
-                <img 
-                    class="z-depth"
-                    [class.locked]="condicionMedallaD()"
-                    src="./assets/medals/medalla2.svg" 
-                    alt="medalla"
-                    (click)="openMedalDialog(condicionMedallaD(), 'cuartaMedalla' )"
-                >
-            </div>
-            <div fxFlex="15">
-                <img 
-                    class="z-depth"
-                    [class.locked]="condicionMedallaE()"
-                    src="./assets/medals/medalla1.svg" 
-                    alt="medalla"
-                    (click)="openMedalDialog(condicionMedallaE(), 'quintaMedalla' )"
-                >
-            </div>
-        </div>
-
-        <!-- experimento encerrando datos del usuario en una mat-card 
-            <mat-card-title-group>
-            <mat-card-title> {{ user.names }} </mat-card-title>
-            <mat-card-title> {{ 'USER.MODULES_PROGRESS' | translate }}: {{ modulosCompletados }} / {{ totalDeModulos }} </mat-card-title>
-            <mat-card-title> {{ 'USER.STAGES_PROGRESS' | translate }}: {{ etapasCompletadas }} / {{ totalDeEtapas }}</mat-card-title>
-            <h3> {{ 'USER.BADGES' | translate }} | <mat-icon>emoji_events</mat-icon></h3>
-        </mat-card-title-group> -->
     </div>
 
-    <div
-         fxFlex="40"
-         fxFlex.md="30"
+    <div fxFlex="40"
+         fxFlex.md="20"
          fxFill.sm
          fxShow.xs="false"
          >

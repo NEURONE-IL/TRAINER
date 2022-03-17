@@ -14,22 +14,26 @@
 
     <ng-container matColumnDef="NombreCol">
       <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.NAME' | translate }} </th>
-      <td mat-cell mat-list-item *matCellDef="let module"> <strong> <mat-icon mat-list-icon *ngIf="module.locked">lock</mat-icon> {{module.name}}</strong> </td>
+      <td mat-cell mat-list-item *matCellDef="let module"> <mat-icon mat-list-icon>{{module.locked ? 'lock':'lock_open'}}</mat-icon><strong>{{module.name}}</strong> </td>
     </ng-container>
 
     <ng-container matColumnDef="TipoCol">
-      <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.COMPLETED' | translate }} </th>
+      <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.PROGRESS' | translate }} </th>
       <td mat-cell *matCellDef="let module"> {{ getCompleted(module) }}</td>
     </ng-container>
 
     <ng-container matColumnDef="DescriptionCol">
       <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.DESCRIPTION' | translate }} </th>
-      <td mat-cell *matCellDef="let module"> 
+      <td class="descripcionFila"
+          mat-cell 
+          *matCellDef="let module"
+      > 
+        {{ module.description }}
         <mat-icon 
           class = "questionMark"
           (click)="openDialog($event, module)"
         >
-          help_outline
+          description
         </mat-icon>
       </td>
     </ng-container>

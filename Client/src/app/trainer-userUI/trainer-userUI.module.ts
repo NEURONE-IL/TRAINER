@@ -18,6 +18,7 @@ import { TipoEtapaPipe } from './pipes/tipo-etapa.pipe';
 import { TranslateModule } from '@ngx-translate/core';
 import { MedalDialogComponent } from './components/medal-dialog/medal-dialog.component';
 import { TimerDialogComponent } from './components/timer-dialog/timer-dialog.component';
+import { MedalShowcaseComponent } from './components/medal-showcase/medal-showcase.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { TimerDialogComponent } from './components/timer-dialog/timer-dialog.com
     DescriptionDialogComponent,
     TipoEtapaPipe,
     MedalDialogComponent,
-    TimerDialogComponent
+    TimerDialogComponent,
+    MedalShowcaseComponent
   ],
   imports: [
     CommonModule,
