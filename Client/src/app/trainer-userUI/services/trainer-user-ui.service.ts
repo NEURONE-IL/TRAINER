@@ -30,6 +30,8 @@ export class TrainerUserUIService {
   modulosCompletados  : number = 0;
   etapasCompletadas   : number = 0;
 
+  indiceEncontrado  : boolean = false;
+
   // TODO: borrar observable de prueba
   myObservable = of(1, 2, 3);
 

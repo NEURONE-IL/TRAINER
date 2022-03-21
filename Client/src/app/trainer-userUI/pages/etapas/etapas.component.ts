@@ -17,11 +17,11 @@ import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
 })
 export class EtapasComponent implements OnInit{
 
-  @Input() modulo: Module;
-  @Input() sorted: boolean;
+  @Input() modulo   : Module;
+  @Input() sorted   : boolean;
+  @Input() moduleID : string;
 
-  @Output() onModulosActualizados: EventEmitter<number> = new EventEmitter();
-  @Output() onEtapasActualizadas: EventEmitter<number> = new EventEmitter();
+  @Output() moduleIDChange: EventEmitter<string> = new EventEmitter();
 
   stagesByModule  : Stage[] = [];
   accessStage     : number = 1;
@@ -72,9 +72,6 @@ export class EtapasComponent implements OnInit{
       this.stagesByModule = this.modulo.stages
     }
 
-    console.log("etapas de ", this.modulo.name,  this.stagesByModule);
-
-
     //las etapas no vienen con porcentaje
     this.stagesByModule.forEach((stage) => {
 
@@ -111,14 +108,22 @@ export class EtapasComponent implements OnInit{
           this.trainerUserUIService.setEtapasCompletadas();
         }
 
+        
       });
-
+      
       //Si todas las etapas de un modulo estan completadas, emite el valor de 1 para mostrar en el perfil de usuario
       if(this.stagesByModule.every(etapa => etapa.percentage == 100)){
-        console.log("todas las etapas completadas en ", this.modulo.name, " actualizando localstorage");
-
+        
         //funcion que suma 1 a modulos completados
         this.trainerUserUIService.setModulosCompletados();
+        
+      }
+      //en caso contrario se emite el id del modulo incompleto
+      else{
+        if(!this.trainerUserUIService.indiceEncontrado){
+          this.moduleIDChange.emit(this.modulo._id);
+          this.trainerUserUIService.indiceEncontrado = true;
+        }
       }
 
     },

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, DoCheck, EventEmitter, Input, OnInit, Output } from '@angular/core';
 
 import { trigger, state, style, transition, animate } from '@angular/animations';
 
@@ -6,8 +6,6 @@ import { Flow } from '../../interfaces/flow.interface';
 import { User } from '../../interfaces/user.interface';
 import { Stage } from '../../interfaces/stage.interface';
 import { Module } from '../../interfaces/module.interface';
-
-import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DescriptionDialogComponent } from '../../components/description-dialog/description-dialog.component';
@@ -25,7 +23,7 @@ import { ModuleService } from 'src/app/services/trainer/module.service';
     ]),
   ]
 })
-export class ModulosComponent implements OnInit {
+export class ModulosComponent implements OnInit, DoCheck {
 
   @Input() flow: Flow;
   @Input() user: User;
@@ -33,31 +31,24 @@ export class ModulosComponent implements OnInit {
 
   @Output() onModulosCargados: EventEmitter<number> = new EventEmitter();
   @Output() onEtapasCargadas: EventEmitter<number> = new EventEmitter();
-  @Output() onModulosCompletados: EventEmitter<number> = new EventEmitter();
-  @Output() onEtapasCompletadas: EventEmitter<number> = new EventEmitter();
 
-
-  modulosCompletadosContador: number = 0;
-  etapasCompletadasContador : number = 0;
+  moduloID : string = "";
   
   columnHeader  : string[] = ['NombreCol', 'TipoCol', 'DescriptionCol'];
 
-  stages            : Stage[] = [];
-  sortedStages      : Stage[] = [];
   modules           : Module[] = [];
-  selectedModule    : Module = {} as Module;
   descriptionDialog : DescriptionDialogComponent;
 
   constructor(
     private dialog: MatDialog,
-    private cdRef: ChangeDetectorRef,
-    private moduleService : ModuleService
+    private moduleService : ModuleService,
+
   ) { }
 
   ngOnInit(): void {
  
-    this.getModules(this.flowId);
-
+    this.getModules();
+  
   }
 
   ngDoCheck(): void{
@@ -68,19 +59,11 @@ export class ModulosComponent implements OnInit {
         if(this.modules[i-1].stages.every(etapa => etapa.percentage == 100)){
           this.modules[i].locked = false;
         }
-
       }
-
     }
   }
 
-  //para evitar error "Expression has changed after it was checked"
-  ngAfterContentChecked(): void {
-    this.cdRef.detectChanges();
-
-  }
-
-  getModules(id: string){
+  getModules(){
 
     this.moduleService.getModuleByFlow(this.flow._id)
       .subscribe(response => {
@@ -90,9 +73,6 @@ export class ModulosComponent implements OnInit {
 
           //emitir evento para mostrar al usuario la cantidad de modulos totales
           this.onModulosCargados.emit(this.modules.length);
-
-          //eventualmente cambiar selectedModule al primer modulo no completado por el usuario.
-          this.selectedModule = this.modules[0];
 
           //En caso de flujo ordenado se deben bloquear los modulos, por lo tanto 
           //se agrega estado de bloqueado desde el segundo en adelante, pero
@@ -143,7 +123,7 @@ export class ModulosComponent implements OnInit {
     event.preventDefault();
     event.stopPropagation();
 
-    this.selectedModule = this.selectedModule == row ? null : row; 
+    this.moduloID = this.moduloID == row._id ?  "" : row._id; 
   }
 
   // para abrir ventana de descripcion
@@ -155,12 +135,4 @@ export class ModulosComponent implements OnInit {
     this.dialog.open(DescriptionDialogComponent, { data: modulo })
   }
 
-  actualizarModulosCompletados( argumento: number ){
-    this.modulosCompletadosContador += argumento;
-    this.onModulosCompletados.emit(this.modulosCompletadosContador);
-  }
-
-  actualizarEtapasCompletadas( argumento: number ){
-    this.etapasCompletadasContador += argumento
-  }
 }

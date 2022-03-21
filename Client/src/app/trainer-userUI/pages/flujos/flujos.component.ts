@@ -72,6 +72,7 @@ export class FlujosComponent implements OnInit{
     localStorage.removeItem("modulosCompletados");
     localStorage.removeItem("etapasCompletadas");
 
+    this.trainerUserUIService.indiceEncontrado = false;
   }
 
   //obtiene el objeto del flujo a través de un id

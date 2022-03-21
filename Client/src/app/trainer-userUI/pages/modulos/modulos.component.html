@@ -4,7 +4,6 @@
 >
 
 <br>
-
   <table mat-table
     *ngIf="modules"
     [dataSource] = "modules" 
@@ -14,7 +13,7 @@
 
     <ng-container matColumnDef="NombreCol">
       <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.NAME' | translate }} </th>
-      <td mat-cell mat-list-item *matCellDef="let module"> <mat-icon mat-list-icon>{{module.locked ? 'lock':'lock_open'}}</mat-icon><strong>{{module.name}}</strong> </td>
+      <td mat-cell mat-list-item *matCellDef="let module"> <mat-icon *ngIf="flow.sorted" mat-list-icon>{{module.locked ? 'lock':'lock_open'}}</mat-icon><strong>{{module.name}}</strong> </td>
     </ng-container>
 
     <ng-container matColumnDef="TipoCol">
@@ -43,15 +42,14 @@
       <td mat-cell *matCellDef="let module" [attr.colspan]="3">
           <div class="showStages">
               <app-etapas
-                [@detailExpand]="module == selectedModule ? 'expanded' : 'collapsed'"
+                [@detailExpand]="module._id == moduloID ? 'expanded' : 'collapsed'"
                 [modulo] = module
                 [sorted] = flow.sorted
                 fxLayout = "row wrap"
                 fxLayout.xs = "column center"
                 fxLayoutAlign="space-evenly stretch"
 
-                (onModulosActualizados)="actualizarModulosCompletados( $event )"
-                (onEtapasActualizadas)="actualizarEtapasCompletadas( $event )"
+                [(moduleID)]="moduloID"
                 ></app-etapas>
           </div>
 
@@ -71,7 +69,7 @@
       mat-row *matRowDef="let row; columns: columnHeader;"
       (click)="!row.locked && enClick($event, row)"
       [class.isBlocked]="row.locked"
-      [class.mat-row-is-clicked]="selectedModule==row"
+      [class.mat-row-is-clicked]="moduloID==row._id"
     ></tr>
     <tr mat-row *matRowDef="let fila; columns: ['showStages']" class="hidden"></tr>
   </table>
