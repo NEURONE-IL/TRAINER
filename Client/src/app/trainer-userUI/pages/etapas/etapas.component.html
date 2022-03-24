@@ -27,7 +27,7 @@
         >{{stage.title}}</mat-card-title>
         <mat-card-subtitle *ngIf="stage.type; else noTipo">{{stage.type | tipoEtapa}} - {{stage.step}}</mat-card-subtitle>
         <ng-template #noTipo>
-            <mat-card-subtitle>Sin tipo</mat-card-subtitle>
+            <mat-card-subtitle>{{ 'STAGE.TYPELESS' | translate }}</mat-card-subtitle>
         </ng-template>
         <mat-card-content>
             <!-- si etapa contiene link a una imagen -->

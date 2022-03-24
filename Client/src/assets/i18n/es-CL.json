@@ -157,7 +157,8 @@
       "SUCCESS_MESSAGE": "Se ha creado la etapa",
       "SUCCESS_MESSAGE_DELETE": "Se ha eliminado la etapa",
       "SUCCESS_MESSAGE_UPDATE": "Se ha actualizado la etapa"
-    }
+    },
+    "TYPELESS" : "Sin tipo"
   },
   "MODULE": {
     "FORM": {
@@ -194,12 +195,47 @@
       "PROGRESS": "Progreso",
       "DESCRIPTION": "Descripción",
       "LOCKED": "Bloqueado",
-      "CODE": "Código"
+      "CODE": "Código",
+      "EMPTY": "No hay mundos"
     },
     "INITIATE": "Iniciar",
     "COMPLETE": "Completar",
     "FINISHED": "Finalizado"
 
+  },
+  "MEDAL": {
+    "REQUIRED" : {
+      "_2" : "Debes completar al menos un nivel",
+      "_3" : "Debes completar al menos la mitad del total de niveles",
+      "_4" : "Debes completar al menos el 75% del total de niveles",
+      "_5" : "Debes terminar... todo"
+    },
+    "ACHIEVED" : {
+      "_1" : "Has realizado tu primer login",
+      "_2" : "¡Has completado tu primer nivel!",
+      "_3" : "¡Felicidades, has completado la mitad del total de niveles",
+      "_4" : "Completaste el 75%... ¡Vamos por el 100%!",
+      "_5" : "¡¡No... puede... ser!! ¡¿Cómo completaste TODO?!"
+    },
+    "REWARD" : {
+      "STORY_1" : {
+        "_2" : "Preparas tu equipaje para realizar un viaje",
+        "_3" : "Llegas a la base de la montaña",
+        "_4" : "Al escalar te encuentras con muchos desafíos, pero la cima se ve cada vez más cerca",
+        "_5" : "Contemplas un paisaje único y te tomas un merecido descanso... ¡Felicidades!"
+      },
+      "STORY_2" : {
+        "_2" : "Encontraste un mapa del tesoro",
+        "_3" : "Navegas a la ubicación del tesoro",
+        "_4" : "Llegas a tu destino y te sumerges en búsqueda del tesoro",
+        "_5" : "¡Has encontrado el tesoro! Ahora posees recursos para más aventuras... ¡Felicidades!"
+      } 
+    },
+    "ERROR" : {
+      "_1": "Que raro... no deberías estar aquí.",
+      "_2": "Si estas viendo este mensaje por favor comunicate con un administrador"
+
+    }
   },
   "ERRORS": {
     "CHECK_REQUIRED": "La confirmación es requerida",

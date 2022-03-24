@@ -8,7 +8,7 @@
         </div>
         <br>
         <div fxLayout="row">
-            <h1>Has realizado tu primer login</h1>
+            <h1>{{ 'MEDAL.ACHIEVED._1' | translate }}</h1>
         </div>
     
     </div>
@@ -27,15 +27,15 @@
             <br>
             <div fxLayout="column"
                  fxLayoutAlign="center center">             
-                <h1>¡Has completado tu primer nivel!</h1>
+                <h1>{{ 'MEDAL.ACHIEVED._2' | translate }}</h1>
                 <br>
-                <h3 *ngIf="getMedalData().storyId == 0">Preparas tu equipaje para realizar un viaje</h3>
-                <h3 *ngIf="getMedalData().storyId == 1">Encontraste un mapa del tesoro</h3>
+                <h3 *ngIf="getMedalData().storyId == 0">{{ 'MEDAL.REWARD.STORY_1._2' | translate }}</h3>
+                <h3 *ngIf="getMedalData().storyId == 1">{{ 'MEDAL.REWARD.STORY_2._2' | translate }}</h3>
             </div>
         </div>
         
         <ng-template #medalla2bloqueada>
-            <h1>Debes completar al menos un nivel</h1>
+            <h1>{{ 'MEDAL.REQUIRED._2' | translate }}</h1>
         </ng-template>
     </div>
 
@@ -53,15 +53,15 @@
 
             <div fxLayout="column"
                  fxLayoutAlign="center center"> 
-                <h1>¡Felicidades, has completado la mitad del total de niveles</h1>
+                <h1>{{ 'MEDAL.ACHIEVED._3' | translate }}</h1>
                 <br>
-                <h3 *ngIf="getMedalData().storyId == 0">Llegas a la base de la montaña</h3>
-                <h3 *ngIf="getMedalData().storyId == 1">Navegas a la ubicación del tesoro</h3>
+                <h3 *ngIf="getMedalData().storyId == 0">{{ 'MEDAL.REWARD.STORY_1._3' | translate }}</h3>
+                <h3 *ngIf="getMedalData().storyId == 1">{{ 'MEDAL.REWARD.STORY_2._3' | translate }}</h3>
             </div>
         </div>
 
         <ng-template #medalla3bloqueada>
-            <h1>Debes completar al menos la mitad del total de niveles </h1>
+            <h1>{{ 'MEDAL.REQUIRED._3' | translate }}</h1>
         </ng-template>
     </div>
 
@@ -80,15 +80,15 @@
 
             <div fxLayout="column"
                  fxLayoutAlign="center center"> 
-                <h1>Completaste el 75%... ¡Vamos por el 100%!</h1>
+                <h1>{{ 'MEDAL.ACHIEVED._4' | translate }}</h1>
                 <br>
-                <h3 *ngIf="getMedalData().storyId == 0">Al escalar te encuentras con muchos desafíos, pero la cima se ve cada vez más cerca</h3>
-                <h3 *ngIf="getMedalData().storyId == 1">Llegas a tu destino y te sumerges en búsqueda del tesoro </h3>
+                <h3 *ngIf="getMedalData().storyId == 0">{{ 'MEDAL.REWARD.STORY_1._4' | translate }}</h3>
+                <h3 *ngIf="getMedalData().storyId == 1">{{ 'MEDAL.REWARD.STORY_2._4' | translate }}</h3>
             </div>
         </div>
         
         <ng-template #medalla4bloqueada>
-            <h1>Debes completar al menos el 75% del total de niveles</h1>
+            <h1>{{ 'MEDAL.REQUIRED._4' | translate }}</h1>
         </ng-template>
     </div>
 
@@ -106,20 +106,20 @@
 
             <div fxLayout="column"
                  fxLayoutAlign="center center">
-                <h1>¡¡No... puede... ser!! ¡¿Cómo completaste TODO?!</h1>
+                <h1>{{ 'MEDAL.ACHIEVED._5' | translate }}</h1>
                 <br>
-                <h3 *ngIf="getMedalData().storyId == 0">Contemplas un paisaje único y te tomas un merecido descanso... ¡Felicidades! </h3>
-                <h3 *ngIf="getMedalData().storyId == 1">¡Has encontrado el tesoro! Ahora posees recursos para más aventuras... ¡Felicidades!</h3>
+                <h3 *ngIf="getMedalData().storyId == 0">{{ 'MEDAL.REWARD.STORY_1._5' | translate }}</h3>
+                <h3 *ngIf="getMedalData().storyId == 1">{{ 'MEDAL.REWARD.STORY_2._5' | translate }}</h3>
             </div>
         </div>
         
         <ng-template #medalla5bloqueada>
-            <h1>Debes terminar... todo</h1>
+            <h1>{{ 'MEDAL.REQUIRED._5' | translate }}</h1>
         </ng-template>
     </div>
 
 
     <div *ngSwitchDefault>
-        <h3>Que raro... no deberías estar aquí. <br> Si estas viendo este mensaje por favor comunicate con un administrador</h3>
+        <h3>{{ 'MEDAL.ERROR._1' | translate }}<br>{{ 'MEDAL.ERROR._2' | translate }}</h3>
     </div>
 </div>
