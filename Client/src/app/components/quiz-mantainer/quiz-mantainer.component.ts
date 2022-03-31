@@ -455,6 +455,7 @@ guardarQuiz(){
 //FALTA
 //
 
+//Al cargar los quizzes se carga un array de quizzes?
 obtenerUrlImagen(){
   return;
 }
@@ -467,6 +468,10 @@ getVideosLista(){
   return;
 }
 
+
+
+
+//VALIDACIONES
 validateFormQuestion(){
   return;
 }

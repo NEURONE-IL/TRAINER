@@ -61,7 +61,7 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
     const _id = req.params.flow_id;
     const flow = await Flow.findOne({_id: _id}, (err, flow) => {
         if (err) {
-            return res.status(404).json({
+            return res.status(404).json({ 
                 err
             });
         }
