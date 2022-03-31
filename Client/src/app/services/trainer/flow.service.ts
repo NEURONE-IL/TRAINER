@@ -24,11 +24,11 @@ export class FlowService {
 
   constructor(protected http: HttpClient) { }
 
-  getFlowDummy(flowId: string): Observable<any> {
+  getFlowTestUser(flowId: string): Observable<any> {
     return this.http.get(environment.apiURL + 'user/' + flowId +'/findTestUser', { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  resetFlowDummy(flowId: string): Observable<any> {
+  resetFlowTestUser(flowId: string): Observable<any> {
     return this.http.get(environment.apiURL + 'user/' + flowId +'/resetTestUser', { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 

@@ -63,6 +63,7 @@
   },
   "ADMIN": {
     "SUBTITLE": "Panel de Creación de Flujos",
+    "REGISTER_LINK": "Enlace de registro",
     "STAGES": {
       "CREATED_AT": "Creado",
       "FLOW": "Flujo",
@@ -81,7 +82,12 @@
       "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el flujo?",
       "DELETING_RESOURCES": "Eliminando recurso, por favor espere...",
       "HEADER": "Flujo",
-      "LOADING": "Cargando, por favor espere..."
+      "LOADING": "Cargando, por favor espere...",
+      "TEST_USER_PASSWORD": "Contraseña",
+      "TEST_USER_RESET": "REINICIAR USUARIO",
+      "TEST_USER_USERNAME": "Usuario de prueba",
+      "TEST_USER_ALERT_START": "Importante",
+      "TEST_USER_ALERT_END": "Una vez termine de agregar/eliminar desafíos, reinicie el usuario de prueba para que este refleje los cambios realizados"      
     },
     "MODULES": {
       "CODE":"Código",
@@ -116,8 +122,8 @@
     "UPDATE_TITLE": "Edición de flujos",
     "UPDATE_SUBTITLE": "Complete el siguiente formulario para etitar el flujo seleccionado",
     "TOAST": {
-      "DUMMY_RESET_ERROR": "No se ha revertido el usuario de prueba",
-      "DUMMY_RESET_SUCCESS": "Usuario de prueba revertido con éxito",
+      "TEST_USER_RESET_ERROR": "No se ha revertido el usuario de prueba",
+      "TEST_USER_RESET_SUCCESS": "Usuario de prueba revertido con éxito",
       "ERROR": "¡Error!",
       "ERROR_MESSAGE": "No se ha creado el nuevo flujo",
       "ERROR_MESSAGE_DELETE": "No se ha eliminado el flujo",
@@ -281,7 +287,7 @@
     },
     "INVALID_LINK": {
       "TITLE": "Link inválido",
-      "MESSAGE": "El link de registro utilizado es inválido, por favor póngase en contacto con el responsable del estudio."
+      "MESSAGE": "El enlace de registro utilizado es inválido, por favor póngase en contacto con el responsable del estudio."
     },
     "CONSENT": {
       "DISCLAIMER": "Por favor, lea el siguiente consentimiento informado.",

@@ -84,9 +84,9 @@ export class FlowDisplayComponent implements OnInit {
     this.reloadModules();
   }
 
-  resetFlowDummy(){
+  resetFlowTestUser(){
     this.resetingUser = true;
-    this.flowService.resetFlowDummy(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
+    this.flowService.resetFlowTestUser(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
       this.dummyUser = response['user'];
       this.resetingUser = false;
     } , err => {
@@ -96,7 +96,7 @@ export class FlowDisplayComponent implements OnInit {
   }
 
   getTestUser(){
-    this.flowService.getFlowDummy(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
+    this.flowService.getFlowTestUser(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
       this.dummyUser = response['user'];
       this.getProgress();
     });
@@ -116,6 +116,23 @@ export class FlowDisplayComponent implements OnInit {
 //        console.log('realUser');
 //      });
 //    }
+  }
+
+  resetTestUser(){
+    this.authService.resetTestUser(this.flow._id).subscribe(
+      user => {
+        this.toastr.success(this.translate.instant("FLOW.TOAST.TEST_USER_RESET_SUCCESS"), this.translate.instant("FLOW.TOAST.SUCCESS"), {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      },
+      err => {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.TEST_USER_RESET_ERROR"), this.translate.instant("FLOW.TOAST.ERROR"), {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      }
+    )
   }
 
   confirmFlowDelete(id: string){

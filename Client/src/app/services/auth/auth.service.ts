@@ -14,7 +14,7 @@ export class AuthService {
   userUri = environment.apiURL + 'user/';
 
   getRegisterLink(flowId){
-    return 'http://localhost:4200/signup/'; //+ flowId;
+    return environment.frontURL + 'signup/'; //+ flowId;
   }
 
   constructor(private http: HttpClient,

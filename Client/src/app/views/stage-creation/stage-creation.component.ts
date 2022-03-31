@@ -76,8 +76,8 @@ export class StageCreationComponent implements OnInit {
     this.loading = false;
   }
 
-  resetFlowDummy(){
-    this.flowService.resetFlowDummy(this.flow).subscribe();
+  resetFlowTestUser(){
+    this.flowService.resetFlowTestUser(this.flow).subscribe();
   }
 
   get stageFormControls(): any {

@@ -53,7 +53,7 @@ export class HomeComponent implements OnInit {
 //    this.getAdvance();
 
       //id del flujo esta dentro del usuario, pero para obtener el usuario necesito el id del flujo
-/*      this.flowService.getFlowDummy("618ec5e213fb7313d7ca77d7").subscribe(response => {
+/*      this.flowService.getFlowTestUser("618ec5e213fb7313d7ca77d7").subscribe(response => {
         this.user = response['user'];
         console.log("datos del usuario: ", this.user);
         this.flowId = this.user.flow;

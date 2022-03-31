@@ -1,11 +1,8 @@
 <mat-card class="flow-display-card">
-
-
-  <mat-grid-list cols="24" rowHeight="100px">
+  <mat-grid-list cols="24">
     <mat-grid-tile colspan="12">
       <mat-card-header>
         <mat-card-title *ngIf="flow">{{ "ADMIN.FLOWS.HEADER" | translate }}: {{flow.name}}</mat-card-title>
-        <p> Link de Registro: {{ registerLink}} </p>
       </mat-card-header>
     </mat-grid-tile>
     <mat-grid-tile colspan="4"></mat-grid-tile>
@@ -13,6 +10,23 @@
       <button mat-raised-button class="actionButton" color="primary" (click)="showFlowUpdateDialog()">{{ "BUTTONS.EDIT_FLOW" | translate }} <mat-icon>edit</mat-icon></button>
       <button mat-raised-button class="actionButton" color="warn" (click)="confirmFlowDelete(flow._id)">{{ "BUTTONS.DELETE_FLOW" | translate }} <mat-icon>delete</mat-icon></button>
     </mat-grid-tile>
+    <mat-grid-tile colspan="24">
+      <mat-card-header>
+        <mat-card-subtitle class="registerLink">{{ "ADMIN.REGISTER_LINK" | translate }}: {{ registerLink}}</mat-card-subtitle>
+      </mat-card-header>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="24">
+      <mat-card-header>
+        <mat-card-subtitle class="registerLink">{{ "ADMIN.FLOWS.TEST_USER_USERNAME" | translate }}: {{ flow._id+"@test.com" }}</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content> {{ "ADMIN.FLOWS.TEST_USER_PASSWORD" | translate }}: test12345 </mat-card-content>
+      <button mat-raised-button class="actionButton" color="primary" (click)="resetTestUser()">{{ "ADMIN.FLOWS.TEST_USER_RESET" | translate }} <mat-icon>autorenew</mat-icon></button>
+    </mat-grid-tile>
+    <mat-grid-tile colspan="24">
+      <div class="alert alert-warning" role="alert">
+        <strong>{{ "ADMIN.FLOWS.TEST_USER_ALERT_START" | translate }}:</strong> {{ "ADMIN.FLOWS.TEST_USER_ALERT_END" | translate }}
+      </div>
+    </mat-grid-tile>    
   </mat-grid-list>
   <!-- Nuevo diseño de Tabs -->
   <mat-tab-group mat-align-tabs="end">
@@ -158,7 +172,7 @@
 
     <mat-tab label="{{'ADMIN.TABS.PREVIEW' | translate }}">
       <ng-template matTabContent>
-        <button mat-raised-button color="primary" (click)="this.resetFlowDummy()"> Reset User</button>
+        <button mat-raised-button color="primary" (click)="this.resetTestUser()"> Reset User</button>
         <!-- <show-flow [studentId]="dummyUser._id"  [flow]="flow"></show-flow> -->
         <app-modulos [flow]="flow" [flowId]="flow._id" [user]="dummyUser"></app-modulos>
       </ng-template>

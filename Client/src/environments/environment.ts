@@ -9,9 +9,19 @@ export const environment = {
   // frontURL: 'http://138.197.200.50:3070/',
   serverRoot: 'http://localhost:3070/',
   apiURL: 'http://localhost:3070/api/',
-  frontURL: 'http://localhost:3070/',
+  frontURL: 'http://localhost:4200/',
   locale: 'es-CL'
 };
+
+/*
+export const environment = {
+  production: false,
+  serverRoot: 'https://trainer.neurone.info/',
+  apiURL: 'https://trainer.neurone.info/api/',
+  frontURL: 'https://trainer.neurone.info/',
+  locale: 'es-CL'
+};
+*/
 
 /*
  * For easier debugging in development mode, you can import the following file
