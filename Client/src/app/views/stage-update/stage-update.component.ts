@@ -23,7 +23,7 @@ export class StageUpdateComponent implements OnInit{
   flows: Flow[];
   loading: Boolean;
   steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  typeOptions: string[] = ['Trivia', 'SG', 'Video', 'Video + Quiz'];
+  typeOptions: string[] = ['Trivia', 'SG', 'Video + Quiz'];
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
   SGLinks: SGGame[] = [];
@@ -106,14 +106,7 @@ export class StageUpdateComponent implements OnInit{
     else if(type === 'SG'){
       this.currentLinks = this.SGLinks;
     }
-    else if(type === 'Video'){
-      this.currentLinks = [];
-      this.videoModuleService.getVideos().subscribe(res => {
-        for (const video of res['data']){
-          this.currentLinks.push({"name": video["name"], "_id": video["_id"]});
-        }
-      });
-    }
+    
     else if(type === 'Video + Quiz'){
       this.currentLinks = [];
       this.videoModuleService.getQuizzes().subscribe(res => {

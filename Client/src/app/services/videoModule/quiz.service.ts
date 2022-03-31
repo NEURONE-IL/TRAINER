@@ -16,7 +16,7 @@ export interface VideoModule {
 
 export class QuizService {
 
-  environmentUrl = 'http://localhost:4200/';
+  environmentUrl = 'https://trainer.neurone.info/';
   environmentApiUrl = environment.apiURL;
   uri = this.environmentApiUrl + 'videoModule/';
   uriVideoObjects = this.environmentApiUrl + 'videoObjects/';
