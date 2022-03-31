@@ -4,21 +4,13 @@
 
 export const environment = {
   production: false,
-<<<<<<< Updated upstream
-  // serverRoot: 'http://138.197.200.50:3070/',
-  // apiURL: 'http://138.197.200.50:3070/api/',
-  // frontURL: 'http://138.197.200.50:3070/',
+  //  serverRoot: 'https://trainer.neurone.info/',
+  //  apiURL: 'https://trainer.neurone.info/api/',
+  //  frontURL: 'https://trainer.neurone.info/',
   serverRoot: 'http://localhost:3070/',
   apiURL: 'http://localhost:3070/api/',
   frontURL: 'http://localhost:4200/',
-=======
-   serverRoot: 'https://trainer.neurone.info/',
-   apiURL: 'https://trainer.neurone.info/api/',
-   frontURL: 'https://trainer.neurone.info/',
-  // serverRoot: 'http://localhost:3070/',
-  // apiURL: 'http://localhost:3070/api/',
-  // frontURL: 'http://localhost:3070/',
->>>>>>> Stashed changes
+
   locale: 'es-CL'
 };
 
