@@ -7,7 +7,7 @@ import { MAT_DIALOG_DATA } from "@angular/material/dialog";
   styles: [`
     img {
       border-radius: 10px;
-      width: 100%;
+      width: 20vh;
       height: auto;
     }
   `]
