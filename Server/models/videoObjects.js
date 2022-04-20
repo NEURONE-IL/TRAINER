@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
-
+  
 const VideoObjectsSchema = new Schema({
     name: { type: String, required: true },
     image_url: { type: String, required: true },

@@ -44,6 +44,8 @@ router.get('', async (req, res) => {
 });
 
 router.post('',  [imageStorage.upload.single('file')], async (req, res) => {
+    console.log("Router!! are we here?");
+    console.log(req.file); 
     if(req.file){
         let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
         res.status(200).json({

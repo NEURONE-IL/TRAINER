@@ -22,6 +22,7 @@ import { HttpClient } from '@angular/common/http';
 
 export class QuizMantainerComponent implements OnInit{
  verQuizes = true;
+ crearQuiz=false;
  quizzes;
  pregunta="text";
  video;
@@ -43,6 +44,10 @@ export class QuizMantainerComponent implements OnInit{
     this.verQuizes = !this.verQuizes;
     if(!this.verQuizes){
       this.quizCreate();
+      this.crearQuiz=true;
+      this.verVideos=false;
+    }else{
+      this.crearQuiz=false;
     }
   }
 
@@ -433,6 +438,7 @@ guardarQuiz(){
   let video= this.videoSelected;
 
   let quiz={
+    "video_id": 12345678,
     "quiz_id": this.calcularCodigoTresDigitos(id),
     "name": titulo,
     "instructions": descripcion,
@@ -486,6 +492,30 @@ validateFormQuiz(){
 
 
 
+//videos 
+verVideos= false;
+videosToggle(){
+  this.verVideos= !this.verVideos;
+  if(this.verVideos){
+    this.crearQuiz=false;
+    this.verQuizes=false;
+  }
+}
+loadImage(file){
+  let url=""
+  this.quizService.saveImage(file).subscribe(
+    (res)=>{
+      console.log(res)
+    }
+  )
+  return;
+}
+registerVideo(){
+  //let name= (document.getElementById("tituloVideo")  as HTMLInputElement).value;
+  //let url_video= (document.getElementById("urlVideo")  as HTMLInputElement).value;
+  let file = (document.getElementById("imageVideo")  as HTMLInputElement).files[0];
+  this.loadImage(file);
 
-
+  //let language= (document.getElementById("language")  as HTMLInputElement).value;
+}
 }

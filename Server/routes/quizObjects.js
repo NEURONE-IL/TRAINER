@@ -40,7 +40,7 @@ router.get('/:quiz_id', async (req, res) => {
 // Add a quiz
 router.post('', [verifyToken], async (req, res) => {
     const quiz = new QuizObjects({
-        video_id: req.body.video_id,
+        video_id: new ObjectId(req.body.video_id), //req.body.video_id
         name: req.body.name,
         instructions: req.body.instructions,
         resource_url: req.body.resource_url,

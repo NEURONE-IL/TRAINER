@@ -36,7 +36,9 @@ export class QuizService {
     return this.http.get(this.uriImage, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
-  saveImage(file){
+  saveImage(file:any){
+    console.log("FRONT END:")
+    console.log(file)
     return this.http.post(this.uriImage, file, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
