@@ -23,7 +23,7 @@ router.get('/confirmation/:token', async(req, res)=> {
             user.confirmed = true;
             user.save(function (err) {
                 if (err) { return res.status(500).send({ msg: err.message }); }
-                res.status(200).redirect(process.env.GAME_CLIENT + '/login/confirmedOK');
+                res.status(200).redirect(process.env.TRAINER_CLIENT + '/login/confirmedOK');
             });
         });
     });

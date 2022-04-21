@@ -9,7 +9,6 @@ const path = require('path');
 require('dotenv').config(); //setup custom environment variables
 
 /** Internal modules **/
-require('./config/config');
 const authRoutes = require('./routes/auth');
 const sessionLogRoutes = require('./routes/sessionLog');
 const stageRoutes = require('./routes/stage');
