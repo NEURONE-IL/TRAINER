@@ -125,7 +125,7 @@ export class HomeComponent implements OnInit {
       window.location.href = this.triviaService.getStudyLink(stage.link, this.user);
       console.log(this.triviaService.getStudyLink(stage.link, this.user));
     }
-    if (stage.type === 'SG'){
+    if (stage.type === 'Adventure'){
 
       window.location.href = this.apiSGService.getAdventureLink(stage.link);
       return;
@@ -162,8 +162,8 @@ export class HomeComponent implements OnInit {
     if (type === 'Trivia'){
       return 'Trivia';
     }
-    else if (type === 'SG'){
-      return 'SG';
+    else if (type === 'Adventure'){
+      return 'Adventure';
     }
     else if (type === 'Video'){
       return 'Video';

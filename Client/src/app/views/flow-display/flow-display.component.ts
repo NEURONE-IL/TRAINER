@@ -246,8 +246,8 @@ export class FlowDisplayComponent implements OnInit {
     if(type === 'Trivia'){
       return 'Trivia';
     }
-    else if(type === 'SG'){
-      return 'SG';
+    else if(type === 'Adventure'){
+      return 'Adventure';
     }
     else if(type === 'Video'){
       return 'Video';
@@ -305,7 +305,7 @@ export class FlowDisplayComponent implements OnInit {
     if (stage.type === 'Trivia'){
       return this.triviaService.getStudyLink(stage.externalId, this.dummyUser);
     }
-    if (stage.type === 'SG'){
+    if (stage.type === 'Adventure'){
       return this.apiSGService.getAdventureLink(stage.externalId);
     }
   }
@@ -314,7 +314,7 @@ export class FlowDisplayComponent implements OnInit {
     switch (type) {
       case 'Trivia':
         return '../../../assets/stage-images/00Trivia.jpg';
-      case 'SG':
+      case 'Adventure':
         return '../../../assets/stage-images/01Adventure.jpg';
       case 'Video':
         return '../../../assets/stage-images/02Video.jpg';

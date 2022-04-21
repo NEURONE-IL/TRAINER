@@ -132,8 +132,7 @@ export class TrainerUserUIService {
   getProgress(userId){
     let apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
     let header = new HttpHeaders();
-    let urlApi = 'http://159.65.100.191:3030/api/';
-    // let urlApi = 'http://159.89.132.126:3030/api/'; //trivia dev
+    let urlApi = environment.apiURL;
     header = header.append('Content-Type', 'application/json');
     header = header.append('x-api-key', apiKey);
     return this.http.get(urlApi + 'user/' + userId + '/advance', { headers: header });

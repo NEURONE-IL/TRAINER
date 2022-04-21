@@ -123,8 +123,8 @@ export class ShowFlowComponent implements OnInit {
     if(type === 'Trivia'){
       return 'Trivia';
     }
-    else if(type === 'SG'){
-      return 'SG';
+    else if(type === 'Adventure'){
+      return 'Adventure';
     }
     else if(type === 'Video'){
       return 'Video';
@@ -142,7 +142,7 @@ export class ShowFlowComponent implements OnInit {
     if (stage.type === 'Trivia'){
       window.location.href = this.triviaService.getStudyLink(stage.externalId, this.authService.getUser());
     }
-    if (stage.type === 'SG'){
+    if (stage.type === 'Adventure'){
       window.location.href = this.apiSGService.getAdventureLink(stage.externalId);
       return;
     }
@@ -177,7 +177,7 @@ export class ShowFlowComponent implements OnInit {
     switch (type) {
       case 'Trivia':
         return '../../../assets/stage-images/00Trivia.jpg';
-      case 'SG':
+      case 'Adventure':
         return '../../../assets/stage-images/01Adventure.jpg';
       case 'Video':
         return '../../../assets/stage-images/02Video.jpg';

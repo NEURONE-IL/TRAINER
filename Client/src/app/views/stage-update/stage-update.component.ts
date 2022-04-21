@@ -23,7 +23,7 @@ export class StageUpdateComponent implements OnInit{
   flows: Flow[];
   loading: Boolean;
   steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  typeOptions: string[] = ['Trivia', 'SG', 'Video + Quiz'];
+  typeOptions: string[] = ['Trivia', 'Adventure', 'Video + Quiz'];
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
   SGLinks: SGGame[] = [];
@@ -103,7 +103,7 @@ export class StageUpdateComponent implements OnInit{
     if(type === 'Trivia'){
       this.currentLinks = this.triviaLinks;
     }
-    else if(type === 'SG'){
+    else if(type === 'Adventure'){
       this.currentLinks = this.SGLinks;
     }
     
@@ -183,7 +183,7 @@ export class StageUpdateComponent implements OnInit{
     if(value === 'Trivia'){
       this.currentLinks = this.triviaLinks;
     }
-    else if(value === 'SG'){
+    else if(value === 'Adventure'){
       this.currentLinks = this.SGLinks;
     }
 

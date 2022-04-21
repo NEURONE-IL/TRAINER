@@ -26,7 +26,7 @@ export class StageCreationComponent implements OnInit {
   flows: Flow[];
   loading: Boolean;
   steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-  typeOptions: string[] = ['Trivia', 'SG', 'Video + Quiz'];
+  typeOptions: string[] = ['Trivia', 'Adventure', 'Video + Quiz'];
   currentLinks: any[];
   triviaLinks: TriviaStudy[];
   SGLinks: SGGame[] = [];
@@ -173,7 +173,7 @@ export class StageCreationComponent implements OnInit {
     if(value === 'Trivia'){
       this.currentLinks = this.triviaLinks;
     }
-    else if(value === 'SG'){
+    else if(value === 'Adventure'){
       this.currentLinks = this.SGLinks;
     }
 

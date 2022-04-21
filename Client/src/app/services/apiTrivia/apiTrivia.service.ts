@@ -25,7 +25,7 @@ export interface TriviaStudy {
 
 export class ApiTriviaService {
   urlLocal = 'http://localhost:4200/';
-  urlApi = 'http://159.89.132.126:3030/api/';
+  urlApi = environment.triviaSource;
   apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
   uri = environment.apiURL + 'trivia/';
 
@@ -55,7 +55,7 @@ export class ApiTriviaService {
   
   getStudyLink(idStudio, user) {
     if(user){
-      return 'http://159.89.132.126:3030/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/' + environment.serverRoot.split("/").join("-");
+      return environment.triviaSource + 'login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/' + environment.serverRoot.split("/").join("-");
     }
     
   }

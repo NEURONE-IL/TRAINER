@@ -98,7 +98,7 @@ export class ShowStagesComponent implements OnInit {
     if (stage.type === 'Trivia'){
       return this.triviaService.getStudyLink(stage.externalId, this.user);
     }
-    if (stage.type === 'SG'){
+    if (stage.type === 'Adventure'){
       return this.apiSGService.getAdventureLink(stage.externalId);
     }
   }
