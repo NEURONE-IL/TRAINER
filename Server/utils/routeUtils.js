@@ -93,9 +93,12 @@ function sendConfirmationEmail(user, userData, res, req) {
             },
         });
         const mailOptions = {
-            from: "neurone@informatica.usach.cl",
+            from: {
+				name: 'TRAINER',
+				address: 'neurone@informatica.usach.cl'
+			},
             to: user.email,
-            subject: "Verifique su correo",
+			subject: "Bienvenido a Trainer - Confirma tu cuenta para participar",
             text: mailText,
             html: mailHTML,
         };
@@ -112,14 +115,14 @@ exports.sendConfirmationEmail = sendConfirmationEmail;
 function generateEmailData(req, token, userData) {
     const emailTemplateFile = "assets/confirmationEmail.html";
     const link =
-        "http://" +
+        "https://" +
         req.headers.host +
         "/confirmation/" +
         token.token;
     let mailHTML = null;
     let mailText =
         "Hola,\n\n" +
-        "Por favor, verifique su correo ingresando al siguiente link: \nhttp://" +
+        "Por favor, verifique su correo ingresando al siguiente link: \nhttps://" +
         link +
         ".\n";
   
@@ -165,7 +168,7 @@ function addTextToEmail(mailHTML, userData, link) {
     mailHTML = mailHTML.replace(/%CONFIRMATION_EMAIL.LINK%/g, link);
     mailHTML = mailHTML.replace(
         "[CONFIRMATION_EMAIL.IF_LINK_DOESNT_WORK_TEXT]",
-        "Si el enlace tampoco funciona, por favor cópielo y péguelo en una nueva pestaña de su navegador de internet:"
+        "Si el enlace tampoco funciona, por favor cópielo y péguelo en una nueva pestaña de su navegador de internet"
     );
     mailHTML = mailHTML.replace("[CONFIRMATION_EMAIL.GREETINGS]", "¡Saludos!");
     return mailHTML;
@@ -200,12 +203,15 @@ function sendResetPasswordEmail(user, res, req) {
             },
         });
         const mailOptions = {
-            from: "neurone@informatica.usach.cl",
+            from: {
+				name: 'TRAINER',
+				address: 'neurone@informatica.usach.cl'
+			},
             to: user.email,
-            subject: "Recupere su contraseña",
+			subject: "Recupere su contraseña",
             text: mailText,
             html: mailHTML,
-        };
+        };		
         transporter.sendMail(mailOptions, (err) => {
             if (err) {
                 return res.status(500).send({ msg: err.message });
@@ -219,14 +225,14 @@ exports.sendResetPasswordEmail = sendResetPasswordEmail;
 function generateEmailDataRP(req, token, user) {
     const emailTemplateFile = "assets/resetPassword.html";
     const link =
-        "http://" +
+        "https://" +
         req.headers.host +
         "/user/resetPassword/" +
         token.token;
     let mailHTML = null;
     let mailText =
         "Hola,\n\n" +
-        "Por favor, recupere su contraseña ingresando siguiente link: \nhttp://" +
+        "Por favor, recupere su contraseña ingresando siguiente link: \nhttps://" +
         link +
         ".\n";
   
@@ -267,7 +273,7 @@ function addTextToEmailRP(mailHTML, userData, link) {
     mailHTML = mailHTML.replace(/%RESET_PASSWORD.LINK%/g, link);
     mailHTML = mailHTML.replace(
         "[RESET_PASSWORD.IF_LINK_DOESNT_WORK_TEXT]",
-        "Si el enlace tampoco funciona, por favor cópielo y péguelo en una nueva pestaña de su navegador de internet:"
+        "Si el enlace tampoco funciona, por favor cópielo y péguelo en una nueva pestaña de su navegador de internet"
     );
     mailHTML = mailHTML.replace("[RESET_PASSWORD.GREETINGS]", "¡Saludos!");
     return mailHTML;

@@ -37,6 +37,11 @@ const routes: Routes = [
     canActivate: [ NotLoggedInGuard ]
   },
   {
+    path: 'login/alreadyConfirmed',
+    component: LoginComponent,
+    canActivate: [ NotLoggedInGuard ]
+  },
+  {
     path: 'signup',
     component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
