@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 })
 export class AssistantService {
 
-  urlApi = environment.assistantSource;
+  urlApi = environment.adventureApi;
 
   constructor(private http: HttpClient) { }
 

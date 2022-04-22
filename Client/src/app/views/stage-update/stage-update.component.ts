@@ -87,7 +87,7 @@ export class StageUpdateComponent implements OnInit{
       this.triviaLinks = res.studys;
       this.initLinks(this.stage.type);
     });
-    this.apiSGService.getStudies().subscribe((res: any) => {
+    this.apiSGService.getAdventures().subscribe((res: any) => {
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
       console.log("ESTUDIOS RESCATADOS DESDE SG:");

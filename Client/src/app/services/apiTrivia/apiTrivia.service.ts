@@ -28,7 +28,6 @@ export class ApiTriviaService {
   urlApi = environment.triviaApi;
   urlSource = environment.triviaSource;
   apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
-  uri = environment.apiURL + 'trivia/';
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -56,7 +55,7 @@ export class ApiTriviaService {
   
   getStudyLink(idStudio, user) {
     if(user){
-      return this.urlSource + '/login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/' + environment.serverRoot.split("/").join("-");
+      return this.urlSource + 'login_redirect/' + user.email + '/' + user.names + '/' + idStudio + '/' + user._id + '/' + this.apiKey + '/' + environment.serverRoot.split("/").join("-");
     }
     
   }
