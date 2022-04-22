@@ -23,10 +23,9 @@ export interface SGGame {
 
 export class ApiSGService {
   urlLocal = 'http://localhost:4200/';
-  urlApi = 'http://143.198.136.174:3002/';
+  urlApi = environment.adventureApi;
+  urlSource = environment.adventureSource;
   apiKey = 'wxlsdn2i3fviyqff31nw6dsvqxolka';
-
-  uri = environment.apiURL + 'sg/';
 
   constructor(private http: HttpClient,
               private router: Router,
@@ -38,22 +37,22 @@ export class ApiSGService {
     const post = {site: this.urlLocal};
     let header = new HttpHeaders();
     header = header.append('Content-Type', 'application/json');
-    this.http.post(this.urlApi + 'register', post, {headers: header}).subscribe((res: any) => {
+    this.http.post(this.urlApi + 'site/register', post, {headers: header}).subscribe((res: any) => {
       this.apiKey = res.site.api_key;
       this.toastr.success('Se ha establecido la conexion con SG', 'Conexion Exitosa!');
     });
   }
 
-  getStudies() {
+  getAdventures() {
     let header = new HttpHeaders();
     header = header.append('Content-Type', 'application/json');
     header = header.append('x-api-key', this.apiKey);
-    return this.http.get(this.urlApi + 'api/site/adventure', {headers: header});
+    return this.http.get(this.urlApi + 'site/adventure', {headers: header});
   }
 
   getAdventureLink(idAdventure) {
     const user = JSON.parse(localStorage.getItem('currentUser', ));
-    return this.urlApi + 'login_redirect/' + user.email + '/' + user.names + '/' + idAdventure + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
+    return this.urlSource + 'login_redirect/' + user.email + '/' + user.names + '/' + idAdventure + '/' + user._id + '/' + this.apiKey + '/http:--localhost:4200-home';
   }
 
 }

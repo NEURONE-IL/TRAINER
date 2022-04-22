@@ -8,8 +8,10 @@ export const environment = {
   apiURL: 'https://trainer.neurone.info/api/',
   frontURL: 'https://trainer.neurone.info/',
   triviaSource: 'https://trivia.neurone.info/',
+  triviaApi: 'https://trivia.neurone.info/api/',
   adventureSource: 'http://143.198.136.174:3002/',
-  assistantSource: 'http://va.neurone.info/api/',
+  adventureApi: 'http://143.198.136.174:3002/api/',
+  assistantApi: 'http://va.neurone.info/api/',
   locale: 'es-CL'
 };
 

@@ -150,8 +150,10 @@ export class StageCreationComponent implements OnInit {
   getApiStudies(){
     this.triviaService.getStudies().subscribe((res: any) => {
       this.triviaLinks = res.studys;
+      console.log('any?')
+      console.log(res.studys);
     });
-    this.apiSGService.getStudies().subscribe((res: any) => {
+    this.apiSGService.getAdventures().subscribe((res: any) => {
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
