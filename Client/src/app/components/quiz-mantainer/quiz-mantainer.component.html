@@ -1,32 +1,33 @@
 <div class="row">
-    <div class="col-md-8" style="padding-top: 10px">
+    <div class="col-md-6" style="padding-top: 10px">
         <mat-card-subtitle> Mantenedor de Quizes:</mat-card-subtitle>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
     <div class="options" >
 
-    <button (click)="videosToggle()">VIDEOS</button>
+    <button *ngIf="!verVideos" (click)="videosToggle()" class="btn btn-primary creationButton">VIDEOS</button>
     <button *ngIf="verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >CREAR QUIZ <b>+</b> </button>
     <button *ngIf="!verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >VOLVER </button>
 
 
-        </div>
+      </div>
     </div>
     
 </div>
+<!-- CREAR VIDEO -->
 <mat-card-content *ngIf="verVideos && !crearQuiz && !verQuizes">
   <h2>Insertar Video</h2>
   <form class="form-horizontal">
     <div class="row">
       <div class="col-md-6">
           <div class="form-group">
-            <label class="control-label col-sm-4" for="titleVideo">Titulo:</label>
+            <label class="control-label col-sm-4" for="tituloVideo">Titulo:</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="titleVideo" placeholder="ingrese titulo">
+              <input type="text" class="form-control" id="tituloVideo" placeholder="ingrese titulo">
             </div>
           </div>
-          <div class="form-group">
-            <label class="control-label col-sm-4" for="imageVideo">Imagen:</label>
+          <div class="input-group">
+            <label class="form-label col-sm-4" for="imageVideo">Imagen:</label>
             <div class="col-sm-10">
               <input type="file" class="form-control" id="imageVideo">
             </div>
@@ -36,23 +37,28 @@
         <div class="form-group">
           <label class="control-label col-sm-4" for="urlVideo">Url Video:</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="urlVideo" placeholder="ingrese URL de un archivo en formato AVI o mp4">
+            <input type="text" class="custom-file-input" id="urlVideo" placeholder="ingrese URL de un archivo en formato mp4">
+          <p>Si su video esta en la carpeta assets, agregue la ruta relativa desde /assets/...</p>
           </div>
         </div>
-        <div class="form-group">
-          <label class="control-label col-sm-4" for="language">Idioma Video:</label>
-          <div class="col-sm-10">
-            <select name="languageVideo" id="languageVideo">
-              <option value="english">English</option>
-              <option value="spanish">Español</option>
-            </select>
-          </div>
-        </div>
+        <mat-form-field class="languageVideo" appearance="fill">
+          <mat-label>Seleccionar Idioma Video</mat-label>
+          <mat-select [(ngModel)]="languageVideo" name="video">
+            <mat-option [value]="'es'">
+              Español
+            </mat-option>
+            <mat-option [value]="'en'">
+              Español
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
     </div>
     </div>
   </form>
   <button (click)="registerVideo()">Guardar Video</button>
 </mat-card-content>
+
+<!-- CREAR QUIZZ -->
 <mat-card-content *ngIf="crearQuiz && !verVideos && !verQuizes">
     <form class="form-horizontal" >
 
@@ -82,8 +88,8 @@
                   <mat-form-field class="selectVideo" appearance="fill">
                     <mat-label>Seleccionar Video</mat-label>
                     <mat-select [(ngModel)]="videoSelected" name="video">
-                      <mat-option [value]="1">
-                        Video 1: Test Video
+                      <mat-option *ngFor="let item of videos" [value]="item._id">
+                        {{item.name}}
                       </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -294,7 +300,7 @@
 
 </mat-card-content>
 
-
+<!-- VER QUIZZES -->
 <mat-card-content *ngIf="verQuizes && !verVideos && !crearQuiz">
   <div *ngFor="let quiz of quizzes">
     <mat-card class="quizPreview">

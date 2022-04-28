@@ -21,12 +21,12 @@ import { HttpClient } from '@angular/common/http';
 })
 
 export class QuizMantainerComponent implements OnInit{
- verQuizes = true;
- crearQuiz=false;
- quizzes;
- pregunta="text";
- video;
-
+  verQuizes = true;
+  crearQuiz=false;
+  quizzes;
+  pregunta="text";
+  video;
+  videos=[];
   constructor(private quizService: QuizService,
               public matDialog: MatDialog,
               private http: HttpClient,
@@ -38,6 +38,18 @@ export class QuizMantainerComponent implements OnInit{
    this.quizService.getQuizzes().subscribe(res => {
      this.quizzes = res.data;
    });
+  this.quizService.getVideos().subscribe(
+    (res)=>{
+      for (let i in res.data){
+        this.videos.push({
+          name: res.data[i].name,
+          _id: res.data[i]._id, 
+          video_url: res.data[i].video_url,
+          image_url: res.data[i].image_url,
+        })
+        console.log(this.videos)
+      }
+    })
  }
 
   crearQuizToogle(){
@@ -48,6 +60,7 @@ export class QuizMantainerComponent implements OnInit{
       this.verVideos=false;
     }else{
       this.crearQuiz=false;
+      this.verVideos=false;
     }
   }
 
@@ -435,10 +448,10 @@ guardarQuiz(){
   let file = (document.getElementById("fileQuiz")  as HTMLInputElement).files[0];
   let descripcion= (document.getElementById("descQuiz")  as HTMLInputElement).value;
   let id= this.quizId;
-  let video= this.videoSelected;
+  let video_id= this.videoSelected;
 
   let quiz={
-    "video_id": 12345678,
+    "video_id": video_id,
     "quiz_id": this.calcularCodigoTresDigitos(id),
     "name": titulo,
     "instructions": descripcion,
@@ -502,20 +515,41 @@ videosToggle(){
   }
 }
 loadImage(file){
-  let url=""
-  this.quizService.saveImage(file).subscribe(
+  let formData = new FormData();
+  formData.append('file', file);
+  this.quizService.saveImage(formData).subscribe(
     (res)=>{
       console.log(res)
     }
   )
   return;
 }
+languageVideo="es";
 registerVideo(){
-  //let name= (document.getElementById("tituloVideo")  as HTMLInputElement).value;
-  //let url_video= (document.getElementById("urlVideo")  as HTMLInputElement).value;
+  let name= (document.getElementById("tituloVideo")  as HTMLInputElement).value;
+  let url_video= (document.getElementById("urlVideo")  as HTMLInputElement).value;
   let file = (document.getElementById("imageVideo")  as HTMLInputElement).files[0];
-  this.loadImage(file);
+  let language= this.languageVideo;
+  let formData = new FormData();
+  
+   formData.append('file', file);
+    this.quizService.saveImage(formData).subscribe(
+     (res:any)=>{
+       let image= res.url;
+        let objetVideo={
+          name: name, 
+          video_url:"/assets/videoModule-videos/video1.mp4",
+          image_url: image, 
+          language:language
+        }
+        this.quizService.addVideo(objetVideo).subscribe(
+          (res)=>{
+            console.log(res)
+          }
+        )
+     }
+   )
 
-  //let language= (document.getElementById("language")  as HTMLInputElement).value;
+  
 }
 }

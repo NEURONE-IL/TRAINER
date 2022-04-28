@@ -80,6 +80,7 @@ export class VideoComponent implements OnInit {
     // Get the video
     console.log('Buscamos... ', this.videoNumber);
     this.quizService.getVideo(this.videoNumber).subscribe(res => {
+      console.log(res)
       this.videoJson = res["data"];
       this.poster = this.videoJson.image_url;
       this.videoSources = [
