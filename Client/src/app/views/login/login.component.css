@@ -1,6 +1,6 @@
 .mat-form-field {
 	width: 100%;
-	min-width: 300px;
+	min-width: 400px;
 }
 
 .main-content{
@@ -64,9 +64,9 @@ mat-card-content {
 }
 
 .recovery p{
-	text-align: center;
-	line-height: 100px;
+	line-height: 100px;	
 	color: #3f51b5;
+	margin-top: 8%;
 }
 
 .innerRecovery:hover{
