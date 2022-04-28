@@ -34,8 +34,8 @@ mat-card-content {
 }
 
 .card{
-	width: 400px;
-	height: 350px;
+	width: 500px;
+	height: 300px;
 	margin: auto;
 	margin-top: 12%;
 	border: 1px solid black;
@@ -76,5 +76,5 @@ mat-card-content {
 body {
   background-image: url("https://img.wallpapersafari.com/desktop/1920/1080/95/97/8qf3Gl.jpg");
   background-repeat: no-repeat;
-
+  height: 100%;
 }

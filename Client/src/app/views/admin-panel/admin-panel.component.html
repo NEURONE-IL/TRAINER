@@ -1,12 +1,17 @@
 <app-header></app-header>
 
-<div *ngIf="flowSelected; else elseBlock" >
-  <router-outlet></router-outlet>
-</div>
-<ng-template #elseBlock>
-  <div class="main-content">
-    <div>
-      <app-flows-display (flowSelected)="flowSelectedHandler($event)"> </app-flows-display>
+<div id="page-container">
+  <div id="content-wrap">
+    <div *ngIf="flowSelected; else elseBlock" >
+      <router-outlet></router-outlet>
     </div>
+    <ng-template #elseBlock>
+      <div class="main-content">
+        <div>
+          <app-flows-display (flowSelected)="flowSelectedHandler($event)"> </app-flows-display>
+        </div>
+      </div>
+    </ng-template>
   </div>
-</ng-template>
+  <app-footer></app-footer>
+</div>

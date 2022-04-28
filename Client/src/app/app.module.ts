@@ -71,6 +71,7 @@ import { TrainerUserUIModule } from './trainer-userUI/trainer-userUI.module';
 import { FlowUpdateComponent } from './views/flow-update/flow-update.component';
 import { StageUpdateComponent } from './views/stage-update/stage-update.component';
 import { ModuleUpdateComponent } from './views/module-update/module-update.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -109,7 +110,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     ShowStagesComponent,
     SafeurlPipe,
     AdminVideoModuleComponent,
-    ModuleUpdateComponent
+    ModuleUpdateComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,

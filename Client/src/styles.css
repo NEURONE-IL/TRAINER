@@ -5,6 +5,15 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 /*Common*/
+#page-container {
+	position: relative;
+	min-height: 107.5vh;
+}
+
+#content-wrap {
+	padding-bottom: 12.5rem;    /* Footer height */
+}
+
 .mb8{
     margin-bottom: 8px;
 }
