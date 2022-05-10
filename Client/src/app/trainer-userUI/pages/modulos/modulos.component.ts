@@ -10,6 +10,7 @@ import { Module } from '../../interfaces/module.interface';
 import { MatDialog } from '@angular/material/dialog';
 import { DescriptionDialogComponent } from '../../components/description-dialog/description-dialog.component';
 import { ModuleService } from 'src/app/services/trainer/module.service';
+import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
 
 @Component({
   selector: 'app-modulos',
@@ -39,14 +40,17 @@ export class ModulosComponent implements OnInit, DoCheck {
   modules           : Module[] = [];
   descriptionDialog : DescriptionDialogComponent;
 
+  stageSuggestion : Stage;
+
   constructor(
     private dialog: MatDialog,
     private moduleService : ModuleService,
+    private trainerUserUIService : TrainerUserUIService
 
   ) { }
 
   ngOnInit(): void {
- 
+    
     this.getModules();
   
   }
@@ -61,6 +65,9 @@ export class ModulosComponent implements OnInit, DoCheck {
         }
       }
     }
+
+    //actualizar boton continuar
+    this.stageSuggestion = this.trainerUserUIService.nextStage;
   }
 
   getModules(){
@@ -133,6 +140,10 @@ export class ModulosComponent implements OnInit, DoCheck {
     event.stopPropagation();
 
     this.dialog.open(DescriptionDialogComponent, { data: modulo })
+  }
+
+  goToStage(stage){
+    this.trainerUserUIService.redirectToStage(stage, this.user)
   }
 
 }

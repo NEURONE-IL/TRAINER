@@ -9,6 +9,9 @@ import { environment } from 'src/environments/environment';
 
 import { Flow } from '../interfaces/flow.interface';
 import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
+import { Stage } from '../interfaces/stage.interface';
+import { QuizService } from 'src/app/services/videoModule/quiz.service';
+import { ApiSGService } from 'src/app/services/apiSG/apiSG.service';
 
 @Injectable({
   providedIn: 'root'
@@ -32,21 +35,38 @@ export class TrainerUserUIService {
 
   indiceEncontrado  : boolean = false;
 
-  // TODO: borrar observable de prueba
-  myObservable = of(1, 2, 3);
-
-  //hasta aqui
+  nextStage : Stage;
 
   constructor( protected http: HttpClient,
-              //  private triviaService: ApiTriviaService,
-              //  private adventureService
-              //  private videoService
-              //  private videoQuizService
+               private triviaService: ApiTriviaService,
+               private videoModuleService: QuizService,
+               private apiSGService: ApiSGService,
               ) { }
 
-  // observable de prueba (TODO: borrar)
-  observableTest():Observable<number>{
-    return of(123);
+  // observable de prueba con el progreso de aventura (TODO: borrar)
+  progresoAventura():Observable<any>{
+    return of({
+      progress: [
+        {
+          adventure: {
+            _id: "60ddfaf8d02afa10bf93676d",
+            name: "Aventura en el espacio",
+            description: "No sé"
+          },
+          completed: true,
+          percentage: 1
+        },
+        {
+          adventure: {
+            _id: "60de1794d02afa10bf936a1b",
+            name: "aventura 2",
+            description: "avnetura 2"
+          },
+          completed: false,
+          percentage: 0
+        }
+      ]
+    });
   }
 
   //hasta aqui
@@ -64,7 +84,8 @@ export class TrainerUserUIService {
 
   getTotalProgress(user){
     //prueba para verificar como funciona forkjoin
-    return forkJoin([this.getProgress(user._id), this.observableTest()]);
+    let totalProgress = forkJoin([this.triviaService.getProgress(user._id), this.progresoAventura()]);
+    return totalProgress;
 
     //TODO: unificar los progresos de todos los ambientes
     //(llamando los metodos que obtienen el progreso de sus respectivos servicios)
@@ -74,6 +95,24 @@ export class TrainerUserUIService {
     //    this.videoService.getVideoProgress(),
     //    this.videoQuizService.getVideoQuizProgress()
     // ]);
+  }
+
+  redirectToStage(stage, user){
+    localStorage.setItem('stageId', stage._id);
+    
+    if (stage.type === 'Video'){
+      window.location.href = this.videoModuleService.getVideoLink(stage.externalId);
+    }
+    if (stage.type === 'Video + Quiz'){
+      window.location.href = this.videoModuleService.getVideoQuizLink(stage.externalId);
+    }
+    if (stage.type === 'Trivia'){
+      window.location.href = this.triviaService.getStudyLink(stage.externalId, user);
+    }
+    if (stage.type === 'Adventure'){
+      window.location.href = this.apiSGService.getAdventureLink(stage.externalId);
+    }
+
   }
 
   // //obtine el usuario de localStorage
@@ -128,14 +167,15 @@ export class TrainerUserUIService {
   // }
 
 
-  //PROGRESO
-  getProgress(userId){
-    let apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
-    let header = new HttpHeaders();
-    let urlApi = environment.apiURL;
-    header = header.append('Content-Type', 'application/json');
-    header = header.append('x-api-key', apiKey);
-    return this.http.get(urlApi + 'user/' + userId + '/advance', { headers: header });
-  }
+  // //PROGRESO
+  // getProgress(userId){
+  //   let apiKey = 't4u9x30msmmiq56m5rhmtf9fn3r1lk';
+  //   let header = new HttpHeaders();
+  //   // let urlApi = 'http://159.65.100.191:3030/api/';
+  //   let urlApi = 'http://159.89.132.126:3030/api/'; //trivia dev
+  //   header = header.append('Content-Type', 'application/json');
+  //   header = header.append('x-api-key', apiKey);
+  //   return this.http.get(urlApi + 'user/' + userId + '/advance', { headers: header });
+  // }
 
 }

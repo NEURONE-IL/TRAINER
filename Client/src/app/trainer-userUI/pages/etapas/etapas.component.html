@@ -19,7 +19,7 @@
     <mat-card [class.z-depth]="!(stage.percentage == 100) && !(sorted && (stage.step <= accessStage ? false : true))"
               [class.bloqueado] = "(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true))"
               [class.completed] = "stage.percentage == 100"
-              (click)="(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true)) ? false : redirectToStage(stage)">
+              (click)="(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true)) ? false : goToStage(stage)">
         <mat-card-title
             #stageTitleId
             [title] = "stage.title"

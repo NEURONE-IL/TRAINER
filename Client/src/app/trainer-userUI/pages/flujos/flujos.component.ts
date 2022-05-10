@@ -67,12 +67,12 @@ export class FlujosComponent implements OnInit{
   }
 
   ngOnDestroy(): void {
-    console.log("llamado ondestroy");
     
     localStorage.removeItem("modulosCompletados");
     localStorage.removeItem("etapasCompletadas");
 
     this.trainerUserUIService.indiceEncontrado = false;
+    this.trainerUserUIService.nextStage = null;
   }
 
   //obtiene el objeto del flujo a través de un id

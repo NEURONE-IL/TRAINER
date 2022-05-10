@@ -3,7 +3,11 @@
     class = "moduleList"
 >
 
-<br>
+
+  <div *ngIf="stageSuggestion">
+    <button mat-raised-button color="primary" (click)="goToStage(stageSuggestion)"><mat-icon>play_arrow</mat-icon>{{ 'BUTTONS.CONTINUE' | translate }}</button>
+  </div>
+  <br>
   <table mat-table
     *ngIf="modules"
     [dataSource] = "modules" 
