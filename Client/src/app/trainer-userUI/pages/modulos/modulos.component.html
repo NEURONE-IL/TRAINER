@@ -3,11 +3,14 @@
     class = "moduleList"
 >
 
-
+  <!-- bonton continuar -->
   <div *ngIf="stageSuggestion">
     <button mat-raised-button color="primary" (click)="goToStage(stageSuggestion)"><mat-icon>play_arrow</mat-icon>{{ 'BUTTONS.CONTINUE' | translate }}</button>
   </div>
+
   <br>
+
+  <!-- tabla modulos -->
   <table mat-table
     *ngIf="modules"
     [dataSource] = "modules" 

@@ -110,7 +110,6 @@ export class EtapasComponent implements OnInit{
         //en caso contrario se emite el id del modulo incompleto ...
         else{
           if(!this.trainerUserUIService.indiceEncontrado){
-            console.log("modulo incompleto: ", this.modulo._id);
             
             this.moduleIDChange.emit(this.modulo._id);
             this.trainerUserUIService.indiceEncontrado = true;
@@ -187,7 +186,7 @@ export class EtapasComponent implements OnInit{
     this.trainerUserUIService.redirectToStage(stage, this.user);
   }
 
-  //funcion para simular completado de etapa
+  //funcion para simular completado de etapa (para administrador)
   addPercentage(stage: any){
     if(stage.percentage < 100){
       stage.percentage = 100;

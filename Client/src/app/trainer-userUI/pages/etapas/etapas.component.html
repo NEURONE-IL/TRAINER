@@ -19,7 +19,7 @@
     <mat-card [class.z-depth]="!(stage.percentage == 100) && !(sorted && (stage.step <= accessStage ? false : true))"
               [class.bloqueado] = "(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true))"
               [class.completed] = "stage.percentage == 100"
-              (click)="(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true)) ? false : goToStage(stage)">
+              (click)="user.role.name == 'admin' || (stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true)) ? false : goToStage(stage)">
         <mat-card-title
             #stageTitleId
             [title] = "stage.title"
@@ -65,19 +65,22 @@
             ></circle-progress>
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
-            <button
-                *ngIf="stage.percentage < 100; else completed"
-                mat-raised-button color="primary"
-                [disabled] = "(sorted && (stage.step <= accessStage ? false : true))"
-            >{{ 'USER.INITIATE' | translate }}</button>
+            <div *ngIf="user.role.name != 'admin'">
+                <button
+                    *ngIf="stage.percentage < 100; else completed"
+                    mat-raised-button color="primary"
+                    [disabled] = "(sorted && (stage.step <= accessStage ? false : true))"
+                >{{ 'USER.INITIATE' | translate }}</button>
 
-            <ng-template #completed>
-                <h4>{{ 'USER.FINISHED' | translate }}</h4>
-            </ng-template>
+                <ng-template #completed>
+                    <h4>{{ 'USER.FINISHED' | translate }}</h4>
+                </ng-template>
+            </div>
 
             <button
                 *ngIf="user.role.name === 'admin'"
                 mat-raised-button color="primary"
+                [disabled] = "(sorted && (stage.step <= accessStage ? false : true))"
                 (click)="addPercentage(stage)"
             >{{ 'USER.COMPLETE' | translate }}</button>
         </mat-card-actions>

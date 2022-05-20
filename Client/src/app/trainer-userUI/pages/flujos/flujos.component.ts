@@ -9,6 +9,8 @@ import { AuthService } from '../../../services/auth/auth.service';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { FlowService } from 'src/app/services/trainer/flow.service';
 import { TimerDialogComponent } from '../../components/timer-dialog/timer-dialog.component';
+import { ActionsTrackerService } from 'src/app/services/logger/actions-tracker.service';
+import { KmTrackerService } from 'src/app/services/logger/km-tracker.service';
 
 @Component({
   selector: 'app-flujos',
@@ -33,6 +35,8 @@ export class FlujosComponent implements OnInit{
     private authService           : AuthService,
     private cdRef                 : ChangeDetectorRef,
     private dialog                : MatDialog,
+    private actionsTrackerService : ActionsTrackerService,
+    private kmTrackerService      : KmTrackerService
   ) { }
 
   ngOnInit(): void {
@@ -41,6 +45,12 @@ export class FlujosComponent implements OnInit{
     this.user = this.authService.getUser()
     console.log(this.user);
     
+    //activar loggers
+    if(this.user.role.name != 'admin'){
+      this.actionsTrackerService.start();
+      this.kmTrackerService.start();
+    }
+
     //guardar id del flujo
     this.flowId = this.user.flow;
     
@@ -73,6 +83,11 @@ export class FlujosComponent implements OnInit{
 
     this.trainerUserUIService.indiceEncontrado = false;
     this.trainerUserUIService.nextStage = null;
+
+    if(this.user.role.name != 'admin'){
+      this.kmTrackerService.stop();
+      this.actionsTrackerService.stop();
+    }
   }
 
   //obtiene el objeto del flujo a través de un id
@@ -108,6 +123,7 @@ export class FlujosComponent implements OnInit{
     this.etapasCompletadas += argumento;
   }
 
+  //TODO: maquetado de una ventana emergente para bloquear al usuario. De momento no se ocupa
   openTimerDialog() {
     const dialogConfig = new MatDialogConfig();
 
