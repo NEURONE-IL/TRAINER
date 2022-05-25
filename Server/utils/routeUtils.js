@@ -5,27 +5,42 @@ const crypto = require("crypto");
 const fs = require("fs");
 
 /*Creates user flow progress*/
-async function generateProgress(stages, user, flow) {
+async function generateProgress(modules, stages, user, flow) {
+    let map = new Map();
     let progress = [];
-  
+    
     /*Push all stages into progress array*/
     stages.forEach((stage) => {
         let active;
         if(!flow.sorted || stage.step === 1){
             active = true;
-        }        
-        progress.push({ 
+        }
+        let stageObj = {
             stage: stage, 
             percentage: 0,
             active: active,
-            complete: false
-        });
+            completed: false
+        }
+        if(!map.get(stage.module.toString())){
+            map.set(stage.module.toString(), [stageObj])
+        }
+        else{
+            map.get(stage.module.toString()).push(stageObj)
+        }     
     });
+    modules.forEach((module) => {
+        let moduleObj = {
+            module: module,
+            completed: false,
+            stages: map.get(module._id.toString())
+        }
+        progress.push(moduleObj)
+    }) 
   
     const userFlow = new UserFlow({
         user: user,
         flow: flow,
-        stages: progress
+        modules: progress
     });
   
     return new Promise((resolve, reject) => {

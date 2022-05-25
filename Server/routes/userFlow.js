@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const UserFlow = require('../models/userFlow');
 const Stage = require('../models/stage');
+const Module = require('../models/module');
 const Flow = require('../models/flow');
 const { fetchAndUpdateStages } = require("../utils/routeUtils");
 
 const verifyToken = require('../middlewares/verifyToken');
 
-router.get('/stagesByStudent/:student_id', [verifyToken], async (req, res) => {
+router.get('/getProgress/:student_id',  async (req, res) => {
     const _id = req.params.student_id;
     UserFlow.findOne({user: _id}, (err, userFlow) => {
         if(err){
@@ -16,62 +17,44 @@ router.get('/stagesByStudent/:student_id', [verifyToken], async (req, res) => {
                 err
             });
         }
-        let stages = userFlow.stages;
         res.status(200).json({
-            stages
+            userFlow
         });
-    }).populate({ path: 'stages.stage', model: Stage });
+    }).populate({ path: 'modules.module', model: Module }).populate({ path: 'modules.stages.stage', model: Stage });
 });
 
-router.put('/updateProgress/:student_id/:flow_id/:external_id/:percentage', [verifyToken], async (req, res) => {
+router.put('/updateProgress/:student_id', async (req, res) => {
     const userId = req.params.student_id;
-    const externalId = req.params.external_id;
-    const flowId = req.params.flow_id;
     await UserFlow.findOne({user: userId}, (err, userFlow) => {
         if (err) {
             return res.status(404).json({
                 err
             });
         }
-        Stage.findOne({flow: flowId, externalId: externalId}, (err, stage) => {
+        if(req.body.assent !== null){
+            userFlow.assent = req.body.assent;
+        }
+        if(req.body.finished !== null){
+            userFlow.finished = req.body.finished;
+        }
+        if(req.body.lastStagePlayed !== null){
+            userFlow.lastStagePlayed = req.body.lastStagePlayed;
+        }
+        if(req.body.modules !== null){
+            userFlow.modules = req.body.modules;
+        }
+        userFlow.updatedAt = Date.now();
+        userFlow.save((err, userFlow) => {
             if (err) {
                 return res.status(404).json({
                     err
                 });
             }
-            userFlow.stages.find(element => {
-                if(element.stage.equals(stage._id)){
-                    element.percentage = parseFloat(req.params.percentage);
-                    if (element.percentage == 100){
-                        element.active = false;
-                        element.completed = true;              
-                        /*If flow is sorted, check if new stages can be unlocked*/
-                        if(userFlow.flow.sorted){
-                            userFlow = fetchAndUpdateStages(userFlow, element.stage.step);
-                        }
-                        else{
-                            /*If there is no more stages active, the userFlow is finished.*/
-                            if(!userFlow.stages.find(stage => stage.active)){
-                                userFlow.finished = true;
-                            };                            
-                        }
-                    }
-                }
-            });
-            userFlow.updatedAt = Date.now();
-            userFlow.save((err, userFlow) => {
-                if (err) {
-                    return res.status(404).json({
-                        err
-                    });
-                }
-                let stages = userFlow.stages;
-                res.status(200).json({
-                    stages
-                });
-            });
-        });
-    }).populate({ path: 'stages.stage', model: Stage }).populate({ path: 'flow', model: Flow });
+            res.status(200).json({
+                userFlow
+            })
+        })
+    }).populate({ path: 'modules.module', model: Module }).populate({ path: 'modules.stages.stage', model: Stage });
 });
 
 module.exports = router;

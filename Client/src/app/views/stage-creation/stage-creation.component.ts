@@ -132,15 +132,16 @@ export class StageCreationComponent implements OnInit {
         });
         this.resetForm();
         this.loading = false;
+        this.closeDialog();
       },
       err => {
         this.toastr.error(this.translate.instant("STAGE.TOAST.ERROR_MESSAGE"), this.translate.instant("STAGE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
+        this.closeDialog();
       }
     );
-    this.closeDialog();
   }
 
   closeDialog(){

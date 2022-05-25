@@ -7,14 +7,28 @@ const UserFlowSchema = new Schema({
     assent: {type: Boolean, default: false},
     finished: {type: Boolean, default: false},
     finishedAt: { type: Date},
-    stages: { type: [{
-        stage: {type: Schema.Types.ObjectId, ref: 'Stage'},
-        percentage: { type: Number, required: true, default: 0 },
-        active: { type: Boolean, default: false },
-        completed: { type: Boolean, default: false },
-        _id: false,
-        id: false
-      }], default: []},
+    modules: {
+        type: [{
+            module: {type: Schema.Types.ObjectId, ref: 'Module'},
+            completed: { type: Boolean, default: false },
+            startedAt: { type: Date},
+            completedAt: { type: Date},
+            stages: { type: [{
+                stage: {type: Schema.Types.ObjectId, ref: 'Stage'},
+                percentage: { type: Number, required: true, default: 0 },
+                active: { type: Boolean, default: false },
+                completed: { type: Boolean, default: false },
+                startedAt: { type: Date},
+                lastEntry: { type: Date},
+                completedAt: { type: Date},
+                _id: false,
+                id: false
+              }], default: []},
+            _id: false,
+            id: false
+          }], default: []
+    },
+    lastStagePlayed: {type: Schema.Types.ObjectId, ref: 'Stage', default: null},
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

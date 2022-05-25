@@ -80,15 +80,16 @@ export class ModuleCreationComponent implements OnInit {
         });
         this.resetForm();
         this.loading = false;
+        this.closeDialog();
       },
       err => {
         this.toastr.error(this.translate.instant("MODULE.TOAST.ERROR_MESSAGE"), this.translate.instant("MODULE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
         });
+        this.closeDialog();
       }
     );
-    this.closeDialog();
   }
 
   closeDialog(){

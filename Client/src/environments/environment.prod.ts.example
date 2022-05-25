@@ -7,10 +7,10 @@ export const environment = {
   serverRoot: 'https://trainer.neurone.info/',
   apiURL: 'https://trainer.neurone.info/api/',
   frontURL: 'https://trainer.neurone.info/',
-  triviaSource: 'https://trivia.neurone.info/',
-  triviaApi: 'https://trivia.neurone.info/api/',
-  adventureSource: 'http://143.198.136.174:3002/',
-  adventureApi: 'http://143.198.136.174:3002/api/',
+  triviaSource: 'https://trivia2.neurone.info/',
+  triviaApi: 'https://trivia2.neurone.info/api/',
+  adventureSource: 'https://adventure.neurone.info/',
+  adventureApi: 'https://adventure.neurone.info/api/',
   assistantApi: 'http://va.neurone.info/api/',
   locale: 'es-CL'
 };

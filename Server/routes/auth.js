@@ -4,6 +4,7 @@ const User = require("../models/user");
 const UserData = require("../models/userData");
 const Role = require("../models/role");
 const Flow = require("../models/flow");
+const Module = require("../models/module");
 const Stage = require("../models/stage");
 const UserFlow = require("../models/userFlow");
 const bcrypt = require("bcryptjs");
@@ -45,7 +46,7 @@ router.post(
           err,
         });
       }
-      res.status(200).json({
+      return res.status(200).json({
         user,
       });
     });
@@ -84,7 +85,7 @@ router.post(
           err,
         });
       }
-      res.status(200).json({
+      return res.status(200).json({
         user,
       });
     });
@@ -120,6 +121,16 @@ router.post(
         });
       }
     });  
+
+    /*Find flow modules*/
+    const modules = await Module.find({ flow: flow }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err,
+        });
+      }
+    });
     
     /*Find flow stages*/
     const stages = await Stage.find({ flow: flow }, (err) => {
@@ -187,7 +198,7 @@ router.post(
       }    
 
       /*Generate user flow progress entry*/
-      generateProgress(stages, user, flow)
+      generateProgress(modules, stages, user, flow)
         .catch((err) => {
           return res.status(404).json({
             ok: false
@@ -198,7 +209,7 @@ router.post(
           /*Send confirmation email*/
           sendConfirmationEmail(user, userData, res, req);
 
-          res.status(200).json({
+          return res.status(200).json({
             user
           });
         });
@@ -260,6 +271,16 @@ router.post(
       }
     });  
     
+    /*Find flow modules*/
+    const modules = await Module.find({ flow: flow }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err,
+        });
+      }
+    });
+   
     /*Find flow stages*/
     const stages = await Stage.find({ flow: flow }, (err) => {
       if (err) {
@@ -294,7 +315,7 @@ router.post(
     });
 
     /*save userData in DB*/
-    userData.save((err, userData) => {
+    await userData.save((err, userData) => {
       if (err) {
         return res.status(404).json({
           ok: false,
@@ -326,7 +347,7 @@ router.post(
       }    
 
       /*Generate user flow progress entry*/
-      generateProgress(stages, user, flow)
+      generateProgress(modules, stages, user, flow)
         .catch((err) => {
           return res.status(404).json({
             ok: false
@@ -335,7 +356,7 @@ router.post(
         .then((progress) => {
 
           /*Send confirmation email*/
-          sendConfirmationEmail(user, userData, res, req);
+          //sendConfirmationEmail(user, userData, res, req);
 
           res.status(200).json({
             user
@@ -385,6 +406,16 @@ router.post(
       }
     }).sort({step: 'asc'});
 
+    /*Find flow modules*/
+    const modules = await Module.find({ flow: flow }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err,
+        });
+      }
+    });
+
     if (!flow) {
       return res.status(404).json({
         ok: false,
@@ -416,7 +447,7 @@ router.post(
       }    
 
       /*Generate user flow progress entry*/
-      generateProgress(stages, user, flow)
+      generateProgress(modules, stages, user, flow)
         .catch((err) => {
           return res.status(404).json({
             ok: false
@@ -437,18 +468,18 @@ router.post("/login", async (req, res) => {
     email: req.body.email.toLowerCase(),
   }, err => {
     if(err){
-      res.status(400).send(err)
+      return res.status(400).send(err)
     }
   }).populate( { path: 'role', model: Role} );
-  if (!user) res.status(400).send("EMAIL_NOT_FOUND");
+  if (!user) return res.status(400).send("EMAIL_NOT_FOUND");
   //checking password
   const validPass = await bcrypt.compare(req.body.password, user.password);
-  if (!validPass) res.status(400).send("INVALID_PASSWORD");
+  if (!validPass) return res.status(400).send("INVALID_PASSWORD");
   //check if user is confirmed
-  if (!user.confirmed) res.status(400).send("USER_NOT_CONFIRMED");  
+  if (!user.confirmed) return res.status(400).send("USER_NOT_CONFIRMED");  
   //create and assign a token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.header("x-access-token", token).send({ user: user, token: token });
+  return res.header("x-access-token", token).send({ user: user, token: token });
 });
 
 module.exports = router;

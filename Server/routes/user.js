@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const User = require("../models/user");
 const Flow = require('../models/flow');
+const Module = require("../models/module");
 const UserFlow = require('../models/userFlow');
 const Stage = require('../models/stage');
 const Role = require("../models/role");
@@ -19,7 +20,7 @@ router.get("", [verifyToken, authMiddleware.isAdmin], async (req, res) => {
 		  		err,
 			});
 	  	}
-	  	res.status(200).json({ users });
+	  	return res.status(200).json({ users });
 	}).populate({ path: 'role', model: Role} );
 });
 
@@ -32,7 +33,7 @@ router.get("/:user_id", [verifyToken, authMiddleware.isAdmin], async (req, res) 
 				err,
 		  	});
 		}
-		res.status(200).json({ user });
+		return res.status(200).json({ user });
 	}).populate({ path: 'role', model: Role} );
 });
 
@@ -44,7 +45,7 @@ router.delete( "/:user_id", [verifyToken, authMiddleware.isAdmin], async (req, r
 				err
 			});
 		}
-		res.status(200).json({
+		return res.status(200).json({
 			user
 		});
 	});
@@ -61,7 +62,7 @@ router.post("/changePassword", [verifyToken], async (req, res) => {
 	//checking password
 	const validPass = await bcrypt.compare(req.body.password, user.password);
 	if (!validPass) {
-		res.status(400).send("Invalid password!");
+		return res.status(400).send("Invalid password!");
 	} else {
 		//hash password
 		const salt = await bcrypt.genSalt(10);
@@ -71,7 +72,7 @@ router.post("/changePassword", [verifyToken], async (req, res) => {
 				res.status(500).send({ message: err });
 				return;
 			}
-			res.send({ message: "Password was updated successfully!" });
+			return res.send({ message: "Password was updated successfully!" });
 		});
 	}
 });
@@ -92,7 +93,7 @@ router.post("/sendEmailResetPassword/:email", async (req, res) => {
 	}
 	// Send confirmation email
 	sendResetPasswordEmail(user, res, req);
-	res.status(200).json({
+	return res.status(200).json({
 		ok: true
 	});
 });
@@ -113,7 +114,7 @@ router.post("/resetPassword/:token", async (req, res) => {
 					res.status(500).send({ message: err });
 					return;
 				}
-				res.send({ message: "Password was updated successfully!" });
+				return res.send({ message: "Password was updated successfully!" });
 		  	});
 	  	});
 	});
@@ -135,7 +136,7 @@ router.put("/:user_id", async (req, res) => {
 		  		err
 			});
 	  	}
-	  	res.status(200).json({
+	  	return res.status(200).json({
 			user
 	  	});
 	});
@@ -154,7 +155,7 @@ router.get("/:flow_id/findTestUser", async (req, res) => {
 	});
 	// Find User
 	const user = await User.findOne({email: flow_id+"@test.com"});
-	res.status(200).json({
+	return res.status(200).json({
 		ok: true,
 		user
 	});
@@ -175,9 +176,18 @@ router.get("/:flow_id/resetTestUser", async (req, res) => {
 	const user = await User.findOne({email: flow_id+"@test.com"});
 	await UserFlow.deleteOne({user: user._id},  err => {
 	  if(err){
-		res.status(500).json(err);
+		return res.status(500).json(err);
 	  }
 	})
+	/*Find flow modules*/
+    const modules = await Module.find({ flow: flow }, (err) => {
+		if (err) {
+		  return res.status(404).json({
+			ok: false,
+			err,
+		  });
+		}
+	  });
 	// Find flow stages
 	const stages = await Stage.find({ flow: flow }, (err) => {
 		if (err) {
@@ -188,7 +198,7 @@ router.get("/:flow_id/resetTestUser", async (req, res) => {
 		}
 	}).sort({step: 'asc'});
 	// Generate user flow progress entry
-	generateProgress(stages, user, flow)
+	generateProgress(modules, stages, user, flow)
 	.catch((err) => {
 	  return res.status(404).json({
 			ok: false,
@@ -196,7 +206,7 @@ router.get("/:flow_id/resetTestUser", async (req, res) => {
 	  });
 	})
 	.then((progress) => {
-	  res.status(200).json({
+	  return res.status(200).json({
 			user
 	  });
 	});
