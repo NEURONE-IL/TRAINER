@@ -121,6 +121,14 @@ export class FlowDisplayComponent implements OnInit {
   resetTestUser(){
     this.authService.resetTestUser(this.flow._id).subscribe(
       user => {
+        this.triviaService.resetTriviaUser(user['_id']).subscribe(
+          triviaUser => {
+            console.log("Trivia user reseted");
+          },
+          err => {
+            console.log(err);
+          }
+        )
         this.toastr.success(this.translate.instant("FLOW.TOAST.TEST_USER_RESET_SUCCESS"), this.translate.instant("FLOW.TOAST.SUCCESS"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'

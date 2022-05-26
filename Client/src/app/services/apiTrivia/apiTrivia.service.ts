@@ -77,4 +77,11 @@ export class ApiTriviaService {
     return this.http.put(this.urlApi + 'study/'+studyId + '/assistant', {assistant: assistantId});
   }
 
+  resetTriviaUser(trainerId){
+    let header = new HttpHeaders();
+    header = header.append('Content-Type', 'application/json');
+    header = header.append('x-api-key', this.apiKey);
+    return this.http.get(this.urlApi + 'user/' +  trainerId + '/resetTrainerUser', { headers: header });
+  }
+
 }

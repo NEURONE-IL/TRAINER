@@ -67,6 +67,7 @@ router.post("/changePassword", [verifyToken], async (req, res) => {
 		//hash password
 		const salt = await bcrypt.genSalt(10);
 		user.password = await bcrypt.hash(req.body.password, salt);
+		user.updatedAt = Date.now();
 		user.save((err) => {
 			if (err) {
 				res.status(500).send({ message: err });
@@ -109,6 +110,7 @@ router.post("/resetPassword/:token", async (req, res) => {
 		User.findOne({ _id: token._userId }, function (err, user) {
 			if (!user) return res.status(400).send({ type: 'USER_NOT_FOUND', msg: 'We were unable to find a user for this token.' });
 		  	user.password = password;
+			user.updatedAt = Date.now();
 		  	user.save((err) => {
 				if (err) {
 					res.status(500).send({ message: err });
