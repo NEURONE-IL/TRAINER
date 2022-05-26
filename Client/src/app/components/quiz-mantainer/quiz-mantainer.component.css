@@ -49,11 +49,15 @@ mat-card{
 }
 .creationButton{
 	background: #914dff;
+	border-color: #6c39be;
 	text-align: center;
 }
 
 
-
+.warning{
+	color:red;
+	padding-left: 5px;
+}
 
 .flows-display-card{
 	margin-left: 10%;
@@ -131,13 +135,18 @@ mat-card-content{
 }
 .preguntas2{
 	min-height: 100px;
-	background-color: #f8f9fa;
+	background-color: white;
+	border: #e0ceff solid 1px;
+	padding: 10px;
+	padding-top: 0px;
 	border-radius: 5px;
 	vertical-align:middle;
 	margin-left: auto;
 	margin-right: auto;
 	padding-left: auto;
 	padding-right: auto;
+	margin-top: -10px;
+	
 }
 
 .infoBox1{
@@ -199,7 +208,7 @@ mat-select{
 .crearEjercicio{
 	
 	padding-top: 30px ;
-	padding-right: 30%;
+	padding-right: 10%;
 }
 
 .tablaPreguntas{

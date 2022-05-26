@@ -10,6 +10,7 @@ import { QuizComponent } from '../quiz/quiz.component';
 import { ToastrService } from 'ngx-toastr';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 
 @Component({
@@ -132,7 +133,7 @@ export class QuizMantainerComponent implements OnInit{
     if(this.justificacion && this.editingQuestion<0){
       justifique= (document.getElementById("justifique")  as HTMLInputElement).value;
     }
-    this.file = (document.getElementById("file")  as HTMLInputElement).files[0];
+    this.file = this.questionImage;
     let questionCode= this.calcularCodigoTresDigitos(this.questions.length+1);
     //
     //RESOURCE
@@ -238,6 +239,7 @@ export class QuizMantainerComponent implements OnInit{
 
     //Obtiene la file
     (document.getElementById("file")  as HTMLInputElement).value= "";
+    this.questionImage=this.questions[i].resource_url;
     this.editingQuestion= i;
   }
 
@@ -251,12 +253,15 @@ export class QuizMantainerComponent implements OnInit{
     }
 
     (document.getElementById("file")  as HTMLInputElement).value= "";
+    this.questionImage=null;
 
     if(this.pregunta=="multy"){
       this.pregunta= "text";
       (document.getElementById("alternativa")  as HTMLInputElement).value= "";
       (document.getElementById("alternativaCorrecta")  as HTMLInputElement).checked=false;
     }
+
+    this.toggleExercise(false);
   }
   deleteQuestion(i){
     this.questions.splice(i,i);
@@ -340,8 +345,9 @@ export class QuizMantainerComponent implements OnInit{
 clearEjercicio(){
   (document.getElementById("titleEx")  as HTMLInputElement).value="";
   (document.getElementById("fileEx")  as HTMLInputElement).value="";
+  this.exerciseImage = null;
   (document.getElementById("descEx")  as HTMLInputElement).value="";
-  this.cleanForm;
+  this.cleanForm();
   this.alternatives=[];
   this.questions=[];
   this.justificacion = false;
@@ -357,7 +363,7 @@ cancelarEjercicio(){
 
 crearEjercicio(){
   let titulo= (document.getElementById("titleEx")  as HTMLInputElement).value;
-  let file = (document.getElementById("fileEx")  as HTMLInputElement).files[0];
+  let file = this.exerciseImage;
   let descripcion= (document.getElementById("descEx")  as HTMLInputElement).value;
   let id= this.ejercicios.length+1;
   let ejercicio={
@@ -365,7 +371,7 @@ crearEjercicio(){
     "introduction": descripcion,
     "title": titulo,
     "questions": this.questions,
-    "resourse_url":file,
+    "resource_url":file,
   }
   if(this.editingExercise>=0){
     this.ejercicios[this.editingExercise]=ejercicio;
@@ -375,6 +381,7 @@ crearEjercicio(){
 
   this.clearEjercicio();
   console.log(this.ejercicios);
+  this.toggleExercise(false);
 }
 
 mostrarPanelEjercicio=false;
@@ -384,9 +391,12 @@ agregarEjercicio(){
 
 editingExercise=-1;
 editExercise(i){
-  setTimeout(()=>{this.mostrarPanelEjercicio=true}, 100);
-  (document.getElementById("titleEx")  as HTMLInputElement).value=this.ejercicios[i].title;
-  (document.getElementById("fileEx")  as HTMLInputElement).value="";
+  this.toggleExercise(true);
+  setTimeout(()=>{
+    (document.getElementById("titleEx")  as HTMLInputElement).value=this.ejercicios[i].title;
+  (document.getElementById("fileEx")  as HTMLInputElement).value= "";
+  this.exerciseImage=this.ejercicios[i].resource_url;
+
   (document.getElementById("descEx")  as HTMLInputElement).value=this.ejercicios[i].introduction;
   this.cleanForm;
   this.alternatives=[];
@@ -395,8 +405,8 @@ editExercise(i){
   this.file=null;
   this.editingQuestion= -1;
   this.editingExercise=i;
-
-}
+  }, 100);
+  }
 
 deleteExercise(i){
   this.ejercicios.splice(i,i);
@@ -428,7 +438,8 @@ cancelarQuiz(){
   this.clearQuiz;
   this.verQuizes=true;
 }
-
+quizImage=null;
+exerciseImage=null;
 clearQuiz(){
   (document.getElementById("titleQuiz")  as HTMLInputElement).value="";
   (document.getElementById("fileQuiz")  as HTMLInputElement).value="";
@@ -443,9 +454,10 @@ clearQuiz(){
   this.ejercicios=[];
 }
 
+
 guardarQuiz(){
   let titulo= (document.getElementById("titleQuiz")  as HTMLInputElement).value;
-  let file = (document.getElementById("fileQuiz")  as HTMLInputElement).files[0];
+  let file = this.quizImage;
   let descripcion= (document.getElementById("descQuiz")  as HTMLInputElement).value;
   let id= this.quizId;
   let video_id= this.videoSelected;
@@ -475,16 +487,8 @@ guardarQuiz(){
 //
 
 //Al cargar los quizzes se carga un array de quizzes?
-obtenerUrlImagen(){
-  return;
-}
-
 saveQuiz(quiz){
   return this.quizService.addQuiz(quiz).subscribe(res => {});
-}
-
-getVideosLista(){
-  return;
 }
 
 
@@ -549,7 +553,45 @@ registerVideo(){
         )
      }
    )
+}
 
-  
+loadImageQuiz(){
+  console.log("we have it! :D")
+  let formData = new FormData();
+  let file = (document.getElementById("fileQuiz")  as HTMLInputElement).files[0];
+  formData.append('file', file);
+  this.quizService.saveImage(formData).subscribe(
+    (res:any)=>{
+       this.quizImage=res.url;
+    }
+  )
+}
+
+loadImageExcersise(){
+  console.log("we have it! :O")
+  let formData = new FormData();
+  let file = (document.getElementById("fileEx")  as HTMLInputElement).files[0];
+  formData.append('file', file);
+  this.quizService.saveImage(formData).subscribe(
+    (res:any)=>{
+       this.exerciseImage=res.url;
+    }
+  )
+}
+questionImage= null;
+questionImageChange(){
+  console.log("we have it! :O")
+  let formData = new FormData();
+  let file = (document.getElementById("file")  as HTMLInputElement).files[0];
+  formData.append('file', file);
+  this.quizService.saveImage(formData).subscribe(
+    (res:any)=>{
+       this.questionImage=res.url;
+    }
+  )
+}
+showExercises=false;
+toggleExercise(value){
+  this.showExercises= value;
 }
 }

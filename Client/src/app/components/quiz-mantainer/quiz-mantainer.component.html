@@ -37,8 +37,8 @@
         <div class="form-group">
           <label class="control-label col-sm-4" for="urlVideo">Url Video:</label>
           <div class="col-sm-10">
-            <input type="text" class="custom-file-input" id="urlVideo" placeholder="ingrese URL de un archivo en formato mp4">
-          <p>Si su video esta en la carpeta assets, agregue la ruta relativa desde /assets/...</p>
+            <input type="text" class="form-control"  id="urlVideo" placeholder="ingrese URL .mp4">
+            <p>Ruta local ej: /assets/videoModule-videos/video1.mp4 </p>
           </div>
         </div>
         <mat-form-field class="languageVideo" appearance="fill">
@@ -48,7 +48,7 @@
               Español
             </mat-option>
             <mat-option [value]="'en'">
-              Español
+              Ingles
             </mat-option>
           </mat-select>
         </mat-form-field>
@@ -65,20 +65,22 @@
         <div class="row">
             <div class="col-md-6">
                 <div class="form-group">
-                    <label class="control-label col-sm-4" for="titleQuiz">Titulo Quiz:</label>
+                    <label class="control-label col-sm-4" for="titleQuiz">Titulo Quiz*:</label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" id="titleQuiz" placeholder="ingrese titulo">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label class="control-label col-sm-4" for="fileQuiz">Titulo Quiz:</label>
+                    <label class="control-label col-sm-4" for="fileQuiz">Imagen*:</label>
                     <div class="col-sm-10">
-                        <input type="file" class="form-control-file" id="fileQuiz">
+                        <input type="file" 
+                        class="form-control-file" 
+                        id="fileQuiz" 
+                        (change)="loadImageQuiz()"
+                        >
                     </div>
                   </div>
-            </div>
-            <div class="col-md-6">
-                <div class="form-group">
+                  <div class="form-group">
                     <label class="control-label col-sm-4" for="descQuiz">Descripción Quiz:</label>
                     <div class="col-sm-10">
                       <input type="text" class="form-control" id="descQuiz" placeholder="Ingresar Descripción">
@@ -86,215 +88,239 @@
                   </div>
 
                   <mat-form-field class="selectVideo" appearance="fill">
-                    <mat-label>Seleccionar Video</mat-label>
+                    <mat-label>Seleccionar Video*:</mat-label>
                     <mat-select [(ngModel)]="videoSelected" name="video">
                       <mat-option *ngFor="let item of videos" [value]="item._id">
                         {{item.name}}
                       </mat-option>
                     </mat-select>
                 </mat-form-field>
-
             </div>
-
-            
-            
-            <h4>Ejercicios Actuales: 0</h4>
-            <div class="col-md-12">
-              <label>Ejercicios Actuales:</label> {{ejercicios.length}}
-                      <table *ngIf="ejercicios.length>0" class="table  tablaPreguntas">
-                          <tr>
-                            <th>No.</th>
-                            <th>Titulo</th>
-                            <th>Enunciado</th>
-                            <th>No.Preguntas</th>
-                            <th>Acciones</th>
-                          </tr>
-                          <tr *ngFor="let ex of ejercicios;index as i ">
-                              <td>{{ex.exercise_id}}</td>
-                              <td>{{ex.title}}</td>
-                              <td>{{ex.introduction}}</td>
-                              <td>{{ ex.questions.length }}</td>
-                              <td> 
-                                <button class="btn btn-warning" (click)="editExercise(i)" style="margin-right: 10px;">Editar</button> 
-                                <button class="btn btn-danger" (click)="deleteExercise(i)">Eliminar</button>
-                              </td>
-        
-                            </tr>
-                      </table>
-                      <div *ngIf="ejercicios.length>0" class="accionesQuiz col-md-12">
-                        <button (click)="guardarQuiz()" class="btn btn-primary creationButton">Guardar Quiz</button>
-                        <button (click)="cancelarQuiz()" class="btn btn-default">Cancelar</button>
-                      </div>
-            </div>
-            <!-- 
-              <button  class="btn btn-block btn-primary creationButton">Agregar Ejercicio</button> 
-            -->
-            
-        </div>
-        <div class="row preguntas" >
             <div class="col-md-6">
-                <div >
-                  <div class="crearEjercicio">
-                    <div class="form-group">
-                        <label class="control-label " for="title">Titulo Ejercicio:</label>
-                          <input type="text" class="form-control" id="titleEx" placeholder="ingrese titulo">
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label" for="file">Recurso (Imagen):</label>
-                      <input type="file" class="form-control-file" id="fileEx">
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label" for="desc">Descripción Ejercicio:</label>
-                      <textarea class="form-control" id="descEx" placeholder="Ingresar Descripción"></textarea>
-                      
+              <label for="">Imagen Thumbnail*: </label>
+              <div *ngIf="quizImage" class="col-md-9">
+                <img [src]="quizImage" class="img-thumbnail">
+              </div>
+              <div *ngIf="!quizImage" class="col-md-9">
+                <img src="/assets/quiz-images/noimage.png" class="img-thumbnail">
+              </div>
+                
+
+            </div>
+
+
+        </div>
+        <div class="row preguntas pt-2 pb-2" >
+        
+        <div class="col-md-12">
+          <div class="row pt-2 pb-2">
+            <div class="col-md-8">
+              <h4>Ejercicios Actuales: {{ejercicios.length}}</h4>
+            </div>
+            <div class="col-md-4 ">
+              <button *ngIf="!showExercises" class="btn  btn-primary creationButton float-right" (click)="toggleExercise(true)">Crear Ejercicio:</button> 
+            </div>
+          </div>
+                  <table *ngIf="ejercicios.length>0" class="table  tablaPreguntas">
+                      <tr>
+                        <th>No.</th>
+                        <th>Titulo</th>
+                        <th>Enunciado</th>
+                        <th>No.Preguntas</th>
+                        <th>Acciones</th>
+                      </tr>
+                      <tr *ngFor="let ex of ejercicios;index as i ">
+                          <td>{{ex.exercise_id}}</td>
+                          <td>{{ex.title}}</td>
+                          <td>{{ex.introduction}}</td>
+                          <td>{{ ex.questions.length }}</td>
+                          <td> 
+                            <button class="btn btn-warning" (click)="editExercise(i)" style="margin-right: 10px;">Editar</button> 
+                            <button class="btn btn-danger" (click)="deleteExercise(i)">Eliminar</button>
+                          </td>
+    
+                        </tr>
+                  </table>
+                  <div *ngIf="ejercicios.length>0" class="accionesQuiz col-md-12">
+                    <button (click)="guardarQuiz()" class="btn btn-primary creationButton">Guardar Quiz</button>
+                    <button (click)="cancelarQuiz()" class="btn btn-default">Cancelar</button>
+                  </div>
+            <p *ngIf="!(ejercicios.length>0)">Aún no has creado un ejercicio. </p>
+            
+            <div  *ngIf="showExercises" class="row">
+
+              <!-- EJERCICIO PANEL -->
+              <div class="col-md-6">
+                  <div >
+                    <div class="crearEjercicio">
+                      <div class="form-group">
+                          <label class="control-label " for="title">Titulo Ejercicio*:</label>
+                            <input type="text" class="form-control" id="titleEx" 
+                                   placeholder="ingrese titulo">
+                            <p class="warning">Este campo es requerido</p>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label" for="file">Recurso (Imagen):</label>
+                        <div >
+                          <div *ngIf="exerciseImage">
+                            <img [src]="exerciseImage" class="img-thumbnail">
+                          </div>
+                          <div *ngIf="!exerciseImage">
+                            <img src="/assets/quiz-images/noimage.png" class="img-thumbnail">
+                          </div>
+                        </div>
+                        <input type="file" class="form-control-file" id="fileEx" (change)="loadImageExcersise()">
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label" for="desc">Descripción Ejercicio:</label>
+                        <textarea class="form-control" id="descEx" placeholder="Ingresar Descripción"></textarea>
+                        
+                      </div>
                     </div>
                   </div>
-                      
-                  
-                    
-                      
-
-                </div>
-
-            </div>
-
-            <div class="col-md-6 preguntas2">
-                <h1 class="preguntaHeader">Agregar Preguntas al Ejercicio</h1>
-                <h4>Tipo de Pregunta</h4>
-                <mat-form-field appearance="fill">
-
-                    <mat-label>Tipo de pregunta</mat-label>
-                    <mat-select [(ngModel)]="pregunta" name="pregunta">
-                      <mat-option [value]="'text'">
-                        Texto
-                      </mat-option>
-                      <mat-option [value]="'multy'">
-                        Selección Multiple
-                      </mat-option>
-                      <mat-option [value]="'simple'">
-                        Selección Simple
-                      </mat-option>
-                    </mat-select>
-                </mat-form-field>
-                
-                <!-- INGRESO DE PREGUNTAS POR TIPO -->
-                <div>
-                  <h4>Ingresar Pregunta</h4>
-                    <div class="form-group">
-                      <label class="control-label" for="pregunta">Texto de la Pregunta:</label>
-                      <input type="text" class="form-control-file" id="pregunta">
-                    </div>
-                    <div class="form-group">
-                      <label class="control-label" for="file" >Imagen (Opcional):</label>
-                      <input type="file" class="form-control-file" id="file" >
-                    </div>
-                    <!-- Preguntas de seleccion Multiple -->
-                    <div *ngIf="pregunta=='multy' ||pregunta=='simple'" class="ingresarAlternativas">
-                      <h4>Ingresar Alternativas</h4>
-                      <div class="row">
-                        <div class="col-md-6"> 
-                          <div class="form-group" >
-                            <label class="control-label" for="alternativa">Ingresar alternativas:</label>
-                            <input type="text" class="form-control-file" id="alternativa">
-                          </div>
-                        </div>
-                        <div class="col-md-6"> 
-                          <div class="form-check" *ngIf="pregunta=='multy'">
-                            <br>
-                            <input type="checkbox" class="form-check-input" id="alternativaCorrecta">
-                            <label class="form-check-label" for="alternativaCorrecta">Marcar si la opción es correcta</label>
-                          </div>
-                        </div>
-                      </div>
-                                         
-                      <button class="btn btn-primary btn-block creationButton" (click)="addAlternative()">Añadir Alternativa</button>
-
-                      <table *ngIf="alternatives.length>0" class="table  tablaPreguntas">
-                        <tr>
-                          <th>No.</th>
-                          <th>Enunciado</th>
-                          <th>Correcta?</th>
-                          <th>Acciones</th>
-                        </tr>
-                        <tr *ngFor="let alternative of alternatives;index as i ">
-                            <td>{{alternative.alternative_num}}</td>
-                            <td>{{alternative.alternative_text}}</td>
-                            <td>{{alternative.alternative_right? "Si": "No"}}</td>
-                            <td> 
-                              <button *ngIf="!alternative.alternative_right && pregunta=='simple'" 
-                                class="btn btn-success" 
-                                (click)="markCorrect(i)"
-                                style="margin-right:10px">Marcar como Correcta</button>
-                              <button class="btn btn-danger" (click)="deleteAlternative(i)">Eliminar</button>
-                            </td>
-                          </tr>
-                    </table>
-                    </div>
-
-                  
-
-
-                    <div class="form-check">
-                      <input type="checkbox" class="form-check-input" id="justificacion" (click)="setJustifique()">
-                      <label class="form-check-label" for="justificacion">Solicitar justificacion</label>
-
-                      <div *ngIf="justificacion">
-                        <div class="form-group" >
-                          <label class="control-label" for="justifique">Texto para solicitar la justificación:</label>
-                          <input type="text" class="form-control-file" id="justifique">
-                        </div>
-                      </div>
-                    </div>
-
-                    <!-- ACCIONES -->
-                    <div class="form-group">
-                      <button class="btn btn-primary creationButton" (click)="guardarPregunta(pregunta)">Guardar</button>
-                      <button class="btn btn-light" (click)="cleanForm()">Cancelar</button>
-                    </div>
-                </div>
-                
-                
-
-                  
-
-            </div>
-
-            <div class="col-md-12">
-              <label>Preguntas Aactuales:</label> {{questions.length}}
-              <table *ngIf="questions.length>0" class="table  tablaPreguntas">
-                  <tr>
-                    <th>No.</th>
-                    <th>Enunciado</th>
-                    <th>Tipo</th>
-                    <th>justifique</th>
-                    <th>alternativas</th>
-                    <th>Acciones</th>
-                  </tr>
-                  <tr *ngFor="let question of questions;index as i ">
-                      <td>{{question.question_num}}</td>
-                      <td>{{question.question}}</td>
-                      <td>{{question.question_type==1?"Texto":question.question_type==2?"Seleccion Simple":"Seleccion Múltiple"}}</td>
-                      <td>{{ question.bonus? question.bonus:'' }}</td>
-                      <td>{{ question.alternatives? textAlternatives(question.alternatives):'' }}</td>
-                      <td> 
-                        <button class="btn btn-warning" (click)="editQuestion(i)" style="margin-right: 10px;">Editar</button> 
-                        <button class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar</button>
-                      </td>
-
-                    </tr>
-              </table>
-
-              <div class="accionesEjercicio">
-                <button (click)="crearEjercicio()" class="btn btn-primary creationButton">Guardar Ejercicio</button>
-                <button (click)="cancelarEjercicio()" class="btn btn-default">Cancelar</button>
               </div>
-            </div>
+
+              <!-- PREGUNTAS -->
+              <div class="col-md-6 ">
+                  <h1 class="preguntaHeader">Agregar Preguntas al Ejercicio</h1>
+
+                  <div class="preguntas2">
+                    <mat-form-field appearance="fill">
+                      <label>Tipo de Pregunta</label>
+                      <mat-select [(ngModel)]="pregunta" name="pregunta">
+                        <mat-option [value]="'text'">
+                          Texto
+                        </mat-option>
+                        <mat-option [value]="'multy'">
+                          Selección Multiple
+                        </mat-option>
+                        <mat-option [value]="'simple'">
+                          Selección Simple
+                        </mat-option>
+                      </mat-select>
+                  </mat-form-field>
+                  
+                  <!-- INGRESO DE PREGUNTAS POR TIPO -->
+                  <div class="px-2">
+                      <div class="form-group">
+                        <label class="control-label" for="pregunta">Texto de la Pregunta:</label>
+                        <input type="text" class="form-control-file" id="pregunta">
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label" for="file" >Imagen (Opcional):</label>
+                        <div class="col-md-8">
+                          <div *ngIf="questionImage">
+                            <img [src]="questionImage" class="img-thumbnail">
+                          </div>
+                          <div *ngIf="!questionImage">
+                            <img src="/assets/quiz-images/noimage.png" class="img-thumbnail">
+                          </div>
+                        </div>
+                        <input type="file" class="form-control-file" id="file" (change)="questionImageChange()">
+                      </div>
+                      <!-- Preguntas de seleccion Multiple -->
+                      <div *ngIf="pregunta=='multy' ||pregunta=='simple'" class="ingresarAlternativas">
+                        <h4>Ingresar Alternativas</h4>
+                        <div class="row">
+                          <div class="col-md-6"> 
+                            <div class="form-group" >
+                              <label class="control-label" for="alternativa">Ingresar alternativas:</label>
+                              <input type="text" class="form-control-file" id="alternativa">
+                            </div>
+                          </div>
+                          <div class="col-md-6"> 
+                            <div class="form-check" *ngIf="pregunta=='multy'">
+                              <br>
+                              <input type="checkbox" class="form-check-input" id="alternativaCorrecta">
+                              <label class="form-check-label" for="alternativaCorrecta">Marcar si la opción es correcta</label>
+                            </div>
+                          </div>
+                        </div>
+                                           
+                        <button class="btn btn-primary btn-block creationButton" (click)="addAlternative()">Añadir Alternativa</button>
+  
+                        <table *ngIf="alternatives.length>0" class="table  tablaPreguntas">
+                          <tr>
+                            <th>No.</th>
+                            <th>Enunciado</th>
+                            <th>Correcta?</th>
+                            <th>Acciones</th>
+                          </tr>
+                          <tr *ngFor="let alternative of alternatives;index as i ">
+                              <td>{{alternative.alternative_num}}</td>
+                              <td>{{alternative.alternative_text}}</td>
+                              <td>{{alternative.alternative_right? "Si": "No"}}</td>
+                              <td> 
+                                <button *ngIf="!alternative.alternative_right && pregunta=='simple'" 
+                                  class="btn btn-success" 
+                                  (click)="markCorrect(i)"
+                                  style="margin-right:10px">Marcar como Correcta</button>
+                                <button class="btn btn-danger" (click)="deleteAlternative(i)">Eliminar</button>
+                              </td>
+                            </tr>
+                      </table>
+                      </div>
+  
+                    
+  
+  
+                      <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="justificacion" (click)="setJustifique()">
+                        <label class="form-check-label" for="justificacion">Solicitar justificacion</label>
+  
+                        <div *ngIf="justificacion">
+                          <div class="form-group" >
+                            <label class="control-label" for="justifique">Texto para solicitar la justificación:</label>
+                            <input type="text" class="form-control-file" id="justifique">
+                          </div>
+                        </div>
+                      </div>
+  
+                      <!-- ACCIONES -->
+                      <div class="form-group">
+                        <button class="btn btn-primary creationButton" (click)="guardarPregunta(pregunta)">Guardar</button>
+                        <button class="btn btn-light" (click)="cleanForm()">Cancelar</button>
+                      </div>
+                  </div>
+                  </div>
+
+                  
+                 
+              </div>
+
+              <div class="col-md-12">
+                <h4>Preguntas Aactuales: {{questions.length}}</h4> 
+                <table *ngIf="questions.length>0" class="table  tablaPreguntas">
+                    <tr>
+                      <th>No.</th>
+                      <th>Enunciado</th>
+                      <th>Tipo</th>
+                      <th>justifique</th>
+                      <th>alternativas</th>
+                      <th>Acciones</th>
+                    </tr>
+                    <tr *ngFor="let question of questions;index as i ">
+                        <td>{{question.question_num}}</td>
+                        <td>{{question.question}}</td>
+                        <td>{{question.question_type==1?"Texto":question.question_type==2?"Seleccion Simple":"Seleccion Múltiple"}}</td>
+                        <td>{{ question.bonus? question.bonus:'' }}</td>
+                        <td>{{ question.alternatives? textAlternatives(question.alternatives):'' }}</td>
+                        <td> 
+                          <button class="btn btn-warning" (click)="editQuestion(i)" style="margin-right: 10px;">Editar</button> 
+                          <button class="btn btn-danger" (click)="deleteQuestion(i)">Eliminar</button>
+                        </td>
+  
+                      </tr>
+                </table>
+  
+                <div class="accionesEjercicio">
+                  <button (click)="crearEjercicio()" class="btn btn-primary creationButton">Guardar Ejercicio</button>
+                  <button (click)="cancelarEjercicio()" class="btn btn-default">Cancelar</button>
+                </div>
+              </div>
+          </div>
+          </div>
         </div>
-
-
-        
-
-
 
       </form>
 
