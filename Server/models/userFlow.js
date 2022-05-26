@@ -6,21 +6,21 @@ const UserFlowSchema = new Schema({
     flow: { type: Schema.Types.ObjectId, ref: 'Flow', required: true},
     assent: {type: Boolean, default: false},
     finished: {type: Boolean, default: false},
-    finishedAt: { type: Date},
+    finishedAt: { type: Date, default: null},
     modules: {
         type: [{
             module: {type: Schema.Types.ObjectId, ref: 'Module'},
             completed: { type: Boolean, default: false },
-            startedAt: { type: Date},
-            completedAt: { type: Date},
+            startedAt: { type: Date, default: null},
+            completedAt: { type: Date, default: null},
             stages: { type: [{
                 stage: {type: Schema.Types.ObjectId, ref: 'Stage'},
                 percentage: { type: Number, required: true, default: 0 },
                 active: { type: Boolean, default: false },
                 completed: { type: Boolean, default: false },
-                startedAt: { type: Date},
-                lastEntry: { type: Date},
-                completedAt: { type: Date},
+                startedAt: { type: Date, default: null},
+                lastEntry: { type: Date, default: null},
+                completedAt: { type: Date, default: null},
                 _id: false,
                 id: false
               }], default: []},
