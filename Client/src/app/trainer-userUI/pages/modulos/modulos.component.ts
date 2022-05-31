@@ -4,13 +4,13 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
 
 import { Flow } from '../../interfaces/flow.interface';
 import { User } from '../../interfaces/user.interface';
-import { Stage } from '../../interfaces/stage.interface';
 import { Module } from '../../interfaces/module.interface';
 
 import { MatDialog } from '@angular/material/dialog';
 import { DescriptionDialogComponent } from '../../components/description-dialog/description-dialog.component';
 import { ModuleService } from 'src/app/services/trainer/module.service';
 import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
+import { StageService } from 'src/app/services/trainer/stage.service';
 
 @Component({
   selector: 'app-modulos',
@@ -24,113 +24,75 @@ import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
     ]),
   ]
 })
-export class ModulosComponent implements OnInit, DoCheck {
+export class ModulosComponent implements OnInit {
 
   @Input() flow: Flow;
   @Input() user: User;
   @Input() flowId: string;
+  @Input() lastStagePlayedId: string;
+  @Input() userFlowModules: any;
+  @Input() moduloID: string;
 
-  @Output() onModulosCargados: EventEmitter<number> = new EventEmitter();
-  @Output() onEtapasCargadas: EventEmitter<number> = new EventEmitter();
+  modulosFiltrados;
 
-  moduloID : string = "";
-  
   columnHeader  : string[] = ['NombreCol', 'TipoCol', 'DescriptionCol'];
 
-  modules           : Module[] = [];
   descriptionDialog : DescriptionDialogComponent;
 
-  stageSuggestion : Stage;
+  stageSuggestion : any;
 
   constructor(
     private dialog: MatDialog,
-    private moduleService : ModuleService,
     private trainerUserUIService : TrainerUserUIService
 
   ) { }
 
-  ngOnInit(): void {
+  ngOnInit() {
+
+    //actualizar el boton continuar
+    if(this.lastStagePlayedId){
+      //obtener etapa en userFlow
+      this.stageSuggestion = this.getLastStagePlayed(this.lastStagePlayedId, this.userFlowModules)
+    }
+    else{
+      console.log("no suggested stage found");
+    }
     
-    this.getModules();
+    this.modulosFiltrados = this.userFlowModules.filter(objModulo => objModulo.stages.length > 0);
   
   }
 
-  ngDoCheck(): void{
-    //revisar si se han completado todas las etapas del modulo anterior
-    if(this.modules){
-      for(let i=1; i<this.modules.length; i++){
+  getLastStagePlayed(stageId, userFlowModules){
+    let objEtapaAux;
 
-        if(this.modules[i-1].stages.every(etapa => etapa.percentage == 100)){
-          this.modules[i].locked = false;
+    userFlowModules.forEach(objModulo => {
+      objModulo.stages.forEach(objEtapa => {
+        if(stageId == objEtapa.stage._id){
+          objEtapaAux = objEtapa; 
         }
-      }
-    }
-
-    //actualizar boton continuar
-    this.stageSuggestion = this.trainerUserUIService.nextStage;
-  }
-
-  getModules(){
-
-    this.moduleService.getModuleByFlow(this.flow._id)
-      .subscribe(response => {
-        this.modules = response.modules.filter(modulo => modulo.stages.length > 0); //Se eliminan los modulos sin etapas
-        
-        if(this.modules.length != 0){
-
-          //emitir evento para mostrar al usuario la cantidad de modulos totales
-          this.onModulosCargados.emit(this.modules.length);
-
-          //En caso de flujo ordenado se deben bloquear los modulos, por lo tanto 
-          //se agrega estado de bloqueado desde el segundo en adelante, pero
-          //se agrega estado desbloqueado (locked=false) al primero por consistencia de modelo.
-
-          if(this.flow.sorted){
-            this.modules[0].locked = false;
-
-            for(let i=1; i<this.modules.length; i++){
-              this.modules[i].locked = true;
-
-            }
-          }
-
-          //emitir el total de etapas para cargar en el perfil de usuario
-          for(let i=0; i<this.modules.length; i++){
-            this.onEtapasCargadas.emit(this.modules[i].stages.length);
-          }
-
-
-        }
-
-      },
-      (err) => { console.error(err); }
-    )
-  }
-
-  //obtiene un string para mostrar en la columna de completados (en la tabla de modulos)
-  getCompleted(modulo: any){
-    /* improbable que suceda, dado que se filtran los modulos sin etapas
-    if (modulo.stages.length == 0){
-      return "-";
-    }
-    */
-
-    let completado = 0;
-    for(let i = 0; i < modulo.stages.length; i++){
-      if(modulo.stages[i].percentage == 100){
-        completado = completado + 1;
-      }
-    }
-    return completado + "/" + modulo.stages.length;
+      });
+    });
+    // console.log("getLastStagePlayed: ", objEtapaAux);
     
+    return objEtapaAux;
   }
 
-  enClick(event: MouseEvent, row: Module){
+  getEtapasCompletadas(objModulo){
+    let total = 0;
+
+    objModulo.stages.forEach( objEtapa => {
+      if(objEtapa.completed == true) total ++;
+    });
+
+    return total;
+  }
+
+  enClick(event: MouseEvent, row: any){
 
     event.preventDefault();
     event.stopPropagation();
 
-    this.moduloID = this.moduloID == row._id ?  "" : row._id; 
+    this.moduloID = this.moduloID == row.module._id ?  "" : row.module._id; 
   }
 
   // para abrir ventana de descripcion
@@ -143,7 +105,10 @@ export class ModulosComponent implements OnInit, DoCheck {
   }
 
   goToStage(stage){
-    this.trainerUserUIService.redirectToStage(stage, this.user)
+
+    // console.log("etapa ingresada: ", stage);
+    
+    this.trainerUserUIService.redirectToStage(stage, this.user);
   }
 
 }

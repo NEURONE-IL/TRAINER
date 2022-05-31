@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -16,6 +16,7 @@ import { StageUpdateComponent } from 'src/app/views/stage-update/stage-update.co
 import { ModuleCreationComponent } from '../module-creation/module-creation.component';
 import { StageCreationComponent } from '../stage-creation/stage-creation.component';
 import { ModuleUpdateComponent } from '../module-update/module-update.component';
+import { TrainerUserUIService } from '../../trainer-userUI/services/trainer-user-ui.service';
 
 
 @Component({
@@ -36,11 +37,14 @@ export class FlowDisplayComponent implements OnInit {
   mostrarFlujos: boolean = true;
   url = '';
 
+  testModules: any;
+
   constructor(private router: Router,
               private route: ActivatedRoute,
               private stageService: StageService,
               private flowService: FlowService,
               private moduleService: ModuleService,
+              private trainerUserUIService: TrainerUserUIService,
               private toastr: ToastrService,
               private authService: AuthService,
               private translate: TranslateService,
@@ -84,6 +88,12 @@ export class FlowDisplayComponent implements OnInit {
     this.reloadModules();
   }
 
+  //arreglo parche
+  // el flujo de prueba para el usuario solo se carga si se ha presionado el boton de reset user
+  // ngOnDestroy(): void {
+  //   this.resetTestUser();
+  // }
+
   resetFlowTestUser(){
     this.resetingUser = true;
     this.flowService.resetFlowTestUser(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
@@ -98,8 +108,16 @@ export class FlowDisplayComponent implements OnInit {
   getTestUser(){
     this.flowService.getFlowTestUser(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
       this.dummyUser = response['user'];
-      this.getProgress();
+      // this.getProgress();
+      this.getUserFlow(this.dummyUser._id)
     });
+  }
+
+  getUserFlow(userId){
+    this.trainerUserUIService.getUserFlow(userId).subscribe( respUserFlow => {
+      this.testModules = respUserFlow.userFlow.modules;
+    });
+
   }
 
   getProgress(){

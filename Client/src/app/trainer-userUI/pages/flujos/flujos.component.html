@@ -21,6 +21,7 @@
 
         <!-- medallas -->
         <app-medal-showcase
+            [etapasCompletadas]="etapasCompletadas"
             [totalDeEtapas]="totalDeEtapas"
             [userId]="user._id"
         ></app-medal-showcase>
@@ -36,19 +37,20 @@
         <img *ngIf="flow.image_url" [src]="flow.image_url" alt="imagen del flujo">
     </div>
 </div>
+    <app-modulos
+        *ngIf="userFlow && flow; else noFlow"
+        [flow]="flow"
+        [user]="user"
+        [flowId]="flow._id"
 
-<app-modulos
-    *ngIf="flow; else noFlow"
-    [flow]="flow"
-    [user]="user"
-    [flowId]="flow._id"
+        [moduloID]="moduleToDisplay"
 
-    (onModulosCargados)="obtenerTotalDeModulos( $event )"
-    (onEtapasCargadas)="obtenerTotalDeEtapas( $event )"
+        [lastStagePlayedId]="userFlow.lastStagePlayed"
 
-    (onModulosCompletados)="obtenerModulosCompletados( $event )"
->
-</app-modulos>
+        [userFlowModules]="updatedModules"
+    >
+    </app-modulos>
+
 
 <ng-template #noFlow>
     <div class="noFlow">

@@ -61,13 +61,13 @@ export class HomeComponent implements OnInit {
         this.getFlowInformation(this.flowId);              //obtener datos del flujo
         this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
       });*/
-      this.user = this.authService.getUser();             //obtener datos del usuario de localstorage
-      console.log("datos del usuario: ", this.user);
-      this.flowId = this.user.flow;
-      console.log("id del flujo: ", this.flowId);
-      this.getFlowInformation(this.flowId);              //obtener datos del flujo
+      // this.user = this.authService.getUser();             //obtener datos del usuario de localstorage
+      // console.log("datos del usuario: ", this.user);
+      // this.flowId = this.user.flow;
+      // console.log("id del flujo: ", this.flowId);
+      // this.getFlowInformation(this.flowId);              //obtener datos del flujo
 //      this.getAdvance();
-      this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
+      // this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
 //      console.log("datos del usuario: ", this.user);
   }
 
@@ -88,26 +88,26 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  getProgress(){
-    //    if(this.authService.isAdmin()){
-          this.triviaService.getProgress(this.user._id).subscribe(response => {
+//   getProgress(){
+//     //    if(this.authService.isAdmin()){
+//           this.triviaService.getProgress(this.user._id).subscribe(response => {
               
-              this.progress = response['progress'];
+//               this.progress = response['progress'];
             
-//            console.log(this.progress, 'progress');
-//            console.log('testUser');
-          },
-          error => {
-            console.error(error);
-          });
-    //    }else{
-    //      this.triviaService.getProgress(this.authService.getUser()._id).subscribe(response => {
-    //        this.triviaProgress = response['progress'];
-    //        console.log(this.triviaProgress, 'progress');
-    //        console.log('realUser');
-    //      });      
-    //    }
-      }
+// //            console.log(this.progress, 'progress');
+// //            console.log('testUser');
+//           },
+//           error => {
+//             console.error(error);
+//           });
+//     //    }else{
+//     //      this.triviaService.getProgress(this.authService.getUser()._id).subscribe(response => {
+//     //        this.triviaProgress = response['progress'];
+//     //        console.log(this.triviaProgress, 'progress');
+//     //        console.log('realUser');
+//     //      });      
+//     //    }
+//       }
 
 
   getActualUserInformation(){

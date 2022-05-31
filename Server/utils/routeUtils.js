@@ -10,9 +10,9 @@ async function generateProgress(modules, stages, user, flow) {
     let progress = [];
     
     /*Push all stages into progress array*/
-    stages.forEach((stage) => {
+    stages.forEach((stage, index) => {
         let active;
-        if(!flow.sorted || stage.step === 1){
+        if(!flow.sorted || index == 0){
             active = true;
         }
         let stageObj = {
@@ -28,10 +28,15 @@ async function generateProgress(modules, stages, user, flow) {
             map.get(stage.module.toString()).push(stageObj)
         }     
     });
-    modules.forEach((module) => {
+    modules.forEach((module, index) => {
+        let active;
+        if(!flow.sorted || index == 0){
+            active = true;
+        }
         let moduleObj = {
             module: module,
             completed: false,
+            active: active,
             stages: map.get(module._id.toString())
         }
         progress.push(moduleObj)

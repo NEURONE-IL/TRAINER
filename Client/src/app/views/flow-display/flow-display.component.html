@@ -174,7 +174,13 @@
       <ng-template matTabContent>
         <button mat-raised-button color="primary" (click)="this.resetTestUser()"> Reset User</button>
         <!-- <show-flow [studentId]="dummyUser._id"  [flow]="flow"></show-flow> -->
-        <app-modulos [flow]="flow" [flowId]="flow._id" [user]="dummyUser"></app-modulos>
+        <app-modulos 
+          [flow]="flow" 
+          [flowId]="flow._id" 
+          [user]="dummyUser"
+
+          [userFlowModules]="testModules"
+        ></app-modulos>
       </ng-template>
     </mat-tab>
 

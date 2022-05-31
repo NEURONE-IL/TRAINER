@@ -13,9 +13,9 @@ export class MedalShowcaseComponent implements OnInit {
     storyId                 : number;
     cantidadDeHistorias     : number = 2;
     lastCharacter           : string;
-    etapasCompletadas       : number = 0;
 
     @Input() totalDeEtapas: number;
+    @Input() etapasCompletadas: number;
     @Input() userId: string;
 
     constructor(
@@ -27,12 +27,6 @@ export class MedalShowcaseComponent implements OnInit {
         this.storyId = parseInt(this.lastCharacter, 16) % this.cantidadDeHistorias;
 
     }
-
-    ngAfterContentChecked(): void {
-    
-        this.etapasCompletadas = +localStorage.getItem('etapasCompletadas');
-    
-      }
 
     // Primera medalla se asigna por el primer login, por lo tanto siempre estara desbloqueado
     // condicionMedallaA() : boolean {}

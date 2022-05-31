@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
 
@@ -23,20 +23,23 @@ export class FlujosComponent implements OnInit{
   flowId              : string;
   user                : User;
 
+  userFlow            : any;
+  updatedModules      : any;
+
+  moduleToDisplay     : string;
+
   totalDeModulos      : number = 0;
   totalDeEtapas       : number = 0;
   
   modulosCompletados  : number = 0;
-  etapasCompletadas   : number = 0;
-  
+  etapasCompletadas;
+
+
   constructor(
     private flowService           : FlowService,
     private trainerUserUIService  : TrainerUserUIService,
     private authService           : AuthService,
-    private cdRef                 : ChangeDetectorRef,
-    private dialog                : MatDialog,
-    private actionsTrackerService : ActionsTrackerService,
-    private kmTrackerService      : KmTrackerService
+    private dialog                : MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -45,49 +48,97 @@ export class FlujosComponent implements OnInit{
     this.user = this.authService.getUser()
     console.log(this.user);
     
-    //activar loggers
-    if(this.user.role.name != 'admin'){
-      this.actionsTrackerService.start();
-      this.kmTrackerService.start();
-    }
-
     //guardar id del flujo
     this.flowId = this.user.flow;
     
     //obtener datos del flujo
     this.obtenerFlujo( this.flowId );
 
-    //colocar un valor de 0 en modulos completados
-    localStorage.setItem('modulosCompletados', (0).toString());
-    localStorage.setItem('etapasCompletadas', (0).toString());
+    //obtener el progreso total del usuario guardado en userFlow
+    this.trainerUserUIService.getUserFlow(this.user._id).subscribe( respUserFlow => {
+      this.userFlow = respUserFlow.userFlow;
+      console.log("userFlow: ", this.userFlow);
+      
+      //obtener progreso de ambientes externos para actualizar el progreso total
+      this.updatedModules = this.userFlow.modules;
+
+      console.log("userFlowModulesAux: ", this.updatedModules);
+
+      this.trainerUserUIService.getTotalProgress(this.user).subscribe(
+        progresoTotal => {
+
+          console.log("respuesta getTotalProgress: ", progresoTotal);
+
+          //actualizar con los estudios obtenidos de TRIVIA (si es que no hay errores)
+          if(progresoTotal[0]['progress']){
+            
+            let triviaProgress = progresoTotal[0]['progress'];
+            
+            triviaProgress.forEach( (objProgress) =>{
+              // console.log("objProgress: ", objProgress);
+              
+              this.userFlow.modules.forEach( (objModulo, j) => {
+                // console.log('objModulo: ', objModulo);
+                
+                objModulo.stages.forEach( (objEtapa, k) => {
+                  // console.log("objEtapa: ", objEtapa);
+                  if(objProgress.study._id == objEtapa.stage.externalId){
+                    this.updatedModules[j].stages[k].completed = objProgress.finished
+                    this.updatedModules[j].stages[k].completedAt = objProgress.finishedAt
+                    this.updatedModules[j].stages[k].percentage = objProgress.percentage * 100
+                  }
+                });
+              });
+            });
+          }
+
+          
+          // //actualizar con los estudios obtenidos de ADVENTURE
+          // if(progresoTotal[1]['progress']){
+            // let adventureProgress = progresoTotal[1]['progress'];
+
+            // adventureProgress.forEach( (objProgress) =>{
+            //   // console.log("objProgress: ", objProgress);
+              
+            //   this.userFlow.modules.forEach( (objModulo, j) => {
+            //     // console.log('objModulo: ', objModulo);
+                
+            //     objModulo.stages.forEach( (objEtapa, k) => {
+            //       // console.log("objEtapa: ", objEtapa);
+            //       if(objProgress.study._id == objEtapa.stage.externalId){
+            //         userFlowModulesAux[j].stages[k].completed = objProgress.finished
+            //         userFlowModulesAux[j].stages[k].completedAt = objProgress.finishedAt
+            //         userFlowModulesAux[j].stages[k].percentage = objProgress.percentage * 100
+            //       }
+            //     });
+            //   });
+            // });
+          // }
+
+        if(this.flow.sorted){
+          this.updatedModules = this.unlockNextElements(this.updatedModules);
+        }
+
+        //obtener modulo a desplegar
+        this.moduleToDisplay = this.getModuleToDisplay(this.updatedModules);
+
+        //guardar en BD nuevo progreso
+        this.trainerUserUIService.updateUserFlow(this.userFlow, this.updatedModules).subscribe();
+        
+
+        this.totalDeModulos = this.updatedModules.length;
+        this.totalDeEtapas = this.obtenerTotalDeEtapas(this.updatedModules);
+        this.modulosCompletados = this.obtenerModulosCompletados(this.updatedModules);
+        this.etapasCompletadas = this.obtenerEtapasCompletadas(this.updatedModules);
+        
+      });
+
+    });
 
     //TODO: bloquear usuario en caso de que haya cumplido su cuota de niveles por dia
     // if(etapasPorCompletar == 0){
     // this.openTimerDialog();
     // }
-  }
-
-  //para evitar error "Expression has changed after it was checked"
-  ngAfterContentChecked(): void {
-    this.cdRef.detectChanges();
-
-    this.modulosCompletados = +localStorage.getItem('modulosCompletados');
-    this.etapasCompletadas = +localStorage.getItem('etapasCompletadas');
-
-  }
-
-  ngOnDestroy(): void {
-    
-    localStorage.removeItem("modulosCompletados");
-    localStorage.removeItem("etapasCompletadas");
-
-    this.trainerUserUIService.indiceEncontrado = false;
-    this.trainerUserUIService.nextStage = null;
-
-    if(this.user.role.name != 'admin'){
-      this.kmTrackerService.stop();
-      this.actionsTrackerService.stop();
-    }
   }
 
   //obtiene el objeto del flujo a través de un id
@@ -103,24 +154,88 @@ export class FlujosComponent implements OnInit{
       )
   }
 
-  logout(){
-    this.authService.confirmLogout();
+  getModuleToDisplay(userFlowModules){
+    
+    let objModulo = userFlowModules.find(objModuloAux => objModuloAux.completed == false);
+    
+    if(objModulo){
+      return objModulo.module._id;
+    }
+    else{
+      return "";
+    }
   }
 
-  obtenerTotalDeModulos( argumento: number ){    
-    this.totalDeModulos = argumento;
+
+  unlockNextElements(userFlowModules){
+    let userFlowModulesAux = userFlowModules;
+
+    //revisar si todas las etapas de un modulo estan completadas
+    userFlowModules.forEach((objModule, i) => {
+
+      let todasCompletadas
+
+      todasCompletadas = objModule.stages.every(objEtapa => (objEtapa.completed == true));
+      if(todasCompletadas && !userFlowModulesAux[i].completed){
+        userFlowModulesAux[i].completed = true;
+      }     
+
+      if(i > 0){
+     
+        if(userFlowModulesAux[i-1].completed){        
+          userFlowModulesAux[i].active = true;
+        }
+      }
+
+      //desbloquear todas las etapas con el minimo step sin completar
+      let minStepObj;
+      minStepObj = objModule.stages.find(objStage => objStage.completed == false);
+
+      if(minStepObj){
+        objModule.stages.forEach((objEtapa, j) => {
+
+
+          if(objEtapa.stage.step == minStepObj.stage.step){
+            userFlowModulesAux[i].stages[j].active = true;
+          }
+        });
+      }
+
+    });
+    
+    return userFlowModulesAux;
   }
 
-  obtenerTotalDeEtapas( argumento: number ){
-    this.totalDeEtapas += argumento;
+  obtenerTotalDeEtapas( modulos ){
+    let total = 0;
+    
+    modulos.forEach( objModulo => {
+      total += objModulo.stages.length;
+    });
+
+    return total;
   }
 
-  obtenerModulosCompletados( argumento: number ){
-    this.modulosCompletados += argumento;
+  obtenerModulosCompletados( modulos ){
+    let total = 0;
+    
+    modulos.forEach( objModulo => {
+      if(objModulo.completed == true) total++;
+    });
+
+    return total;
   }
 
-  obtenerEtapasCompletadas( argumento: number ){
-    this.etapasCompletadas += argumento;
+  obtenerEtapasCompletadas( modulos ){
+    let total = 0;
+
+    modulos.forEach( objModulo => {
+      objModulo.stages.forEach( objEtapa => {
+        if(objEtapa.completed == true) total++;
+      });
+    });
+    
+    return total;
   }
 
   //TODO: maquetado de una ventana emergente para bloquear al usuario. De momento no se ocupa

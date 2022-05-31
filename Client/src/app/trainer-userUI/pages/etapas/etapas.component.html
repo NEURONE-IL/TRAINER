@@ -1,46 +1,38 @@
 
 <div 
     class="margen"
-    *ngFor="let stage of stagesByModule; let index = index;"
+    *ngFor="let objStage of stagesByModule; let index = index;"
     fxFlex="23"
     fxFlex.md="30"
     fxFlex.sm="35"
 >
-    <!--
-    <mat-card
-        [ngClass]="{
-            'trivia'    :   stage.type == 'Trivia',
-            'video'     :   stage.type == 'Video',
-            'adventure' :   stage.type == 'Adventure'
-        }"
 
-    -->
-
-    <mat-card [class.z-depth]="!(stage.percentage == 100) && !(sorted && (stage.step <= accessStage ? false : true))"
-              [class.bloqueado] = "(stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true))"
-              [class.completed] = "stage.percentage == 100"
-              (click)="user.role.name == 'admin' || (stage.percentage == 100) || (sorted && (stage.step <= accessStage ? false : true)) ? false : goToStage(stage)">
+    <mat-card [class.z-depth]="!(objStage.percentage == 100) && !(sorted && !objStage.active)"
+              [class.bloqueado] = "(objStage.percentage == 100) || (sorted && !objStage.active)"
+              [class.completed] = "objStage.percentage == 100"
+              (click)="user.role.name == 'admin' || (objStage.percentage == 100) || (sorted && !objStage.active) ? false : goToStage(objStage.stage)">
+        <!-- <span>{{ objStage.stage._id }}</span> -->
         <mat-card-title
             #stageTitleId
-            [title] = "stage.title"
+            [title] = "objStage.stage.title"
             class = "stageTitle"
-        >{{stage.title}}</mat-card-title>
-        <mat-card-subtitle *ngIf="stage.type; else noTipo">{{stage.type | tipoEtapa}} - {{stage.step}}</mat-card-subtitle>
+        >{{objStage.stage.title}}</mat-card-title>
+        <mat-card-subtitle *ngIf="objStage.stage.type; else noTipo">{{objStage.stage.type | tipoEtapa}} - {{objStage.stage.step}}</mat-card-subtitle>
         <ng-template #noTipo>
             <mat-card-subtitle>{{ 'STAGE.TYPELESS' | translate }}</mat-card-subtitle>
         </ng-template>
         <mat-card-content>
             <!-- si etapa contiene link a una imagen -->
             <circle-progress
-                *ngIf="!stage.image_url"
-                [class.blackAndWhite]="sorted && (stage.step <= accessStage ? false : true)"
+                *ngIf="!objStage.stage.image_url"
+                [class.blackAndWhite]="sorted && !objStage.active"
                 showUnits = "true"
                 titleFontSize = "40"
                 unitsFontSize = "25"
-                [percent] = "stage.percentage"
-                [title] = "stage.percentage"
+                [percent] = "objStage.percentage"
+                [title] = "objStage.percentage"
                 [renderOnClick]="false"
-                imageSrc= "{{ getIcon(stage.type) }}"
+                imageSrc= "{{ getIcon(objStage.stage.type) }}"
                 imageWidth="80"
                 imageHeight="80"
                 [showImage]= "true"
@@ -48,16 +40,16 @@
             ></circle-progress>
             <!-- en caso contrario -->
             <circle-progress
-                *ngIf="stage.image_url"
+                *ngIf="objStage.stage.image_url"
                 class="imagenEtapa"
-                [class.blackAndWhite]="sorted && (stage.step <= accessStage ? false : true)"
+                [class.blackAndWhite]="sorted && !objStage.active"
                 showUnits = "true"
                 titleFontSize = "40"
                 unitsFontSize = "25"
-                [percent] = "stage.percentage"
-                [title] = "stage.percentage"
+                [percent] = "objStage.percentage"
+                [title] = "objStage.percentage"
                 [renderOnClick]="false"
-                [imageSrc]= "stage.image_url"
+                [imageSrc]= "objStage.stage.image_url"
                 imageWidth="100"
                 imageHeight="100"
                 [showImage]= "true"
@@ -67,9 +59,9 @@
         <mat-card-actions fxLayoutAlign="center center">
             <div *ngIf="user.role.name != 'admin'">
                 <button
-                    *ngIf="stage.percentage < 100; else completed"
+                    *ngIf="objStage.percentage < 100; else completed"
                     mat-raised-button color="primary"
-                    [disabled] = "(sorted && (stage.step <= accessStage ? false : true))"
+                    [disabled] = "(sorted && !objStage.active)"
                 >{{ 'USER.INITIATE' | translate }}</button>
 
                 <ng-template #completed>
@@ -77,12 +69,12 @@
                 </ng-template>
             </div>
 
-            <button
-                *ngIf="user.role.name === 'admin'"
+            <!-- <button
+                *ngIf="userInLocalStorage.role.name === 'admin'"
                 mat-raised-button color="primary"
-                [disabled] = "(sorted && (stage.step <= accessStage ? false : true))"
-                (click)="addPercentage(stage)"
-            >{{ 'USER.COMPLETE' | translate }}</button>
+                [disabled] = "(sorted && !objStage.active)"
+                (click)="addPercentage(objStage)"
+            >{{ 'USER.COMPLETE' | translate }}</button> -->
         </mat-card-actions>
     </mat-card>
 </div>

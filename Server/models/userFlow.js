@@ -11,7 +11,8 @@ const UserFlowSchema = new Schema({
         type: [{
             module: {type: Schema.Types.ObjectId, ref: 'Module'},
             completed: { type: Boolean, default: false },
-            startedAt: { type: Date, default: null},
+            active: { type: Boolean, default: false },
+            // startedAt: { type: Date, default: null},
             completedAt: { type: Date, default: null},
             stages: { type: [{
                 stage: {type: Schema.Types.ObjectId, ref: 'Stage'},
