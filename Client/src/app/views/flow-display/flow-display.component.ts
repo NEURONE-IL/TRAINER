@@ -90,9 +90,9 @@ export class FlowDisplayComponent implements OnInit {
 
   //arreglo parche
   // el flujo de prueba para el usuario solo se carga si se ha presionado el boton de reset user
-  // ngOnDestroy(): void {
-  //   this.resetTestUser();
-  // }
+  ngOnDestroy(): void {
+    this.resetTestUser();
+  }
 
   resetFlowTestUser(){
     this.resetingUser = true;
