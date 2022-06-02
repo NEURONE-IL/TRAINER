@@ -1,6 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import {QuizService} from '../../services/videoModule/quiz.service';
 import {ActivatedRoute} from '@angular/router';
+import { Router } from '@angular/router';
 import {StageService} from '../../services/trainer/stage.service';
 
 @Component({
@@ -30,6 +31,7 @@ export class QuizComponent implements OnInit {
   flowId;
 
   constructor(private quizService: QuizService,
+              private router: Router,
               private route: ActivatedRoute,
               private stageService: StageService) {  }
 
@@ -114,6 +116,7 @@ export class QuizComponent implements OnInit {
   sendQuiz() {
     if (this.saveUserData === 'Yes'){
       this.saveAnswer();
+      this.router.navigate(['/home']);
     }
     this.exerciseActual = -1;
   }

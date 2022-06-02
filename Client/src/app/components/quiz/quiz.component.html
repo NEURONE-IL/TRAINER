@@ -56,20 +56,23 @@
 
 
           <div class="quiz_buttons">
+            <!-- 
             <ng-template [ngIf]="first_exercise">
               <button (click)="decreaseExercise(first_exercise)" disabled>Atras</button>
             </ng-template>
             <ng-template [ngIf]="!first_exercise">
               <button (click)="decreaseExercise(first_exercise)">Atras</button>
             </ng-template>
+            
             <ng-template [ngIf]="last_exercise">
               <button (click)="increaseExercise(last_exercise)" disabled>Siguiente</button>
             </ng-template>
+            -->
             <ng-template [ngIf]="!last_exercise">
               <button (click)="increaseExercise(last_exercise)">Siguiente</button>
             </ng-template>
           </div>
-          <div class="quiz_buttons">
+          <div [ngIf]="last_exercise" class="quiz_buttons">
             <button class="quiz_buttons" (click)="sendQuiz(); updateProgress(100)">Enviar Formulario</button>
           </div>
 
