@@ -261,8 +261,9 @@ export class QuizMantainerComponent implements OnInit{
       (document.getElementById("alternativaCorrecta")  as HTMLInputElement).checked=false;
     }
 
-    this.toggleExercise(false);
+    //this.toggleExercise(false);
   }
+
   deleteQuestion(i){
     this.questions.splice(i,i);
     if(i==0){
