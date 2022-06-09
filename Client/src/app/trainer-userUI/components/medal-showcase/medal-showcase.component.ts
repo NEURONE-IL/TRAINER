@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
 import { MedalDialogComponent } from '../medal-dialog/medal-dialog.component';
 
 
@@ -17,9 +18,11 @@ export class MedalShowcaseComponent implements OnInit {
     @Input() totalDeEtapas: number;
     @Input() etapasCompletadas: number;
     @Input() userId: string;
+    @Input() flowId: string;
 
     constructor(
-        private dialog: MatDialog
+        private dialog: MatDialog,
+        private trainerUserUIService: TrainerUserUIService
     ) { }
 
     ngOnInit(): void {
@@ -73,13 +76,33 @@ export class MedalShowcaseComponent implements OnInit {
 
     openMedalDialog(lockStatus: boolean, medalID: string) {
 
+        let objEvento = {
+            user: this.userId,
+            flow: this.flowId,
+            medal: medalID,
+            eventDescription: "User has clicked medal " + medalID
+          }
+
+        this.trainerUserUIService.saveEvent(objEvento).subscribe();
+
         let objeto = {
             lockStatus,
             medalID,
             storyId: this.storyId
         }
 
-        this.dialog.open(MedalDialogComponent, { data: objeto })
+        const dialogRef = this.dialog.open(MedalDialogComponent, { data: objeto });
+
+        dialogRef.afterClosed().subscribe(() => {
+            let objEvento = {
+                user: this.userId,
+                flow: this.flowId,
+                medal: medalID,
+                eventDescription: "User has closed medal dialog " + medalID
+              }
+    
+            this.trainerUserUIService.saveEvent(objEvento).subscribe();
+        });
 
     }
 

@@ -24,6 +24,8 @@ export class TrainerUserUIService {
   uriModule = environment.apiURL + 'module/';
   uriStage = environment.apiURL + 'stage/';
 
+  flagRegistrarEventos = 1;
+
   constructor( protected http: HttpClient,
                private triviaService: ApiTriviaService,
                private videoModuleService: QuizService,
@@ -62,7 +64,7 @@ export class TrainerUserUIService {
     
     let totalProgress = forkJoin([
       this.triviaService.getProgress(user._id).pipe(catchError(err => of('error: ', err))),
-      // this.progresoAventura().pipe(catchError(err => of('error: ', err))),
+      // this.apiSGService.getProgress(user._id).pipe(catchError(err => of(err))),
       // this.videoService.getVideoProgress(),
       // this.videoQuizService.getVideoQuizProgress()
     ]);
@@ -121,6 +123,30 @@ export class TrainerUserUIService {
       window.location.href = this.apiSGService.getAdventureLink(stage.externalId);
     }
 
+  }
+
+  //para la captura de eventos
+  //modulo desplegado o cerrado
+  //descripcion de modulo clickeado
+  //etapa clickeada
+  //boton continuar clickeado
+  //medalla clickeada
+
+  saveEvent(objEvento){
+
+    //activar flagRegistrarEventos (cambiar su valor a 1) para empezar a guardar acciones en BD.
+
+    let localTime = new Date();
+
+    if(this.flagRegistrarEventos){
+      objEvento.localTimeStamp = localTime;
+      console.log("evento registrado: ", objEvento);
+      return this.http.post(environment.apiURL + 'userEvent', objEvento, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
+    }
+
+    else{
+      return of();
+    }
   }
 
 }

@@ -40,7 +40,7 @@
       > 
         {{ objModule.module.description }}
         <mat-icon 
-          class = "questionMark"
+          class = "descriptionHover"
           (click)="openDialog($event, objModule.module)"
         >
           description
@@ -54,6 +54,8 @@
           <div class="showStages">
               <app-etapas
                 [user]="user"
+                [flowId]="flowId"
+                [moduleId]="moduloID"
                 [@detailExpand]="objModule.module._id == moduloID ? 'expanded' : 'collapsed'"
                 [userFlowStages] = objModule.stages
                 [sorted] = flow.sorted

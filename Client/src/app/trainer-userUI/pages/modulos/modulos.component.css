@@ -13,7 +13,7 @@ table{
   padding-bottom: 15px;
 }
 
-.questionMark:hover{
+.descriptionHover:hover{
   transform: scale(120%);
 }
 

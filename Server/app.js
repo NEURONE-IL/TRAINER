@@ -18,6 +18,8 @@ const flowRoutes = require('./routes/flow');
 const userRoutes = require('./routes/user');
 const userFlowRoutes = require('./routes/userFlow');
 
+const userEventRoutes = require('./routes/userEvent')
+
 const imageRoutes = require('./routes/image');
 const videoModuleRoutes = require('./routes/videoModule');
 const eventsVideoModuleRoutes = require('./routes/EventsVideoModule');
@@ -97,6 +99,8 @@ app.use('/api/flow', flowRoutes);
 app.use('/api/user', userRoutes);
 app.use('/api/userFlow', userFlowRoutes);
 app.use('/apiTrivia/auth', authRoutes);
+
+app.use('/api/userEvent', userEventRoutes);
 
 app.use('/api/image', imageRoutes);
 app.use('/api/videoModule', videoModuleRoutes);

@@ -14,6 +14,8 @@ export class EtapasComponent implements OnInit{
 
  
   @Input() sorted   : boolean;
+  @Input() flowId   : string;
+  @Input() moduleId : string;
   @Input() user     : User;
   @Input() userFlowStages : any;
 
@@ -50,6 +52,17 @@ export class EtapasComponent implements OnInit{
   goToStage(stage){
 
     this.trainerUserUIService.updateLastStagePlayed(this.user._id, stage._id).subscribe();
+
+    let objEvento = {
+      user: this.user._id,
+      flow: this.flowId,
+      module: this.moduleId,
+      stage: stage._id,
+      eventDescription: "User has clicked stage " + stage._id
+    }
+
+    this.trainerUserUIService.saveEvent(objEvento).subscribe();
+
     this.trainerUserUIService.redirectToStage(stage, this.user);
   }
 
