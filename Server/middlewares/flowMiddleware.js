@@ -10,7 +10,15 @@ const schema = Joi.object({
         .required(),
 
     sorted: Joi.boolean()
-        .required()
+        .required(),
+
+    user: Joi.any().required(),
+
+    privacy: Joi.boolean(),
+
+    collaborators: Joi.string(),
+
+    tags: Joi.string()
 
 });
 
@@ -20,7 +28,15 @@ const editSchema = Joi.object({
 
     description: Joi.string(),
 
-    sorted: Joi.boolean()
+    sorted: Joi.boolean(),
+
+    user: Joi.any().required(),
+
+    privacy: Joi.boolean(),
+
+    collaborators: Joi.string(),
+    
+    tags: Joi.string(),
 
 });
 

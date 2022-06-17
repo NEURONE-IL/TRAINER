@@ -11,6 +11,12 @@ export interface Flow {
   sorted: { type: Boolean, required: true },
   image_url: string,
   image_id: string,
+
+  privacy: boolean,
+  user: any,
+  collaborators: any[],
+  tags: string[],
+
   createdAt: string,
   updatedAt: string
 }
@@ -45,6 +51,7 @@ export class FlowService {
   }
 
   postFlow(flow: any): Observable<any> {
+    console.log(flow.values());
     return this.http.post(this.uri, flow, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 
@@ -54,5 +61,28 @@ export class FlowService {
 
   getFlowSignup(id: string): Observable<any> {
     return this.http.get(this.uri+id+'/getForSignup');
+  }
+
+  //Valentina
+
+  getFlowsByUser(userId: string): Observable<any> {
+    return this.http.get(this.uri +'byUser/'+userId)
+  }
+  getFlowsByUserCollaboration(userId: string): Observable<any> {
+    return this.http.get(this.uri +'byUserCollaboration/'+userId)
+  }
+  //Se obtienen los estudios filtrados según privacidad
+  getFlowsByUserByPrivacy(params: any): Observable<any> {
+    return this.http.get(this.uri +'byUserbyPrivacy/'+params.user+'/'+params.privacy)
+  }
+  getFlowsByUserByType(params: any): Observable<any> {
+    return this.http.get(this.uri +'byUserbyType/'+params.user+'/'+params.type)
+  }
+  getAllFlowsByPrivacy(privacy: boolean, userId): Observable<any>{
+    return this.http.get(this.uri+'byPrivacy/'+privacy+'/'+userId)
+  }
+  editCollaboratorsFlow(flowId: string, collaborators: any): Observable<any> {
+    let reqBody = {collaborators: collaborators}
+    return this.http.put(this.uri+'editCollaborators/'+flowId, reqBody);
   }
 }

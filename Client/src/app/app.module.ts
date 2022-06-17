@@ -24,6 +24,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips'; 
+
+
 
 import { PdfViewerModule }  from  'ng2-pdf-viewer';
 import { Ng9RutModule } from 'ng9-rut';
@@ -73,6 +77,11 @@ import { StageUpdateComponent } from './views/stage-update/stage-update.componen
 import { ModuleUpdateComponent } from './views/module-update/module-update.component';
 import { FooterComponent } from './components/footer/footer.component';
 
+import { authInterceptorProviders } from './helpers/auth.interceptor';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
+import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -111,7 +120,10 @@ export function HttpLoaderFactory(http: HttpClient) {
     SafeurlPipe,
     AdminVideoModuleComponent,
     ModuleUpdateComponent,
-    FooterComponent
+    FooterComponent,
+    SearchBarComponent,
+    FlowsSearchComponent,
+    FlowsSearchResultsComponent
   ],
   imports: [
     BrowserModule,
@@ -138,6 +150,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatStepperModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
+    MatChipsModule,
     MatListModule,
     MatSelectModule,
     MatDialogModule,
@@ -162,6 +176,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgCircleProgressModule,
     TrainerUserUIModule
   ],
+  providers:[authInterceptorProviders],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

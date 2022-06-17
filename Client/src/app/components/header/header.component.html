@@ -13,10 +13,17 @@
   <!-- para personas logeadas -->
 	<a class="title-span" *ngIf="isLoggedIn"></a>
   <div class="spacer"></div>
-  <button *ngIf="isLoggedIn" mat-button>	<mat-icon>help_outline</mat-icon> </button>
 	<a class="name-span"  href="/user-profile" *ngIf="isLoggedIn">
     <img src="/assets/img_avatar.png" class="user-image">
   </a>
+  <div class="button-panel" *ngIf="isLoggedIn && user.role.name === 'admin'">
+    <button mat-button color="white" style="pointer-events:none">
+      <mat-icon>account_circle</mat-icon>
+      {{ user.names + ' ' +user.last_names }}
+    </button>
+  </div>
+  <button *ngIf="isLoggedIn" mat-button>	<mat-icon>help_outline</mat-icon> </button>
+
   <button (click)="logout()" mat-button *ngIf="isLoggedIn"><mat-icon>exit_to_app</mat-icon> {{"LOGOUT.LOGOUT" | translate}}</button>
 
 

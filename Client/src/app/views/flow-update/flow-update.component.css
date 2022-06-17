@@ -1,6 +1,7 @@
 .mat-form-field{
 	width: 85%;
 	margin: 5%;
+	height: 100%;
 }
 .fileInput input{
 	width: 85%;

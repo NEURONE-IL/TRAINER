@@ -214,4 +214,23 @@ router.get("/:flow_id/resetTestUser", async (req, res) => {
 	});
 });
 
+//Valentina
+
+//Método para verificar la existencia de un usuario por el email
+router.get("/getUserByEmail/:user_email", async (req, res) => {
+	//checking if email exists
+	const user = await User.findOne(
+		{email: req.params.user_email.toLowerCase()},{password: 0}, err => {
+		if(err){
+			res.status(400).send(err)
+		}
+	}).populate( { path: 'role', model: Role} );
+	if (!user) return res.status(400).json({status: 400, message: "EMAIL_NOT_FOUND"})
+	//checking role
+	if (user.role.name !== 'admin' ) return res.status(400).json({status: 400, message: "ROLE_INCORRECT"});
+	//checking confirmed
+	if (!user.confirmed) return res.status(400).json({status: 400, message: "USER_NOT_CONFIRMED"});
+	res.status(200).json({ user });
+});
+
 module.exports = router;

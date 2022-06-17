@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -17,6 +17,37 @@ import { ModuleCreationComponent } from '../module-creation/module-creation.comp
 import { StageCreationComponent } from '../stage-creation/stage-creation.component';
 import { ModuleUpdateComponent } from '../module-update/module-update.component';
 import { TrainerUserUIService } from '../../trainer-userUI/services/trainer-user-ui.service';
+import { FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
+
+import { MatTable } from '@angular/material/table';
+
+
+export function notExistingColl(collaborators): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if(collaborators != null){
+      let notExist: boolean = true;
+
+      collaborators.filter( coll => {
+        if(coll.user.email === control.value){
+          notExist = false
+        }
+      })
+      return notExist ? null : { 'notExistingColl': true };
+    }
+    
+  };
+}
+
+export function notThisUser(user): ValidatorFn {
+  return (control: AbstractControl): ValidationErrors | null => {
+    if(user != null){
+      control.markAsTouched();
+      const isValid = user.email !== control.value;
+      return isValid ? null : { 'notThisUser': true };
+    }
+    
+  };
+}
 
 
 @Component({
@@ -36,8 +67,19 @@ export class FlowDisplayComponent implements OnInit {
   resetingUser = false;
   mostrarFlujos: boolean = true;
   url = '';
-
   testModules: any;
+
+  collaboratorsExist: boolean = false;
+  wasClone: boolean = false;
+  cloneHistory: any[];
+  user: any;
+  userOwner: boolean = true;
+  editMinutes: number = 3;
+
+  columnsToDisplayCollaborators = ['icon','fullname', 'email', 'invitation','actions'];
+  columnsToDisplayCollaboratorsNotOwner = ['icon','fullname', 'email','invitation'];
+  emailFormControl: FormControl;
+
 
   constructor(private router: Router,
               private route: ActivatedRoute,
@@ -55,12 +97,21 @@ export class FlowDisplayComponent implements OnInit {
               ) { }
 
   ngOnInit(): void {
+    this.user = this.authService.getUser();
     this.createStage = false;
 
     this.flowService.getFlow(this.route.snapshot.paramMap.get('flow_id')).subscribe(
       response => {
         this.flow = response['flow'];
+        console.log(this.flow)
         this.registerLink = this.authService.getRegisterLink(this.flow._id);
+
+        this.emailFormControl = new FormControl('', [Validators.email,notThisUser(this.user),notExistingColl(this.flow.collaborators)]);
+        if (this.flow.collaborators.length>0)
+          this.collaboratorsExist = true;
+
+        if(!(this.user._id == this.flow.user._id))
+          this.userOwner = false;
       },
       err => {
         this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
@@ -80,7 +131,7 @@ export class FlowDisplayComponent implements OnInit {
     this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
-        console.log(this.sortedStages)
+        //console.log(this.sortedStages)
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
@@ -246,7 +297,7 @@ export class FlowDisplayComponent implements OnInit {
   showFlowUpdateDialog(): void {
     const dialogRef = this.matDialog.open(FlowUpdateComponent, {
       width: '60%',
-      data: this.flow
+      data: {flow: this.flow, userOwner:this.userOwner}
     }).afterClosed()
     .subscribe(() => this.ngOnInit());
   }
@@ -371,6 +422,91 @@ export class FlowDisplayComponent implements OnInit {
     modal.afterClosed().subscribe(result => {
       this.reloadStages();
     });
+  }
+
+  //Valentina
+  confirmAddCollaborator(){
+    confirm('¿Seguro que desea agregar al colaborador?') && this.verifyCollaborator();
+  }
+  confirmRemoveCollaborator(collaborator){
+    confirm('¿Seguro que desea eliminar al colaborador?') && this.deleteCollaborator(collaborator);
+  }
+  deleteCollaborator(collaborator){
+    var newCollaboratorList = this.flow.collaborators.filter(
+                              coll => coll.user.email !== collaborator.user.email);
+    this.editCollaborator(newCollaboratorList,"Se ha eliminado correctamente el colaborador al estudio","El colaborador no ha podido ser eliminado");
+  }
+  addCollaborator(user: any){
+    let newCollaboratorList = this.flow.collaborators.slice();
+    newCollaboratorList.push({user: user, invitation: 'Pendiente'});
+    this.editCollaborator(newCollaboratorList,"Se ha añadido correctamente el colaborador al estudio","El colaborador no ha podido ser añadido");
+    this.emailFormControl.setValue('');
+  }
+
+  @ViewChild(MatTable) table: MatTable<any>;
+  editCollaborator(collaboratorList, msg1, msg2){
+    this.flowService.editCollaboratorsFlow(this.flow._id, collaboratorList).subscribe(
+      response => {
+        this.toastr.success(msg1, "Éxito",{
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+        this.flow.collaborators = response.flow.collaborators;
+
+        this.emailFormControl.setValidators([Validators.email,notThisUser(this.user),notExistingColl(this.flow.collaborators)]);
+        this.emailFormControl.updateValueAndValidity();
+        
+        if(this.flow.collaborators.length > 0){
+          this.collaboratorsExist = true;
+          this.table.renderRows();
+        }
+        else
+          this.collaboratorsExist = false;
+        
+      },
+      err => {
+        this.toastr.error(msg2, "Error",{
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      }
+    );
+
+  }
+  verifyCollaborator(){
+    if(this.emailFormControl.value === '' || this.emailFormControl.status === 'INVALID'){
+      return
+    }
+    let collaborator: any;
+    this.authService.getUserbyEmail(this.emailFormControl.value).subscribe(
+      response => {
+        collaborator = response['user']
+        this.addCollaborator(collaborator);
+
+      },
+      (error) => {
+          if(error === 'EMAIL_NOT_FOUND'){
+            this.toastr.error("No se encuentra el correo ingresado", "Usuario Inexistente", {
+              timeOut: 5000,
+              positionClass: 'toast-top-center'});
+              return
+            }
+
+            if(error === 'ROLE_INCORRECT'){
+            this.toastr.error("El usuario ingresado no cuenta con permisos de colaborador", "Usuario Incorrecto", {
+              timeOut: 5000,
+              positionClass: 'toast-top-center'});
+              return
+            }
+
+            if(error === 'USER_NOT_CONFIRMED'){
+            this.toastr.error("El usuario ingresado no ha terminado su proceso de registro", "Usuario no confirmado", {
+              timeOut: 5000,
+              positionClass: 'toast-top-center'});
+              return
+            }
+      }
+    );
   }
 
 }

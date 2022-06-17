@@ -1,7 +1,9 @@
 
 <mat-card class="flows-display-card">
+	<div *ngIf="user.role.name == 'admin'">
+    <app-search-bar></app-search-bar>
+  </div>
 	<div class="banner">
-
 	</div>
     <div class="row">
 		<div class="lateralSelector col-md-3">
@@ -34,15 +36,33 @@
 						</div>
 					</div>
 				</div>
+				<mat-tab-group class="flows-tab" (selectedTabChange)="onTabClick($event)">
+					<mat-tab label="Todos"></mat-tab>
+					<mat-tab label="Privados"></mat-tab>
+					<mat-tab label="Públicos"></mat-tab>
+					<mat-tab disabled label="Clonados"></mat-tab>
+					<mat-tab label="Colaboraciones"></mat-tab>
+				</mat-tab-group>
+
 				<mat-card-content>
 					<mat-grid-list cols="12" [gutterSize]="'12px'">
 						<mat-grid-tile class="flow-card"  (click)="clickedFlow(flow._id)" (mouseover)="fullFlow(flow)" (mouseout)="shortFlow(flow)" colspan="3" rowspan="4" *ngFor="let flow of flows; let index = index" >
-							<mat-card>
-								<mat-card-header>
-									<mat-card-title>
-										{{flow.name}}
-									</mat-card-title>
-								</mat-card-header>
+							<mat-card style="padding-top: .5rem;">
+									<div class="flows-title">
+										<mat-icon *ngIf="flow.privacy; else flowPublic" style="font-size: 23px;" color="primary">lock_outlined</mat-icon>
+										<ng-template #flowPublic> 
+											<mat-icon style="color: #1fa510; font-size: 22px;" >lock_open_outlined</mat-icon>
+										</ng-template>
+										<mat-card-title style="font-size: 18px; margin-bottom: 0%; margin-left: 5%;">
+											{{flow.name}}
+										</mat-card-title>
+									</div>
+									<div *ngIf="indexTab == 4" class="user-info">
+										<mat-icon style="color: gray; font-size: 17px;" mat-card-avatar>person</mat-icon>
+										<mat-card-subtitle style="margin-bottom: 0%"> {{ flow.user.names + ' '+flow.user.last_names }}
+										</mat-card-subtitle>  
+									</div>
+
 								<img mat-card-image *ngIf="flow.image_url" [src]="flow.image_url">
 								<img mat-card-image *ngIf="!flow.image_url" [src]="getCover(index)">
 								<mat-card-content>

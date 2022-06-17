@@ -68,8 +68,8 @@ mat-card{
 
 .flows-display-card{
 	min-height: 700px;
-	margin-left: 10%;
-	margin-right: 10%;
+	margin-left: 8%;
+	margin-right: 8%;
 	margin-top: 5%;
 }
 
@@ -108,4 +108,19 @@ mat-card-subtitle{
 	padding-top: 15px;
 	padding-bottom: 5px;;
 	border-bottom: 3px solid rgba(238,227,255,1) ; 
+}
+
+.flows-tab{
+  margin-top: .5%;
+  margin-bottom: 1%;
+}
+.flows-title{
+  display: flex; 
+  align-items: center;
+  margin-left: -6%;
+	margin-top: 5%;
+}
+.user-info{
+  display: flex; 
+  align-items: center;
 }

@@ -35,7 +35,6 @@ const EventRoutes = require('./routes/event');
 const Role = require('./models/role');
 
 //db connection
-
 //mongoose.connect('mongodb://admin:admin@localhost:27017/neurone-game', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .then(()=>{
@@ -68,6 +67,9 @@ async function initial() {
 
                 console.log("added 'student' to roles collection");
             });
+        }
+        else{
+            console.log(err)
         }
     });
 

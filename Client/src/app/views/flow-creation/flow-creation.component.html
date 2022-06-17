@@ -55,7 +55,98 @@
 							</mat-radio-button>							
 						</mat-radio-group>
 					</mat-grid-tile>	
-				</mat-grid-list>	
+				</mat-grid-list>
+				<mat-card-header>
+					<mat-card-subtitle style="margin-bottom: 0%;">Seleccione las opciones de colaboración de su estudio</mat-card-subtitle>
+				</mat-card-header>
+				<mat-grid-list cols="12">
+					<mat-grid-tile colspan="6">
+						<mat-form-field>
+							<!--mat-label>{{ "ADMIN.CHALLENGES.HOURS" | translate }}</mat-label-->
+							<mat-label>Privacidad *</mat-label>
+							<mat-select formControlName="privacy">
+								<mat-option *ngFor="let priva of privacies" [value]="priva.value"> {{ priva.privacy }} </mat-option>
+							</mat-select>
+							<mat-error *ngIf="flowFormControls.privacy.hasError('required')">
+								{{ "ERRORS.REQUIRED" | translate }}
+							</mat-error>
+						</mat-form-field>
+					</mat-grid-tile>
+				<mat-grid-tile colspan="6">
+					<mat-slide-toggle (change)="changeStatus($event)" color="primary">Agregar colaboradores al estudio</mat-slide-toggle>
+				</mat-grid-tile>
+			</mat-grid-list>
+
+			<mat-grid-list *ngIf="collaborator_status" cols="12" rowspan="2">
+				<mat-grid-tile colspan="10">
+					<mat-form-field style="width: 92%;">
+						<mat-label>Agregar Colaboradores</mat-label>
+						<mat-chip-list #chipListColl aria-label="Collaborators Selection" formControlName="collaborators">
+							<mat-chip
+								*ngFor="let collaborator of collaborators_selected"
+								(removed)="removeCollaborator(collaborator)">
+								{{collaborator.email}}
+									<mat-icon matChipRemove>cancel</mat-icon>
+							</mat-chip>
+						<input
+							#collaboratorsInput
+							placeholder="Escriba el correo y presione Enter o Añadir para agregarlo"
+							type="email" 
+							formControlName="collaborators"
+							[matChipInputFor]="chipListColl"
+							(matChipInputTokenEnd)="verifyCollaborator()">
+						</mat-chip-list>
+						<mat-error *ngIf="flowFormControls.collaborators.hasError('email')">
+							Ingrese un email válido
+						</mat-error>
+						<mat-error *ngIf="flowFormControls.collaborators.hasError('notThisUser')">
+							El usuario que creó el estudio no puede añadirse como colaborador
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>
+				<mat-grid-tile colspan="2">
+					<button mat-flat-button (click)="verifyCollaborator()" class="addButton">Añadir <mat-icon>add</mat-icon></button>
+				</mat-grid-tile>
+			</mat-grid-list>
+
+			<mat-card-header>
+				<mat-card-subtitle style="margin-bottom: 0%;">Añada etiquetas relacionadas a su estudio</mat-card-subtitle>
+			</mat-card-header>
+			<mat-grid-list  cols="12">
+				<mat-grid-tile colspan="10">
+					<mat-form-field style="width: 92%;">
+						<mat-label>Agregar Etiquetas</mat-label>
+						<mat-chip-list #chipListTags aria-label="Tags Selection" formControlName="tags">
+							<mat-chip
+								*ngFor="let tag of tags"
+								(removed)="removeTag(tag)">
+								{{tag}}
+									<mat-icon matChipRemove>cancel</mat-icon>
+							</mat-chip>
+						<input
+							#tagsInput
+							placeholder="Escriba una etiqueta y presione Enter o Añadir para añadirla"
+							type="text" 
+							formControlName="tags"
+							[matChipInputFor]="chipListTags"
+							(matChipInputTokenEnd)="addTag()">
+						</mat-chip-list>
+						<mat-error *ngIf="flowFormControls.tags.hasError('minlength')">
+							Ingrese una etiqueta válida
+						</mat-error>
+						<mat-error *ngIf="flowFormControls.tags.hasError('maxlength')">
+							La etiqueta no puede tener más de 15 caracteres
+						</mat-error>
+						<mat-error *ngIf="flowFormControls.tags.hasError('tagExist')">
+							La etiqueta ya se encuentra en la lista
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>
+				<mat-grid-tile colspan="2">
+					<button mat-flat-button (click)="addTag()" class="addButton">Añadir <mat-icon>add</mat-icon></button>
+				</mat-grid-tile>
+			</mat-grid-list>
+					
 			</form>	
 			<mat-card-header>
 				<mat-card-subtitle style="margin-bottom: 0%;">{{ "FLOW.FORM.FIELDS.IMAGE" | translate }}:</mat-card-subtitle>
