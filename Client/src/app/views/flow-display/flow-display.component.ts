@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
@@ -53,7 +53,7 @@ export function notThisUser(user): ValidatorFn {
 @Component({
   selector: 'app-flow-display',
   templateUrl: './flow-display.component.html',
-  styleUrls: ['./flow-display.component.css']
+  styleUrls: ['./flow-display.component.css'],
 })
 export class FlowDisplayComponent implements OnInit {
   flow: Flow;

@@ -9,7 +9,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -81,6 +81,7 @@ import { authInterceptorProviders } from './helpers/auth.interceptor';
 import { SearchBarComponent } from './components/search-bar/search-bar.component';
 import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
 import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
+import { getDutchPaginatorIntl } from './components/paginatorInt/CustomPaginatorConfiguration';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -176,7 +177,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgCircleProgressModule,
     TrainerUserUIModule
   ],
-  providers:[authInterceptorProviders],
+  providers:[authInterceptorProviders, { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -1,0 +1,10 @@
+<app-header></app-header>
+<mat-card class="flows-search-results-card">
+  <app-search-bar [componentReference]="resultsComponent"></app-search-bar>
+</mat-card>
+<div class="back-login" id="page-container">
+  <div id="content-wrap">
+      <router-outlet (activate)="onActivate($event)" ></router-outlet>   
+  </div>
+  <app-footer></app-footer>     
+</div>

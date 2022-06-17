@@ -78,7 +78,7 @@
   border-bottom: solid 1px #EEEEEE;
 }
 
-.mat-card-content{
+.flow-display-card .mat-card-content{
   margin-left: 15px;
   padding-left: 25px;
   padding-bottom: 10px;
@@ -201,7 +201,7 @@ table {
   text-align: right;
 }
 
-::ng-deep .mat-card-image{
+::ng-deep .image-style .mat-card-image{
   margin: 0% !important;
   width: 100% !important;
   padding-left: 15px !important;

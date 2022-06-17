@@ -19,6 +19,8 @@ import { VideoModuleComponent } from './views/videoModule/videoModule.component'
 import { VideoOnlyComponent } from './views/video-only/video-only.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { AdminVideoModuleComponent } from './views/videoModule-admin/videoModule-admin.component';
+import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
+import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
 
 const routes: Routes = [
   {
@@ -128,6 +130,23 @@ const routes: Routes = [
     component: RecoveryComponent,
     canActivate: [ NotLoggedInGuard ]
   },
+
+  {
+    path: 'flows-search',
+    component: FlowsSearchComponent,
+    canActivate: [ AuthGuard, AdminGuard ],
+    children: [
+      {
+        path: 'results/:term',
+        component: FlowsSearchResultsComponent
+      },
+      /*{
+        path: 'flow/:flow_id',
+        component: StudySearchDisplayComponent
+      }*/
+    ]
+  },
+
   { path: '**', redirectTo: 'home' }
 ];
 

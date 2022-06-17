@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewEncapsulation } from '@angular/core';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -9,7 +9,8 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 @Component({
   selector: 'app-flows-display',
   templateUrl: './flows-display.component.html',
-  styleUrls: ['./flows-display.component.css']
+  styleUrls: ['./flows-display.component.css'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class FlowsDisplayComponent implements OnInit {
   flows: Flow[] = [];
@@ -125,6 +126,7 @@ export class FlowsDisplayComponent implements OnInit {
     this.flowService.getFlowsByUser(this.user._id).subscribe(
       response => { 
         this.flows = response['flows'];
+        console.log(this.flows);
         if(this.flows.length <= 0)
           this.noFlows = true
         else
@@ -144,6 +146,7 @@ export class FlowsDisplayComponent implements OnInit {
     this.flowService.getFlowsByUserByPrivacy(params).subscribe(
       response => {
         this.flows = response['flows'];
+        console.log(this.flows);
         if(!(this.flows.length > 0) )
           this.noFlows = true;
         else
@@ -162,6 +165,7 @@ export class FlowsDisplayComponent implements OnInit {
     this.flowService.getFlowsByUserByType(params).subscribe(
       response => {
         this.flows = response['flows'];
+        console.log(this.flows);
         if(!(this.flows.length > 0) )
           this.noFlows = true;
         else
@@ -180,6 +184,8 @@ export class FlowsDisplayComponent implements OnInit {
     this.flowService.getFlowsByUserCollaboration(this.user._id).subscribe(
       response => {
         this.flows = response['flows'];
+        console.log(this.flows);
+
         if(!(this.flows.length > 0) )
           this.noFlows = true;
         else

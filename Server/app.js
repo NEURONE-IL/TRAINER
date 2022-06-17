@@ -31,6 +31,7 @@ const mouseClickRoutes = require('./routes/mouseClick');
 const mouseCoordinateRoutes = require('./routes/mouseCoordinate');
 const ScrollRoutes = require('./routes/scroll');
 const EventRoutes = require('./routes/event');
+const flowSearchRoutes = require('./routes/flowSearch')
 
 const Role = require('./models/role');
 
@@ -115,6 +116,8 @@ app.use('/api/mouseClick', mouseClickRoutes);
 app.use('/api/mouseCoordinate', mouseCoordinateRoutes);
 app.use('/api/scroll', ScrollRoutes);
 app.use('/api/event', EventRoutes);
+
+app.use('/api/flowSearch', flowSearchRoutes)
 
 // Set client on root
 

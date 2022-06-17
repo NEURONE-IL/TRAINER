@@ -1,0 +1,18 @@
+<mat-card class="search-bar-card mat-elevation-z0">
+  <mat-grid-list cols="12">
+    <div class="search-bar-div">
+      <div class="search-adventures-bar" style="width: 50%">
+        <mat-form-field appearance="outline" style="width: 100%;">
+            <mat-icon matPrefix >search</mat-icon>
+          <input style="padding-left: 5px;" type="search" matInput placeholder="Buscar flujos de la Comunidad" name= "search" [(ngModel)]= "search" (keyup.enter)="searchFlows(this.search)">
+        </mat-form-field>
+      </div>
+      <button class="button-customize" mat-raised-button (click)="searchFlows(this.search)">Buscar
+        <mat-icon>search</mat-icon>
+      </button>
+      <button class="button-customize" mat-raised-button (click)="searchFlows('all')">Ver todos
+        <mat-icon>auto_awesome_motion</mat-icon>
+      </button>
+    </div>
+  </mat-grid-list>
+</mat-card>

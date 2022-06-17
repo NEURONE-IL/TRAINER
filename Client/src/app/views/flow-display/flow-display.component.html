@@ -72,8 +72,10 @@
                 </mat-card-title>
               </div>
             </mat-card-header>
-            <img mat-card-image *ngIf="module.image_url" [src]="module.image_url">
-            <img mat-card-image *ngIf="!module.image_url" [src]="getCover(module.type)">
+            <div class="image-style">
+              <img mat-card-image *ngIf="module.image_url" [src]="module.image_url">
+              <img mat-card-image *ngIf="!module.image_url" [src]="getCover(module.type)">
+            </div>
               <mat-card-content>
                 <div class=" stages-content">
                   <div >
@@ -138,8 +140,10 @@
                 </mat-card-title>
               </div>
             </mat-card-header>
-            <img mat-card-image *ngIf="stage.image_url" [src]="stage.image_url">
-            <img mat-card-image *ngIf="!stage.image_url" [src]="getCover(stage.type)">
+            <div class="image-style">
+              <img mat-card-image *ngIf="stage.image_url" [src]="stage.image_url">
+              <img mat-card-image *ngIf="!stage.image_url" [src]="getCover(stage.type)">
+            </div>
               <mat-card-content>
                 <div class=" stages-content">
                   <div >
