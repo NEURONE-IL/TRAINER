@@ -21,6 +21,7 @@ import { SignupComponent } from './views/signup/signup.component';
 import { AdminVideoModuleComponent } from './views/videoModule-admin/videoModule-admin.component';
 import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
 import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
+import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
 
 const routes: Routes = [
   {
@@ -140,10 +141,10 @@ const routes: Routes = [
         path: 'results/:term',
         component: FlowsSearchResultsComponent
       },
-      /*{
+      {
         path: 'flow/:flow_id',
-        component: StudySearchDisplayComponent
-      }*/
+        component: FlowSearchDisplayComponent
+      }
     ]
   },
 

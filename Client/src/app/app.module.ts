@@ -82,6 +82,7 @@ import { SearchBarComponent } from './components/search-bar/search-bar.component
 import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
 import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
 import { getDutchPaginatorIntl } from './components/paginatorInt/CustomPaginatorConfiguration';
+import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -124,7 +125,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     FooterComponent,
     SearchBarComponent,
     FlowsSearchComponent,
-    FlowsSearchResultsComponent
+    FlowsSearchResultsComponent,
+    FlowSearchDisplayComponent
   ],
   imports: [
     BrowserModule,
