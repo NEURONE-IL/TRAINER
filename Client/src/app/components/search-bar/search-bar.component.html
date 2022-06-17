@@ -7,10 +7,10 @@
           <input style="padding-left: 5px;" type="search" matInput placeholder="Buscar flujos de la Comunidad" name= "search" [(ngModel)]= "search" (keyup.enter)="searchFlows(this.search)">
         </mat-form-field>
       </div>
-      <button class="button-customize" mat-raised-button (click)="searchFlows(this.search)">Buscar
+      <button class="button-customize" color="primary" mat-raised-button (click)="searchFlows(this.search)">Buscar
         <mat-icon>search</mat-icon>
       </button>
-      <button class="button-customize" mat-raised-button (click)="searchFlows('all')">Ver todos
+      <button class="button-customize" color="primary" mat-raised-button (click)="searchFlows('all')">Ver todos
         <mat-icon>auto_awesome_motion</mat-icon>
       </button>
     </div>

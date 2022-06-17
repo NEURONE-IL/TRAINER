@@ -2,6 +2,11 @@
 
 <div id="page-container">
   <div id="content-wrap">
+    <mat-card class="flows-display-card">
+      <div >
+        <app-search-bar></app-search-bar>
+      </div>
+    </mat-card>
     <div *ngIf="flowSelected; else elseBlock" >
       <router-outlet></router-outlet>
     </div>
