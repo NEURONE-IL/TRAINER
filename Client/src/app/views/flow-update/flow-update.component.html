@@ -45,9 +45,44 @@
 				</mat-grid-tile>	
 				<mat-grid-tile colspan="4" *ngIf="!flow.sorted">
 					De libre acceso
+				</mat-grid-tile>
+
+			<!--Inicio Cambio Vale: Se agrega select para manejar la privacidad de un estudio y para agregar colaboradores-->
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<!--mat-label>{{ "ADMIN.CHALLENGES.HOURS" | translate }}</mat-label-->
+						<mat-label>Idioma *</mat-label>
+						<mat-select formControlName="language">
+							<mat-option *ngFor="let leng of languages" [value]="leng.value"> {{ leng.view }} </mat-option>
+						</mat-select>
+						<mat-error *ngIf="flowFormControls.language.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>Nivel *</mat-label>
+						<mat-select formControlName="levels" multiple>
+							<mat-option *ngFor="let level of levels" [value]="level">{{level}}</mat-option>
+						</mat-select>
+						<mat-error *ngIf="flowFormControls.levels.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+					</mat-form-field>
+				</mat-grid-tile>
+				<mat-grid-tile colspan="6">
+					<mat-form-field>
+						<mat-label>Competencia *</mat-label>
+						<mat-select formControlName="competences" multiple>
+							<mat-option *ngFor="let competence of competences" [value]="competence._id">{{competence.name}}</mat-option>
+						</mat-select>
+						<mat-error *ngIf="flowFormControls.competences.hasError('required')">
+							{{ "ERRORS.REQUIRED" | translate }}
+						</mat-error>
+					</mat-form-field>
 				</mat-grid-tile>					
 			</mat-grid-list>
-			<!--Inicio Cambio Vale: Se agrega select para manejar la privacidad de un estudio y para agregar colaboradores-->
 		<mat-card-header>
 			<mat-card-subtitle style="margin-bottom: 2%;">Seleccione las opciones de privacidad de su estudio</mat-card-subtitle>
 		</mat-card-header>

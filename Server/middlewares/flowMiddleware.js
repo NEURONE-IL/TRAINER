@@ -18,7 +18,13 @@ const schema = Joi.object({
 
     collaborators: Joi.string(),
 
-    tags: Joi.string()
+    tags: Joi.string(),
+
+    levels: Joi.string(),
+
+    competences: Joi.string(),
+
+    language: Joi.string(),
 
 });
 
@@ -37,6 +43,12 @@ const editSchema = Joi.object({
     collaborators: Joi.string(),
     
     tags: Joi.string(),
+
+    levels: Joi.string(),
+
+    competences: Joi.string(),
+    
+    language: Joi.string(),
 
 });
 

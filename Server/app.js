@@ -31,9 +31,12 @@ const mouseClickRoutes = require('./routes/mouseClick');
 const mouseCoordinateRoutes = require('./routes/mouseCoordinate');
 const ScrollRoutes = require('./routes/scroll');
 const EventRoutes = require('./routes/event');
-const flowSearchRoutes = require('./routes/flowSearch')
+
+const flowSearchRoutes = require('./routes/flowSearch');
+const competencesRoutes = require('./routes/competence');
 
 const Role = require('./models/role');
+const Competence = require('./models/competence');
 
 //db connection
 //mongoose.connect('mongodb://admin:admin@localhost:27017/neurone-game', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
@@ -41,6 +44,7 @@ mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: t
     .then(()=>{
         console.log("Successfully connect to MongoDB.");
         initial();
+        //addCompetences();
     });
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
@@ -69,12 +73,28 @@ async function initial() {
                 console.log("added 'student' to roles collection");
             });
         }
-        else{
-            console.log(err)
-        }
     });
 
 }
+/*async function addCompetences() {
+    const currentCompetences = ['Búsqueda', 'Localización', 'Evaluación Crítica', 'Síntesis', 'Comunicación']
+    Competence.estimatedDocumentCount(async (err, count) => {
+        if (!err && count === 0) {
+            currentCompetences.forEach(element => {
+                new Competence({
+                    name: element
+                }).save(err => {
+                    if (err) {
+                        console.log("error", err);
+                    }
+     
+                    console.log("added %s to competences collection",element);
+                });
+            });
+        }
+   });
+
+}*/
 
 /** Express setup **/
 const app = express();
@@ -117,7 +137,8 @@ app.use('/api/mouseCoordinate', mouseCoordinateRoutes);
 app.use('/api/scroll', ScrollRoutes);
 app.use('/api/event', EventRoutes);
 
-app.use('/api/flowSearch', flowSearchRoutes)
+app.use('/api/flowSearch', flowSearchRoutes);
+app.use('/api/competence', competencesRoutes);
 
 // Set client on root
 

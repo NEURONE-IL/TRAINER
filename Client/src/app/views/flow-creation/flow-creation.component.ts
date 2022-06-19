@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl, FormControl } from '@angular/forms';
 import { FlowService } from '../../services/trainer/flow.service';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
+import { CompetenceService } from 'src/app/services/admin/competence.service';
 
 export function notThisUser(user): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -47,11 +48,19 @@ export class FlowCreationComponent implements OnInit {
     {privacy:"Público", value: false}, 
     {privacy:"Privado", value: true}
   ];
-  tags: String[] = [];
+
+  languages = [
+    {view:"Inglés", value: 'english'}, 
+    {view:"Español", value: 'spanish'}
+  ];
+  tags: string[] = [];
+  levels: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  competences: any[];
 
   constructor(
     private formBuilder: FormBuilder,
     private flowService: FlowService,
+    private competenceService: CompetenceService,
     private authService: AuthService,
     private toastr: ToastrService,
     private translate: TranslateService,
@@ -59,6 +68,13 @@ export class FlowCreationComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
+    this.competenceService.getCompetences().subscribe( response => {
+      this.competences = response.competences;
+      console.log(this.competences)
+      this.competences.sort( (a,b) => a.name.localeCompare(b.name))
+    }, err => {
+      console.log(err)
+    })
     console.log(this.user)
     this.flowForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
@@ -67,7 +83,10 @@ export class FlowCreationComponent implements OnInit {
 
       privacy: ['', [Validators.required]],
       collaborators: ['', {validators: [Validators.email, notThisUser(this.user)], updateOn:'change'}],
-      tags:['',[Validators.minLength(3), Validators.maxLength(15),tagExist(this.tags)]]
+      tags:['',[Validators.minLength(3), Validators.maxLength(15),tagExist(this.tags)]],
+      levels:['',[Validators.required]],
+      competences:['',[Validators.required]],
+      language:['',[Validators.required]]
     });
     this.loading = false;
   }
@@ -81,10 +100,10 @@ export class FlowCreationComponent implements OnInit {
   }
 
   createFlow(){
-    this.loading = true;
+    //this.loading = true;
     let flow = this.flowForm.value;
     let formData = new FormData();
-
+    console.log(flow)
     let collaborators = [];
     if(this.collaborators_selected.length > 0)
       this.collaborators_selected.forEach(coll => collaborators.push({user:coll, invitation:'Pendiente'}))
@@ -98,6 +117,9 @@ export class FlowCreationComponent implements OnInit {
     formData.append('privacy', flow.privacy);
     formData.append('collaborators', JSON.stringify(collaborators));
     formData.append('tags', JSON.stringify(this.tags));
+    formData.append('levels', JSON.stringify(flow.levels));
+    formData.append('competences', JSON.stringify(flow.competences));
+    formData.append('language', JSON.stringify(flow.language));
 
     /*Type*/
     if(flow.sorted){
@@ -219,7 +241,7 @@ export class FlowCreationComponent implements OnInit {
     console.log(this.collaborators_selected)
 
   }
-  removeTag(tag: String): void {
+  removeTag(tag: string): void {
     console.log(tag)
     const index = this.tags.indexOf(tag);
 

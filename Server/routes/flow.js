@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Flow = require('../models/flow');
 const User = require('../models/user');
+const Competence = require('../models/competence');
 
 const Stage = require('../models/stage');
 
@@ -39,7 +40,7 @@ router.get('/:flow_id', async (req, res) => {
           model: User,
           select:'-password' 
         }
-      }).populate({path: 'user', model: User, select:'-password'});
+      }).populate({path: 'user', model: User, select:'-password'}).populate({path: 'competences', model: Competence});
 });
 
 //Valentina
@@ -134,6 +135,9 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
     let sorted = req.body.sorted === 'true' ? true : false; 
     let collaborators = JSON.parse(req.body.collaborators);
     let tags = JSON.parse(req.body.tags);
+    let levels = JSON.parse(req.body.levels);
+    let competences = JSON.parse(req.body.competences);
+
     console.log(collaborators);
 
     const flow = new Flow({
@@ -146,6 +150,9 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
         type: 'own',
         collaborators: collaborators,
         tags: tags,
+        levels: levels,
+        language: req.body.language,
+        competences: competences,
     });
     if(req.file){
         let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
@@ -205,7 +212,18 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
         if(req.body.tags){
             let tags = JSON.parse(req.body.tags);
             flow.tags = tags;
-        }    
+        }
+        if(req.body.levels){
+            let levels = JSON.parse(req.body.levels);
+            flow.levels = levels;
+        } 
+        if(req.body.competences){
+            let competences = JSON.parse(req.body.competences);
+            flow.competences = competences;
+        } 
+        if(req.body.language){
+            flow.language = req.body.language;
+        } 
         if(req.file){
             if(flow.image_id){
                 imageStorage.gfs.delete(flow.image_id);

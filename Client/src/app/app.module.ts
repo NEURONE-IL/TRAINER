@@ -26,7 +26,7 @@ import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import {MatChipsModule} from '@angular/material/chips'; 
-
+import {MatButtonToggleModule} from '@angular/material/button-toggle'
 
 
 import { PdfViewerModule }  from  'ng2-pdf-viewer';
@@ -161,6 +161,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatExpansionModule,
     MatProgressBarModule,
     MatTooltipModule,
+    MatButtonToggleModule,
     PdfViewerModule,
     Ng9RutModule,
     ValidateEqualModule,

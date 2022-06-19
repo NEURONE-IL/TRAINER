@@ -7,6 +7,7 @@ const FlowSchema = new Schema({
     sorted: { type: Boolean, required: true },
     image_url: { type: String },
     image_id: { type: String },
+
     user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
     collaborators:[{
       user: {type: Schema.Types.ObjectId, ref: 'User', required: true},
@@ -15,6 +16,10 @@ const FlowSchema = new Schema({
     privacy: {type: Boolean, default: true},
     type: {type: String, default: 'own'},
     tags: {type: [String]},
+    levels: {type:[Number], required:true},
+    competences: {type: [{ type: Schema.Types.ObjectId, ref: 'Competence'}], required:true},
+    language: {type:String, required:true},
+    
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

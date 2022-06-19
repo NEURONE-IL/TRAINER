@@ -16,6 +16,9 @@ export interface Flow {
   user: any,
   collaborators: any[],
   tags: string[],
+  levels: number[],
+  competences: any[],
+  language: string,
 
   createdAt: string,
   updatedAt: string
@@ -51,7 +54,7 @@ export class FlowService {
   }
 
   postFlow(flow: any): Observable<any> {
-    console.log(flow.values());
+    console.log(flow);
     return this.http.post(this.uri, flow, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 

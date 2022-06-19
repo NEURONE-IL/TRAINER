@@ -13,9 +13,11 @@
       <button mat-raised-button class="actionButton" color="primary" (click)="showFlowUpdateDialog()">{{ "BUTTONS.EDIT_FLOW" | translate }} <mat-icon>edit</mat-icon></button>
       <button mat-raised-button class="actionButton" color="warn" (click)="confirmFlowDelete(flow._id)">{{ "BUTTONS.DELETE_FLOW" | translate }} <mat-icon>delete</mat-icon></button>
     </mat-grid-tile>
-    <mat-grid-tile colspan="24">
+  </mat-grid-list>
+  <mat-grid-list cols="24">
+    <mat-grid-tile colspan="24" *ngIf="flow">
       <mat-card-header>
-        <mat-card-subtitle *ngIf="flow" class="flow-description">{{flow.description}}</mat-card-subtitle>
+      <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%;"> {{'Descripción: '+flow.description}}</mat-card-subtitle>
       </mat-card-header>
     </mat-grid-tile>
     <mat-grid-tile *ngIf="flow?.tags.length > 0" colspan="24">
@@ -23,6 +25,17 @@
         <mat-chip *ngFor="let tag of flow.tags">{{tag}}</mat-chip>
       </mat-chip-list>
     </mat-grid-tile>
+    <mat-grid-tile *ngIf="flow" colspan="24" >
+      <mat-card-header>
+        <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%">{{'Niveles:  '}}
+          <span *ngFor="let level of flow.levels; index as i;">{{level + ((i < flow.levels.length-1)? ' - ': '')}}</span>
+        </mat-card-subtitle>
+        <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%">{{'Competencias: '}}
+          <span *ngFor="let comp of flow.competences; index as i;">{{comp.name + ((i < flow.competences.length-1)? ' - ': '')}}</span>
+        </mat-card-subtitle>
+      </mat-card-header>        
+    </mat-grid-tile>
+  
   </mat-grid-list>
 
   <mat-grid-list cols="24" *ngIf="flow">
