@@ -10,7 +10,7 @@ export class FlowSearchService {
   uri = environment.apiURL + 'flowSearch/';
   constructor(protected http: HttpClient) { }
 
-  searchFlows(user_id: string, query: string, page: number): Observable<any>{
-    return this.http.get(this.uri +'search/'+user_id+'/'+query+'/'+page);
+  searchFlows(user_id: string, query: string, page: number,filters:any): Observable<any>{
+    return this.http.post(this.uri +'search/'+user_id+'/'+query+'/'+page,filters);
   }
 }

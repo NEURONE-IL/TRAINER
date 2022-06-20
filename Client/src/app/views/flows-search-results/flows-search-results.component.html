@@ -5,7 +5,8 @@
       <p style="font-size: 18px; font-weight:300;" *ngIf="actualQuery != 'all'">Mostrando resultados para "<b>{{actualQuery}}"</b></p>
     </div>
     <div *ngIf="flows.length === 0" style="padding-bottom: 1% !important;">
-      <p style="font-size: 18px; font-weight:300; text-align: center;">No se encontraron resultados para "<b>{{actualQuery}}"</b>
+      <p *ngIf="actualQuery!=='all'" style="font-size: 18px; font-weight:300; text-align: center;">No se encontraron resultados para:  <b>{{' "'+actualQuery}}"</b>
+      <p *ngIf="actualQuery === 'all'" style="font-size: 18px; font-weight:300; text-align: center;">No se encontraron resultados</p>
     </div>
     <mat-grid-list cols="12" [gutterSize]="'12px'">
 			<mat-grid-tile class="flow-card"  (click)="clickedFlow(flow._id)" (mouseover)="fullFlow(flow)" (mouseout)="shortFlow(flow)" colspan="3" rowspan="4" *ngFor="let flow of flows; let index = index" >

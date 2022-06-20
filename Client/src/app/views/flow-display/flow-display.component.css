@@ -225,3 +225,10 @@ table {
   margin-bottom: 2%;
 		
 }
+.competence-info{
+  pointer-events: none;
+
+}
+::ng-deep .competence-info .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
+  line-height: 20px !important;
+}

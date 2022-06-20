@@ -36,3 +36,8 @@
   align-items:center;
   justify-content: center;
 }
+
+.clearButton{
+	background-color: #FF9800;
+	color: #FFFFFF;
+}

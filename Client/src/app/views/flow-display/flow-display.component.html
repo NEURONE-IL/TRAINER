@@ -20,25 +20,31 @@
       <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%;"> {{'Descripción: '+flow.description}}</mat-card-subtitle>
       </mat-card-header>
     </mat-grid-tile>
-    <mat-grid-tile *ngIf="flow?.tags.length > 0" colspan="24">
-      <mat-chip-list style="margin-left: 3%;" aria-label="Tag List">
-        <mat-chip *ngFor="let tag of flow.tags">{{tag}}</mat-chip>
-      </mat-chip-list>
-    </mat-grid-tile>
-    <mat-grid-tile *ngIf="flow" colspan="24" >
+
+    <mat-grid-tile *ngIf="flow" colspan="24" rowspan="2" style="padding-bottom: 3%">
       <mat-card-header>
-        <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%">{{'Niveles:  '}}
-          <span *ngFor="let level of flow.levels; index as i;">{{level + ((i < flow.levels.length-1)? ' - ': '')}}</span>
+        <mat-card-subtitle  class="flow-description" style="margin-bottom: .5%;padding-top: 0%;">
+          {{'Niveles: '}}
+        <mat-button-toggle-group class="competence-info" name="fontStyle" *ngFor="let level of flow.levels; index as i;">
+          <mat-button-toggle value="i">{{level}}</mat-button-toggle>
+        </mat-button-toggle-group>
         </mat-card-subtitle>
-        <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%">{{'Competencias: '}}
-          <span *ngFor="let comp of flow.competences; index as i;">{{comp.name + ((i < flow.competences.length-1)? ' - ': '')}}</span>
+        <mat-card-subtitle class="flow-description" style="margin-bottom: 0%">
+          {{'Competencias: '}}
+        <mat-button-toggle-group class="competence-info" name="fontStyle" *ngFor="let comp of flow.competences; index as i;">
+          <mat-button-toggle value="i">{{comp.name}}</mat-button-toggle>
+        </mat-button-toggle-group>
+        </mat-card-subtitle>
+        <mat-card-subtitle class="flow-description" style="padding-top: 0% !important;">
+          <mat-chip-list style="margin-left: 3%;" aria-label="Tag List">
+            <mat-chip *ngFor="let tag of flow.tags">{{tag}}</mat-chip>
+          </mat-chip-list>  
         </mat-card-subtitle>
       </mat-card-header>        
     </mat-grid-tile>
-  
   </mat-grid-list>
 
-  <mat-grid-list cols="24" *ngIf="flow">
+  <mat-grid-list cols="24" *ngIf="flow" >
     <mat-grid-tile colspan="24">
       <mat-card-header>
         <mat-card-subtitle class="registerLink" style="margin-bottom: -3%;">{{ "ADMIN.REGISTER_LINK" | translate }}: {{ registerLink}}</mat-card-subtitle>

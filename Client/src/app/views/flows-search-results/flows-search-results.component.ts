@@ -34,6 +34,8 @@ export class FlowsSearchResultsComponent implements OnInit {
     perPages: 8,
   }
   pageEvent: PageEvent;
+  filters: any = {competences:[], levels: [], languages:[]};
+  allFilters: any = {competences:[], levels: [], languages:[]};
 
   ngOnInit(): void {
     let searchTerm = this.route.snapshot.paramMap.get('term');
@@ -43,15 +45,13 @@ export class FlowsSearchResultsComponent implements OnInit {
   getFlowsResults(searchTerm, page) {
     this.actualQuery = searchTerm;
     let _user_id = this.authService.getUser()._id
-    this.flowSearchService.searchFlows(_user_id, searchTerm, page).subscribe(
+    this.flowSearchService.searchFlows(_user_id, searchTerm, page,{filters:this.filters, allFilters:this.allFilters}).subscribe(
       response => {
         let flows: Flow[] = []
         this.paginator.totalDocs = parseInt(response.totalDocs);
         let docs = response.docs
         docs.forEach(doc => { flows.push(doc.flow) })
         this.flows = flows;
-        console.log(this.flows)
-
       },
       err => {
         this.toastr.error(this.translate.instant("STUDY.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("CHALLENGE.TOAST.ERROR"), {
@@ -67,14 +67,26 @@ export class FlowsSearchResultsComponent implements OnInit {
     this.getFlowsResults(this.actualQuery, event.pageIndex + 1)
   }
 
-  getPublicStudies(term: string) {
-    console.log(term)
+  getPublicStudies(term: string, filters: any, allFilters: any) {
 
     this.router.navigate(['flows-search/results/' + term]);
 
     if (this.flowsPaginator !== undefined)
       this.flowsPaginator.firstPage();
+
+    this.filters = filters;
+    this.allFilters = allFilters;
     this.getFlowsResults(term, 1)
+
+  }
+  getCurrentQuery(filters: any, allFilters: any) {
+
+    if (this.flowsPaginator !== undefined)
+      this.flowsPaginator.firstPage();
+
+    this.filters = filters;
+    this.allFilters = allFilters;
+    this.getFlowsResults(this.actualQuery, 1)
 
   }
 

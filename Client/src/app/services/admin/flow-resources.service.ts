@@ -6,12 +6,16 @@ import { Observable } from 'rxjs';
 @Injectable({
   providedIn: 'root'
 })
-export class CompetenceService {
+export class FlowResourcesService {
 
-  uri = environment.apiURL + 'competence/';
+  uriCompetences = environment.apiURL + 'competence/';
+  uriLangages = environment.apiURL + 'language/';
   constructor(protected http: HttpClient) { }
 
   getCompetences(): Observable<any>{
-    return this.http.get(this.uri);
+    return this.http.get(this.uriCompetences);
+  }
+  getLanguages(): Observable<any>{
+    return this.http.get(this.uriLangages);
   }
 }

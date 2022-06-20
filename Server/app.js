@@ -34,9 +34,11 @@ const EventRoutes = require('./routes/event');
 
 const flowSearchRoutes = require('./routes/flowSearch');
 const competencesRoutes = require('./routes/competence');
+const languagesRoutes = require('./routes/language');
 
 const Role = require('./models/role');
 const Competence = require('./models/competence');
+const Language = require('./models/language');
 
 //db connection
 //mongoose.connect('mongodb://admin:admin@localhost:27017/neurone-game', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
@@ -45,13 +47,14 @@ mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: t
         console.log("Successfully connect to MongoDB.");
         initial();
         //addCompetences();
+        //addLanguages();
     });
 let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 
 
 async function initial() {
-     Role.estimatedDocumentCount((err, count) => {
+    Role.estimatedDocumentCount((err, count) => {
         if (!err && count === 0) {
             new Role({
                 name: "admin"
@@ -89,6 +92,25 @@ async function initial() {
                     }
      
                     console.log("added %s to competences collection",element);
+                });
+            });
+        }
+   });
+
+}*/
+/*async function addLanguages() {
+    const currentLanguages = ['Español', 'Inglés']
+    Language.estimatedDocumentCount(async (err, count) => {
+        if (!err && count === 0) {
+            currentLanguages.forEach(element => {
+                new Language({
+                    name: element
+                }).save(err => {
+                    if (err) {
+                        console.log("error", err);
+                    }
+     
+                    console.log("added %s to languages collection",element);
                 });
             });
         }
@@ -139,6 +161,7 @@ app.use('/api/event', EventRoutes);
 
 app.use('/api/flowSearch', flowSearchRoutes);
 app.use('/api/competence', competencesRoutes);
+app.use('/api/language', languagesRoutes);
 
 // Set client on root
 

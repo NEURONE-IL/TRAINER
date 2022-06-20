@@ -6,6 +6,9 @@ const FlowSearchSchema = new Schema({
     description: { type: String},
     //challenges: {type: [String]},
     tags: {type: [String]},
+    competences: {type: [String]},
+    lang: {type: String},
+    levels: {type: [String]},
     author: { type: String},
     userID:{type: String},
     flow: { type: Schema.Types.ObjectId, ref: 'Flow', required: true},
@@ -25,7 +28,7 @@ FlowSearchSchema.pre('save', next => {
     next();
 });
 
-FlowSearchSchema.index({name:'text', description: 'text', tags: 'text', author: 'text'},
+FlowSearchSchema.index({name:'text', description: 'text', tags: 'text',  competences: 'text',  levels: 'text',  lang: 'text', author: 'text'},
                         {default_language: "spanish" })
 
 const myDB = mongoose.connection.useDb('trainer');

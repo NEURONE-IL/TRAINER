@@ -53,7 +53,7 @@
 						<!--mat-label>{{ "ADMIN.CHALLENGES.HOURS" | translate }}</mat-label-->
 						<mat-label>Idioma *</mat-label>
 						<mat-select formControlName="language">
-							<mat-option *ngFor="let leng of languages" [value]="leng.value"> {{ leng.view }} </mat-option>
+							<mat-option *ngFor="let leng of languages" [value]="leng._id"> {{ leng.name }} </mat-option>
 						</mat-select>
 						<mat-error *ngIf="flowFormControls.language.hasError('required')">
 							{{ "ERRORS.REQUIRED" | translate }}

@@ -5,7 +5,7 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
-import { CompetenceService } from 'src/app/services/admin/competence.service';
+import { FlowResourcesService } from 'src/app/services/admin/flow-resources.service';
 
 export function notThisUser(user): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
@@ -49,18 +49,15 @@ export class FlowCreationComponent implements OnInit {
     {privacy:"Privado", value: true}
   ];
 
-  languages = [
-    {view:"Inglés", value: 'english'}, 
-    {view:"Español", value: 'spanish'}
-  ];
+  languages : any[]
   tags: string[] = [];
-  levels: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  levels: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   competences: any[];
 
   constructor(
     private formBuilder: FormBuilder,
     private flowService: FlowService,
-    private competenceService: CompetenceService,
+    private flowResourcesService: FlowResourcesService,
     private authService: AuthService,
     private toastr: ToastrService,
     private translate: TranslateService,
@@ -68,13 +65,22 @@ export class FlowCreationComponent implements OnInit {
 
   ngOnInit(): void {
     this.user = this.authService.getUser();
-    this.competenceService.getCompetences().subscribe( response => {
+    this.flowResourcesService.getCompetences().subscribe( response => {
       this.competences = response.competences;
       console.log(this.competences)
       this.competences.sort( (a,b) => a.name.localeCompare(b.name))
     }, err => {
       console.log(err)
-    })
+    });
+
+    this.flowResourcesService.getLanguages().subscribe( response => {
+      this.languages = response.languages;
+      console.log(this.languages)
+      this.languages.sort( (a,b) => a.name.localeCompare(b.name))
+    }, err => {
+      console.log(err)
+    });
+
     console.log(this.user)
     this.flowForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],

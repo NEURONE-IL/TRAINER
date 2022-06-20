@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CompetenceService } from './competence.service';
+import { FlowResourcesService } from './flow-resources.service';
 
-describe('CompetenceService', () => {
-  let service: CompetenceService;
+describe('FlowResourcesService', () => {
+  let service: FlowResourcesService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CompetenceService);
+    service = TestBed.inject(FlowResourcesService);
   });
 
   it('should be created', () => {

@@ -5,7 +5,7 @@ import { Flow, FlowService } from '../../services/trainer/flow.service';
 import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FormBuilder, FormControl, FormGroup, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { CompetenceService } from 'src/app/services/admin/competence.service';
+import { FlowResourcesService } from 'src/app/services/admin/flow-resources.service';
 export function tagExist(tags): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     if(tags != null){
@@ -39,11 +39,8 @@ export class FlowUpdateComponent implements OnInit{
   edit_users : String[] = [];
   userOwner: boolean;
   flow: Flow;
-  languages = [
-    {view:"Inglés", value: 'english'}, 
-    {view:"Español", value: 'spanish'}
-  ];
-  levels: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+  languages :any[]
+  levels: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   competences: any[];
 
 
@@ -52,7 +49,7 @@ export class FlowUpdateComponent implements OnInit{
     public data: any,
     private formBuilder: FormBuilder,
     private flowService: FlowService,
-    private competenceService: CompetenceService,
+    private flowResourcesService: FlowResourcesService,
     private toastr: ToastrService,
     private translate: TranslateService,
     private authService: AuthService,
@@ -63,10 +60,17 @@ export class FlowUpdateComponent implements OnInit{
     }
 
   ngOnInit(): void {
-    this.competenceService.getCompetences().subscribe( response => {
+    this.flowResourcesService.getCompetences().subscribe( response => {
       this.competences = response.competences;
       console.log(this.competences)
       this.competences.sort( (a,b) => a.name.localeCompare(b.name))
+    }, err => {
+      console.log(err)
+    })
+    this.flowResourcesService.getLanguages().subscribe( response => {
+      this.languages = response.languages;
+      console.log(this.languages)
+      this.languages.sort( (a,b) => a.name.localeCompare(b.name))
     }, err => {
       console.log(err)
     })
@@ -75,6 +79,7 @@ export class FlowUpdateComponent implements OnInit{
       this.flow.competences.forEach(comp => {
         filteredCompetences.push(comp._id)
       });
+    
     this.flowForm = this.formBuilder.group({
       name: [this.flow.name, [Validators.required, Validators.minLength(3), Validators.maxLength(50)]],
       description: [this.flow.description, [Validators.required, Validators.minLength(3), Validators.maxLength(250)]],
