@@ -11,9 +11,9 @@
   <img class="image-span" #tooltip="matTooltip" [(matTooltip)]="homeTooltip" src="assets/images/tutelage-negativo.png" *ngIf="isLoggedIn && user.role.name === 'admin'" [routerLink]="['/admin_panel']"/>
 
   <!-- para personas logeadas -->
-	<a class="title-span" *ngIf="isLoggedIn"></a>
+	<a class="title-span" *ngIf="isLoggedIn && user.role.name === 'user'"></a>
   <div class="spacer"></div>
-	<a class="name-span"  href="/user-profile" *ngIf="isLoggedIn">
+	<a class="name-span"  href="/user-profile" *ngIf="isLoggedIn && user.role.name === 'user'">
     <img src="/assets/img_avatar.png" class="user-image">
   </a>
   <div class="button-panel" *ngIf="isLoggedIn && user.role.name === 'admin'">

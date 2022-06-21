@@ -35,6 +35,7 @@ const EventRoutes = require('./routes/event');
 const flowSearchRoutes = require('./routes/flowSearch');
 const competencesRoutes = require('./routes/competence');
 const languagesRoutes = require('./routes/language');
+const historyRoutes = require('./routes/history');
 
 const Role = require('./models/role');
 const Competence = require('./models/competence');
@@ -162,6 +163,8 @@ app.use('/api/event', EventRoutes);
 app.use('/api/flowSearch', flowSearchRoutes);
 app.use('/api/competence', competencesRoutes);
 app.use('/api/language', languagesRoutes);
+app.use('/api/history', historyRoutes);
+
 
 // Set client on root
 

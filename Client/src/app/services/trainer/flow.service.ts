@@ -88,4 +88,7 @@ export class FlowService {
     let reqBody = {collaborators: collaborators}
     return this.http.put(this.uri+'editCollaborators/'+flowId, reqBody);
   }
+  cloneFlow(flowId: string, userId: string): Observable<any>{
+    return this.http.get(this.uri+'clone/'+flowId+'/user/'+userId);
+  }
 }

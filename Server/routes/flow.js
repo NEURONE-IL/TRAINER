@@ -3,8 +3,10 @@ const router = express.Router();
 const Flow = require('../models/flow');
 const User = require('../models/user');
 const Competence = require('../models/competence');
-
+const Module = require('../models/module');
 const Stage = require('../models/stage');
+const History = require('../models/history');
+const QuizObjects = require('../models/quizObjects');
 
 const imageStorage = require('../middlewares/imageStorage');
 const authMiddleware = require('../middlewares/authMiddleware');
@@ -398,6 +400,138 @@ router.put('/editCollaborators/:flow_id', [verifyToken, authMiddleware.isAdmin],
               select:'-password' 
             }
           }).populate({path: 'user', model: User, select:'-password'}).execPopulate()
+        res.status(200).json({
+            flow
+        });
+    })
+})
+
+router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => {
+    const _id = req.params.flow_id;
+    const _user = req.params.user_id;
+    const flow = await Flow.findOne({_id: _id}, err => {
+        if (err) {
+            return res.status(404).json({
+                err
+            });
+        }
+    });
+
+    const modules = await Module.find({flow: flow._id}, err => {
+        if (err) {
+            return res.status(404).json({
+                err
+            });
+        }
+    })
+    const cloneFlow = new Flow({
+        name: flow.name+' (clonado)',
+        description: flow.description,
+        sorted: flow.sorted,
+
+        privacy: true,
+        tags: flow.tags,
+        levels: flow.levels,
+        language: flow.language,
+        competences: flow.competences,
+        user: _user,
+        collaborators: [],
+        type: 'clone',
+
+    });
+
+    modules.forEach(async module => {
+        let newModule = new Module({
+            flow: cloneFlow._id,
+            name: module.name,
+            description: module.description,
+            image_url: module.image_url,
+            image_id: module.image_id
+        })
+        const stages = await Stage.find({module: module._id}, err => {
+            if (err) {
+                return res.status(404).json({
+                    err
+                });
+            }
+        })
+        stages.forEach(async stage => {
+            let newStage = new Stage({
+                title: stage.title,
+                description:stage.description,
+                step: stage.step,
+                flow: cloneFlow._id,
+                module: newModule._id,
+                assistant: stage.assistant,
+                type: stage.type,
+                externalId: stage.externalId,
+                externalName: stage.externalName,
+                image_url: stage.image_url,
+                image_id: stage.image_id,
+            })
+
+            newStage.save(err => {
+                if(err){
+                    return res.status(404).json({
+                        err
+                    });
+                }
+            })
+        })
+        
+        newModule.save(err => {
+            if(err){
+                return res.status(404).json({
+                    err
+                });
+            }
+        })
+        
+    });
+    
+
+    let copyHistory = new History({
+        user: _user,
+        flow: _id,
+        type: 'clone',
+        description: 'The flow was cloned'
+    })
+    copyHistory.save(err => {
+        if(err){
+            return res.status(404).json({
+                err
+            });
+        }
+    })
+    /*const userClone = await User.findOne({_id: _user},{password:0}, err => {
+        if (err) {
+            return res.status(404).json({
+                err
+            });
+        }
+    });
+    const notification = new AdminNotification ({
+        userFrom:userClone,
+        userTo: study.user,
+        type: 'clone',
+        history: copyHistory._id,
+        description:userClone.names + ' ' +userClone.last_names + ' ha clonado su estudio: ' + study.name,
+        seen: false,
+    });
+    notification.save(err => {
+        if(err){
+            return res.status(404).json({
+                err
+            });
+        }
+    })*/
+
+    cloneFlow.save((err, flow) => {
+        if (err) {
+            return res.status(404).json({
+                err
+            });
+        }
         res.status(200).json({
             flow
         });

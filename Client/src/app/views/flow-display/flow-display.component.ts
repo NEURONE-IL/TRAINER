@@ -18,7 +18,7 @@ import { StageCreationComponent } from '../stage-creation/stage-creation.compone
 import { ModuleUpdateComponent } from '../module-update/module-update.component';
 import { TrainerUserUIService } from '../../trainer-userUI/services/trainer-user-ui.service';
 import { FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
-
+import { HistoryService } from 'src/app/services/admin/history.service';
 import { MatTable } from '@angular/material/table';
 
 
@@ -78,6 +78,7 @@ export class FlowDisplayComponent implements OnInit {
 
   columnsToDisplayCollaborators = ['icon','fullname', 'email', 'invitation','actions'];
   columnsToDisplayCollaboratorsNotOwner = ['icon','fullname', 'email','invitation'];
+  columnsToDisplayCloneHistory = ['fullname', 'email', 'date','hour'];
   emailFormControl: FormControl;
 
 
@@ -93,7 +94,8 @@ export class FlowDisplayComponent implements OnInit {
               private apiSGService: ApiSGService,
               private videoModuleService: QuizService,
               public matDialog: MatDialog,
-              private triviaService: ApiTriviaService
+              private triviaService: ApiTriviaService,
+              private historyService: HistoryService
               ) { }
 
   ngOnInit(): void {
@@ -133,6 +135,29 @@ export class FlowDisplayComponent implements OnInit {
         this.sortedStages = response['stages'];
         //console.log(this.sortedStages)
     });
+    this.historyService.getHistoryByFlowByType(this.route.snapshot.paramMap.get('flow_id'),'clone').subscribe(
+      response => {
+        this.cloneHistory = response['histories'];
+
+        if (this.cloneHistory.length>0){
+          this.cloneHistory.forEach( history => {
+
+            let d = new Date(history.createdAt);
+            let date = (d.getDate() < 10? '0':'') + d.getDate() + (d.getMonth() < 10 ? '/0' : '/') + (d.getMonth() + 1) + '/' + d.getFullYear();          
+            let hour = (d.getHours() < 10 ? '0' : '') +d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '')+ d.getMinutes();
+            history.createdAt = date + ' ' + hour;
+          })
+          this.wasClone = true;
+
+        }
+      },
+      err => {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      }
+    );
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 

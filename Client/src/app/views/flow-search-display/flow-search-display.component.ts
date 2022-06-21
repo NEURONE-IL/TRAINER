@@ -9,17 +9,9 @@ import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivi
 import { AuthService } from '../../services/auth/auth.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
-import { Module, ModuleService } from 'src/app/services/trainer/module.service';
-import { FlowUpdateComponent } from 'src/app/views/flow-update/flow-update.component';
-import { StageUpdateComponent } from 'src/app/views/stage-update/stage-update.component';
-
-import { ModuleCreationComponent } from '../module-creation/module-creation.component';
-import { StageCreationComponent } from '../stage-creation/stage-creation.component';
-import { ModuleUpdateComponent } from '../module-update/module-update.component';
+import { ModuleService } from 'src/app/services/trainer/module.service';
 import { TrainerUserUIService } from '../../trainer-userUI/services/trainer-user-ui.service';
-import { FormControl, Validators, ValidatorFn, ValidationErrors, AbstractControl } from '@angular/forms';
 
-import { MatTable } from '@angular/material/table';
 
 @Component({
   selector: 'app-flow-search-display',
@@ -34,7 +26,6 @@ export class FlowSearchDisplayComponent implements OnInit {
   triviaProgress: TriviaStudy[] = [];
   modules: any;
   dummyUser: any;
-  resetingUser = false;
   mostrarFlujos: boolean = true;
   url = '';
   testModules: any;
@@ -93,12 +84,6 @@ export class FlowSearchDisplayComponent implements OnInit {
     );
 
     this.getTestUser();
-/*
-    this.stageService.getStagesByFlow(this.route.snapshot.paramMap.get('flow_id'))
-      .subscribe(response => {
-        this.stages = response['stages'];
-    });
-*/
     this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
@@ -108,23 +93,6 @@ export class FlowSearchDisplayComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
 
     this.reloadModules();
-  }
-
-  //arreglo parche
-  // el flujo de prueba para el usuario solo se carga si se ha presionado el boton de reset user
-  ngOnDestroy(): void {
-    this.resetTestUser();
-  }
-
-  resetFlowTestUser(){
-    this.resetingUser = true;
-    this.flowService.resetFlowTestUser(this.route.snapshot.paramMap.get('flow_id')).subscribe(response => {
-      this.dummyUser = response['user'];
-      this.resetingUser = false;
-    } , err => {
-      this.resetingUser = false;
-      }
-    );
   }
 
   getTestUser(){
@@ -140,47 +108,6 @@ export class FlowSearchDisplayComponent implements OnInit {
       this.testModules = respUserFlow.userFlow.modules;
     });
 
-  }
-
-  getProgress(){
-//    if(this.authService.isAdmin()){
-      this.triviaService.getProgress(this.dummyUser._id).subscribe(response => {
-        this.triviaProgress = response['progress'];
-        console.log(this.triviaProgress, 'progress');
-        console.log('testUser');
-      });
-//    }else{
-//      this.triviaService.getProgress(this.authService.getUser()._id).subscribe(response => {
-//        this.triviaProgress = response['progress'];
-//        console.log(this.triviaProgress, 'progress');
-//        console.log('realUser');
-//      });
-//    }
-  }
-
-  resetTestUser(){
-    this.authService.resetTestUser(this.flow._id).subscribe(
-      user => {
-        this.triviaService.resetTriviaUser(user['_id']).subscribe(
-          triviaUser => {
-            console.log("Trivia user reseted");
-          },
-          err => {
-            console.log(err);
-          }
-        )
-        this.toastr.success(this.translate.instant("FLOW.TOAST.TEST_USER_RESET_SUCCESS"), this.translate.instant("FLOW.TOAST.SUCCESS"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-      },
-      err => {
-        this.toastr.error(this.translate.instant("FLOW.TOAST.TEST_USER_RESET_ERROR"), this.translate.instant("FLOW.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-      }
-    )
   }
 
   getClass(active, type){
@@ -204,12 +131,6 @@ export class FlowSearchDisplayComponent implements OnInit {
   }
 
   reloadStages(){
-/*
-    this.stageService.getStagesByFlow(this.route.snapshot.paramMap.get('flow_id'))
-      .subscribe(response => {
-        this.stages = response['stages'];
-    });
-*/
     this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
@@ -219,12 +140,7 @@ export class FlowSearchDisplayComponent implements OnInit {
   }
 
   reloadModules(){
-    /*
-        this.stageService.getStagesByFlow(this.route.snapshot.paramMap.get('flow_id'))
-          .subscribe(response => {
-            this.stages = response['stages'];
-        });
-    */
+   
         this.moduleService.getModuleByFlow(this.route.snapshot.paramMap.get('flow_id'))
           .subscribe(response => {
             this.modules = response['modules'];
@@ -270,10 +186,35 @@ export class FlowSearchDisplayComponent implements OnInit {
   //Valentina
 
   confirmCloneStudy(){
-    confirm("¿Seguro/a que desea clonar este estudio?") /*&& this.cloneStudy();*/
+    confirm("¿Seguro/a que desea clonar este estudio?") && this.cloneFlow();
   }
   confirmCollaborateRequest(): void {
     confirm("¿Seguro/a que desea solicitar colaborar en este estudio?") /*&& this.requestCollaboration()*/;
+  }
+  cloneFlow(){
+    this.loadingClone = true;
+    let user_id = this.user._id
+    this.flowService.cloneFlow(this.flow._id,user_id).subscribe(
+      response => {
+        console.log(response)
+       
+        this.loadingClone = false;
+        let link = '/admin_panel/flow/'+response.flow._id ;
+        this.toastr.success("El flujo ha sido clonado exitosamente","Éxito",{
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+        this.router.navigate([link]);
+        this.loadingClone = false;
+      },
+      err => {
+        this.toastr.error("El flujo seleccionado no ha podido ser clonado", "Error en la clonación", {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+        this.loadingClone = false;
+      }
+    );
   }
 
 }
