@@ -12,9 +12,13 @@ import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
 import { FlowCreationComponent } from './views/flow-creation/flow-creation.component';
+
 import { AuthGuard } from './helpers/auth.guard';
 import { AdminGuard } from './helpers/admin.guard';
 import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
+import { ProtectFlowEditionGuard } from './helpers/protect-flow-edition.guard';
+import { ProtectSearchDisplayGuard } from './helpers/protect-search-display.guard';
+
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoOnlyComponent } from './views/video-only/video-only.component';
 import { SignupComponent } from './views/signup/signup.component';
@@ -112,7 +116,8 @@ const routes: Routes = [
       },
       {
         path: 'flow/:flow_id',
-        component: FlowDisplayComponent
+        component: FlowDisplayComponent,
+        canActivate: [ProtectFlowEditionGuard]
       },
     ]
   },
@@ -143,7 +148,8 @@ const routes: Routes = [
       },
       {
         path: 'flow/:flow_id',
-        component: FlowSearchDisplayComponent
+        component: FlowSearchDisplayComponent,
+        canActivate: [ProtectSearchDisplayGuard]
       }
     ]
   },

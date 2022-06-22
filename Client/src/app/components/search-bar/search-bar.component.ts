@@ -11,7 +11,7 @@ import { FormControl } from '@angular/forms';
 export class SearchBarComponent implements OnInit {
   name: string;
   search : string = "";
-  levels: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
+  levels: any[] = [];
   languages : any[];
   competences: any[];
   resultsComponent: FlowsSearchResultsComponent;
@@ -36,10 +36,17 @@ export class SearchBarComponent implements OnInit {
     if (path === 'results')
       this.name = path 
 
+      for (let i = 0; i < 12; i++) {
+        let el = {name: (i+1).toString(), check: false}
+        this.levels.push(el)
+      }
       this.flowResourcesService.getCompetences().subscribe( response => {
       this.competences = response.competences;
       this.competences.sort( (a,b) => a.name.localeCompare(b.name))
-      this.competences.forEach(el => this.allFilters.competences.push(el.name));
+      this.competences.forEach(el => {
+        this.allFilters.competences.push(el.name)
+        el.check = false;
+      });
     }, err => {
       console.log(err)
     });
@@ -47,7 +54,10 @@ export class SearchBarComponent implements OnInit {
     this.flowResourcesService.getLanguages().subscribe( response => {
       this.languages = response.languages;
       this.languages.sort( (a,b) => a.name.localeCompare(b.name))
-      this.languages.forEach(el => this.allFilters.languages.push(el.name));
+      this.languages.forEach(el => {
+        this.allFilters.languages.push(el.name);
+        el.check = false;
+      });
 
     }, err => {
       console.log(err)
@@ -76,14 +86,22 @@ export class SearchBarComponent implements OnInit {
     this.search = "";
   }
   filterFlows(filter){
-    let currentFilters: any
-    if(filter){
-      currentFilters = {competences: this.competencesSelected, levels:this.levelsSelected, languages:this.languagesSelected}
+    if(!filter){
+      this.levelsSelected = [];
+      this.languagesSelected = [];
+      this.competencesSelected = [];
+      this.competences.forEach(comp => {
+        comp.check = false;
+      });
+      this.levels.forEach(lvl => {
+        lvl.check = false;
+      });
+      this.languages.forEach(lang => {
+        lang.check = false;
+      });
     }
-    else{
-      currentFilters = {competences: [], levels:[], languages:[]}
+    let currentFilters = {competences: this.competencesSelected, levels:this.levelsSelected, languages:this.languagesSelected}
 
-    }
     if(this.componentReference){
       this.name = this.componentReference.route.url.value[0].path;
       if (this.name === 'results'){

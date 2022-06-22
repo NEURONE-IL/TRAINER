@@ -108,7 +108,7 @@ export class FlowsDisplayComponent implements OnInit {
       } 
       case 3: { 
         var type = 'clone'
-        //this.getFlowsByType(type)
+        this.getFlowsByType(type)
         console.log('1');
         break; 
       }

@@ -11,6 +11,7 @@ import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { QuizService } from '../../services/videoModule/quiz.service';
 import { ModuleService } from 'src/app/services/trainer/module.service';
 import { TrainerUserUIService } from '../../trainer-userUI/services/trainer-user-ui.service';
+import { InvitationService } from 'src/app/services/admin/invitation.service';
 
 
 @Component({
@@ -54,7 +55,8 @@ export class FlowSearchDisplayComponent implements OnInit {
               private apiSGService: ApiSGService,
               private videoModuleService: QuizService,
               public matDialog: MatDialog,
-              private triviaService: ApiTriviaService
+              private triviaService: ApiTriviaService,
+              private invitationService: InvitationService
               ) { }
 
   ngOnInit(): void {
@@ -74,6 +76,8 @@ export class FlowSearchDisplayComponent implements OnInit {
           this.collaboratorsExist = false;
           this.notActualCollaborator = true;
         }
+        this.checkCollabInvitation();
+
       },
       err => {
         this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
@@ -189,7 +193,7 @@ export class FlowSearchDisplayComponent implements OnInit {
     confirm("¿Seguro/a que desea clonar este estudio?") && this.cloneFlow();
   }
   confirmCollaborateRequest(): void {
-    confirm("¿Seguro/a que desea solicitar colaborar en este estudio?") /*&& this.requestCollaboration()*/;
+    confirm("¿Seguro/a que desea solicitar colaborar en este estudio?") && this.requestCollaboration();
   }
   cloneFlow(){
     this.loadingClone = true;
@@ -213,6 +217,43 @@ export class FlowSearchDisplayComponent implements OnInit {
           positionClass: 'toast-top-center'
         });
         this.loadingClone = false;
+      }
+    );
+  }
+  requestCollaboration(){
+    let invitation = {
+      user: this.user,
+      flow: this.flow,
+    }
+    this.invitationService.requestCollab(invitation).subscribe(
+      response => {
+        console.log(response)
+        this.checkCollabInvitation();
+        this.toastr.success("Se ha enviado correctamente la solicitud de colaboración, se le notificará la respuesta","Éxito",{
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      },
+      err =>{
+        console.log(err)
+        this.toastr.error("No se ha podido enviar la solicitud de colaboración, intente más tarde","Error",{
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+
+      }
+    );
+  }
+  checkCollabInvitation(){
+    this.invitationService.checkExistingInvitation(this.user._id, this.flow._id).subscribe(
+      response => {
+        if(response.message === "NOT_EXISTING_INVITATION")
+          this.existingInvitation = false;
+        else
+          this.existingInvitation = true;
+      },
+      err => {
+        console.log(err)
       }
     );
   }

@@ -32,13 +32,13 @@
         </div>
       </mat-menu>
       <mat-menu #competencesFilter="matMenu" >
-        <mat-checkbox color="primary" *ngFor="let competence of competences;" [value]="competence.name" (click)="$event.stopPropagation();" (change)="addCompetence($event)" class="mat-menu-item">{{competence.name}}</mat-checkbox>   
+        <mat-checkbox color="primary" *ngFor="let competence of competences;" [(ngModel)]="competence.check" [value]="competence.name" (click)="$event.stopPropagation();" (change)="addCompetence($event)" class="mat-menu-item">{{competence.name}}</mat-checkbox>   
       </mat-menu>
       <mat-menu #levelsFilter="matMenu">
-        <mat-checkbox color="primary" *ngFor="let level of levels;" [value]="level" (click)="$event.stopPropagation();" (change)="addLevel($event)" class="mat-menu-item">{{level}}</mat-checkbox> 
+        <mat-checkbox color="primary" *ngFor="let level of levels;" [(ngModel)]="level.check" [value]="level.name" (click)="$event.stopPropagation();" (change)="addLevel($event)" class="mat-menu-item">{{level.name}}</mat-checkbox> 
       </mat-menu>
       <mat-menu #languagesFilter="matMenu">
-        <mat-checkbox color="primary" *ngFor="let language of languages;" [value]="language.name" (click)="$event.stopPropagation();" (change)="addLanguage($event)" class="mat-menu-item">{{language.name}}</mat-checkbox> 
+        <mat-checkbox color="primary" *ngFor="let language of languages;" [(ngModel)]="language.check" [value]="language.name" (click)="$event.stopPropagation();" (change)="addLanguage($event)" class="mat-menu-item">{{language.name}}</mat-checkbox> 
       </mat-menu>
       <button class="button-customize" color="primary" mat-raised-button (click)="searchFlows(this.search)">Buscar
         <mat-icon>search</mat-icon>

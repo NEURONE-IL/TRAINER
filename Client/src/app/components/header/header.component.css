@@ -104,3 +104,45 @@
   margin-right: 0px;
   padding: 0 5px;
 }
+
+.notificationMenu{
+  font-size: small;
+  font-family: Comic Sans MS, sans-serif;
+  padding-bottom: 3px !important;
+  padding-top: 10px !important;
+}
+.acceptButton{
+  background-color: #4CAF50;
+  color: #FFFFFF;
+  transform: scale(0.8);
+}
+.rejectButton{
+  transform: scale(0.8);
+}
+
+.statusInfo{
+  font-size: 13px ;
+  margin-bottom: 3% !important; 
+  margin-top:-2% !important;
+}
+
+.dateInfo{
+  font-size: 11px;
+  margin-bottom: 2%; 
+  margin-top:1%;
+}
+.userInfo{
+  display: flex; 
+  padding-bottom: 0% !important;
+  align-items: center;
+  margin-top: -5%;
+}
+
+.date-notification-info{
+  display: flex; 
+  padding-bottom: 0% !important;
+  margin-top: -1%;
+  margin-bottom: 2%;
+  align-items: center;
+  justify-content: space-between;
+}

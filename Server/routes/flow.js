@@ -3,9 +3,12 @@ const router = express.Router();
 const Flow = require('../models/flow');
 const User = require('../models/user');
 const Competence = require('../models/competence');
+const Language = require('../models/language');
 const Module = require('../models/module');
 const Stage = require('../models/stage');
 const History = require('../models/history');
+const Invitation = require('../models/invitation');
+const AdminNotification = require('../models/adminNotification');
 const QuizObjects = require('../models/quizObjects');
 
 const imageStorage = require('../middlewares/imageStorage');
@@ -161,11 +164,15 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
         flow.image_url = image_url;
         flow.image_id = req.file.id;
     }
-    flow.save((err, flow) => {
+    flow.save(async (err, flow) => {
         if (err) {
             return res.status(404).json({
                 err
             });
+        }        
+        if(flow.privacy == false){
+            await flow.populate({path:'user', model:User}).populate({path:'competences', model:Competence}).populate({path:'language', model:Language}).execPopulate();
+            createFlowSearch(flow);
         }
         res.status(200).json({
             flow
@@ -235,12 +242,21 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
             flow.image_id = req.file.id;
         }
         flow.updatedAt = Date.now();
-        flow.save((err, flow) => {
+        flow.save(async (err, flow) => {
             if (err) {
                 return res.status(404).json({
                     err
                 });
             }
+            await flow.populate({path:'user', model:User}).populate({path:'competences', model:Competence}).populate({path:'language', model:Language}).execPopulate();
+
+            if(flow.privacy == true && privacyChange)
+              deleteFlowSeach(flow._id);
+            else if(flow.privacy == false && privacyChange)
+              createFlowSearch(flow);
+            else if(flow.privacy == false && !privacyChange)
+              updateFlowSearch(flow);
+
             res.status(200).json({
                 flow
             });
@@ -305,7 +321,7 @@ router.get('/:flow_id/getForSignup', async (req, res) => {
     });
 });
 
-//Método para editar los colaboradores de un estudio
+//Método para editar los colaboradores de un flujo
 router.put('/editCollaborators/:flow_id', [verifyToken, authMiddleware.isAdmin], async (req, res) => {
     
     const _id = req.params.flow_id;
@@ -318,70 +334,68 @@ router.put('/editCollaborators/:flow_id', [verifyToken, authMiddleware.isAdmin],
         }
     })
     let collaborators = req.body.collaborators;
-    /*if(collaborators){
-        flow.collaborators.forEach(async coll => {
-            //Si el colaborador actual del loop no se encuentra en la lista de colaboradores
-            let collDelete = collaborators.some(item => JSON.stringify(item.user._id) === JSON.stringify(coll.user));
+    flow.collaborators.forEach(async coll => {
+        //Si el colaborador actual del loop no se encuentra en la lista de colaboradores
+        let collDelete = collaborators.some(item => JSON.stringify(item.user._id) === JSON.stringify(coll.user));
 
-            if(!collDelete && coll.invitation === 'Pendiente'){
+        if(!collDelete && coll.invitation === 'Pendiente'){
 
-                console.log('borra')
-                await Invitation.findOneAndDelete({user: coll.user, status: 'Pendiente', flow: flow._id}, async (err, inv) =>{
+            console.log('borra')
+            await Invitation.findOneAndDelete({user: coll.user, status: 'Pendiente', flow: flow._id}, async (err, inv) =>{
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+                await AdminNotification.deleteOne({invitation: inv._id}, err =>{
                     if(err){
                         return res.status(404).json({
                             ok: false,
                             err
                         });
                     }
-                    await AdminNotification.deleteOne({invitation: inv._id}, err =>{
-                        if(err){
-                            return res.status(404).json({
-                                ok: false,
-                                err
-                            });
-                        }
-                    })
                 })
-                
-                
-            }
-        });
-        collaborators.forEach((coll, i) => {
-            let index = flow.collaborators.findIndex(item => item.user == coll.user._id);
+            })
+            
+            
+        }
+    });
+    collaborators.forEach((coll, i) => {
+        let index = flow.collaborators.findIndex(item => item.user == coll.user._id);
 
-            if(!(index >= 0)){
-                const invitation = new Invitation ({
-                    user: coll.user,
-                    flow: flow,
-                    status: 'Pendiente',
-                });
-                invitation.save(err => {
-                    if(err){
-                        return res.status(404).json({
-                            err
-                        });
-                    }
-                })
-                const notification = new AdminNotification ({
-                    userFrom:flow.user,
-                    userTo: coll.user,
-                    type: 'invitation',
-                    invitation: invitation,
-                    description:'Invitación para colaborar en el estudio: ' + flow.name,
-                    seen: false,
-                });
-                notification.save(err => {
-                    if(err){
-                        return res.status(404).json({
-                            err
-                        });
-                    }
-                })
-            }
-            if(i === (collaborators.length-1))
-              flow.collaborators = req.body.collaborators
-        })
-    }*/
+        if(!(index >= 0)){
+            const invitation = new Invitation ({
+                user: coll.user,
+                flow: flow,
+                status: 'Pendiente',
+            });
+            invitation.save(err => {
+                if(err){
+                    return res.status(404).json({
+                        err
+                    });
+                }
+            })
+            const notification = new AdminNotification ({
+                userFrom:flow.user,
+                userTo: coll.user,
+                type: 'invitation',
+                invitation: invitation,
+                description:'Invitación para colaborar en el flujo: ' + flow.name,
+                seen: false,
+            });
+            notification.save(err => {
+                if(err){
+                    return res.status(404).json({
+                        err
+                    });
+                }
+            })
+        }
+        if(i === (collaborators.length-1))
+            flow.collaborators = req.body.collaborators
+    })
 
     flow.collaborators = collaborators;
     flow.updatedAt = Date.now();
@@ -503,7 +517,7 @@ router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => 
             });
         }
     })
-    /*const userClone = await User.findOne({_id: _user},{password:0}, err => {
+    const userClone = await User.findOne({_id: _user},{password:0}, err => {
         if (err) {
             return res.status(404).json({
                 err
@@ -512,10 +526,10 @@ router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => 
     });
     const notification = new AdminNotification ({
         userFrom:userClone,
-        userTo: study.user,
+        userTo: flow.user,
         type: 'clone',
         history: copyHistory._id,
-        description:userClone.names + ' ' +userClone.last_names + ' ha clonado su estudio: ' + study.name,
+        description:userClone.names + ' ' +userClone.last_names + ' ha clonado su flujo: ' + flow.name,
         seen: false,
     });
     notification.save(err => {
@@ -524,7 +538,7 @@ router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => 
                 err
             });
         }
-    })*/
+    })
 
     cloneFlow.save((err, flow) => {
         if (err) {
@@ -537,5 +551,84 @@ router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => 
         });
     })
 })
+
+async function deleteFlowSeach(flow_id){
+    console.log('deleteFlowSeach');
+    try {
+      const _flow = flow_id;
+      //Encontrar el flowSearch
+      await FlowSearch.deleteOne({flow:_flow}, err =>{
+          if(err){
+          console.log(err);
+        }
+      });
+    }
+    catch (err) {
+          console.log(err);
+     }
+  };
+  
+async function updateFlowSearch(flow){
+    console.log('updateFlowSearch');
+    try {
+        const _flow = flow._id;
+        //Encontrar el flowSearch
+        const flowSearch = await FlowSearch.findOne({flow:_flow}, err =>{
+            if(err){
+                console.log(err);
+            }
+        });
+        let competences = [];
+        await flow.competences.forEach( comp => {
+            competences.push(comp.name)
+        })
+
+        flowSearch.name = flow.name;
+        flowSearch.description= flow.description;
+        flowSearch.tags= flow.tags;
+        flowSearch.levels= flow.levels;
+        flowSearch.lang= flow.language.name;
+        flowSearch.competences= competences;
+
+        flowSearch.save(err => {
+            if(err){
+                console.log(err)
+            }
+        })
+    }catch (err) {
+        console.log(err)
+    }
+  };
+  
+  async function createFlowSearch(flow){
+    console.log('createFlowSearch');
+  
+    try {
+      let competences = [];
+        await flow.competences.forEach( comp => {
+            competences.push(comp.name)
+        })
+      const flowSearch = new FlowSearch({
+        name: flow.name,
+        author: flow.user.names + ' '+ flow.user.last_names,
+        description: flow.description,
+        tags: flow.tags,
+        userID: flow.user._id,
+        levels: flow.levels,
+        lang: flow.language.name,
+        competences: competences,
+        //challenges: challengeArr,
+        flow: flow
+      })
+      flowSearch.save(err => {
+        if(err){
+          console.log(err);
+        }
+      })
+    }
+    catch (err) {
+      console.log(err);
+    }
+  };
 
 module.exports = router;

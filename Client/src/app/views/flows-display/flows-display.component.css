@@ -100,7 +100,7 @@ mat-card{
 	font-size: xx-small;
 }
 
-mat-card-subtitle{
+.panel-title .mat-card-subtitle{
 	font-size: larger;
 	vertical-align: baseline;
 	padding-top: 15px;
@@ -121,4 +121,5 @@ mat-card-subtitle{
 .user-info{
   display: flex; 
   align-items: center;
+  margin-left: -7%;
 }

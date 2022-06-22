@@ -36,6 +36,8 @@ const flowSearchRoutes = require('./routes/flowSearch');
 const competencesRoutes = require('./routes/competence');
 const languagesRoutes = require('./routes/language');
 const historyRoutes = require('./routes/history');
+const invitationRoutes = require('./routes/invitation');
+const adminNotificationRoutes = require('./routes/adminNotification');
 
 const Role = require('./models/role');
 const Competence = require('./models/competence');
@@ -164,6 +166,8 @@ app.use('/api/flowSearch', flowSearchRoutes);
 app.use('/api/competence', competencesRoutes);
 app.use('/api/language', languagesRoutes);
 app.use('/api/history', historyRoutes);
+app.use('/api/invitation', invitationRoutes);
+app.use('/api/adminNotification', adminNotificationRoutes);
 
 
 // Set client on root
