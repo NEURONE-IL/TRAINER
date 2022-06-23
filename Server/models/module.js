@@ -8,6 +8,9 @@ const ModuleSchema = new Schema({
     code: {type: String},
     image_url: { type: String },
     image_id: { type: String },
+    
+    edit: {type: [String], default: []},
+
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }
 });

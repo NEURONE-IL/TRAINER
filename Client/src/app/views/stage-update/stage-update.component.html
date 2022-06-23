@@ -1,6 +1,13 @@
-<mat-card class="stage-creation-card">
+<mat-card class="mat-elevation-z0" style="padding:0">
   <mat-card-header>
     <mat-card-title>{{ "STAGE.UPDATE_TITLE" | translate }}</mat-card-title>
+		<div class="spacer"></div>
+		<mat-chip-list>
+			<mat-chip selected [color]="timerColor" >
+				<mat-icon>access_alarm</mat-icon>
+				{{timer}}
+			</mat-chip>
+		</mat-chip-list>
     <mat-card-subtitle>{{ "STAGE.UPDATE_SUBTITLE" | translate }}:</mat-card-subtitle>
 	</mat-card-header>
 	<mat-card-content>

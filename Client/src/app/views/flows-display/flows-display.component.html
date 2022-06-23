@@ -43,8 +43,12 @@
 					<mat-tab label="Clonados"></mat-tab>
 					<mat-tab label="Colaboraciones"></mat-tab>
 				</mat-tab-group>
-
-				<mat-card-content>
+				<div class="row">
+					<div class="col-md-9" style="padding-top: 10px">
+						<mat-card-subtitle *ngIf="noFlows">No hay flujos para mostrar en esta pestaña</mat-card-subtitle>
+					</div>
+				</div>
+				<mat-card-content *ngIf="!noFlows">
 					<mat-grid-list cols="12" [gutterSize]="'12px'">
 						<mat-grid-tile class="flow-card"  (click)="clickedFlow(flow._id)" (mouseover)="fullFlow(flow)" (mouseout)="shortFlow(flow)" colspan="3" rowspan="4" *ngFor="let flow of flows; let index = index" >
 							<mat-card style="padding-top: .5rem;">

@@ -50,6 +50,8 @@ const editSchema = Joi.object({
     
     language: Joi.string(),
 
+    userEdit: Joi.string()
+
 });
 
 verifyBody = async (req, res, next) => {

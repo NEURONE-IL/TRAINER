@@ -11,6 +11,7 @@ import { ModuleService } from 'src/app/services/trainer/module.service';
 import { AssistantService } from 'src/app/services/assistant/assistant.service';
 import {MatDialogRef} from '@angular/material/dialog';
 import {FlowDisplayComponent} from '../flow-display/flow-display.component';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 
 
@@ -21,9 +22,8 @@ import {FlowDisplayComponent} from '../flow-display/flow-display.component';
 })
 export class StageCreationComponent implements OnInit {
   modules: [];
-  @Input() flow: string;
+  @Input() flow: any;
   stageForm: FormGroup;
-  flows: Flow[];
   loading: Boolean;
   steps: number[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
   typeOptions: string[] = ['Trivia', 'Adventure', 'Video + Quiz'];
@@ -38,6 +38,7 @@ export class StageCreationComponent implements OnInit {
               private moduleService: ModuleService,
               private stageService: StageService,
               private flowService: FlowService,
+              private authService: AuthService,
               private toastr: ToastrService,
               private translate: TranslateService,
               private videoModuleService: QuizService,
@@ -61,23 +62,11 @@ export class StageCreationComponent implements OnInit {
       assistant: ['', []],
     });
 
-    this.flowService.getFlows().subscribe(
-      response => {
-        this.flows = response['flows'];
-      },
-      err => {
-        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
-          timeOut: 5000,
-          positionClass: 'toast-top-center'
-        });
-      }
-    );
-
     this.loading = false;
   }
 
   resetFlowTestUser(){
-    this.flowService.resetFlowTestUser(this.flow).subscribe();
+    this.flowService.resetFlowTestUser(this.flow._id).subscribe();
   }
 
   get stageFormControls(): any {
@@ -92,7 +81,7 @@ export class StageCreationComponent implements OnInit {
     this.loading = true;
     let stage = this.stageForm.value;
     /*Stage properties*/
-    stage.flow = this.flow;
+    stage.flow = this.flow._id;
     let externalObject = this.currentLinks.find(element => element._id === stage.externalId);
     stage.externalName = externalObject.name;
     /*End stage properties*/
@@ -156,8 +145,6 @@ export class StageCreationComponent implements OnInit {
     });
     this.apiSGService.getAdventures().subscribe((res: any) => {
       console.log("ESTUDIOS RESCATADOS DESDE SG:");
-      console.log("ESTUDIOS RESCATADOS DESDE SG:");
-      console.log("ESTUDIOS RESCATADOS DESDE SG:");
       console.log(res.adventures);
       this.SGLinks = res.adventures;
       console.log(this.SGLinks);
@@ -165,7 +152,7 @@ export class StageCreationComponent implements OnInit {
   }
 
   getModules(){
-    this.moduleService.getModuleByFlow(this.flow)
+    this.moduleService.getModuleByFlow(this.flow._id)
           .subscribe(response => {
             this.modules = response['modules'];
      });
@@ -181,9 +168,10 @@ export class StageCreationComponent implements OnInit {
     }
 
     else if(value === 'Video + Quiz'){
+      let user = this.authService.getUser()
       this.currentLinks = [];
-      this.videoModuleService.getQuizzes().subscribe(res => {
-        for (const quiz of res['data']){
+      this.videoModuleService.getQuizzesByUser(this.flow.user._id).subscribe(res => {
+        for (const quiz of res['quizzes']){
           this.currentLinks.push({"name": quiz["name"], "_id": quiz["_id"]});
         }
       });

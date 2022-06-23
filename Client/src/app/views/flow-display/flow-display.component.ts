@@ -320,27 +320,58 @@ export class FlowDisplayComponent implements OnInit {
   }
 
   showFlowUpdateDialog(): void {
-    const dialogRef = this.matDialog.open(FlowUpdateComponent, {
-      width: '60%',
-      data: {flow: this.flow, userOwner:this.userOwner}
-    }).afterClosed()
-    .subscribe(() => this.ngOnInit());
+    this.flowService.getFlow(this.flow._id).subscribe( 
+      response =>{
+        const dialogRef = this.matDialog.open(FlowUpdateComponent, {
+          width: '60%',
+          data: {flow: response.flow, userOwner:this.userOwner}
+        }).afterClosed()
+        .subscribe(() => this.ngOnInit());
+      }, err => {
+        console.log(err);
+        this.toastr.error('Ha ocurrido un error al cargar la información del flujo', "Error",{
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      }
+    )
+    
   }
 
   showStageUpdateDialog(stage: Stage): void {
-    const dialogRef = this.matDialog.open(StageUpdateComponent, {
-      width: '60%',
-      data: stage
-    }).afterClosed()
-    .subscribe(() => this.ngOnInit());
+    this.stageService.getStage(stage._id).subscribe( response => {
+
+      const dialogRef = this.matDialog.open(StageUpdateComponent, {
+        width: '60%',
+        data: {stage: response['stage'], owner:this.flow.user}
+      }).afterClosed()
+      .subscribe(() => this.ngOnInit());
+    }, err => {
+      console.log(err);
+      this.toastr.error('Ha ocurrido un error al cargar la información de la etapa', "Error",{
+        timeOut: 5000,
+        positionClass: 'toast-top-center'
+      });
+    })
+    
   }
 
   showModuleUpdateDialog(module1: Module): void {
-    const dialogRef = this.matDialog.open(ModuleUpdateComponent, {
-      width: '60%',
-      data: module1
-    }).afterClosed()
-    .subscribe(() => this.ngOnInit());
+    this.moduleService.getModule(module1._id).subscribe( 
+      response =>{
+        const dialogRef = this.matDialog.open(ModuleUpdateComponent, {
+          width: '60%',
+          data: response.module
+        }).afterClosed()
+        .subscribe(() => this.ngOnInit());
+      }, err =>{
+        console.log(err);
+        this.toastr.error('Ha ocurrido un error al cargar la información del módulo', "Error",{
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      })
+    
   }
 
   getClass(active, type){
@@ -443,7 +474,7 @@ export class FlowDisplayComponent implements OnInit {
       width: '100%'
     });
     const data = modal.componentInstance;
-    data.flow = this.flow._id;
+    data.flow = this.flow;
     modal.afterClosed().subscribe(result => {
       this.reloadStages();
     });
@@ -532,6 +563,19 @@ export class FlowDisplayComponent implements OnInit {
             }
       }
     );
+  }
+
+  confirmCollaborationLeft(){
+    confirm('Seguro que desea dejar de ser colaborador del estudio: '+this.flow.name) && this.collaborationLeft();
+  }
+  collaborationLeft(){
+    let collaborators = this.flow.collaborators.slice();
+    let index = collaborators.findIndex(coll => coll.user._id === this.user._id)
+    collaborators.splice(index,1);
+    console.log(collaborators)
+    this.editCollaborator(collaborators,"Ha dejado de ser colaborador del estudio: "+this.flow.name,"No se ha podido realizar la operación, intente más tarde");
+    this.router.navigate(['/admin_panel']);
+
   }
 
 }

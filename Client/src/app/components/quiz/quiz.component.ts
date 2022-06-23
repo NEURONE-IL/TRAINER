@@ -3,6 +3,7 @@ import {QuizService} from '../../services/videoModule/quiz.service';
 import {ActivatedRoute} from '@angular/router';
 import { Router } from '@angular/router';
 import {StageService} from '../../services/trainer/stage.service';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-quiz',
@@ -32,12 +33,14 @@ export class QuizComponent implements OnInit {
 
   constructor(private quizService: QuizService,
               private router: Router,
+              private authService: AuthService,
               private route: ActivatedRoute,
               private stageService: StageService) {  }
 
   ngOnInit(): void {
-    this.quizService.getQuizzes().subscribe(res => {
-      this.quiz = res['data'];
+    let user = this.authService.getUser();
+    this.quizService.getQuizzesByUser(user._id).subscribe(res => {
+      this.quiz = res['quizzes'];
     });
     this.exerciseActual = 0;
 

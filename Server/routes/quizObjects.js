@@ -44,7 +44,8 @@ router.post('', [verifyToken], async (req, res) => {
         name: req.body.name,
         instructions: req.body.instructions,
         resource_url: req.body.resource_url,
-        exercises: req.body.exercises
+        exercises: req.body.exercises,
+        user: req.body.user
     })
     quiz.save((err, data) => {
         if (err) {
@@ -110,4 +111,18 @@ router.delete('/:quiz_id',  [verifyToken] , async (req, res) => {
     });
 });
 
+//Valentina
+
+router.get('/byUser/:user_id', [verifyToken], async (req, res) => {
+    const _user = req.params.user_id;
+    QuizObjects.find({user:_user}, (err, quizzes) => {
+        if(err){
+            return res.status(404).json({ok: false, err});
+        }
+        else{
+            res.status(200).json({quizzes});
+            console.log(quizzes);
+        }
+    })
+});
 module.exports = router;

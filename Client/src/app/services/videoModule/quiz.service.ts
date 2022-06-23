@@ -131,6 +131,10 @@ export class QuizService {
     return this.http.get(this.uriQuizObjects, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );
   }
 
+  getQuizzesByUser(userId): Observable<any> {
+    return this.http.get(this.uriQuizObjects+'byUser/'+userId);
+  }
+
   // Get one quiz by id
   getQuiz(quizId: number): Observable<any> {
     return this.http.get(this.uriQuizObjects + quizId, { headers: {'x-access-token': localStorage.getItem('auth_token')} } );

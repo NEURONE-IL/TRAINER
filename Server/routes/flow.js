@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Flow = require('../models/flow');
+const FlowSearch = require('../models/flowSearch');
 const User = require('../models/user');
 const Competence = require('../models/competence');
 const Language = require('../models/language');
@@ -15,6 +16,11 @@ const imageStorage = require('../middlewares/imageStorage');
 const authMiddleware = require('../middlewares/authMiddleware');
 const flowMiddleware = require('../middlewares/flowMiddleware');
 const verifyToken = require('../middlewares/verifyToken');
+
+/* Para Concurrencia*/
+const {EventEmitter} = require('events');
+var AsyncLock = require('async-lock');
+var lock = new AsyncLock();
 
 router.get('' ,  [verifyToken], async (req, res) => {
     Flow.find({}, (err, flows) =>{
@@ -183,7 +189,8 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
 //Editar un flujo
 router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), flowMiddleware.verifyEditBody], async (req, res) => {
     const _id = req.params.flow_id;
-    console.log(req.body)
+    const _user = req.params.userEdit;
+
     const flow = await Flow.findOne({_id: _id}, (err, flow) => {
         if (err) {
             return res.status(404).json({ 
@@ -241,6 +248,8 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
             flow.image_url = image_url;
             flow.image_id = req.file.id;
         }
+        const result = flow.edit.filter(x => x !== _user);
+        flow.edit = result;
         flow.updatedAt = Date.now();
         flow.save(async (err, flow) => {
             if (err) {
@@ -266,12 +275,16 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
 
 router.delete('/:flow_id',  [verifyToken, authMiddleware.isAdmin] , async (req, res) => {
     const _id = req.params.flow_id;
-    Flow.deleteOne({_id: _id}, (err, flow) => {
+    Flow.findOneAndDelete({_id: _id}, (err, flow) => {
         if (err) {
             return res.status(404).json({
                 err
             });
         }
+        if(flow.privacy === false)
+          deleteStudySeach(_id);
+        
+        deleteInvitations(flow,res);
         res.status(200).json({
             flow
         });
@@ -552,6 +565,115 @@ router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => 
     })
 })
 
+// Concurrencia
+
+//Método para recibir cambios de edición de un flujo
+router.get('/editStatus/:flow_id/:user_id' ,async (req, res) => {
+    console.log('Event Source for Flow Edit Status');
+    
+    var Stream = new EventEmitter(); 
+    const _flow = req.params.flow_id;       
+    const _user = req.params.user_id;
+
+    res.writeHead(200, {
+        'Content-Type': 'text/event-stream',
+        'Cache-Control': 'no-cache',
+        'Connection': 'keep-alive'
+    });
+
+    Stream.on(_user+'/'+_flow, function(event, data){
+        res.write('event: '+ String(event)+'\n'+'data: ' + JSON.stringify(data)+"\n\n");
+    })
+
+    var id = setInterval(async function(){
+        const flow = await Flow.findOne({_id:_flow}, (err) => {
+            if (err) {
+                return res.status(404).json({
+                    err
+                });
+            }
+        });
+        Stream.emit(_user+'/'+_flow,'message',{currentUsers: flow.edit});
+
+        if(flow.edit[0] == _user){
+            if(flow.edit.length == 1)
+                Stream.removeAllListeners();
+            clearInterval(id);
+        }
+    }, 10000); 
+});
+
+router.put('/requestEdit/:flow_id'/*, [verifyToken, authMiddleware.isAdmin]*/, async (req, res) => {
+    const _flow = req.params.flow_id;
+    const _user = req.body.user;
+
+    console.log(_user + ' arrived');
+    console.log('Entering to Function: ', new Date())
+
+    lock.acquire(_flow, async function(done) {
+        console.log('Entering to Lock: ', new Date())
+        console.log(_user + ' acquire');
+        
+        const flow = await Flow.findOne({_id:_flow}, err => {
+            if (err) {
+                return res.status(404).json({
+                    err
+                });
+            }
+        });
+        console.log(flow)
+        let exist = flow.edit.some( id => id === _user)
+        if(!exist)
+            flow.edit.push(_user)
+
+        flow.save(err => {
+            if(err){
+                return res.status(404).json({
+                    ok: false,
+                    err
+                });
+            }
+            done(flow.edit);
+            res.status(200).json({users: flow.edit});
+        })
+        //await delay(5); //Para probar
+        
+    }, async function(edit) {
+        console.log(edit)
+        const index = edit.indexOf(_user); 
+        console.log('Position to edit: ', (index+1));
+        console.log('Lock free...');
+    })
+})
+
+router.put('/releaseFlow/:flow_id', [verifyToken, authMiddleware.isAdmin], async (req, res) => {
+    console.log('Release Flow')
+    const _flow = req.params.flow_id;
+    const _user = req.body.user;
+
+    const flow = await Flow.findOne({_id:_flow}, err => {
+        if (err) {
+            return res.status(404).json({
+                err
+            });
+        }
+    });
+
+    const result = flow.edit.filter(x => x !== _user);
+    flow.edit = result;
+    console.log(flow.edit)
+    flow.save(err => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json(flow);
+    })
+        
+})
+
 async function deleteFlowSeach(flow_id){
     console.log('deleteFlowSeach');
     try {
@@ -600,7 +722,7 @@ async function updateFlowSearch(flow){
     }
   };
   
-  async function createFlowSearch(flow){
+async function createFlowSearch(flow){
     console.log('createFlowSearch');
   
     try {
@@ -630,5 +752,36 @@ async function updateFlowSearch(flow){
       console.log(err);
     }
   };
+
+  async function deleteInvitations(flow, res){
+    const invitations = await Invitation.find({flow:flow, status: 'Pendiente'}, err =>{
+      if(err){
+          return res.status(404).json({
+              ok: false,
+              err
+          });
+      }
+    });
+  
+    if(invitations.length > 0){
+      invitations.forEach(async invitation => {
+        await AdminNotification.deleteOne({invitation: invitation._id}, err => {
+          if (err) {
+            return res.status(404).json({
+                err
+            });
+          }
+        })
+        await Invitation.deleteOne({_id:invitation._id}, err => {
+          if (err) {
+            return res.status(404).json({
+                err
+            });
+          }
+        })
+    
+      })
+    }
+  }
 
 module.exports = router;

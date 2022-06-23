@@ -32,6 +32,7 @@ export class SearchBarComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log('init')
     let path = this.router.routerState.snapshot.url.split('/')[2]
     if (path === 'results')
       this.name = path 

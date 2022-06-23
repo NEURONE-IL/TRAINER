@@ -1,4 +1,4 @@
-import {Component, Inject, OnInit} from '@angular/core';
+import {Component, HostListener, Inject, OnInit, OnDestroy} from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
@@ -21,7 +21,7 @@ export function tagExist(tags): ValidatorFn {
   templateUrl: 'flow-update.component.html',
   styleUrls: ['./flow-update.component.css']
 })
-export class FlowUpdateComponent implements OnInit{
+export class FlowUpdateComponent implements OnInit, OnDestroy{
   flowForm: FormGroup;
   loading: Boolean;
   file: File;
@@ -31,7 +31,6 @@ export class FlowUpdateComponent implements OnInit{
   collaborators_selected: any[] = [];
   tags: String[] = [];
   collaborator_selected: any;
-  collaborator_status: boolean = true;
   privacies = [
     {privacy:"Público", value: false}, 
     {privacy:"Privado", value: true}
@@ -42,6 +41,10 @@ export class FlowUpdateComponent implements OnInit{
   languages :any[]
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   competences: any[];
+  editMinutes: number = 3;
+  timerId: NodeJS.Timeout;
+  timer: string = '3:00';
+  timerColor: string = 'primary'; 
 
 
   constructor(
@@ -58,7 +61,17 @@ export class FlowUpdateComponent implements OnInit{
       this.flow = this.data.flow;
       this.userOwner = this.data.userOwner;
     }
-
+  
+  ngOnDestroy(): void{
+    let user = this.authService.getUser();
+    clearInterval(this.timerId);
+    this.flowService.closeEventSourcebyUrl(this.flow._id,user._id);
+    this.releaseFlow();
+  }
+  @HostListener('window:beforeunload', ['$event'])
+  doSomething($event){
+    this.ngOnDestroy();
+  }
   ngOnInit(): void {
     this.flowResourcesService.getCompetences().subscribe( response => {
       this.competences = response.competences;
@@ -93,6 +106,12 @@ export class FlowUpdateComponent implements OnInit{
       competences:[filteredCompetences,[Validators.required]],
       language:[this.flow.language,[Validators.required]]
     });
+    this.requestEdit();
+    if (this.userOwner) {
+      this.flowForm.controls.privacy.enable();
+    } else {
+      this.flowForm.controls.privacy.disable();
+    }
     this.loading = false;
   }
 
@@ -121,6 +140,7 @@ export class FlowUpdateComponent implements OnInit{
     formData.append('levels', JSON.stringify(flow.levels));
     formData.append('competences', JSON.stringify(flow.competences));
     formData.append('language', flow.language);
+    formData.append('userEdit', user._id);
     
     if (this.userOwner) {
       formData.append('privacy', flow.privacy);
@@ -177,5 +197,119 @@ export class FlowUpdateComponent implements OnInit{
     }
     console.log(this.tags)
 
+  }
+
+  countdown(){
+    var time: number = this.editMinutes * 60 - 1;
+    this.timerId = setInterval(() => {
+      if(time >= 0){
+        const minutes = Math.floor(time / 60);
+        var seconds = time % 60;
+        var displaySeconds = (seconds < 10) ? "0" + seconds : seconds;
+        this.timer = minutes + ":" + displaySeconds;
+        time--;
+        if(time == 60)
+          this.timerColor = 'warn';
+      }
+      else{
+        this.matDialog.closeAll();
+        clearInterval(this.timerId);
+      }
+    }, 1000);
+  }
+  requestEdit(){
+    let user_id = this.authService.getUser()._id;
+    this.flowService.requestForEdit(this.flow._id,{user:user_id}).subscribe(
+      response=> {
+        this.edit_users = response.users;
+        this.updateStatusForm(1)
+        if(this.edit_users[0] != user_id){
+          this.flowService.getServerSentEvent(this.flow._id, user_id).subscribe(
+            response => {
+              let data = JSON.parse(response.data);
+              console.log(data);
+              this.edit_users = data.currentUsers;
+              if(this.edit_users[0] === user_id){
+                this.updateStatusForm(0);
+                this.flowService.closeEventSourcebyUrl(this.flow._id,user_id);
+              }
+            },
+            err => {
+              console.log(err)
+            });
+        }
+      },
+      err => {
+        console.log(err);
+      }
+    )
+  }
+  releaseFlow(){
+    let user_id = this.authService.getUser()._id;
+    this.flowService.releaseForEdit(this.flow._id, {user:user_id}).subscribe(
+      flow => {
+        console.log('Flow Release');
+      },
+      err => {
+        console.log(err)
+      }
+    );
+  }
+  getFlow(){
+    this.flowService.getFlow(this.flow._id).subscribe(
+      response => {
+        console.log(response.flow);
+        this.flow = response.flow;
+        this.updateFlowField();
+    }, 
+    err => {
+      console.log(err)
+    })
+  }
+  updateFlowField(){
+    this.tags = this.flow.tags.slice();
+    let filteredCompetences :any[] = []
+    this.flow.competences.forEach(comp => {
+      filteredCompetences.push(comp._id)
+    });
+    this.flowForm.controls['name'].setValue(this.flow.name);
+    this.flowForm.controls['description'].setValue(this.flow.description);
+    this.flowForm.controls['sorted'].setValue(this.flow.sorted);
+    this.flowForm.controls['privacy'].setValue(this.flow.privacy);
+    this.flowForm.controls['collaborators'].setValue(this.flow.collaborators);
+
+    this.flowForm.controls['levels'].setValue(this.flow.levels);
+    this.flowForm.controls['language'].setValue(this.flow.language);
+    this.flowForm.controls['competences'].setValue(filteredCompetences);
+
+  }
+  updateStatusForm(state: number){
+    let user_id = this.authService.getUser()._id;
+    if(!(this.edit_users[0] === user_id)){
+      console.log('No puede editar')
+      this.flowForm.disable();
+      this.flowForm.controls.privacy.disable();
+      this.toastr.warning('El flujo está siendo editado por alguien más, una vez que el usuario termine, podrá editarlo', 'Advertencia', {
+        timeOut: 5000,
+        positionClass: 'toast-top-center'
+      });
+    }
+    else if(this.edit_users[0] === user_id){
+      console.log('Puede editar!')
+      this.countdown();
+      this.flowForm.enable();
+      if (this.userOwner) {
+        this.flowForm.controls.privacy.enable();
+      } else {
+        this.flowForm.controls.privacy.disable();
+      }
+      if(state != 1){
+        this.getFlow();
+        this.toastr.info('El flujo puede ser editado ahora', 'Información', {
+          timeOut: 5000,
+          positionClass: 'toast-top-center'
+        });
+      }
+    }
   }
 }

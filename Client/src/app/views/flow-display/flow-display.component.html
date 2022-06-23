@@ -8,10 +8,11 @@
         <mat-card-title *ngIf="flow">{{ "ADMIN.FLOWS.HEADER" | translate }}: {{flow.name}}</mat-card-title>
       </mat-card-header>
     </mat-grid-tile>
-    <mat-grid-tile colspan="4"></mat-grid-tile>
-    <mat-grid-tile colspan="8">
+    <mat-grid-tile [colspan]="userOwner?4:3"></mat-grid-tile>
+    <mat-grid-tile [colspan]="userOwner?8:9">
       <button mat-raised-button class="actionButton" color="primary" (click)="showFlowUpdateDialog()">{{ "BUTTONS.EDIT_FLOW" | translate }} <mat-icon>edit</mat-icon></button>
-      <button mat-raised-button class="actionButton" color="warn" (click)="confirmFlowDelete(flow._id)">{{ "BUTTONS.DELETE_FLOW" | translate }} <mat-icon>delete</mat-icon></button>
+      <button mat-raised-button *ngIf="userOwner" class="actionButton" color="warn" (click)="confirmFlowDelete(flow._id)">{{ "BUTTONS.DELETE_FLOW" | translate }} <mat-icon>delete</mat-icon></button>
+      <button mat-raised-button *ngIf="!(userOwner)" class="actionButton" color="warn" (click)="confirmCollaborationLeft()">DEJAR COLABORACIÓN <mat-icon>do_not_touch</mat-icon></button>
     </mat-grid-tile>
   </mat-grid-list>
   <mat-grid-list cols="24">
@@ -279,7 +280,7 @@
         <tr mat-row *matRowDef="let row; columns: userOwner? columnsToDisplayCollaborators: columnsToDisplayCollaboratorsNotOwner"></tr>
       </table>
       <ng-template #notCollaborators>
-      <div>
+      <div style="text-align:center">
         <p>Aun no se han añadido colaboradores a este estudio</p>
       </div>
     </ng-template>

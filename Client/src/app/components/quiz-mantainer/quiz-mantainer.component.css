@@ -36,7 +36,7 @@
 	display: block;
 }
 
-mat-card{
+.quizPreview{
 	padding-top: 0px;
 }
 .banner{
@@ -94,7 +94,7 @@ mat-card{
 	font-size: xx-small;
 }
 
-mat-card-subtitle{
+.quiz-view-title .mat-card-subtitle{
 	font-size: larger !important;
 	vertical-align: baseline;
 	padding-top: 15px;
@@ -106,7 +106,7 @@ mat-card-subtitle{
     min-height: 200px;
 
 }
-mat-card-content{
+.mat-card-content{
 	margin-top: 10px;
 }
 
@@ -187,7 +187,7 @@ mat-card-content{
 	font-size: medium;
 }
 
-mat-form-field{
+.mat-form-field{
 	width: 100%;
 	
 }

@@ -19,6 +19,7 @@ const FlowSchema = new Schema({
     levels: {type:[String], required:true},
     competences: {type: [{ type: Schema.Types.ObjectId, ref: 'Competence'}], required:true},
     language: { type: Schema.Types.ObjectId, ref: 'Language', required: true},
+    edit: {type: [String], default: []},
     
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

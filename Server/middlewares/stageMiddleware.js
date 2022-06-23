@@ -48,9 +48,11 @@ const editSchema = Joi.object({
 
     module: Joi.any(),
 
-    assistant: Joi.any()
+    assistant: Joi.any(),
 
-})
+    userEdit: Joi.string(),
+
+});
 
 verifyBody = async (req, res, next) => {
     try {
