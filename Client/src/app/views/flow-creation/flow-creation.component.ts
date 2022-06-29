@@ -49,7 +49,7 @@ export class FlowCreationComponent implements OnInit {
     {privacy:"Privado", value: true}
   ];
 
-  languages : any[]
+  languages: any[]
   tags: string[] = [];
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   competences: any[];
@@ -125,7 +125,7 @@ export class FlowCreationComponent implements OnInit {
     formData.append('tags', JSON.stringify(this.tags));
     formData.append('levels', JSON.stringify(flow.levels));
     formData.append('competences', JSON.stringify(flow.competences));
-    formData.append('language', JSON.stringify(flow.language));
+    formData.append('language', flow.language);
 
     /*Type*/
     if(flow.sorted){

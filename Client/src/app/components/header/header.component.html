@@ -17,6 +17,7 @@
   <button *ngIf="isLoggedIn && user.role.name === 'admin'" mat-icon-button [matMenuTriggerFor]="adminNotificationTable" (click)="getAdminNotification()">
     <mat-icon [matBadge]="adminNotificationN >0 ? adminNotificationN: null" matBadgeColor="warn">notifications</mat-icon>
   </button>
+  <div class="admin-notification">
   <mat-menu #adminNotificationTable="matMenu" xPosition="before" (close)="updateAdminNotifications()">
     <button *ngIf="newNotificationsAdmin?.length == 0" mat-menu-item >No existen notificaciones nuevas</button>
     <ng-container *ngFor="let item of newNotificationsAdmin; index as i" >
@@ -69,6 +70,7 @@
       </ng-container>
     </div>
   </mat-menu>
+  </div>
 
 	<a class="name-span"  href="/user-profile" *ngIf="isLoggedIn && user.role.name === 'user'">
     <img src="/assets/img_avatar.png" class="user-image">

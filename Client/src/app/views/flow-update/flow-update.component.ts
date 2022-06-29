@@ -268,7 +268,7 @@ export class FlowUpdateComponent implements OnInit, OnDestroy{
   }
   updateFlowField(){
     this.tags = this.flow.tags.slice();
-    let filteredCompetences :any[] = []
+    let filteredCompetences :any[] = [];
     this.flow.competences.forEach(comp => {
       filteredCompetences.push(comp._id)
     });

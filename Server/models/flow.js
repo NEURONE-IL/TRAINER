@@ -16,6 +16,7 @@ const FlowSchema = new Schema({
     privacy: {type: Boolean, default: true},
     type: {type: String, default: 'own'},
     tags: {type: [String]},
+    
     levels: {type:[String], required:true},
     competences: {type: [{ type: Schema.Types.ObjectId, ref: 'Competence'}], required:true},
     language: { type: Schema.Types.ObjectId, ref: 'Language', required: true},

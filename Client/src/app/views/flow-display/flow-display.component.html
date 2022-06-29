@@ -5,7 +5,7 @@
   <mat-grid-list cols="24">
     <mat-grid-tile colspan="12">
       <mat-card-header>
-        <mat-card-title *ngIf="flow">{{ "ADMIN.FLOWS.HEADER" | translate }}: {{flow.name}}</mat-card-title>
+        <mat-card-title *ngIf="flow">{{flow.name}}</mat-card-title>
       </mat-card-header>
     </mat-grid-tile>
     <mat-grid-tile [colspan]="userOwner?4:3"></mat-grid-tile>
@@ -18,13 +18,13 @@
   <mat-grid-list cols="24">
     <mat-grid-tile colspan="24" *ngIf="flow">
       <mat-card-header>
-      <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%;"> {{'Descripción: '+flow.description}}</mat-card-subtitle>
+      <mat-card-subtitle  class="flow-description" style="margin-bottom: 0%;"> {{flow.description}}</mat-card-subtitle>
       </mat-card-header>
     </mat-grid-tile>
 
-    <mat-grid-tile *ngIf="flow" colspan="24" rowspan="2" style="padding-bottom: 3%">
+    <mat-grid-tile *ngIf="flow" colspan="24" rowspan="1" style="padding-bottom: 3%">
       <mat-card-header>
-        <mat-card-subtitle  class="flow-description" style="margin-bottom: .5%;padding-top: 0%;">
+        <!--mat-card-subtitle  class="flow-description" style="margin-bottom: .5%;padding-top: 0%;">
           {{'Niveles: '}}
         <mat-button-toggle-group class="competence-info" name="fontStyle" *ngFor="let level of flow.levels; index as i;">
           <mat-button-toggle value="i">{{level}}</mat-button-toggle>
@@ -35,7 +35,7 @@
         <mat-button-toggle-group class="competence-info" name="fontStyle" *ngFor="let comp of flow.competences; index as i;">
           <mat-button-toggle value="i">{{comp.name}}</mat-button-toggle>
         </mat-button-toggle-group>
-        </mat-card-subtitle>
+        </mat-card-subtitle-->
         <mat-card-subtitle class="flow-description" style="padding-top: 0% !important;">
           <mat-chip-list style="margin-left: 3%;" aria-label="Tag List">
             <mat-chip *ngFor="let tag of flow.tags">{{tag}}</mat-chip>
@@ -285,7 +285,7 @@
       </div>
     </ng-template>
     </mat-tab>
-    <mat-tab *ngIf="wasClone" label="CLONACIONES">
+    <mat-tab *ngIf="wasClone && userOwner" label="CLONACIONES">
       <table mat-table [dataSource]="cloneHistory" matSort class="mat-elevation-z8">
         <ng-container matColumnDef="fullname">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>

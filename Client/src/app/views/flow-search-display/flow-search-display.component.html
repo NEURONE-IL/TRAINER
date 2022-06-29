@@ -18,9 +18,9 @@
       </mat-card-header>
     </mat-grid-tile>
 
-    <mat-grid-tile *ngIf="flow" colspan="24" rowspan="2" style="padding-bottom: 3%">
+    <mat-grid-tile *ngIf="flow" colspan="24" rowspan="1" style="padding-bottom: 3%">
       <mat-card-header>
-        <mat-card-subtitle  class="flow-description" style="margin-bottom: .5%;padding-top: 0%;">
+        <!--mat-card-subtitle  class="flow-description" style="margin-bottom: .5%;padding-top: 0%;">
           {{'Niveles: '}}
         <mat-button-toggle-group class="competence-info" name="fontStyle" *ngFor="let level of flow.levels; index as i;">
           <mat-button-toggle value="i">{{level}}</mat-button-toggle>
@@ -31,7 +31,7 @@
         <mat-button-toggle-group class="competence-info" name="fontStyle" *ngFor="let comp of flow.competences; index as i;">
           <mat-button-toggle value="i">{{comp.name}}</mat-button-toggle>
         </mat-button-toggle-group>
-        </mat-card-subtitle>
+        </mat-card-subtitle-->
         <mat-card-subtitle class="flow-description" style="padding-top: 0% !important;">
           <mat-chip-list style="margin-left: 3%;" aria-label="Tag List">
             <mat-chip *ngFor="let tag of flow.tags">{{tag}}</mat-chip>

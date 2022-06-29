@@ -54,10 +54,9 @@
 					De libre acceso
 				</mat-grid-tile>
 
-			<!--Inicio Cambio Vale: Se agrega select para manejar la privacidad de un estudio y para agregar colaboradores-->
-				<mat-grid-tile colspan="6">
+			<!--Inicio Cambio Vale: Se agregan nuevos campos solicitados, un select para manejar la privacidad de un estudio y para agregar etiquetas-->
+				<!--mat-grid-tile colspan="6">
 					<mat-form-field>
-						<!--mat-label>{{ "ADMIN.CHALLENGES.HOURS" | translate }}</mat-label-->
 						<mat-label>Idioma *</mat-label>
 						<mat-select formControlName="language">
 							<mat-option *ngFor="let leng of languages" [value]="leng._id"> {{ leng.name }} </mat-option>
@@ -88,7 +87,7 @@
 							{{ "ERRORS.REQUIRED" | translate }}
 						</mat-error>
 					</mat-form-field>
-				</mat-grid-tile>					
+				</mat-grid-tile-->					
 			</mat-grid-list>
 		<mat-card-header>
 			<mat-card-subtitle style="margin-bottom: 2%;">Seleccione las opciones de privacidad de su estudio</mat-card-subtitle>
