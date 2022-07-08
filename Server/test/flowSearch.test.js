@@ -22,7 +22,7 @@ describe('FlowSearch API', () => {
   @vjlh:
   Tries to authenticate the default user to get a JWT before apply each test.
   */    
-  beforeEach((done) => {
+  before((done) => {
       chai.request(app)
       .post('/api/auth/login')
       .send({
@@ -41,8 +41,8 @@ describe('FlowSearch API', () => {
   @vjlh:
   Successful test for post route search flows for query
   */
-  describe('/POST/search/:userId/:query/:page Search Studies', () => {
-    it('It should POST all relevant flows for a query, to navigate for them', (done) => {
+  describe('/POST/search/:userId/:query/:page searchFlows', () => {
+    it('It should POST all relevant flows for a query', (done) => {
       let query = 'prueba';
       let page = '1';
       chai.request(app)
@@ -67,8 +67,8 @@ describe('FlowSearch API', () => {
   @vjlh:
   Successful test for post route search all public flows
   */
-  describe('/POST/search/:userId/:query/:page Search Studies', () => {
-    it('It should POST all public flows, to navigate for them', (done) => {
+  describe('/POST/search/:userId/:query/:page searchFlows', () => {
+    it('It should POST all flows available for search', (done) => {
       let query = 'all';
       let page = '1';
       chai.request(app)
@@ -91,7 +91,7 @@ describe('FlowSearch API', () => {
   @vjlh:
   Successful test for post route search no results
   */
-  describe('/POST/search/:userId/:query/:page Search Studies', () => {
+  describe('/POST/search/:userId/:query/:page searchFlows', () => {
     it('It should POST no result flows for a query', (done) => {
       let query = 'NotResultTest';
       let page = '1';

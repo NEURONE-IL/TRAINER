@@ -10,15 +10,19 @@ https://www.digitalocean.com/community/tutorials/test-a-node-restful-api-with-mo
 
 chai.should();
 chai.use(chaiHttp);
-
 /*JWT to allow requests from registered users*/
 let token1;
 let token2;
 let userId1;
 let user2;
-let flowTest;
-let invitationId;
 
+/*Flow data for test*/
+let flowTest;
+
+/*Invitations data for test*/
+
+let invitationId;
+let collabRequestId;
 /*
 @vjlh:
 Test suite for Invitation API.
@@ -28,47 +32,85 @@ describe('Invitation API', () => {
   @vjlh:
   Tries to authenticate the default user to get a JWT before apply each test.
   */    
-  beforeEach((done) => {
-      chai.request(app)
-      .post('/api/auth/login')
-      .send({
-        email: 'admin@admin.com',
-        password: 'admin123'
+  before((done) => {
+    chai.request(app)
+    .post('/api/auth/login')
+    .send({
+      email: 'user@email.com',
+      password: 'user123'
+    })
+    .end((err, res) => {
+      token2 = res.body.token;
+      user2 = res.body.user;
+      res.should.have.status(200);
+    });
+
+    chai.request(app)
+    .post('/api/auth/login')
+    .send({
+      email: 'admin@admin.com',
+      password: 'admin123'
+    })
+    .end((err, res) => {
+      token1 = res.body.token;
+      userId1 = res.body.user._id;
+      res.should.have.status(200);
+
+      flowTest = new Flow({
+        name: 'Flow Invitation Test',
+        description: 'Flow Description Test',
+        sorted: true,
+        user: userId1,
+        privacy: false,
+        collaborators: [],
+        tags: ["test","invitation"],
+        levels: [],
+        language: "62afa06117d3cb18fb6c0a0b",
+        competences: [],          
       })
-      .end((err, res) => {
-          token1 = res.body.token;
-          userId1 = res.body.user._id;
-          res.should.have.status(200);
+      flowTest.save(async (err, flow) => {
+        if(err){
+          console.log(err)
+        }
+        await flow.populate({path:'user', model:User}).execPopulate();
+        done();
       });
+    })
+  });
 
-      chai.request(app)
-      .post('/api/auth/login')
-      .send({
-        email: 'user@email.com',
-        password: 'user123'
-      })
-      .end((err, res) => {
-        token2 = res.body.token;
-        user2 = res.body.user;
-        res.should.have.status(200);
-
-        Flow.findOne({user:userId1}, async (err, flow) => {
-          if (err){
-              console.log(err)
-          }
-          await flow.populate({path:'user', model:User}).execPopulate();
-          flowTest = flow;
+  /*
+  @vjlh:
+  Successful test for POST to send an invitation to collaborate route
+  */
+  describe('/POST invitation', () => {
+    it('It should POST a invitation to collaborate', (done) => {
+        let body = {
+            user: user2,
+            flow: flowTest           
+        }
+        chai.request(app)
+        .post('/api/invitation/invitationToCollaborate')
+        .set({ 'x-access-token': token2 })
+        .send(body)
+        .end((err, res) => {
+            res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('Invitation to collaborate succesfully sended');
+          res.body.should.have.property('invitation');
+          res.body.invitation.should.have.property('user');
+          res.body.invitation.should.have.property('flow');
+          res.body.invitation.should.have.property('status').eql('Pendiente');
+          invitationId = res.body.invitation._id;
           done();
-        });
       });
-
+    });
   });
   /*
   @vjlh:
   Successful test for POST route    
   */
   describe('/POST invitation', () => {
-    it('It should POST a invitation', (done) => {
+    it('It should POST a collaboration request', (done) => {
         let body = {
             user: user2,
             flow: flowTest           
@@ -85,7 +127,7 @@ describe('Invitation API', () => {
             res.body.invitation.should.have.property('user');
             res.body.invitation.should.have.property('flow');
             res.body.invitation.should.have.property('status').eql('Pendiente');
-            invitationId = res.body.invitation._id;
+            collabRequestId = res.body.invitation._id;
         done();
       });
     });
@@ -95,8 +137,8 @@ describe('Invitation API', () => {
   @vjlh:
   Successful test for GET checking pending invitation for a user with a flow
   */
-  describe('/GET/checkExist/:userId/:flow_id Invitation', () => {
-    it('It should GET if exist pending invitation for a flow by a user', (done) => {
+  describe('/GET/checkExist/:userId/:flow_id invitation', () => {
+    it('It should GET if there are pending invitations for the user, from a flow', (done) => {
       chai.request(app)
       .get('/api/invitation/checkExist/'+user2._id+'/'+flowTest._id)
       .set({ 'x-access-token': token2 })
@@ -113,8 +155,8 @@ describe('Invitation API', () => {
   @vjlh:
   Successful test for get all by user route 
   */
-  describe('/GET/byUser/:userId Invitation', () => {
-    it('It should GET all invitations from a specific user', (done) => {
+  describe('/GET/byUser/:userId invitation', () => {
+    it('It should GET all invitations of a user', (done) => {
       chai.request(app)
       .get('/api/invitation/byUser/'+userId1)
       .set({ 'x-access-token': token1 })
@@ -132,9 +174,36 @@ describe('Invitation API', () => {
   @vjlh:
   Successful test for PUT route    
   */
-  describe('/PUT/acceptInvitation/:type Invitation', () => {
-    it('It should PUT accepted status to a invitation', (done) => {
+  describe('/PUT/rejectInvitation/:type invitation', () => {
+    it('It should PUT rejected status for an invitation', (done) => {
         let type = 'collabRequest';
+        let body = {
+            _id: collabRequestId       
+        }
+        chai.request(app)
+        .put('/api/invitation/rejectInvitation/'+type)
+        .set({ 'x-access-token': token1 })
+        .send(body)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('message').eql('Invitation succesfully rejected');
+          res.body.should.have.property('invitation');
+          res.body.invitation.should.have.property('user');
+          res.body.invitation.should.have.property('flow');
+          res.body.invitation.should.have.property('status').eql('Rechazada');
+        done();
+      });
+    });
+  });
+
+  /*
+  @vjlh:
+  Successful test for PUT route    
+  */
+  describe('/PUT/acceptInvitation/:type invitation', () => {
+    it('It should PUT accepted status to for an invitation', (done) => {
+        let type = 'invitation';
         let body = {
             _id: invitationId       
         }
@@ -157,36 +226,9 @@ describe('Invitation API', () => {
 
   /*
   @vjlh:
-  Successful test for PUT route    
-  */
-  describe('/PUT/rejectInvitation/:type Invitation', () => {
-    it('It should PUT rejected status to a invitation', (done) => {
-        let type = 'collabRequest';
-        let body = {
-            _id: invitationId       
-        }
-        chai.request(app)
-        .put('/api/invitation/rejectInvitation/'+type)
-        .set({ 'x-access-token': token1 })
-        .send(body)
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.a('object');
-          res.body.should.have.property('message').eql('Invitation succesfully rejected');
-          res.body.should.have.property('invitation');
-          res.body.invitation.should.have.property('user');
-          res.body.invitation.should.have.property('flow');
-          res.body.invitation.should.have.property('status').eql('Rechazada');
-        done();
-      });
-    });
-  });
-
-  /*
-  @vjlh:
   Successful test for delete by id route 
   */
-  describe('/DELETE/:invitationId invitation', () => {
+  describe('/DELETE/:id invitation', () => {
     it('It should DELETE a invitation given the id', (done) => {
       chai.request(app)
       .delete('/api/invitation/' + invitationId)
@@ -195,6 +237,20 @@ describe('Invitation API', () => {
           res.should.have.status(200);
           res.body.should.be.a('object');
           res.body.should.have.property('message').eql('Invitation successfully deleted');
+      });
+      chai.request(app)
+      .delete('/api/invitation/' + collabRequestId)
+      .set({ 'x-access-token': token2 })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message').eql('Invitation successfully deleted');
+
+        Flow.deleteOne({_id: flowTest._id}, function (err, result){
+          if (err){
+              console.log(err)
+          }
+        })
         done();
       });
     });

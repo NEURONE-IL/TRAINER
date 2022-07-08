@@ -22,7 +22,7 @@ describe('Admin Notifications API', () => {
   @vjlh:
   Tries to authenticate the default user to get a JWT before apply each test.
   */    
-  beforeEach((done) => {
+  before((done) => {
       chai.request(app)
       .post('/api/auth/login')
       .send({
@@ -41,8 +41,8 @@ describe('Admin Notifications API', () => {
   @vjlh:
   Successful test for get all by user route 
   */
-  describe('/GET/byUser/:userId History', () => {
-    it('It should GET all notifications from a specific user', (done) => {
+  describe('/GET/byUser/:userId adminNotifications', () => {
+    it('It should GET all notifications from a specific user with admin role', (done) => {
       chai.request(app)
       .get('/api/adminNotification/byUser/'+userId)
       .set({ 'x-access-token': token })
@@ -60,8 +60,8 @@ describe('Admin Notifications API', () => {
   @vjlh:
   Successful test for PUT all by user route 
   */
-  describe('/PUT/seeNotifications/ History', () => {
-    it('It should PUT status for all notifications from a specific user', (done) => {
+  describe('/PUT/seeNotifications/ adminNotifications', () => {
+    it('It should PUT seen status to true for all notifications from a specific user with admin role', (done) => {
       let body = {
         userTo: userId
       };

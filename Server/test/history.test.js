@@ -16,14 +16,14 @@ let userId;
 
 /*
 @vjlh:
-Test suite for History Clone API.
+Test suite for CloneHistory API.
 */
-describe('History Clone API', () => {
+describe('CloneHistory API', () => {
   /*
   @vjlh:
   Tries to authenticate the default user to get a JWT before apply each test.
   */    
-  beforeEach((done) => {
+  before((done) => {
     chai.request(app)
     .post('/api/auth/login')
     .send({
@@ -43,7 +43,7 @@ describe('History Clone API', () => {
   Successful test for get all route 
   */
   describe('/GET/ History', () => {
-    it('It should GET all history clone', (done) => {
+    it('It should GET all cloning history', (done) => {
       chai.request(app)
       .get('/api/history/')
       .set({ 'x-access-token': token })
@@ -62,8 +62,8 @@ describe('History Clone API', () => {
   @vjlh:
   Successful test for get all by user route 
   */
-  describe('/GET/:userId History', () => {
-    it('It should GET all history from a specific user', (done) => {
+  describe('/GET/:userId cloningHistory', () => {
+    it('It should GET all cloning history from a specific user', (done) => {
       chai.request(app)
       .get('/api/history/byUser/'+userId)
       .set({ 'x-access-token': token })
@@ -82,8 +82,8 @@ describe('History Clone API', () => {
   @vjlh:
   Successful test for get all clone by flow route 
   */
-  describe('/GET/byFlowByType/:flowId/:type History', () => {
-    it('It should GET all history clone for a flow', (done) => {
+  describe('/GET/byFlowByType/:flowId/:type cloningHistory', () => {
+    it('It should GET all cloning history of a flow', (done) => {
       let type = 'clone';
       Flow.findOne({user:userId}, function (err, flow){
         if (err){

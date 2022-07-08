@@ -2,7 +2,6 @@ process.env.NODE_ENV = 'test';
 const chai = require('chai');
 const chaiHttp = require('chai-http');
 const app = require('../app');
-const Study = require('../models/flow');
 
 /*Test a Node RESTful API with Mocha and Chai
 https://www.digitalocean.com/community/tutorials/test-a-node-restful-api-with-mocha-and-chai*/
@@ -13,18 +12,24 @@ chai.use(chaiHttp);
 /*JWT to allow requests from registered users*/
 let token;
 let userId;
+let token2;
+let userId2;
+
+/*Flow data for test*/
 let flowId;
+let flowTest;
+let cloneFlowId;
 
 /*
 @vjlh:
-Test suite for Study API New Implementations.
+Test suite for Flow API New Implementations.
 */
-describe('Study API New Implementations', () => {
+describe('Flow API New Implementations', () => {
   /*
   @vjlh:
   Tries to authenticate the default user to get a JWT before apply each test.
   */    
-  beforeEach((done) => {
+  before((done) => {
       chai.request(app)
       .post('/api/auth/login')
       .send({
@@ -35,7 +40,19 @@ describe('Study API New Implementations', () => {
           token = res.body.token;
           userId = res.body.user._id;
           res.should.have.status(200);
-          done();
+      });
+
+      chai.request(app)
+      .post('/api/auth/login')
+      .send({
+        email: 'user@email.com',
+        password: 'user123'
+      })
+      .end((err, res) => {
+        token2 = res.body.token;
+        userId2 = res.body.user._id;
+        res.should.have.status(200);
+        done();
       });
   });
 
@@ -79,6 +96,7 @@ describe('Study API New Implementations', () => {
         res.body.flow.should.have.property('language');
         res.body.flow.should.have.property('edit');
         flowId = res.body.flow._id;
+        flowTest = res.body.flow;
         done();
       });
     });
@@ -88,8 +106,8 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for get by user route 
   */
-  describe('/GET/byUser/:userId Flows by User', () => {
-    it('It should GET all flows of a particular user', (done) => {
+  describe('/GET/byUser/:userId flows', () => {
+    it('It should GET all flows of a user', (done) => {
       chai.request(app)
       .get('/api/flow/byUser/'+userId)
       .set({ 'x-access-token': token })
@@ -106,8 +124,8 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for get by user by privacy route 
   */
-  describe('/GET/byUserbyPrivacy/:userId/:privacy Studies by User', () => {
-    it('It should GET all flows of a particular user filtered by privacy (public / private)', (done) => {
+  describe('/GET/byUserbyPrivacy/:userId/:privacy flows', () => {
+    it('It should GET all flows of a user filtered by privacy (public / private)', (done) => {
       chai.request(app)
       .get('/api/flow/byUserbyPrivacy/'+userId+'/true')
       .set({ 'x-access-token': token })
@@ -124,8 +142,8 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for get by type route 
   */
-  describe('/GET/byUserbyType/:userId/:type flows by User', () => {
-    it('It should GET all flows of a particular user filtered by type (cloned / own)', (done) => {
+  describe('/GET/byUserbyType/:userId/:type flows', () => {
+    it('It should GET all flows of a user filtered by type (cloned / own)', (done) => {
       chai.request(app)
       .get('/api/flow/byUserbyType/'+userId+'/own')
       .set({ 'x-access-token': token })
@@ -143,8 +161,8 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for get by user for collaboration 
   */
-  describe('/GET/byUserCollaboration/:userId/ flows by User', () => {
-    it('It should GET all flows of a particular user in which is collaborator', (done) => {
+  describe('/GET/byUserCollaboration/:userId/ flows', () => {
+    it('It should GET all flows of a user in which is collaborator', (done) => {
       chai.request(app)
       .get('/api/flow/byUserCollaboration/'+userId)
       .set({ 'x-access-token': token })
@@ -157,35 +175,15 @@ describe('Study API New Implementations', () => {
       });
     });
   });
-
-  /*
-  @vjlh:
-  Successful test for get by privacy route 
-  */
-  describe('/GET/byPrivacy/:privacy/:userId Flows by User', () => {
-    it('It should GET all flows filtered by privacy (public / private) except logged user is owner', (done) => {
-      chai.request(app)
-      .get('/api/flow/byPrivacy/false/'+userId)
-      .set({ 'x-access-token': token })
-      .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.have.property('message').eql('Flows by privacy successfully get');
-        res.body.should.have.property('flows');
-        res.body.flows.should.be.a('array');
-        done();
-      });
-    });
-  });
-
   /*
   @vjlh:
   Successful test for get cloning route 
   */
-  describe('/GET/copy/:flowId/user/:userId study', () => {
-    it('It should GET a generated cloned study', (done) => {
+  describe('/GET/copy/:id/user/:userId flow', () => {
+    it('It should GET a cloned flow', (done) => {
       chai.request(app)
-      .get('/api/flow/clone/'+flowId+'/user/'+userId+'/')
-      .set({ 'x-access-token': token })
+      .get('/api/flow/clone/'+flowId+'/user/'+userId2+'/')
+      .set({ 'x-access-token': token2 })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
@@ -194,21 +192,16 @@ describe('Study API New Implementations', () => {
         res.body.flow.should.have.property('name');
         res.body.flow.should.have.property('description');
         res.body.flow.should.have.property('sorted');
-        res.body.flow.should.have.property('user').eql(userId);;
+        res.body.flow.should.have.property('user').eql(userId2);
         res.body.flow.should.have.property('collaborators');
         res.body.flow.should.have.property('privacy');
-        res.body.flow.should.have.property('type').eql('clone');;
+        res.body.flow.should.have.property('type').eql('clone');
         res.body.flow.should.have.property('tags');
         res.body.flow.should.have.property('levels');
         res.body.flow.should.have.property('competences');
         res.body.flow.should.have.property('language');
         res.body.flow.should.have.property('edit');
-
-        Study.deleteOne({_id: res.body.flow._id}, function (err, result){
-          if (err){
-              console.log(err)
-          }
-        })
+        cloneFlowId = res.body.flow._id;
         done();
       });
     });
@@ -218,8 +211,8 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for put request for edit route 
   */
-  describe('/PUT/requestEdit/:flowId flow', () => {
-    it('It should PUT edit list of a flow to give a user edit permission', (done) => {
+  describe('/PUT/requestEdit/:id flow', () => {
+    it('It should PUT the edit list of a flow to add the user id', (done) => {
       let body = {
         user: userId
       }
@@ -243,19 +236,21 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for put route 
   */
-  describe('/PUT/:flowId flow', () => {
+  describe('/PUT/:id flow', () => {
     it('It should PUT a flow', (done) => {
       let flowPutTestBody = {
         name: 'Flow Updated Creation Test',
         description: 'Flow Updated Description Test',
-        sorted: true,
-        user: userId,
         privacy: true,
-        collaborators: '[]',
-        tags: '["test","create","update"]',
-        levels: '[]',
-        language: "62afa06117d3cb18fb6c0a0b",
-        competences: '[]',         
+        tags: JSON.stringify(flowTest.tags.push("updated")),
+
+        sorted: flowTest.sorted,
+        user: flowTest.user._id,
+        collaborators: JSON.stringify(flowTest.collaborators),
+        levels: JSON.stringify(flowTest.levels),
+        language: flowTest.language._id,
+        competences: JSON.stringify(flowTest.competences),
+        userEdit: userId         
       }
         chai.request(app)
         .put('/api/flow/'+flowId)
@@ -287,8 +282,8 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for put release edit route 
   */
-  describe('/PUT/releaseStudy/:flowId flow', () => {
-    it('It should PUT edit list of a flow to release edition from a user', (done) => {
+  describe('/PUT/releaseFlow/:id flow', () => {
+    it('It should PUT the edit list of a flow to remove the user id', (done) => {
       let body = {
         user: userId
       }
@@ -310,10 +305,10 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for put edit collaborators route 
   */
-  describe('/PUT/editCollaborator/:flowId flow', () => {
-    it('It should PUT collaborator list of a flow', (done) => {
+  describe('/PUT/editCollaborator/:id flow', () => {
+    it('It should PUT list of collaborators of a flow and update it', (done) => {
       let body = {
-        collaborators: [{user:'62abb01d205a125e0f72c246', invitation:'Pendiente'}]
+        collaborators: [{user:userId2, invitation:'Pendiente'}]
       }
       chai.request(app)
       .put('/api/flow/editCollaborators/'+flowId)
@@ -336,11 +331,19 @@ describe('Study API New Implementations', () => {
   @vjlh:
   Successful test for delete by id route 
   */
-  describe('/DELETE/:flowId flow', () => {
+  describe('/DELETE/:id flow', () => {
     it('It should DELETE a flow given the id', (done) => {
       chai.request(app)
       .delete('/api/flow/' + flowId)
       .set({ 'x-access-token': token })
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.body.should.be.a('object');
+        res.body.should.have.property('message').eql('Flow successfully deleted');
+      });
+      chai.request(app)
+      .delete('/api/flow/' + cloneFlowId)
+      .set({ 'x-access-token': token2 })
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a('object');
