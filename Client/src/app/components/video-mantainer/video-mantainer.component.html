@@ -1,0 +1,107 @@
+<div class="row">
+  <div class="col-md-6" style="padding-top: 10px">
+      <mat-card-subtitle> Mantenedor de Videos:</mat-card-subtitle>
+  </div>
+  <div class="col-md-6">
+
+  </div>
+  
+</div>
+<!-- CREAR VIDEO -->
+<mat-card-content >
+  <div>
+  <h2>Insertar Video</h2>
+  <form class="form-horizontal">
+    <div class="row">
+      <div class="col-md-6">
+          <div class="form-group">
+            <label class="control-label col-sm-4" for="tituloVideo">Título:</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="tituloVideo" placeholder="ingrese titulo" required>
+              <p class="error" *ngIf="error.name">Ingrese nombre del video</p>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="form-label col-sm-4" for="imageVideo" required>Imagen:</label>
+            <div class="col-sm-10">
+              <input type="file" class="form-control" id="imageVideo">
+              <p class="error" *ngIf="error.file">Ingrese una imagen thumbnail valida</p>
+            </div>
+          </div>
+          <div class="input-group">
+            <label class="form-label col-sm-4" for="imageVideo" required>Idioma:</label>
+            <div class="col-sm-10">
+              <mat-form-field class="languageVideo" appearance="fill">
+                <mat-label>Seleccionar Idioma Video</mat-label>
+                <mat-select [(ngModel)]="languageVideo" name="video">
+                  <mat-option [value]="'es'">
+                    Español
+                  </mat-option>
+                  <mat-option [value]="'en'">
+                    Ingles
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+          </div>
+          
+          
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label class="control-label col-sm-4" for="urlVideo">Url Video:</label>
+          <div class="col-sm-10">
+            <input type="text" class="form-control"  id="urlVideo" placeholder="ingrese URL" required>
+            <p class="error" *ngIf="error.name">Ingrese URL del video</p>
+            <p>Opcion 1: Ingrese un link de Youtube Valido (Puede ser un video "publico" o "no listado") </p>
+            <p>Opcion 2: Incluya el video en la carpeta assets e ingrese el link como /assets/.../video.mp4</p>
+          </div>
+        </div>
+        
+    </div>
+    </div>
+  </form>
+  <div class="text-center p-2">
+    <button (click)="registerVideo()" class="btn btn-primary creationButton">Guardar Video</button>
+  </div>
+  
+  </div>
+
+  <!--Visualizar los videos -->
+  <div>
+    <h2>Videos Cargados</h2>
+    <div *ngFor="let video of videos">
+      <mat-card class="quizPreview">
+          <div class="row">
+              <div class="col-md-4">
+                  <img [src]="video.image_url" class="img-fluid img-thumbnail">
+              </div>
+              <div class="col-md-8">
+                  <mat-card-header>
+                    <h4>
+                      Video: {{video.name}}
+                    </h4>
+                  </mat-card-header>
+                  <mat-card-content>
+                      <p>Idioma: {{video.language}}</p>
+                      <p>Url: <a style="color: blue; cursor: pointer" (click)="video.video_url">{{video.video_url}}</a></p>
+                  </mat-card-content>
+              </div>
+          </div>
+          <div class="card-footer">
+              <div class="btn-group" role="group" aria-label="Basic example">
+                <!--
+                <button type="button" id="ver" class="btn btn-secondary" (click)="true">Ver</button>
+                <button type="button" class="btn btn-secondary">Editar</button>
+                 -->
+                <button type="button" class="btn btn-secondary" (click)="deleteVideo(video._id)">Borrar</button>
+              </div>
+          </div>
+          <div>
+  
+      </div>
+      </mat-card>
+    </div>
+  </div>
+</mat-card-content>
+

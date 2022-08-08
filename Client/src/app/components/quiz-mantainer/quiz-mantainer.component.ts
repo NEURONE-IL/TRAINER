@@ -36,14 +36,26 @@ export class QuizMantainerComponent implements OnInit{
               private router: Router) {  }
 
  ngOnInit(): void{
-   this.quizService.getQuizzes().subscribe(res => {
-     this.quizzes = res.data;
-   });
+  this.loadQuizes();
+  this.loadVideos();
+ }
+
+ loadQuizes(){
+  this.quizService.getQuizzes().subscribe(res => {
+    this.quizzes = res.data.reverse();
+    console.log(this.quizzes)
+
+  });
+ }
+
+ loadVideos(){
   this.quizService.getVideos().subscribe(
     (res)=>{
+      this.videos=[];
       for (let i in res.data){
         this.videos.push({
           name: res.data[i].name,
+          language: res.data[i].language,
           _id: res.data[i]._id, 
           video_url: res.data[i].video_url,
           image_url: res.data[i].image_url,
@@ -52,17 +64,9 @@ export class QuizMantainerComponent implements OnInit{
       }
     })
  }
-
   crearQuizToogle(){
     this.verQuizes = !this.verQuizes;
-    if(!this.verQuizes){
-      this.quizCreate();
-      this.crearQuiz=true;
-      this.verVideos=false;
-    }else{
-      this.crearQuiz=false;
-      this.verVideos=false;
-    }
+
   }
 
 
@@ -97,7 +101,7 @@ export class QuizMantainerComponent implements OnInit{
 
   deleteQuiz(quizId){
     this.quizService.deleteQuiz(quizId).subscribe(quiz => {
-      this.quizService.getQuizzes().subscribe(res => this.quizzes = res.data);
+      this.quizService.getQuizzes().subscribe(res => this.quizzes = res.data.reverse);
       this.toastr.success(this.translate.instant('QUIZZES.TOAST.SUCCESS_MESSAGE_DELETE'), this.translate.instant('QUIZZES.TOAST.SUCCESS'), {
         timeOut: 5000,
         positionClass: 'toast-top-center'
@@ -433,7 +437,7 @@ quizCreate(){
 
 }
 
-editingQuiz= -1;
+editingQuiz= false;
 
 cancelarQuiz(){
   this.clearQuiz;
@@ -443,15 +447,16 @@ quizImage=null;
 exerciseImage=null;
 clearQuiz(){
   (document.getElementById("titleQuiz")  as HTMLInputElement).value="";
-  (document.getElementById("fileQuiz")  as HTMLInputElement).value="";
+  (document.getElementById("fileQuiz")  as HTMLInputElement).value=null;
   (document.getElementById("descQuiz")  as HTMLInputElement).value="";
+  this.quizImage=null;
   let id= this.quizId;
   let video=null;
   if(this.mostrarPanelEjercicio){
     this.clearEjercicio();
   }
 
-  this.editingQuiz=-1;
+  this.editingQuiz=false;
   this.ejercicios=[];
 }
 
@@ -462,15 +467,27 @@ guardarQuiz(){
   let descripcion= (document.getElementById("descQuiz")  as HTMLInputElement).value;
   let id= this.quizId;
   let video_id= this.videoSelected;
-
-  let quiz={
-    "video_id": video_id,
-    "quiz_id": this.calcularCodigoTresDigitos(id),
-    "name": titulo,
-    "instructions": descripcion,
-    "description": descripcion,
-    "exercises": this.ejercicios,
-    "resource_url":file,
+  let quiz =null;
+  if(this.editingQuiz){
+    quiz={
+      "quiz_id":this.quizId,
+      "video_id": video_id,
+      "name": titulo,
+      "instructions": descripcion,
+      "description": descripcion,
+      "exercises": this.ejercicios,
+      "resource_url":file,
+    }
+  }else{
+    quiz={
+      "video_id": video_id,
+      "quiz_id": this.calcularCodigoTresDigitos(id),
+      "name": titulo,
+      "instructions": descripcion,
+      "description": descripcion,
+      "exercises": this.ejercicios,
+      "resource_url":file,
+    }
   }
 
   //NOT SURE ABOUT THIS
@@ -489,7 +506,10 @@ guardarQuiz(){
 
 //Al cargar los quizzes se carga un array de quizzes?
 saveQuiz(quiz){
-  return this.quizService.addQuiz(quiz).subscribe(res => {});
+  return this.quizService.addQuiz(quiz).subscribe(res => {
+    this.loadQuizes();
+    this.crearQuizToogle();
+  });
 }
 
 
@@ -515,10 +535,13 @@ verVideos= false;
 videosToggle(){
   this.verVideos= !this.verVideos;
   if(this.verVideos){
+    console.log(this.videos); //mostrar los videos
     this.crearQuiz=false;
     this.verQuizes=false;
   }
 }
+
+
 loadImage(file){
   let formData = new FormData();
   formData.append('file', file);
@@ -530,31 +553,6 @@ loadImage(file){
   return;
 }
 languageVideo="es";
-registerVideo(){
-  let name= (document.getElementById("tituloVideo")  as HTMLInputElement).value;
-  let url_video= (document.getElementById("urlVideo")  as HTMLInputElement).value;
-  let file = (document.getElementById("imageVideo")  as HTMLInputElement).files[0];
-  let language= this.languageVideo;
-  let formData = new FormData();
-  
-   formData.append('file', file);
-    this.quizService.saveImage(formData).subscribe(
-     (res:any)=>{
-       let image= res.url;
-        let objetVideo={
-          name: name, 
-          video_url:"/assets/videoModule-videos/video1.mp4",
-          image_url: image, 
-          language:language
-        }
-        this.quizService.addVideo(objetVideo).subscribe(
-          (res)=>{
-            console.log(res)
-          }
-        )
-     }
-   )
-}
 
 loadImageQuiz(){
   console.log("we have it! :D")
@@ -595,4 +593,21 @@ showExercises=false;
 toggleExercise(value){
   this.showExercises= value;
 }
+
+editQuiz(quiz){
+  this.crearQuizToogle();
+  this.editingQuiz=true;
+  console.log(quiz);
+  setTimeout(()=>{
+    //Asignar Valores
+    (document.getElementById("titleQuiz")  as HTMLInputElement).value= quiz.name;
+    this.quizImage=quiz.resource_url;
+    (document.getElementById("descQuiz")  as HTMLInputElement).value= quiz.instructions;
+    this.quizId=quiz._id;
+    this.videoSelected= quiz.video_id;
+    this.ejercicios= quiz.exercises;
+  }, 10)
+  
+}
+
 }

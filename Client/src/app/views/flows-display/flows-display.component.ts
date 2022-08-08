@@ -13,6 +13,7 @@ export class FlowsDisplayComponent implements OnInit {
   flows: Flow[] = [];
   flujoActivo = true;
   quizActivo = false;
+  videoActivo = false;
   editar= false;
   crear=true;
   constructor(private flowService: FlowService, private router: Router, private toastr: ToastrService, private translate: TranslateService) { }
@@ -39,9 +40,15 @@ export class FlowsDisplayComponent implements OnInit {
     if(target=="flujo"){
       this.flujoActivo=true;
       this.quizActivo=false;
-    }else{
+      this.videoActivo=false;
+    }else if(target=="quizes"){
       this.flujoActivo=false;
       this.quizActivo=true;
+      this.videoActivo=false;
+    }else if(target="videos"){
+      this.videoActivo=true;
+      this.quizActivo=false;
+      this.flujoActivo=false;
     }
   }
   selectSubMenu(nombre, event){

@@ -18,6 +18,13 @@ export class VideoComponent implements OnInit {
   @Input() saveUserData: string;
   player: Plyr;
   poster;
+  youtubeSources = [
+    {
+      src: '',
+      provider: 'youtube',
+    },
+  ];
+
   videoSources: Plyr.Source[];
   currentTime = 0;
   videoJson;
@@ -83,12 +90,24 @@ export class VideoComponent implements OnInit {
       console.log(res)
       this.videoJson = res["data"];
       this.poster = this.videoJson.image_url;
-      this.videoSources = [
-        {
-          src: this.videoJson.video_url,
-          type: 'video/mp4'
-        }
-      ];
+      //test de verificar youtube link
+      let ytSrc= this.checkYoutubeSrc(this.videoJson.video_url);
+      if (ytSrc){
+        this.videoSources = [
+          {
+            src: this.videoJson.video_url,
+            provider: 'youtube',
+          }
+        ];
+      }else{
+        this.videoSources = [
+          {
+            src: this.videoJson.video_url,
+            type: 'video/mp4'
+          }
+        ];
+      }
+      
       }
     );
 
@@ -99,7 +118,12 @@ export class VideoComponent implements OnInit {
     });
   }
 
-
+checkYoutubeSrc(url){
+  let youtubeSrc= url.includes("youtube");
+  console.log("IS THIS A YOUTUBE SRC?");
+  console.log(youtubeSrc);
+  return youtubeSrc
+}
 /*
   sendVideoResponse(value) {
     this.newItemEvent.emit(value);
