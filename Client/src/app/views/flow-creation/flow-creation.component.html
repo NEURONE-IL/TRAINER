@@ -56,9 +56,8 @@
 							</mat-radio-button>							
 						</mat-radio-group>
 					</mat-grid-tile>
-					<mat-grid-tile colspan="6">
+					<!--mat-grid-tile colspan="6">
 						<mat-form-field>
-							<!--mat-label>{{ "ADMIN.CHALLENGES.HOURS" | translate }}</mat-label-->
 							<mat-label>Idioma *</mat-label>
 							<mat-select formControlName="language">
 								<mat-option *ngFor="let leng of languages" [value]="leng._id"> {{ leng.name }} </mat-option>
@@ -89,11 +88,11 @@
 								{{ "ERRORS.REQUIRED" | translate }}
 							</mat-error>
 						</mat-form-field>
-					</mat-grid-tile>
+					</mat-grid-tile-->
 					
 				</mat-grid-list>
 				<mat-card-header>
-					<mat-card-subtitle style="margin-bottom: 0%;">Seleccione las opciones de colaboración de su estudio</mat-card-subtitle>
+					<mat-card-subtitle style="margin-bottom: 0%;">Seleccione las opciones de colaboración de su flujo</mat-card-subtitle>
 				</mat-card-header>
 				<mat-grid-list cols="12">
 					<mat-grid-tile colspan="6">
@@ -109,7 +108,7 @@
 						</mat-form-field>
 					</mat-grid-tile>
 				<mat-grid-tile colspan="6">
-					<mat-slide-toggle (change)="changeStatus($event)" color="primary">Agregar colaboradores al estudio</mat-slide-toggle>
+					<mat-slide-toggle (change)="changeStatus($event)" color="primary">Agregar colaboradores al flujo</mat-slide-toggle>
 				</mat-grid-tile>
 			</mat-grid-list>
 
@@ -136,17 +135,17 @@
 							Ingrese un email válido
 						</mat-error>
 						<mat-error *ngIf="flowFormControls.collaborators.hasError('notThisUser')">
-							El usuario que creó el estudio no puede añadirse como colaborador
+							El usuario que creó el flujo no puede añadirse como colaborador
 						</mat-error>
 					</mat-form-field>
 				</mat-grid-tile>
 				<mat-grid-tile colspan="2">
-					<button mat-flat-button (click)="verifyCollaborator()" class="addButton">Añadir <mat-icon>add</mat-icon></button>
+					<button mat-flat-button [disabled]="!flowFormControls.collaborators.valid || !flowFormControls.collaborators.value" (click)="verifyCollaborator()" class="addButton">Añadir <mat-icon>add</mat-icon></button>
 				</mat-grid-tile>
 			</mat-grid-list>
 
 			<mat-card-header>
-				<mat-card-subtitle style="margin-bottom: 0%;">Añada etiquetas relacionadas a su estudio</mat-card-subtitle>
+				<mat-card-subtitle style="margin-bottom: 0%;">Añada etiquetas relacionadas a su flujo</mat-card-subtitle>
 			</mat-card-header>
 			<mat-grid-list  cols="12">
 				<mat-grid-tile colspan="10">
@@ -179,7 +178,7 @@
 					</mat-form-field>
 				</mat-grid-tile>
 				<mat-grid-tile colspan="2">
-					<button mat-flat-button (click)="addTag()" class="addButton">Añadir <mat-icon>add</mat-icon></button>
+					<button mat-flat-button [disabled]="!flowFormControls.tags.valid || !flowFormControls.tags.value" (click)="addTag()" class="addButton">Añadir <mat-icon>add</mat-icon></button>
 				</mat-grid-tile>
 			</mat-grid-list>
 					

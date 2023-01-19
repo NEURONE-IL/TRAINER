@@ -54,9 +54,30 @@ router.get('/:flow_id', async (req, res) => {
       }).populate({path: 'user', model: User, select:'-password'}).populate({path: 'competences', model: Competence});
 });
 
-//Valentina
+/*
+@Valentina Ligueño
+TESTED: Método para obtener los flujos de un usuario en específico
+*/
+router.get('/byUser/:user_id', [verifyToken], async (req, res) => {
+    const _id = req.params.user_id;
+    Flow.find({user: _id}, (err, flows) => {
+        if(err){
+            return res.status(404).json({
+                ok: false,
+                err
+            });
+        }
+        res.status(200).json({
+            message: 'Flows by user successfully get',
+            flows
+        });
+    })
+});
 
-//Método para obtener solo flujos privados o públicos de un usuario
+/*
+@Valentina Ligueño
+TESTED: Método para obtener solo flujos privados o públicos de un usuario
+*/
 router.get('/byUserbyPrivacy/:user_id/:privacy', [verifyToken], async (req, res) => {
     const _privacy = JSON.parse(req.params.privacy);
     const _id = req.params.user_id; 
@@ -68,12 +89,17 @@ router.get('/byUserbyPrivacy/:user_id/:privacy', [verifyToken], async (req, res)
                 err
             });
         }
-
-        res.status(200).json({flows});
+        res.status(200).json({
+            message: 'Flows by user by privacy successfully get',
+            flows
+        });
     })
 });
 
-//Método para obtener los flujos por tipo de un usuario
+/*
+@Valentina Ligueño
+TESTED: Método para obtener los flujos por tipo de un usuario
+*/
 router.get('/byUserbyType/:user_id/:type', [verifyToken] ,async (req, res) => {
     const type = req.params.type;
     const _id = req.params.user_id; 
@@ -86,43 +112,17 @@ router.get('/byUserbyType/:user_id/:type', [verifyToken] ,async (req, res) => {
             });
         }
 
-        res.status(200).json({flows});
+        res.status(200).json({
+            message: 'Flows by user by type successfully get',
+            flows
+        });
     })
 });
 
-//Método para obtener flujos privados o públicos
-router.get('/byPrivacy/:flow_privacy/:user_id', [verifyToken] ,async (req, res) => {
-    const _privacy = req.params.flow_privacy;
-    const _id = req.params.user_id
-    Flow.find({
-                privacy: _privacy,
-                user: { $ne:_id }
-                }, (err, flows) => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-        res.status(200).json({flows});
-    }).populate({ path: 'user', model: User, select:'-password'})
-});
-
-//Método para obtener los flujos de un usuario en específico
-router.get('/byUser/:user_id', [verifyToken], async (req, res) => {
-    const _id = req.params.user_id;
-    Flow.find({user: _id}, (err, flows) => {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-        res.status(200).json({flows});
-    })
-});
-
-//Método para obtener los flujos de colaboración de un usuario en específico
+/*
+@Valentina Ligueño
+TESTED: Método para obtener los flujos de colaboración de un usuario en específico
+*/
 router.get('/byUserCollaboration/:user_id', [verifyToken], async (req, res) => {
     const _id = req.params.user_id;
     
@@ -138,18 +138,23 @@ router.get('/byUserCollaboration/:user_id', [verifyToken], async (req, res) => {
                 err
             })
         }
-        res.status(200).json({flows});
+        res.status(200).json({
+            message:'Flows by user in which is collaborator successfully get',
+            flows
+        });
     }).populate({ path: 'user', model: User, select:'-password'});
 });
 
+/*
+@Valentina Ligueño
+TESTED: Método para crear un flujo con las nuevas implementaciones
+*/
 router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), flowMiddleware.verifyBody], async (req, res) => {
     let sorted = req.body.sorted === 'true' ? true : false; 
     let collaborators = JSON.parse(req.body.collaborators);
     let tags = JSON.parse(req.body.tags);
-    let levels = JSON.parse(req.body.levels);
-    let competences = JSON.parse(req.body.competences);
-
-    console.log(collaborators);
+    //let levels = JSON.parse(req.body.levels);
+    //let competences = JSON.parse(req.body.competences);
 
     const flow = new Flow({
         name: req.body.name,
@@ -161,10 +166,44 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
         type: 'own',
         collaborators: collaborators,
         tags: tags,
-        levels: levels,
-        language: req.body.language,
-        competences: competences,
+        levels: [],
+        language: "62afa06117d3cb18fb6c0a0b",
+        competences: [],
+        //levels: levels,
+        //language: req.body.language,
+        //competences: competences,
     });
+    if(collaborators.length > 0){
+        collaborators.forEach( async coll => {
+            const invitation = new Invitation ({
+                user: coll.user,
+                flow: flow._id,
+                status: 'Pendiente',
+            });
+            invitation.save(err => {
+                if(err){
+                    return res.status(404).json({
+                        err
+                    });
+                }
+            })
+            const notification = new AdminNotification ({
+                userFrom:req.body.user,
+                userTo: coll.user,
+                type: 'invitation',
+                invitation: invitation._id,
+                description:'Invitación para colaborar en el flujo: ' + flow.name,
+                seen: false,
+            });
+            notification.save(err => {
+                if(err){
+                    return res.status(404).json({
+                        err
+                    });
+                }
+            })
+        });
+    }
     if(req.file){
         let image_url = process.env.ROOT+'/api/image/'+req.file.filename;
         flow.image_url = image_url;
@@ -181,12 +220,16 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
             createFlowSearch(flow);
         }
         res.status(200).json({
+            message: 'Flow successfully post',
             flow
         });
     });
 });
 
-//Editar un flujo
+/*
+@Valentina Ligueño
+TESTED: Método para editar un flujo con las nuevas implementaciones
+*/
 router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.upload.single('file'), flowMiddleware.verifyEditBody], async (req, res) => {
     const _id = req.params.flow_id;
     const _user = req.params.userEdit;
@@ -210,7 +253,6 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
         }
 
         let privacy = JSON.parse(req.body.privacy);
-        console.log(privacy);
         
         if(flow.privacy == privacy)
             privacyChange = false;
@@ -219,7 +261,6 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
             flow.privacy = privacy
             privacyChange = true;
         }
-        //console.log(privacyChange)
               
         if(req.body.collaborators){
             let collaborators = JSON.parse(req.body.collaborators);
@@ -267,12 +308,17 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
               updateFlowSearch(flow);
 
             res.status(200).json({
+                message:'Flow succesfully updated',
                 flow
             });
         });
     });
 });
 
+/*
+@Valentina Ligueño
+TESTED: Método para eliminar un flujo con las nuevas implementaciones
+*/
 router.delete('/:flow_id',  [verifyToken, authMiddleware.isAdmin] , async (req, res) => {
     const _id = req.params.flow_id;
     Flow.findOneAndDelete({_id: _id}, (err, flow) => {
@@ -282,11 +328,11 @@ router.delete('/:flow_id',  [verifyToken, authMiddleware.isAdmin] , async (req, 
             });
         }
         if(flow.privacy === false)
-          deleteStudySeach(_id);
+            deleteFlowSeach(_id);
         
         deleteInvitations(flow,res);
         res.status(200).json({
-            flow
+            message:'Flow successfully deleted',
         });
     });
 });
@@ -334,7 +380,10 @@ router.get('/:flow_id/getForSignup', async (req, res) => {
     });
 });
 
-//Método para editar los colaboradores de un flujo
+/*
+@Valentina Ligueño
+TESTED: Método para gestionar los colaboradores de un flujo
+*/
 router.put('/editCollaborators/:flow_id', [verifyToken, authMiddleware.isAdmin], async (req, res) => {
     
     const _id = req.params.flow_id;
@@ -353,7 +402,6 @@ router.put('/editCollaborators/:flow_id', [verifyToken, authMiddleware.isAdmin],
 
         if(!collDelete && coll.invitation === 'Pendiente'){
 
-            console.log('borra')
             await Invitation.findOneAndDelete({user: coll.user, status: 'Pendiente', flow: flow._id}, async (err, inv) =>{
                 if(err){
                     return res.status(404).json({
@@ -426,13 +474,18 @@ router.put('/editCollaborators/:flow_id', [verifyToken, authMiddleware.isAdmin],
               model: User,
               select:'-password' 
             }
-          }).populate({path: 'user', model: User, select:'-password'}).execPopulate()
+        }).populate({path: 'user', model: User, select:'-password'}).execPopulate()
         res.status(200).json({
+            message:'Collaborators list successfully updated',
             flow
         });
     })
 })
 
+/*
+@Valentina Ligueño
+TESTED: Método para clonar un flujo
+*/
 router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => {
     const _id = req.params.flow_id;
     const _user = req.params.user_id;
@@ -560,6 +613,7 @@ router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => 
             });
         }
         res.status(200).json({
+            message:'Flow successfully clone',
             flow
         });
     })
@@ -567,7 +621,10 @@ router.get('/clone/:flow_id/user/:user_id/', [verifyToken], async (req, res) => 
 
 // Concurrencia
 
-//Método para recibir cambios de edición de un flujo
+/*
+@Valentina Ligueño
+NOT_FOR_TEST: Método para suscribirse a la edición de un flujo
+*/
 router.get('/editStatus/:flow_id/:user_id' ,async (req, res) => {
     console.log('Event Source for Flow Edit Status');
     
@@ -603,16 +660,20 @@ router.get('/editStatus/:flow_id/:user_id' ,async (req, res) => {
     }, 10000); 
 });
 
+/*
+@Valentina Ligueño
+TESTED: Método para solicitar la edición de un flujo
+*/
 router.put('/requestEdit/:flow_id'/*, [verifyToken, authMiddleware.isAdmin]*/, async (req, res) => {
     const _flow = req.params.flow_id;
     const _user = req.body.user;
 
-    console.log(_user + ' arrived');
-    console.log('Entering to Function: ', new Date())
+    //console.log(_user + ' arrived');
+    //console.log('Entering to Function: ', new Date())
 
     lock.acquire(_flow, async function(done) {
-        console.log('Entering to Lock: ', new Date())
-        console.log(_user + ' acquire');
+        //console.log('Entering to Lock: ', new Date())
+        //console.log(_user + ' acquire');
         
         const flow = await Flow.findOne({_id:_flow}, err => {
             if (err) {
@@ -621,7 +682,6 @@ router.put('/requestEdit/:flow_id'/*, [verifyToken, authMiddleware.isAdmin]*/, a
                 });
             }
         });
-        console.log(flow)
         let exist = flow.edit.some( id => id === _user)
         if(!exist)
             flow.edit.push(_user)
@@ -634,20 +694,26 @@ router.put('/requestEdit/:flow_id'/*, [verifyToken, authMiddleware.isAdmin]*/, a
                 });
             }
             done(flow.edit);
-            res.status(200).json({users: flow.edit});
+            res.status(200).json({
+                message: 'Edit list successfully updated',
+                users: flow.edit});
         })
         //await delay(5); //Para probar
         
     }, async function(edit) {
-        console.log(edit)
+        //console.log(edit)
         const index = edit.indexOf(_user); 
-        console.log('Position to edit: ', (index+1));
-        console.log('Lock free...');
+        //console.log('Position to edit: ', (index+1));
+        //console.log('Lock free...');
     })
 })
 
+/*
+@Valentina Ligueño
+TESTED: Método para liberar la edición de un flujo
+*/
 router.put('/releaseFlow/:flow_id', [verifyToken, authMiddleware.isAdmin], async (req, res) => {
-    console.log('Release Flow')
+    //console.log('Release Flow')
     const _flow = req.params.flow_id;
     const _user = req.body.user;
 
@@ -661,7 +727,6 @@ router.put('/releaseFlow/:flow_id', [verifyToken, authMiddleware.isAdmin], async
 
     const result = flow.edit.filter(x => x !== _user);
     flow.edit = result;
-    console.log(flow.edit)
     flow.save(err => {
         if(err){
             return res.status(404).json({
@@ -669,13 +734,16 @@ router.put('/releaseFlow/:flow_id', [verifyToken, authMiddleware.isAdmin], async
                 err
             });
         }
-        res.status(200).json(flow);
+        res.status(200).json({
+            message:'Edit list successfully released',
+            flow
+        });
     })
         
 })
 
 async function deleteFlowSeach(flow_id){
-    console.log('deleteFlowSeach');
+    //console.log('deleteFlowSeach');
     try {
       const _flow = flow_id;
       //Encontrar el flowSearch
@@ -723,8 +791,7 @@ async function updateFlowSearch(flow){
   };
   
 async function createFlowSearch(flow){
-    console.log('createFlowSearch');
-  
+    //console.log('createFlowSearch');
     try {
       let competences = [];
         await flow.competences.forEach( comp => {

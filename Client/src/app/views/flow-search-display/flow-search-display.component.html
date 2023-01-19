@@ -7,7 +7,7 @@
     </mat-grid-tile>
     <mat-grid-tile [colspan]="notActualCollaborator?4:8"></mat-grid-tile>
     <mat-grid-tile [colspan]="notActualCollaborator?8:4">
-      <button mat-raised-button class="actionButton" color="primary" (click)="confirmCloneStudy()">Clonar Estudio <mat-icon>content_copy</mat-icon></button>
+      <button mat-raised-button class="actionButton" color="primary" (click)="confirmCloneStudy()">Clonar Flujo <mat-icon>content_copy</mat-icon></button>
       <button mat-raised-button *ngIf="notActualCollaborator" class="actionButton" color="primary" [ngStyle]="{'pointer-events': existingInvitation? 'none': 'all'}" (click)="confirmCollaborateRequest()">{{existingInvitation? 'Solicitud Pendiente': 'Solicitar Colaborar'}}  <mat-icon>handshake</mat-icon></button>
     </mat-grid-tile>
   </mat-grid-list>

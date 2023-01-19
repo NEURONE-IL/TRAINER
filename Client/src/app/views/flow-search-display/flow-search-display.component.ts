@@ -190,10 +190,10 @@ export class FlowSearchDisplayComponent implements OnInit {
   //Valentina
 
   confirmCloneStudy(){
-    confirm("¿Seguro/a que desea clonar este estudio?") && this.cloneFlow();
+    confirm("¿Seguro/a que desea clonar este flujo?") && this.cloneFlow();
   }
   confirmCollaborateRequest(): void {
-    confirm("¿Seguro/a que desea solicitar colaborar en este estudio?") && this.requestCollaboration();
+    confirm("¿Seguro/a que desea solicitar colaborar en este flujo?") && this.requestCollaboration();
   }
   cloneFlow(){
     this.loadingClone = true;

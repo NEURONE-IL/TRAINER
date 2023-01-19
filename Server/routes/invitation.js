@@ -8,8 +8,10 @@ const AdminNotification = require('../models/adminNotification')
 const authMiddleware = require('../middlewares/authMiddleware');
 const verifyToken = require('../middlewares/verifyToken');
 
-//Traer todas las invitaciones de un usuario
-
+/*
+@Valentina Ligueño
+TESTED: Método para traer todas las invitaciones de un usuario
+*/
 router.get('/byUser/:user_id' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
   const _id = req.params.user_id;
   Invitation.find({user: _id}, (err, invitations) =>{
@@ -20,10 +22,14 @@ router.get('/byUser/:user_id' ,  [verifyToken, authMiddleware.isAdmin], async (r
           });
       }
       invitations.reverse();
-      res.status(200).json({invitations});
+      res.status(200).json({message:'Invitations by user successfully get', invitations});
   }).populate({path: 'user', model: User, select:'-password'}).populate({path:'flow', model: Flow, populate: {path: 'user', model: User, select:'-password'}});
 })
 
+/*
+@Valentina Ligueño
+TESTED: Método para verificar si existen invitaciones pendientes para usuario de un flujo en específico
+*/
 router.get('/checkExist/:user_id/:flow_id' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
     const _user = req.params.user_id;
     const _flow = req.params.flow_id;
@@ -36,7 +42,6 @@ router.get('/checkExist/:user_id/:flow_id' ,  [verifyToken, authMiddleware.isAdm
             });
         }
     })
-    console.log(invitation)
     if(invitation != null)
         return res.status(200).json({message: "EXISTING_INVITATION"})
     else  
@@ -44,34 +49,10 @@ router.get('/checkExist/:user_id/:flow_id' ,  [verifyToken, authMiddleware.isAdm
 
   })
 
-//Actualizar a vistas todas las invitaciones
-router.put('/seeInvitations' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
-    const _id = req.body.user._id;
-    await Invitation.find({user: _id, seen: false}, (err, invitations)=> {
-        if(err){
-            return res.status(404).json({
-                ok: false,
-                err
-            });
-        }
-        else{
-            invitations.forEach(async inv => { 
-                inv.seen = true;
-                inv.save( async err => {
-                    if (err) {
-                        return res.status(404).json({
-                            err
-                        });
-                    }
-                })
-            })
-            res.status(200).json({message: 'Success'})
-        }
-    })
-    
-  })
-
-//Para aceptar una invitación
+/*
+@Valentina Ligueño
+TESTED: Método para aceptar una invitación
+*/
 router.put('/acceptInvitation/:type' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
     const type = req.params.type
     const _id = req.body._id;
@@ -153,12 +134,17 @@ router.put('/acceptInvitation/:type' ,  [verifyToken, authMiddleware.isAdmin], a
         await invitation.populate({path: 'user', model: User, select:'-password'})
                         .populate({path:'flow', model: Flow, populate: {path: 'user', model: User, select:'-password'}}).execPopulate()
         res.status(200).json({
+            message: 'Invitation succesfully accepted',
             invitation
         });
     })
 
   })
 
+/*
+@Valentina Ligueño
+TESTED: Método para rechazar una invitación
+*/
 router.put('/rejectInvitation/:type' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
     const type = req.params.type;
 
@@ -171,7 +157,6 @@ router.put('/rejectInvitation/:type' ,  [verifyToken, authMiddleware.isAdmin], a
             });
         }
     }).populate({path:'user', model: User, select:'-password'});
-    console.log(invitation);
     const flow = await Flow.findOne( {_id: invitation.flow}, err =>{
         if(err){
             return res.status(404).json({
@@ -235,6 +220,7 @@ router.put('/rejectInvitation/:type' ,  [verifyToken, authMiddleware.isAdmin], a
         await invitation.populate({path: 'user', model: User, select:'-password'})
                         .populate({path:'flow', model: Flow, populate: {path: 'user', model: User, select:'-password'}}).execPopulate()
         res.status(200).json({
+            message: 'Invitation succesfully rejected',
             invitation
         });
     })
@@ -242,7 +228,10 @@ router.put('/rejectInvitation/:type' ,  [verifyToken, authMiddleware.isAdmin], a
   })
 
   
-//Método para crear una solicitud de colaboración
+/*
+@Valentina Ligueño
+TESTED: Método para enviar una solicitud de colaboración para un flujo
+*/
 router.post('/requestCollaboration' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
     const invitation = new Invitation ({
         user: req.body.user,
@@ -272,7 +261,88 @@ router.post('/requestCollaboration' ,  [verifyToken, authMiddleware.isAdmin], as
         }
     })
     res.status(200).json({
+        message:'Request Collaboration succesfully sended',
         invitation
+    });
+});
+
+/*
+@Valentina Ligueño
+TESTED: Método para enviar una invitación de colaboración a un flujo
+*/
+router.post('/invitationToCollaborate' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
+    Flow.findOne({_id: req.body.flow._id}, (err, flow) => {
+        if(err){
+            return res.status(404).json({
+                err
+            });
+        }
+        flow.collaborators.push({user:req.body.user, invitation:'Pendiente'})
+        flow.save((err,adv) => {
+            if(err){
+                return res.status(404).json({
+                    err
+                });
+            }
+        })
+    })
+    const invitation = new Invitation ({
+        user: req.body.user,
+        flow: req.body.flow._id,
+        status: 'Pendiente',
+    });
+    invitation.save( err => {
+        if(err){
+            return res.status(404).json({
+                err
+            });
+        }
+    })
+    const notification = new AdminNotification ({
+        userFrom: req.body.flow.user._id,
+        userTo:req.body.user,
+        type: 'invitation',
+        invitation: invitation._id,
+        description:'Invitación para colaborar en la aventura: ' + req.body.flow.name,
+        seen: false,
+    });
+    notification.save(err => {
+        if(err){
+            return res.status(404).json({
+                err
+            });
+        }
+    })
+    res.status(200).json({
+        message:'Invitation to collaborate succesfully sended',
+        invitation
+    });
+});
+
+/*
+@Valentina Ligueño
+TESTED: Método para eliminar una invitación con su notificación asociada
+*/
+router.delete('/:invitation_id',  [verifyToken, authMiddleware.isAdmin] , async (req, res) => {
+    const _id = req.params.invitation_id;
+
+    await AdminNotification.deleteOne({invitation: _id}, (err) => {
+        if (err) {
+          return res.status(404).json({
+              err
+          });
+        }
+    })
+    await Invitation.deleteOne({_id: _id}, (err) => {
+        if (err) {
+            return res.status(404).json({
+                err
+            });
+        }
+
+        res.status(200).json({
+            message: 'Invitation successfully deleted',
+        });
     });
 });
 

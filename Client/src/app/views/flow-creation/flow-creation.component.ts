@@ -50,7 +50,7 @@ export class FlowCreationComponent implements OnInit {
   ];
 
   languages: any[]
-  tags: string[] = [];
+  tags: string[] = ['ejemplo'];
   levels: string[] = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
   competences: any[];
 
@@ -90,9 +90,9 @@ export class FlowCreationComponent implements OnInit {
       privacy: ['', [Validators.required]],
       collaborators: ['', {validators: [Validators.email, notThisUser(this.user)], updateOn:'change'}],
       tags:['',[Validators.minLength(3), Validators.maxLength(15),tagExist(this.tags)]],
-      levels:['',[Validators.required]],
-      competences:['',[Validators.required]],
-      language:['',[Validators.required]]
+      levels:[[],/*[Validators.required]*/],
+      competences:[[],/*[Validators.required]*/],
+      language:["Español",/*[Validators.required]*/]
     });
     this.loading = false;
   }

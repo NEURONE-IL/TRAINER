@@ -9,8 +9,11 @@ const Flow = require('../models/flow');
 const authMiddleware = require('../middlewares/authMiddleware');
 const verifyToken = require('../middlewares/verifyToken');
 
-//Traer todas las notificaciones de un usuario
 
+/*
+@Valentina Ligueño
+TESTED: Traer todas las notificaciones de un usuario
+*/
 router.get('/byUser/:user_id' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
   const _user_id = req.params.user_id;
   AdminNotification.find({userTo: _user_id}, (err, notifications) =>{
@@ -21,14 +24,17 @@ router.get('/byUser/:user_id' ,  [verifyToken, authMiddleware.isAdmin], async (r
           });
       }
       notifications.reverse();
-      res.status(200).json({notifications});
+      res.status(200).json({message:'Admin Notification by user successfully get', notifications});
   }).populate({path: 'userFrom', model: User, select:'-password'})
     .populate({path: 'userTo', model: User, select:'-password'})
     .populate({path: 'invitation', model: Invitation, populate: {path:'flow', model: Flow, populate: {path: 'user', model: User, select:'-password'}}})
     .populate({path: 'history', model: History, populate: {path:'user', model: User, select:'-password'}})
 })
 
-//Actualizar a vistas todas las invitaciones
+/*
+@Valentina Ligueño
+TESTED: Actualizar a vistas todas las invitaciones
+*/
 router.put('/seeNotifications' ,  [verifyToken, authMiddleware.isAdmin], async (req, res) => {
     const _user_id = req.body.userTo._id;
     await AdminNotification.find({userTo: _user_id, seen: false}, (err, notifications)=> {
@@ -49,7 +55,7 @@ router.put('/seeNotifications' ,  [verifyToken, authMiddleware.isAdmin], async (
                     }
                 })
             })
-            res.status(200).json({message: 'Success'})
+            res.status(200).json({message: 'Successfully change of seen status for admin notifications'})
         }
     })
     

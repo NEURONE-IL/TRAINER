@@ -3,7 +3,7 @@
     <mat-card-title>{{ "FLOW.UPDATE_TITLE" | translate }}</mat-card-title>
 		<div class="spacer"></div>
 		<mat-chip-list>
-			<mat-chip selected [color]="timerColor" >
+			<mat-chip [matTooltip]="'Tiempo restante de edición antes de que se cierre el diálogo'" selected [color]="timerColor" >
 				<mat-icon>access_alarm</mat-icon>
 				{{timer}}
 			</mat-chip>
@@ -54,7 +54,7 @@
 					De libre acceso
 				</mat-grid-tile>
 
-			<!--Inicio Cambio Vale: Se agregan nuevos campos solicitados, un select para manejar la privacidad de un estudio y para agregar etiquetas-->
+			<!--Inicio Cambio Vale: Se agregan nuevos campos solicitados, un select para manejar la privacidad de un flujo y para agregar etiquetas-->
 				<!--mat-grid-tile colspan="6">
 					<mat-form-field>
 						<mat-label>Idioma *</mat-label>
@@ -90,7 +90,7 @@
 				</mat-grid-tile-->					
 			</mat-grid-list>
 		<mat-card-header>
-			<mat-card-subtitle style="margin-bottom: 2%;">Seleccione las opciones de privacidad de su estudio</mat-card-subtitle>
+			<mat-card-subtitle style="margin-bottom: 2%;">Seleccione las opciones de privacidad de su flujo</mat-card-subtitle>
 		</mat-card-header>
 		<mat-grid-list cols="12" style="margin-bottom: 1rem">
 			<mat-grid-tile colspan="6">
@@ -105,7 +105,7 @@
 		</mat-grid-list>
 
 			<mat-card-header>
-				<mat-card-subtitle style="margin-bottom: 0%;">Añada etiquetas relacionadas a su estudio</mat-card-subtitle>
+				<mat-card-subtitle style="margin-bottom: 0%;">Añada etiquetas relacionadas a su flujo</mat-card-subtitle>
 			</mat-card-header>
 			<mat-grid-list cols="12" >
 				<mat-grid-tile colspan="10" rowspan="2">
@@ -152,6 +152,7 @@
 			<mat-grid-tile colspan="6">
 				<input type="file"
 					id="file"
+					[disabled]="this.flowForm.status === 'DISABLED'"
 					(change)="handleFileInput($event.target.files)">
 
 			</mat-grid-tile>

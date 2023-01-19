@@ -1,7 +1,7 @@
 <mat-card class="studies-search-results-card">
   <mat-card-content>
     <div *ngIf="flows.length > 0">
-      <p style="font-size: 18px; font-weight:300;" *ngIf="actualQuery === 'all'">Mostrando todos los estudios públicos</p>
+      <p style="font-size: 18px; font-weight:300;" *ngIf="actualQuery === 'all'">Mostrando todos los flujos públicos</p>
       <p style="font-size: 18px; font-weight:300;" *ngIf="actualQuery != 'all'">Mostrando resultados para "<b>{{actualQuery}}"</b></p>
     </div>
     <div *ngIf="flows.length === 0" style="padding-bottom: 1% !important;">

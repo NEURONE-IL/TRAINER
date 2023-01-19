@@ -8,13 +8,19 @@ const User = require('../models/user');
 const verifyToken = require('../middlewares/verifyToken');
 const authMiddleware = require('../middlewares/authMiddleware');
 
+/*
+@Valentina Ligueño
+TESTED: Método para realizar una búsqueda a través de una consulta
+*/
 router.post('/search/:user_id/:query/:page', [verifyToken, authMiddleware.isAdmin], async (req, res) => {
   const query = req.params.query;
   const _id = req.params.user_id;
   const page = req.params.page;
   const totalPerPage = 8;
   const skip = page > 0 ? ( ( page - 1 ) * totalPerPage ) : 0 ;
-  const filters = req.body.filters;
+  const notFilter = true;
+
+  /*const filters = req.body.filters;
   const allFilters = req.body.allFilters;
   const notFilter = filters.competences.length == 0 && filters.languages.length == 0 && filters.levels.length == 0;
   
@@ -25,12 +31,11 @@ router.post('/search/:user_id/:query/:page', [verifyToken, authMiddleware.isAdmi
     filters.languages = allFilters.languages
 
   if(filters.levels.length == 0)
-    filters.levels = allFilters.levels
+    filters.levels = allFilters.levels*/
 
-  console.log(filters)
-  console.log('query', query)
+  //console.log('query', query)
   if(query != 'all' && notFilter){
-    console.log('Not Filter')
+    //console.log('Not Filter')
     const totalDocs = await FlowSearch.countDocuments({userID: { $ne:_id }, $text: {$search: query}});
     FlowSearch.find({userID: { $ne:_id }, $text: {$search: query}},{ score: { $meta: "textScore" } }, (err, docs) =>{
         if(err){
@@ -39,7 +44,9 @@ router.post('/search/:user_id/:query/:page', [verifyToken, authMiddleware.isAdmi
                 err
             });
         }
-        res.status(200).json({'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
+        res.status(200).json({
+          'message':'Flows search successfully get',
+          'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
 
     }).sort( { score: { $meta: "textScore" } } )
       .skip( skip )
@@ -61,7 +68,9 @@ router.post('/search/:user_id/:query/:page', [verifyToken, authMiddleware.isAdmi
                 err
             });
         }
-        res.status(200).json({'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
+        res.status(200).json({
+          'message':'Flows search successfully get',
+          'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
 
     }).sort( { score: { $meta: "textScore" } } )
       .skip( skip )
@@ -80,14 +89,16 @@ router.post('/search/:user_id/:query/:page', [verifyToken, authMiddleware.isAdmi
               err
           });
       }
-      res.status(200).json({'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
+      res.status(200).json({
+        'message':'Flows search successfully get',
+        'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
     }).sort( {name:1} )
       .skip( skip )
       .limit( totalPerPage )
       .populate({path:'flow', model: Flow, populate: {path:'user', model: User, select:'-password'}});
   }
   else{
-    console.log('All Not Filter')
+    //console.log('All Not Filter')
     const totalDocs = await FlowSearch.countDocuments({userID: { $ne:_id }});
     FlowSearch.find({ userID: { $ne:_id }}, (err, docs) => {
       if(err){
@@ -96,7 +107,9 @@ router.post('/search/:user_id/:query/:page', [verifyToken, authMiddleware.isAdmi
               err
           });
       }
-      res.status(200).json({'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
+      res.status(200).json({
+        'message':'Flows search successfully get',
+        'docs':docs, 'actualPage': page, 'totalDocs':totalDocs});
     }).sort( {name:1} )
       .skip( skip )
       .limit( totalPerPage )
@@ -104,6 +117,10 @@ router.post('/search/:user_id/:query/:page', [verifyToken, authMiddleware.isAdmi
   }
 })
 
+/*
+@Valentina Ligueño
+NOT_FOR_TEST: Método para cargar los flujos públicos en el índice
+*/
 router.post('/loadFlows', /*[verifyToken, authMiddleware.isAdmin],*/ async (req, res) => {
   console.log('load Flows')
   let flowsIndexes = []

@@ -70,6 +70,11 @@
       </ng-container>
     </div>
   </mat-menu>
+  <a mat-button *ngIf="isLoggedIn && user.role.name === 'admin'" 
+    [href]="demoLink" target="_blank"
+    [matTooltip]="'Acceder a una demostración de uso de la plataforma'">	
+    <mat-icon>help_outline</mat-icon> 
+  </a>
   </div>
 
 	<a class="name-span"  href="/user-profile" *ngIf="isLoggedIn && user.role.name === 'user'">
@@ -81,7 +86,6 @@
       {{ user.names + ' ' +user.last_names }}
     </button>
   </div>
-  <button *ngIf="isLoggedIn" mat-button>	<mat-icon>help_outline</mat-icon> </button>
 
   <button (click)="logout()" mat-button *ngIf="isLoggedIn"><mat-icon>exit_to_app</mat-icon> {{"LOGOUT.LOGOUT" | translate}}</button>
 

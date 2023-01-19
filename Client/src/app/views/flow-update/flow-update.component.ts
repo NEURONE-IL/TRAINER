@@ -102,9 +102,9 @@ export class FlowUpdateComponent implements OnInit, OnDestroy{
       privacy: this.flow.privacy,
       collaborators: this.flow.collaborators,
       tags:['',[Validators.minLength(3), Validators.maxLength(15), tagExist(this.tags)]],
-      levels:[this.flow.levels,[Validators.required]],
-      competences:[filteredCompetences,[Validators.required]],
-      language:[this.flow.language,[Validators.required]]
+      levels:[this.flow.levels,/*[Validators.required]*/],
+      competences:[filteredCompetences,/*[Validators.required]*/],
+      language:[this.flow.language,/*[Validators.required]*/]
     });
     this.requestEdit();
     if (this.userOwner) {

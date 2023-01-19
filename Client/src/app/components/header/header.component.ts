@@ -24,6 +24,7 @@ export class HeaderComponent implements OnInit {
   notificationsAdmin: any[];
   newNotificationsAdmin: any[] = [];
   oldNotificationsAdmin: any[] = [];
+  demoLink: String = "https://www.youtube.com/watch?v=xu-bGYiZvtg";
 
   constructor( private authService: AuthService,
                private translate: TranslateService,

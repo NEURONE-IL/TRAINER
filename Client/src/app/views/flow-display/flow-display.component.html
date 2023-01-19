@@ -45,7 +45,7 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <mat-grid-list cols="24" *ngIf="flow" >
+  <!--mat-grid-list cols="24" *ngIf="flow" >
     <mat-grid-tile colspan="24">
       <mat-card-header>
         <mat-card-subtitle class="registerLink" style="margin-bottom: -3%;">{{ "ADMIN.REGISTER_LINK" | translate }}: {{ registerLink}}</mat-card-subtitle>
@@ -63,9 +63,9 @@
         <strong>{{ "ADMIN.FLOWS.TEST_USER_ALERT_START" | translate }}:</strong> {{ "ADMIN.FLOWS.TEST_USER_ALERT_END" | translate }}
       </div>
     </mat-grid-tile>    
-  </mat-grid-list>
+  </mat-grid-list-->
   <!-- Nuevo diseño de Tabs -->
-  <mat-divider></mat-divider>
+  <!--mat-divider></mat-divider-->
 
   <mat-tab-group mat-align-tabs="end">
 
@@ -236,7 +236,7 @@
             Ingrese un email válido
           </mat-error>
           <mat-error *ngIf="emailFormControl.hasError('notThisUser')">
-            El usuario que creó el estudio no puede añadirse como colaborador
+            El usuario que creó el flujo no puede añadirse como colaborador
           </mat-error>
           <mat-error *ngIf="emailFormControl.hasError('notExistingColl')">
             {{emailFormControl.value + ' ya es colaborador'}}
@@ -281,7 +281,7 @@
       </table>
       <ng-template #notCollaborators>
       <div style="text-align:center">
-        <p>Aun no se han añadido colaboradores a este estudio</p>
+        <p>Aun no se han añadido colaboradores a este flujo</p>
       </div>
     </ng-template>
     </mat-tab>

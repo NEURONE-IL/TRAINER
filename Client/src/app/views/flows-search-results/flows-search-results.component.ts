@@ -50,6 +50,7 @@ export class FlowsSearchResultsComponent implements OnInit {
         let flows: Flow[] = []
         this.paginator.totalDocs = parseInt(response.totalDocs);
         let docs = response.docs
+        console.log(docs)
         docs.forEach(doc => { flows.push(doc.flow) })
         this.flows = flows;
       },

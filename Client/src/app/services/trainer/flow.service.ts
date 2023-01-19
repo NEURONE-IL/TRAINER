@@ -75,15 +75,12 @@ export class FlowService {
   getFlowsByUserCollaboration(userId: string): Observable<any> {
     return this.http.get(this.uri +'byUserCollaboration/'+userId)
   }
-  //Se obtienen los estudios filtrados según privacidad
+  //Se obtienen los flujos filtrados según privacidad
   getFlowsByUserByPrivacy(params: any): Observable<any> {
     return this.http.get(this.uri +'byUserbyPrivacy/'+params.user+'/'+params.privacy)
   }
   getFlowsByUserByType(params: any): Observable<any> {
     return this.http.get(this.uri +'byUserbyType/'+params.user+'/'+params.type)
-  }
-  getAllFlowsByPrivacy(privacy: boolean, userId): Observable<any>{
-    return this.http.get(this.uri+'byPrivacy/'+privacy+'/'+userId)
   }
   editCollaboratorsFlow(flowId: string, collaborators: any): Observable<any> {
     let reqBody = {collaborators: collaborators}

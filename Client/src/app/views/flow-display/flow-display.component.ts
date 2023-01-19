@@ -141,9 +141,9 @@ export class FlowDisplayComponent implements OnInit {
 
         if (this.cloneHistory.length>0){
           this.cloneHistory.forEach( history => {
-
+          this.cloneHistory.reverse();
             let d = new Date(history.createdAt);
-            let date = (d.getDate() < 10? '0':'') + d.getDate() + (d.getMonth() < 10 ? '/0' : '/') + (d.getMonth() + 1) + '/' + d.getFullYear();          
+            let date = (d.getDate() < 10 ? '0' : '') + d.getDate() + (d.getMonth() + 1 < 10 ? '/0' : '/') + (d.getMonth() + 1) + '/' + d.getFullYear();          
             let hour = (d.getHours() < 10 ? '0' : '') +d.getHours() + ':' + (d.getMinutes() < 10 ? '0' : '')+ d.getMinutes();
             history.createdAt = date + ' ' + hour;
           })
@@ -490,12 +490,12 @@ export class FlowDisplayComponent implements OnInit {
   deleteCollaborator(collaborator){
     var newCollaboratorList = this.flow.collaborators.filter(
                               coll => coll.user.email !== collaborator.user.email);
-    this.editCollaborator(newCollaboratorList,"Se ha eliminado correctamente el colaborador al estudio","El colaborador no ha podido ser eliminado");
+    this.editCollaborator(newCollaboratorList,"Se ha eliminado correctamente el colaborador al flujo","El colaborador no ha podido ser eliminado");
   }
   addCollaborator(user: any){
     let newCollaboratorList = this.flow.collaborators.slice();
     newCollaboratorList.push({user: user, invitation: 'Pendiente'});
-    this.editCollaborator(newCollaboratorList,"Se ha añadido correctamente el colaborador al estudio","El colaborador no ha podido ser añadido");
+    this.editCollaborator(newCollaboratorList,"Se ha añadido correctamente el colaborador al flujo","El colaborador no ha podido ser añadido");
     this.emailFormControl.setValue('');
   }
 
@@ -540,7 +540,8 @@ export class FlowDisplayComponent implements OnInit {
         this.addCollaborator(collaborator);
 
       },
-      (error) => {
+      (err) => {
+        let error = err.error.message
           if(error === 'EMAIL_NOT_FOUND'){
             this.toastr.error("No se encuentra el correo ingresado", "Usuario Inexistente", {
               timeOut: 5000,
@@ -556,7 +557,7 @@ export class FlowDisplayComponent implements OnInit {
             }
 
             if(error === 'USER_NOT_CONFIRMED'){
-            this.toastr.error("El usuario ingresado no ha terminado su proceso de registro", "Usuario no confirmado", {
+            this.toastr.error("El usuario ingresado no ha terminado su registro, debe completar el proceso confirmando en el correo recibido", "Usuario no confirmado", {
               timeOut: 5000,
               positionClass: 'toast-top-center'});
               return
@@ -566,14 +567,14 @@ export class FlowDisplayComponent implements OnInit {
   }
 
   confirmCollaborationLeft(){
-    confirm('Seguro que desea dejar de ser colaborador del estudio: '+this.flow.name) && this.collaborationLeft();
+    confirm('Seguro que desea dejar de ser colaborador del flujo: '+this.flow.name) && this.collaborationLeft();
   }
   collaborationLeft(){
     let collaborators = this.flow.collaborators.slice();
     let index = collaborators.findIndex(coll => coll.user._id === this.user._id)
     collaborators.splice(index,1);
     console.log(collaborators)
-    this.editCollaborator(collaborators,"Ha dejado de ser colaborador del estudio: "+this.flow.name,"No se ha podido realizar la operación, intente más tarde");
+    this.editCollaborator(collaborators,"Ha dejado de ser colaborador del flujo: "+this.flow.name,"No se ha podido realizar la operación, intente más tarde");
     this.router.navigate(['/admin_panel']);
 
   }
