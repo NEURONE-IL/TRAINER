@@ -3,6 +3,10 @@ import { AuthService } from 'src/app/services/auth/auth.service';
 import { Stage, StudyProgress } from '../../interfaces/stage.interface';
 import { User } from '../../interfaces/user.interface';
 import { TrainerUserUIService } from '../../services/trainer-user-ui.service';
+import { QuizService } from '../../../services/videoModule/quiz.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { QuizComponent } from '../../../components/quiz/quiz.component';
 // import { interval } from 'rxjs'; en caso de utilizar el cooldown de niveles
 
 @Component({
@@ -27,6 +31,8 @@ export class EtapasComponent implements OnInit{
 
   constructor(  private cdRef: ChangeDetectorRef,
                 private authService: AuthService,
+                private quizService: QuizService,
+                public matDialog: MatDialog,
                 private trainerUserUIService: TrainerUserUIService) { }
 
   ngOnInit(): void {
@@ -50,7 +56,7 @@ export class EtapasComponent implements OnInit{
   }
 
   goToStage(stage){
-
+    
     this.trainerUserUIService.updateLastStagePlayed(this.user._id, stage._id).subscribe();
 
     let objEvento = {
@@ -60,10 +66,19 @@ export class EtapasComponent implements OnInit{
       stage: stage._id,
       eventDescription: "User has clicked stage " + stage._id
     }
-
+    
     this.trainerUserUIService.saveEvent(objEvento).subscribe();
-
+       
+    console.log("STAGEEEE")
+    console.log(stage)
+    console.log(this.user)
+   
     this.trainerUserUIService.redirectToStage(stage, this.user);
+    
+    //ABRIR MODULO DE VIDEO. 
+    //TAMBIEN EDITE TRAINER.USER.UI.SERVICES.TS
+
+
   }
 
   //funcion para simular completado de etapa (para administrador)

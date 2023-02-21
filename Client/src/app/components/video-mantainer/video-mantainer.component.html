@@ -48,6 +48,8 @@
           
       </div>
       <div class="col-md-6">
+
+        <!-- 
         <div class="form-group">
           <label class="control-label col-sm-4" for="urlVideo">Url Video:</label>
           <div class="col-sm-10">
@@ -57,12 +59,30 @@
             <p>Opcion 2: Incluya el video en la carpeta assets e ingrese el link como /assets/.../video.mp4</p>
           </div>
         </div>
+        -->
+
+        <!-- VIDEO UPLOADER -->
+        <div *ngIf="loadingVideo" class="center" >
+          <mat-spinner></mat-spinner>
+        </div>
+        <div *ngIf="!loadingVideo && !url">
+          <p>Subir Video</p>
+        </div>
+        <div *ngIf="format==='video' && url">
+          <h4>Previsualizar: </h4>
+          <video [src]="url"  height="200" controls></video> <br/>
+        </div>
         
+        <input type='file'  id="video" (change)="onSelectFile($event)" />
+
     </div>
     </div>
   </form>
   <div class="text-center p-2">
-    <button (click)="registerVideo()" class="btn btn-primary creationButton">Guardar Video</button>
+    <button 
+      (click)="registerVideo()" 
+      class="btn btn-primary creationButton" 
+      [disabled]="!url">Guardar Video</button>
   </div>
   
   </div>

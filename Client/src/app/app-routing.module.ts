@@ -79,9 +79,9 @@ const routes: Routes = [
     canActivate: [ AuthGuard, AdminGuard ]
   },
   {
-    path: 'videoModule',
+    path: 'videoModule/:id',
     component: VideoModuleComponent,
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuard]
   },
   {
     path: 'video',

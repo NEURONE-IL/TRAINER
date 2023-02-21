@@ -114,7 +114,8 @@ export class TrainerUserUIService {
       window.location.href = this.videoModuleService.getVideoLink(stage.externalId);
     }
     if (stage.type === 'Video + Quiz'){
-      window.location.href = this.videoModuleService.getVideoQuizLink(stage.externalId);
+      //http://localhost:3070/api/stage/stage._id  
+      window.location.href = this.videoModuleService.getVideoQuizLink(stage._id);
     }
     if (stage.type === 'Trivia'){
       window.location.href = this.triviaService.getStudyLink(stage.externalId, user);

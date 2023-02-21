@@ -86,12 +86,15 @@ validate(name, url, file, language){
 }
 cleanForm(){
   (document.getElementById("tituloVideo")  as HTMLInputElement).value="";
-  (document.getElementById("urlVideo")  as HTMLInputElement).value="";
   (document.getElementById("imageVideo")  as HTMLInputElement).value=null;
+
+  //limpiar campos de video falta. 
+  (document.getElementById("video")  as HTMLInputElement).value=null;
+  this.url=null;
 }
 registerVideo(){
   let name= (document.getElementById("tituloVideo")  as HTMLInputElement).value;
-  let url_video= (document.getElementById("urlVideo")  as HTMLInputElement).value;
+  let url_video= this.url;
   let file = (document.getElementById("imageVideo")  as HTMLInputElement).files[0];
   let language= this.languageVideo;
   let formData = new FormData();
@@ -117,13 +120,8 @@ registerVideo(){
      }
    )
   }
-
-  
-  
    
 }
-
-
 deleteVideo(videoId){
   this.quizService.deleteVideo(videoId).subscribe(
     (res)=>{
@@ -131,4 +129,33 @@ deleteVideo(videoId){
     }
   )
 }
+
+//VIDEO UPLOADER
+url;
+format;
+loadingVideo= false;
+onSelectFile(event) {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      var reader = new FileReader();
+      reader.readAsDataURL(file);
+      //verificar que el tipo sea video.
+      if(file.type.indexOf('video')> -1){
+        this.loadingVideo= true;
+        this.format = 'video';
+
+        //Guardar el video 
+        let formData = new FormData();
+        formData.append('file', file);
+        this.quizService.saveImage(formData).subscribe(
+          (res:any)=>{
+            console.log(res)
+            this.url= res.url;
+            this.loadingVideo=false;
+          }
+        )
+
+      }
+    }
+  }
 }
