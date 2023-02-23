@@ -41,3 +41,10 @@ mat-card-subtitle{
 .options button{
   margin: 10px;
 }
+
+.actions{
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
+}

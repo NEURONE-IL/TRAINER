@@ -1,39 +1,4 @@
 <app-header></app-header>
-<!--
-<mat-card class="module-card">
-  <mat-card-title>Modulo de Videos</mat-card-title>
-  <div class="row ">
-
-      <div class="col-sm-2">
-        <mat-card class="section-card">
-          <div id="main">
-            <button type="button" class="button" (click)="showVideo()" mat-raised-button>{{"Video" | translate}}</button>
-            <button type="button" class="button" (click)="showQuiz()" mat-raised-button>{{"Quiz" | translate}}</button>
-          </div>
-        </mat-card>
-      </div>
-
-
-    <div class="col-sm-10">
-      <mat-card class="section-card-2">
-        <ng-template [ngIf]="quiz">
-          <app-quiz [quizNumber]=quizId (newItemEvent)="quizResponse($event)"></app-quiz>
-        </ng-template>
-        <ng-template [ngIf]="video">
-          <app-video [videoNumber]=videoId (newItemEvent)="videoResponse($event)"></app-video>
-        </ng-template>
-        <ng-template [ngIf]="!video && !quiz">
-          <mat-card-title>Espacio destinado para instrucciones</mat-card-title>
-
-
-        </ng-template>
-      </mat-card>
-    </div>
-
-
-  </div>
-</mat-card>
--->
 
 
 <mat-card class="flows-display-card">
@@ -50,9 +15,13 @@
     <div class="contenidoPrincipal col-md-9">
       <div class="flujosView" *ngIf="quizActive && quizId">
         <app-quiz [quizNumber]=quizId [saveUserData]=saveData (newItemEvent)="quizResponse($event)"></app-quiz>
+        
       </div>
       <div class="flujosView" *ngIf="videoActive && videoId">
         <app-video [videoNumber]=videoId [saveUserData]=saveData (newItemEvent)="videoResponse($event)"></app-video>
+        <div class="actions">
+          <button class="btn btn-light" (click)="select('quiz'); updateProgress(50)">Ir al Quiz</button>
+        </div>
       </div>
     </div>
 

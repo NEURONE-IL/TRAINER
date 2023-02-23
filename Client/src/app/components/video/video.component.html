@@ -1,6 +1,9 @@
-<mat-card-subtitle>{{videoJson.name}}</mat-card-subtitle>
+<mat-card-subtitle>Paso 1: Vea el video</mat-card-subtitle>
 
-<h4>Paso 1: Vea el video</h4>
+<div class="actions">
+      <h4>{{videoJson.name}} </h4>
+</div>
+
 
 <div *ngIf="loadingVideo">loading ...</div>
 <div *ngIf="!loadingVideo">

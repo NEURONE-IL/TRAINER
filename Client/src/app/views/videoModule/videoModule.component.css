@@ -39,14 +39,14 @@
   text-align: left;
   vertical-align: middle;
   display: block;
-  border-left: 5px solid #a66fff ;
+  border-left: 3px solid rgb(207, 175, 255) ;
   transition: background 0.5s, border 0.5s;
 }
 
 .menuItem:hover{
   list-style-type: none;
   background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
-  border-left: 9px solid #914dff ;
+  border-left: 9px solid  rgb(215, 190, 253);
   height: 50px;
   line-height: 50px;
   text-align: left;
@@ -136,4 +136,11 @@ mat-card-subtitle{
   padding-top: 15px;
   padding-bottom: 5px;;
   border-bottom: 3px solid rgba(238,227,255,1) ;
+}
+
+.actions{
+  padding: 20px;
+  margin: 10px;
+  text-align: center;
+  background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
 }

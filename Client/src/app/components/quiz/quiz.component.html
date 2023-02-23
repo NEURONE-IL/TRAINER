@@ -8,7 +8,7 @@
           <img class="img-fluid" src="{{my_quiz.resource_url}}">
         </div>
         <div class="actions mx-auto"> 
-          <button (click)="increaseExercise(false)">Tomar quiz</button>
+          <button class="btn btn-light" (click)="increaseExercise(false)">Tomar quiz</button>
         </div>
         
       </ng-template>
@@ -76,11 +76,11 @@
             </ng-template>
             -->
             <div *ngIf="!last_exercise">
-              <button (click)="increaseExercise(last_exercise)">Siguiente</button>
+              <button class="btn btn-light" (click)="increaseExercise(last_exercise)">Siguiente</button>
             </div>
           </div>
-          <div *ngIf="last_exercise" class="quiz_buttons">
-            <button class="quiz_buttons" (click)="sendQuiz(); updateProgress(100)">Enviar Formulario</button>
+          <div *ngIf="last_exercise" class="actions">
+            <button class="btn btn-light" (click)="sendQuiz(); updateProgress(100)">Enviar Formulario</button>
           </div>
 
         </div>
