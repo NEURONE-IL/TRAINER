@@ -24,8 +24,8 @@ export class QuizComponent implements OnInit {
   quiz;
   exerciseActual;
   last;
+  first;
   global = 0;
-
   stageId;
   userId;
   flowId;
@@ -38,14 +38,22 @@ export class QuizComponent implements OnInit {
   ngOnInit(): void {
     this.quizService.getQuizzes().subscribe(res => {
       this.quiz = res['data'];
+      console.log("QUIZ:");
+      console.log(this.quiz);
     });
     this.exerciseActual = 0;
-
     this.stageId = localStorage.getItem('stageId', );
     this.userId = JSON.parse(localStorage.getItem('currentUser', ))._id;
     this.stageService.getStage(this.stageId).subscribe(res => {
       this.flowId = res['stage'].flow;
     });
+  }
+
+  compareExercisesNumber(Ex1, Ex2){
+    //parse to string
+    let num1= +Ex1 
+    let num2= +Ex2
+    return num1==num2
   }
 
   eventAnswers(questionId, alternativa, numAlternative, questionType){

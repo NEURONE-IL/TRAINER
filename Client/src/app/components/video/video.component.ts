@@ -28,11 +28,10 @@ export class VideoComponent implements OnInit {
   videoSources: Plyr.Source[];
   currentTime = 0;
   videoJson;
-
   stageId;
   userId;
   flowId;
-
+  loadingVideo = true;
 
   constructor( private plyrModule: PlyrModule,
                private quizService: QuizService,
@@ -85,29 +84,19 @@ export class VideoComponent implements OnInit {
 
   ngOnInit(): void {
     // Get the video
-    console.log('Buscamos... ', this.videoNumber);
+    console.log('Buscamos... ');
+    console.log(this.videoNumber);
     this.quizService.getVideo(this.videoNumber).subscribe(res => {
       console.log(res)
       this.videoJson = res["data"];
       this.poster = this.videoJson.image_url;
-      //test de verificar youtube link
-      let ytSrc= this.checkYoutubeSrc(this.videoJson.video_url);
-      if (ytSrc){
-        this.videoSources = [
-          {
-            src: this.videoJson.video_url,
-            provider: 'youtube',
-          }
-        ];
-      }else{
-        this.videoSources = [
-          {
-            src: this.videoJson.video_url,
-            type: 'video/mp4'
-          }
-        ];
-      }
-      
+      this.videoSources = [
+        {
+          src: this.videoJson.video_url,
+          type: 'video/mp4'
+        }
+      ];
+      this.loadingVideo=false;
       }
     );
 
@@ -118,12 +107,6 @@ export class VideoComponent implements OnInit {
     });
   }
 
-checkYoutubeSrc(url){
-  let youtubeSrc= url.includes("youtube");
-  console.log("IS THIS A YOUTUBE SRC?");
-  console.log(youtubeSrc);
-  return youtubeSrc
-}
 /*
   sendVideoResponse(value) {
     this.newItemEvent.emit(value);

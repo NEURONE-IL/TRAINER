@@ -17,7 +17,7 @@ export class VideoModuleComponent implements OnInit {
   status;
   quizId;
   videoId;
-  videoActive;
+  videoActive= true;
   quizActive;
   saveData;
 
@@ -28,7 +28,7 @@ export class VideoModuleComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
       this.quizId = params.id;
-
+      console.log(this.quizId)
       this.quizService.getQuiz(this.quizId).subscribe(res => {
         console.log(res);
         this.videoId = res.data.video_id;
@@ -36,7 +36,6 @@ export class VideoModuleComponent implements OnInit {
     });
 
     this.saveData = 'Yes';
-
     this.stageId = localStorage.getItem('stageId', );
     this.userId = JSON.parse(localStorage.getItem('currentUser', ))._id;
     this.stageService.getStage(this.stageId).subscribe(res => {

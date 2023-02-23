@@ -48,10 +48,10 @@
       </ul>
     </div>
     <div class="contenidoPrincipal col-md-9">
-      <div class="flujosView" *ngIf="quizActive">
+      <div class="flujosView" *ngIf="quizActive && quizId">
         <app-quiz [quizNumber]=quizId [saveUserData]=saveData (newItemEvent)="quizResponse($event)"></app-quiz>
       </div>
-      <div class="flujosView" *ngIf="videoActive">
+      <div class="flujosView" *ngIf="videoActive && videoId">
         <app-video [videoNumber]=videoId [saveUserData]=saveData (newItemEvent)="videoResponse($event)"></app-video>
       </div>
     </div>

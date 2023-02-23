@@ -68,11 +68,6 @@ export class EtapasComponent implements OnInit{
     }
     
     this.trainerUserUIService.saveEvent(objEvento).subscribe();
-       
-    console.log("STAGEEEE")
-    console.log(stage)
-    console.log(this.user)
-   
     this.trainerUserUIService.redirectToStage(stage, this.user);
     
     //ABRIR MODULO DE VIDEO. 
