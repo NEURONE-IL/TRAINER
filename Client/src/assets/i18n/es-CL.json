@@ -61,6 +61,14 @@
       "DELETE_CONFIRMATION": "¿Está segur@ que desea eliminar el video?"
     }
   },
+  "VIDEOMODULE": {
+    "INSTRUCTIONS": "Instrucciones",
+    "DESCRIPTION_1": "A continuación se te presenta un video.",
+    "DESCRIPTION_2": "Una vez que lo hayas terminado de ver, puedes acceder a responder el quiz.",
+    "DESCRIPTION_3": "No te preocupes, puedes alternar entre el video y el quiz cuando quieras.",
+    "QUIZ_BUTTON": "Ir al quiz",
+    "VIDEO_BUTTON": "Volver al video"
+  },
   "ADMIN": {
     "SUBTITLE": "Panel de Creación de Flujos",
     "REGISTER_LINK": "Enlace de registro",

@@ -106,6 +106,7 @@ mat-card-subtitle{
 
 .quizPreview{
     min-height: 200px;
+	margin-bottom: 10px;
 
 }
 mat-card-content{
@@ -257,3 +258,16 @@ mat-select{
     justify-content: center; 
     align-items: center;
 }
+/* para colocar los botones al fondo de mat-card */
+
+.posicionRelativa{
+	position: relative;
+}
+
+.card-footer-aux-video{
+	border-top: none;
+	position: absolute;
+	bottom: 0;
+	background: transparent;
+}
+

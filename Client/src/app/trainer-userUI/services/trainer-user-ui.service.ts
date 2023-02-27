@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, timeout } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
@@ -63,7 +63,10 @@ export class TrainerUserUIService {
   getTotalProgress(user){
     
     let totalProgress = forkJoin([
-      this.triviaService.getProgress(user._id).pipe(catchError(err => of('error: ', err))),
+      this.triviaService.getProgress(user._id)
+        .pipe(
+          timeout(1000),
+          catchError(err => of('error: ', err))),
       // this.apiSGService.getProgress(user._id).pipe(catchError(err => of(err))),
       // this.videoService.getVideoProgress(),
       // this.videoQuizService.getVideoQuizProgress()

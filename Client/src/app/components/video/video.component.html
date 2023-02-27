@@ -7,7 +7,7 @@
 
 <div *ngIf="loadingVideo">loading ...</div>
 <div *ngIf="!loadingVideo">
-      <mat-card class="mat-card-video">
+
       <plyr class="video"
             plyrTitle="Video 1"
             [plyrSources]="videoSources"
@@ -26,7 +26,7 @@
             (plyrQualityChange)="played($event)"
             (plyrStateChange)="played($event)">
       </plyr>
-      </mat-card>
+
 </div>
 
 

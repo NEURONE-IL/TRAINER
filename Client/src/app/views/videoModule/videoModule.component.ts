@@ -32,6 +32,7 @@ export class VideoModuleComponent implements OnInit {
       this.quizService.getQuiz(this.quizId).subscribe(res => {
         console.log(res);
         this.videoId = res.data.video_id;
+        this.select("video");
       });
     });
 

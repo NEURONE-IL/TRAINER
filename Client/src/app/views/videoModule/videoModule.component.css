@@ -97,7 +97,7 @@ mat-card{
   min-height: 700px;
   margin-left: 10%;
   margin-right: 10%;
-  margin-top: 5%;
+  margin-top: 1%;
 }
 
 mat-card{
@@ -143,4 +143,8 @@ mat-card-subtitle{
   margin: 10px;
   text-align: center;
   background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
+}
+
+.instrucciones{
+  margin-top: 10%;
 }

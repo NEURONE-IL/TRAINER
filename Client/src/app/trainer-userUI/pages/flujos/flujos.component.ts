@@ -28,11 +28,11 @@ export class FlujosComponent implements OnInit{
 
   moduleToDisplay     : string;
 
-  totalDeModulos      : number = 0;
-  totalDeEtapas       : number = 0;
+  totalDeModulos      : number;
+  totalDeEtapas       : number;
   
   modulosCompletados  : number = 0;
-  etapasCompletadas;
+  etapasCompletadas   : number = 0;
 
 
   constructor(

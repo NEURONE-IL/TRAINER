@@ -104,6 +104,7 @@ mat-card-subtitle{
 
 .quizPreview{
     min-height: 200px;
+	margin-bottom: 10px;
 
 }
 mat-card-content{
@@ -249,3 +250,11 @@ mat-select{
 	text-align: center;
 	padding:  30px 0px 30px 0px;
 }
+
+/* hay una linea que se genera en border top utilizando el classname card-footer, anoto este para borrar esa linea*/
+.card-footer-aux{
+	border-top: none;
+	background: transparent;
+	
+}
+ 

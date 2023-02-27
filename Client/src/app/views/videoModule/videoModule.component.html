@@ -6,11 +6,22 @@
 
   </div>
   <div class="row">
-    <div class="lateralSelector col-md-3">
+    <!-- <div class="lateralSelector col-md-3">
       <ul class="menu" id="lateralMenu">
         <li id="video" class="menuItem {{videoActive?'activeMenu':''}}" (click)="select('video')">{{ "VIDEOS.VIDEO" | translate }}</li>
         <li id="quiz" class="menuItem {{quizActive?'activeMenu':''}}" (click)="select('quiz'); updateProgress(50)">{{ "QUIZZES.QUIZ" | translate }}</li>
-      </ul>
+      </ul> -->
+    <div class="instrucciones col-md-3">
+      <h1>{{ 'VIDEOMODULE.INSTRUCTIONS' | translate }}</h1>
+      <br>
+      <p>{{ 'VIDEOMODULE.DESCRIPTION_1' | translate }}</p>
+      <p>{{ 'VIDEOMODULE.DESCRIPTION_2' | translate }}</p>
+      <p>{{ 'VIDEOMODULE.DESCRIPTION_3' | translate }}</p>
+      <br>
+      <div style="text-align: center">
+        <button class="btn btn-info" *ngIf="videoActive" (click)="select('quiz'); updateProgress(50)">{{ 'VIDEOMODULE.QUIZ_BUTTON' | translate }}</button>
+        <button class="btn btn-info" *ngIf="quizActive"  (click)="select('video')">{{ 'VIDEOMODULE.VIDEO_BUTTON' | translate }}</button>
+      </div>
     </div>
     <div class="contenidoPrincipal col-md-9">
       <div class="flujosView" *ngIf="quizActive && quizId">
@@ -19,9 +30,9 @@
       </div>
       <div class="flujosView" *ngIf="videoActive && videoId">
         <app-video [videoNumber]=videoId [saveUserData]=saveData (newItemEvent)="videoResponse($event)"></app-video>
-        <div class="actions">
+        <!-- <div class="actions">
           <button class="btn btn-light" (click)="select('quiz'); updateProgress(50)">Ir al Quiz</button>
-        </div>
+        </div> -->
       </div>
     </div>
 
