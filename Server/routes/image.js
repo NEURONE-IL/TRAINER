@@ -16,7 +16,7 @@ router.get('/:filename', async (req, res) => {
                 err: 'NO_FILES'
             })
         }
-        if(files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png'){
+        if(files[0].contentType === 'image/jpeg' || files[0].contentType === 'image/png' || files[0].contentType === 'video/mp4' || files[0].contentType === 'video/avi'){
             imageStorage.gfs.openDownloadStreamByName(req.params.filename).pipe(res);
         }else{
             return res.status(404).json({
