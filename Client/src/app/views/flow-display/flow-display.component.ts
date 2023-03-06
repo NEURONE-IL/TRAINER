@@ -80,7 +80,7 @@ export class FlowDisplayComponent implements OnInit {
     this.stageService.getStagesByFlowSortedByStep(this.route.snapshot.paramMap.get('flow_id'))
       .subscribe(response => {
         this.sortedStages = response['stages'];
-        console.log(this.sortedStages)
+        // console.log(this.sortedStages)
     });
 
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;

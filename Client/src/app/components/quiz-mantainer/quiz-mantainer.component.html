@@ -288,7 +288,7 @@
   <div *ngFor="let quiz of quizzes">
     <mat-card class="quizPreview">
         <div class="row">
-            <div class="col-md-4">
+            <div class="col-md-4 d-flex justify-content-center">
                 <img [src]="quiz.resource_url?quiz.resource_url:'/assets/stage-images/03VideoQuiz.jpg'" class="img-fluid img-thumbnail">
             </div>
             <div class="col-md-8">
@@ -299,11 +299,11 @@
                     <p>Video Relacionado: <a style="color: blue; cursor: pointer" (click)="openVideoModal(quiz.video_id)">video</a></p>
 
                     <div class="card-footer card-footer-aux">
-                        <div class="btn-group" role="group" aria-label="Basic example">
+
                           <button type="button" id="ver" class="btn btn-secondary" (click)="openQuizModal(quiz._id)">Ver</button>
                           <button type="button" class="btn btn-secondary" (click)="editQuiz(quiz)">Editar</button>
                           <button type="button" class="btn btn-secondary" (click)="confirmQuizDelete(quiz._id)">Borrar</button>
-                        </div>
+
                     </div>
                 </mat-card-content>
             </div>

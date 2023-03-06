@@ -116,6 +116,7 @@ mat-card-content{
 }
 
 .card-footer button{
+	margin: 5px;
 	width: 200px;
 }
 
@@ -257,4 +258,7 @@ mat-select{
 	background: transparent;
 	
 }
- 
+
+.img-fluid{
+	max-height: 200px;
+}

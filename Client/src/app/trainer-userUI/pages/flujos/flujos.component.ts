@@ -46,7 +46,7 @@ export class FlujosComponent implements OnInit{
     
     //conseguir datos del usuario
     this.user = this.authService.getUser()
-    console.log(this.user);
+    //console.log(this.user);
     
     //guardar id del flujo
     this.flowId = this.user.flow;
@@ -57,17 +57,17 @@ export class FlujosComponent implements OnInit{
     //obtener el progreso total del usuario guardado en userFlow
     this.trainerUserUIService.getUserFlow(this.user._id).subscribe( respUserFlow => {
       this.userFlow = respUserFlow.userFlow;
-      console.log("userFlow: ", this.userFlow);
+      //console.log("userFlow: ", this.userFlow);
       
       //obtener progreso de ambientes externos para actualizar el progreso total
       this.updatedModules = this.userFlow.modules;
 
-      console.log("userFlowModulesAux: ", this.updatedModules);
+      //console.log("userFlowModulesAux: ", this.updatedModules);
 
       this.trainerUserUIService.getTotalProgress(this.user).subscribe(
         progresoTotal => {
 
-          console.log("respuesta getTotalProgress: ", progresoTotal);
+          //console.log("respuesta getTotalProgress: ", progresoTotal);
 
           //actualizar con los estudios obtenidos de TRIVIA (si es que no hay errores)
           if(progresoTotal[0]['progress']){

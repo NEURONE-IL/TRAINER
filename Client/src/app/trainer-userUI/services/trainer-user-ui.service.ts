@@ -24,7 +24,9 @@ export class TrainerUserUIService {
   uriModule = environment.apiURL + 'module/';
   uriStage = environment.apiURL + 'stage/';
 
-  flagRegistrarEventos = 1;
+  // 0: ignorar eventos 
+  // 1: registrar eventos
+  flagRegistrarEventos = 1; 
 
   constructor( protected http: HttpClient,
                private triviaService: ApiTriviaService,

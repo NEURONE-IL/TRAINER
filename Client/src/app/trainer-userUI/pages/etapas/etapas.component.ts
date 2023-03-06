@@ -51,7 +51,7 @@ export class EtapasComponent implements OnInit{
       this.stagesByModule = this.userFlowStages;
     }
 
-    console.log("stagesByModule: ", this.stagesByModule);
+    // console.log("stagesByModule: ", this.stagesByModule);
     
   }
 
