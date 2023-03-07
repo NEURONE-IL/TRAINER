@@ -39,3 +39,7 @@ mat-card-subtitle{
   text-align: center;
   background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
 }
+
+.resize-quiz-thumbnail{
+  max-height: 350px;
+}

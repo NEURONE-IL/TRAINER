@@ -3,9 +3,15 @@
     <ng-template [ngIf]="my_quiz._id == quizNumber">
       <mat-card-subtitle>{{my_quiz.name}}</mat-card-subtitle>
       <ng-template [ngIf]="exerciseActual == 0">
-        <h6>Instrucciones: {{my_quiz.instructions}}</h6>
-        <div class="resource p-5">
-          <img class="img-fluid" src="{{my_quiz.resource_url}}">
+        <div container>
+          <div class="row">
+            <div class="col">
+              <h6>Instrucciones: {{my_quiz.instructions}} </h6>
+            </div>
+            <div class="col-sm-auto align-self-center">
+              <img class="img-fluid resize-quiz-thumbnail" src="{{my_quiz.resource_url}}">
+            </div>
+          </div>
         </div>
         <div class="actions mx-auto"> 
           <button class="btn btn-light" (click)="increaseExercise(false)">Tomar quiz</button>
