@@ -51,7 +51,7 @@ router.get('/:flow_id', async (req, res) => {
           model: User,
           select:'-password' 
         }
-      }).populate({path: 'user', model: User, select:'-password'}).populate({path: 'competences', model: Competence});
+      }).populate({path: 'user', model: User, select:'-password'})/*.populate({path: 'competences', model: Competence});*/
 });
 
 /*
@@ -216,7 +216,7 @@ router.post('',  [verifyToken, authMiddleware.isAdmin, imageStorage.upload.singl
             });
         }        
         if(flow.privacy == false){
-            await flow.populate({path:'user', model:User}).populate({path:'competences', model:Competence}).populate({path:'language', model:Language}).execPopulate();
+            await flow.populate({path:'user', model:User})/*.populate({path:'competences', model:Competence}).populate({path:'language', model:Language})*/.execPopulate();
             createFlowSearch(flow);
         }
         res.status(200).json({
@@ -298,7 +298,7 @@ router.put('/:flow_id', [verifyToken, authMiddleware.isAdmin, imageStorage.uploa
                     err
                 });
             }
-            await flow.populate({path:'user', model:User}).populate({path:'competences', model:Competence}).populate({path:'language', model:Language}).execPopulate();
+            await flow.populate({path:'user', model:User})./*populate({path:'competences', model:Competence}).populate({path:'language', model:Language}).*/execPopulate();
 
             if(flow.privacy == true && privacyChange)
               deleteFlowSeach(flow._id);
