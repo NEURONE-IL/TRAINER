@@ -4,7 +4,9 @@
     *ngFor="let objStage of stagesByModule; let index = index;"
     fxFlex="23"
     fxFlex.md="30"
-    fxFlex.sm="35"
+    fxFlex.sm="37"
+    fxLayout="row"
+    fxLayoutAlign="space-evenly stretch"
 >
 
     <mat-card [class.z-depth]="!(objStage.percentage == 100) && !(sorted && !objStage.active)"
@@ -21,61 +23,82 @@
         <ng-template #noTipo>
             <mat-card-subtitle>{{ 'STAGE.TYPELESS' | translate }}</mat-card-subtitle>
         </ng-template>
-        <mat-card-content>
-            <!-- si etapa contiene link a una imagen -->
-            <circle-progress
+        <mat-card-content
+            fxLayout="row"
+            fxLayoutAlign="center center"
+        >
+            <!-- si etapa no contiene link a una imagen -->
+            <div
+                class="imageContainer"
+                [class.blackAndWhite]="sorted && !objStage.active"
                 *ngIf="!objStage.stage.image_url"
-                [class.blackAndWhite]="sorted && !objStage.active"
-                showUnits = "true"
-                titleFontSize = "40"
-                unitsFontSize = "25"
-                [percent] = "objStage.percentage"
-                [title] = "objStage.percentage"
-                [renderOnClick]="false"
-                imageSrc= "{{ getIcon(objStage.stage.type) }}"
-                imageWidth="80"
-                imageHeight="80"
-                [showImage]= "true"
-                [responsive] = "true"
-            ></circle-progress>
+            >
+                <span class="progress-background"></span>
+                <span class="progress-background-transparent"></span>
+                <mat-progress-spinner
+                    strokeWidth="5"
+                    [diameter]="100"
+                    [value]="objStage.percentage"
+                >
+                </mat-progress-spinner>
+                <img class="resize" src="{{ getIcon(objStage.stage.type) }}">
+            </div>
             <!-- en caso contrario -->
-            <circle-progress
-                *ngIf="objStage.stage.image_url"
-                class="imagenEtapa"
-                [class.blackAndWhite]="sorted && !objStage.active"
-                showUnits = "true"
-                titleFontSize = "40"
-                unitsFontSize = "25"
-                [percent] = "objStage.percentage"
-                [title] = "objStage.percentage"
-                [renderOnClick]="false"
-                [imageSrc]= "objStage.stage.image_url"
-                imageWidth="100"
-                imageHeight="100"
-                [showImage]= "true"
-                [responsive] = "true"
-            ></circle-progress>
+            
+            <div
+            class="imageContainer"
+            [class.blackAndWhite]="sorted && !objStage.active"
+            *ngIf="objStage.stage.image_url"
+            >
+            <mat-progress-spinner
+                strokeWidth="5"
+                [diameter]="100"
+                [value]="objStage.percentage"
+
+            >
+                </mat-progress-spinner>
+                <img src="{{ objStage.stage.image_url }}">
+            </div>
+            
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
             <div *ngIf="user.role.name != 'admin'">
                 <button
-                    *ngIf="objStage.percentage < 100; else completed"
-                    mat-raised-button color="primary"
-                    [disabled] = "(sorted && !objStage.active)"
+                *ngIf="objStage.percentage < 100; else completed"
+                mat-raised-button color="primary"
+                [disabled] = "(sorted && !objStage.active)"
                 >{{ 'USER.INITIATE' | translate }}</button>
-
+                
                 <ng-template #completed>
                     <h4>{{ 'USER.FINISHED' | translate }}</h4>
                 </ng-template>
             </div>
-
+            
             <!-- <button
                 *ngIf="userInLocalStorage.role.name === 'admin'"
                 mat-raised-button color="primary"
                 [disabled] = "(sorted && !objStage.active)"
                 (click)="addPercentage(objStage)"
-            >{{ 'USER.COMPLETE' | translate }}</button> -->
-        </mat-card-actions>
-    </mat-card>
-</div>
+                >{{ 'USER.COMPLETE' | translate }}</button> -->
+            </mat-card-actions>
+        </mat-card>
+    </div>
+    
+    
 
+<!-- LEGACY -->
+<!-- circle-progress
+    *ngIf="!objStage.stage.image_url"
+    [class.blackAndWhite]="sorted && !objStage.active"
+    showUnits = "true"
+    titleFontSize = "40"
+    unitsFontSize = "25"
+    [percent] = "objStage.percentage"
+    [title] = "objStage.percentage"
+    [renderOnClick]="false"
+    imageSrc= "{{ getIcon(objStage.stage.type) }}"
+    imageWidth="80"
+    imageHeight="80"
+    [showImage]= "true"
+    [responsive] = "true"
+-->

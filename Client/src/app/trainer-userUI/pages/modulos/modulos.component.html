@@ -8,7 +8,7 @@
     <button mat-raised-button color="primary" (click)="goToStage(stageSuggestion.stage)"><mat-icon>play_arrow</mat-icon>{{ 'BUTTONS.CONTINUE' | translate }}</button>
   </div>
 
-  <br>
+
   <!-- tabla modulos -->
   <table mat-table
     *ngIf="userFlowModules"
@@ -23,17 +23,17 @@
     </ng-container> -->
 
     <ng-container matColumnDef="NombreCol">
-      <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.NAME' | translate }} </th>
+      <th mat-header-cell *matHeaderCellDef><b> {{ 'USER.MODULE_TABLE.NAME' | translate }} </b></th>
       <td mat-cell mat-list-item *matCellDef="let objModule"> <mat-icon *ngIf="flow.sorted" mat-list-icon>{{objModule.active ? 'lock_open':'lock'}}</mat-icon><strong>{{objModule.module.name}}</strong> </td>
     </ng-container>
 
     <ng-container matColumnDef="TipoCol">
-      <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.PROGRESS' | translate }} </th>
+      <th mat-header-cell *matHeaderCellDef><b> {{ 'USER.MODULE_TABLE.PROGRESS' | translate }} </b></th>
       <td mat-cell *matCellDef="let objModule"> {{ getEtapasCompletadas(objModule) }}/{{ objModule.stages.length }} </td>
     </ng-container>
 
     <ng-container matColumnDef="DescriptionCol">
-      <th mat-header-cell *matHeaderCellDef> {{ 'USER.MODULE_TABLE.DESCRIPTION' | translate }} </th>
+      <th mat-header-cell *matHeaderCellDef><b> {{ 'USER.MODULE_TABLE.DESCRIPTION' | translate }} </b></th>
       <td class="descripcionFila"
           mat-cell 
           *matCellDef="let objModule"

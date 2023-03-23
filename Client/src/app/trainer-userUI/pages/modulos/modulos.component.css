@@ -3,10 +3,9 @@ table{
 }
 
 .moduleList{
-  min-height: 100%;
-  height: auto !important;
-  padding: 1%;
-  background-color: #b4a7d6;
+  padding-left: 1%;
+  padding-right: 1%;
+  background-color: whitesmoke;
 }
 
 .tabla{
@@ -18,7 +17,7 @@ table{
 }
 
 tr.filaModulo:not(.showStages):hover {
-  filter: brightness(80%);
+  filter: brightness(96%);
   cursor: pointer;
 }
 
@@ -27,7 +26,7 @@ tr.filaModulo:not(.showStages):hover {
 }
 
 .mat-row-is-clicked {
-  background: lightseagreen;
+  background: rgb(174, 248, 190);
 }
 
 tr.hidden {
@@ -40,6 +39,7 @@ tr.hidden {
 
 .mat-column-NombreCol{
   text-align: center;
+  color:black
 }
 
 .mat-column-NombreCol .mat-icon{
@@ -48,10 +48,12 @@ tr.hidden {
 
 .mat-column-TipoCol{
   text-align: center;
+  color:black
 }
 
 .mat-column-DescriptionCol{
   text-align: center;
+  color:black
 }
 
 

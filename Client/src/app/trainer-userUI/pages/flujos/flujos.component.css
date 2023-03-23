@@ -1,5 +1,8 @@
 .contenedor{
-    margin: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+
+    background-color: whitesmoke;
 }
 
 .noFlow {
@@ -8,8 +11,11 @@
     padding: 20px;
 }
 
+.flow-image {
+    aspect-ratio: 16 / 9;
+}
+
 img{
-    width: 100%;
     border-radius: 5px;
     max-height: 100%;
 }

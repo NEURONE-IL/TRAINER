@@ -3,32 +3,47 @@
     <ng-template [ngIf]="my_quiz._id == quizNumber" class="quiz-subtitle">
       <mat-card-subtitle>{{my_quiz.name}}</mat-card-subtitle>
       <ng-template [ngIf]="exerciseActual == 0">
-        <h6>Instrucciones quiz: {{my_quiz.instructions}}</h6>
-        <p>Resource quiz: {{my_quiz.resource_url}}</p>
-        <button (click)="increaseExercise(false)">Tomar quiz</button>
+        <div container>
+          <div class="row">
+            <div class="col">
+              <h6>Instrucciones: {{my_quiz.instructions}} </h6>
+            </div>
+            <div class="col-sm-auto align-self-center">
+              <img class="img-fluid resize-quiz-thumbnail" src="{{my_quiz.resource_url}}">
+            </div>
+          </div>
+        </div>
+        <div class="actions mx-auto"> 
+          <button class="btn btn-light" (click)="increaseExercise(false)">Tomar quiz</button>
+        </div>
+        
       </ng-template>
       <div *ngFor="let exercise of my_quiz.exercises; let last_exercise = last; let first_exercise = first;">
-        <ng-template [ngIf]="exercise.exercise_id == exerciseActual">
+
+        <div *ngIf="compareExercisesNumber(exercise.exercise_id, exerciseActual)">
+          <p>Excercise?</p>
           <h6>Ejercicio {{exercise.exercise_id}}: {{exercise.introduction}}</h6>
+          
+          
           <div class="quiz_questions" *ngFor="let question of exercise.questions">
             <mat-card class="question-card">
               <h6>Pregunta {{question.question_num}}</h6>
-              <ng-template [ngIf]="resourceExist(question.question_id)">
+              <div *ngIf="resourceExist(question.question_id)">
                 <img src="/assets/videoModule-images/{{question.question_id}}.png">
-              </ng-template>
+              </div>
               <p>{{question.question}}</p>
 
 
-              <ng-template [ngIf]="question.question_type == 1">
+              <div *ngIf="question.question_type == 1">
                   <textarea class="textarea-question answer" (change)="inputTextArea(question.question_id, 'textarea')"  name="answer_{{question.question_id}}"></textarea>
                   <div class="bonus-class" *ngIf="question.bonus">
                     <p>{{question.bonus}}</p>
                     <input class="input-text" type="text" (change)="inputTextArea(question.question_id, 'text')" name="answer_bonus{{question.question_id}}">
                   </div>
-              </ng-template>
+                </div>
 
 
-              <ng-template [ngIf]="question.question_type == 2">
+              <div *ngIf="question.question_type == 2">
                   <div class="alternatives-class" *ngFor="let alternative of question.alternatives; let i = index">
                     <label><input class="answer" type="radio" (click)="eventAnswers(question.question_id, alternative.alternative_text, i, 'radio')" id="answer_{{question.question_id}}_alt_{{i}}" name="answer_{{question.question_id}}" value="[{{i}}]{{alternative.alternative_text}}"> {{alternative.alternative_text}}</label>
                   </div>
@@ -36,10 +51,10 @@
                     <p>{{question.bonus}}</p>
                     <input class="input-text" type="text" (change)="inputTextArea(question.question_id, 'text')" name="answer_bonus{{question.question_id}}">
                   </div>
-              </ng-template>
+                </div>
 
 
-              <ng-template [ngIf]="question.question_type == 3">
+              <div *ngIf="question.question_type == 3">
                   <div class="alternatives-class" *ngFor="let alternative of question.alternatives; let i = index">
                     <label><input class="answer" type="checkbox" (click)="eventAnswers(question.question_id, alternative.alternative_text, i, 'checkbox')" id="answer_{{question.question_id}}_alt_{{i}}" name="answer_{{question.question_id}}" value="[{{i}}]{{alternative.alternative_text}}"> {{alternative.alternative_text}}</label><br>
                   </div>
@@ -48,13 +63,11 @@
                     <input class="input-text" type="text" (change)="inputTextArea(question.question_id, 'text')" name="answer_bonus{{question.question_id}}">
                   </div>
 
-              </ng-template>
+                </div>
 
 
             </mat-card>
           </div>
-
-
           <div class="quiz_buttons">
             <!-- 
             <ng-template [ngIf]="first_exercise">
@@ -68,19 +81,19 @@
               <button (click)="increaseExercise(last_exercise)" disabled>Siguiente</button>
             </ng-template>
             -->
-            <ng-template [ngIf]="!last_exercise">
-              <button (click)="increaseExercise(last_exercise)">Siguiente</button>
-            </ng-template>
+            <div *ngIf="!last_exercise">
+              <button class="btn btn-light" (click)="increaseExercise(last_exercise)">Siguiente</button>
+            </div>
           </div>
-          <div [ngIf]="last_exercise" class="quiz_buttons">
-            <button class="quiz_buttons" (click)="sendQuiz(); updateProgress(100)">Enviar Formulario</button>
+          <div *ngIf="last_exercise" class="actions">
+            <button class="btn btn-light" (click)="sendQuiz(); updateProgress(100)">Enviar Formulario</button>
           </div>
 
-        </ng-template>
+        </div>
       </div>
-      <ng-template [ngIf]="exerciseActual == -1">
+      <div *ngIf="exerciseActual == -1">
         <h6>Respuestas recibidas!</h6>
-      </ng-template>
+      </div>
 
     </ng-template>
   </div>

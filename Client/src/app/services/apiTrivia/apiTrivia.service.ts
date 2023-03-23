@@ -64,8 +64,8 @@ export class ApiTriviaService {
     let header = new HttpHeaders();
     header = header.append('Content-Type', 'application/json');
     header = header.append('x-api-key', this.apiKey);
-    console.log(this.urlApi + 'user/' + userId + '/advance');
-    console.log(this.apiKey);
+    //console.log(this.urlApi + 'user/' + userId + '/advance');
+    //console.log(this.apiKey);
     return this.http.get(this.urlApi + 'user/' + userId + '/advance', { headers: header });
   }
 

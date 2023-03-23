@@ -12,14 +12,14 @@
 	text-align: left;
 	vertical-align: middle;
 	display: block;
-	border-left: 5px solid #a66fff ;
+	border-left: 3px solid rgb(215, 190, 253);;
 	transition: background 0.5s, border 0.5s;
 }
 
 .menuItem:hover{
 	list-style-type: none;
 	background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
-	border-left: 9px solid #914dff ;
+	border-left: 9px solid rgb(215, 190, 253);;
 	height: 50px;
 	line-height: 50px;
 	text-align: left;
@@ -108,6 +108,7 @@ mat-card{
 	border-bottom: 3px solid rgba(238,227,255,1) ; 
 }
 
+
 .flows-tab{
   margin-top: .5%;
   margin-bottom: 1%;
@@ -122,4 +123,20 @@ mat-card{
   display: flex; 
   align-items: center;
   margin-left: -7%;
+  }
+
+.mat-card-header {
+	height: 4em;
+	display: -webkit-box;
+	overflow: hidden;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+}
+
+.ratioer{
+	aspect-ratio: 16 / 9;
+}
+
+img {
+	object-fit: contain;
 }

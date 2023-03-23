@@ -7,12 +7,12 @@ import { environment } from 'src/environments/environment';
 })
 export class AssistantService {
 
-  urlApi = environment.adventureApi;
+  urlApi = environment.assistantApi;
 
   constructor(private http: HttpClient) { }
 
   getAssistants() {
-    return this.http.get(this.urlApi + 'assistant');
+    return this.http.get(this.urlApi);
   }
 
 }

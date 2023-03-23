@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { forkJoin, Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, timeout } from 'rxjs/operators';
 
 import { environment } from 'src/environments/environment';
 
@@ -24,7 +24,9 @@ export class TrainerUserUIService {
   uriModule = environment.apiURL + 'module/';
   uriStage = environment.apiURL + 'stage/';
 
-  flagRegistrarEventos = 1;
+  // 0: ignorar eventos 
+  // 1: registrar eventos
+  flagRegistrarEventos = 1; 
 
   constructor( protected http: HttpClient,
                private triviaService: ApiTriviaService,
@@ -63,7 +65,10 @@ export class TrainerUserUIService {
   getTotalProgress(user){
     
     let totalProgress = forkJoin([
-      this.triviaService.getProgress(user._id).pipe(catchError(err => of('error: ', err))),
+      this.triviaService.getProgress(user._id)
+        .pipe(
+          timeout(1000),
+          catchError(err => of('error: ', err))),
       // this.apiSGService.getProgress(user._id).pipe(catchError(err => of(err))),
       // this.videoService.getVideoProgress(),
       // this.videoQuizService.getVideoQuizProgress()
@@ -114,6 +119,7 @@ export class TrainerUserUIService {
       window.location.href = this.videoModuleService.getVideoLink(stage.externalId);
     }
     if (stage.type === 'Video + Quiz'){
+      //http://localhost:3070/api/stage/stage._id  
       window.location.href = this.videoModuleService.getVideoQuizLink(stage.externalId);
     }
     if (stage.type === 'Trivia'){

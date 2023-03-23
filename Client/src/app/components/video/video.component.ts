@@ -18,14 +18,20 @@ export class VideoComponent implements OnInit {
   @Input() saveUserData: string;
   player: Plyr;
   poster;
+  youtubeSources = [
+    {
+      src: '',
+      provider: 'youtube',
+    },
+  ];
+
   videoSources: Plyr.Source[];
   currentTime = 0;
   videoJson;
-
   stageId;
   userId;
   flowId;
-
+  loadingVideo = true;
 
   constructor( private plyrModule: PlyrModule,
                private quizService: QuizService,
@@ -78,7 +84,8 @@ export class VideoComponent implements OnInit {
 
   ngOnInit(): void {
     // Get the video
-    console.log('Buscamos... ', this.videoNumber);
+    console.log('Buscamos... ');
+    console.log(this.videoNumber);
     this.quizService.getVideo(this.videoNumber).subscribe(res => {
       console.log(res)
       this.videoJson = res["data"];
@@ -89,6 +96,7 @@ export class VideoComponent implements OnInit {
           type: 'video/mp4'
         }
       ];
+      this.loadingVideo=false;
       }
     );
 
@@ -98,7 +106,6 @@ export class VideoComponent implements OnInit {
       this.flowId = res['stage'].flow;
     });
   }
-
 
 /*
   sendVideoResponse(value) {

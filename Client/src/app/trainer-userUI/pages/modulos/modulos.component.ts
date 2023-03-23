@@ -55,7 +55,7 @@ export class ModulosComponent implements OnInit {
       this.stageSuggestion = this.getLastStagePlayed(this.lastStagePlayedId, this.userFlowModules)
     }
     else{
-      console.log("no suggested stage found");
+      // console.log("no suggested stage found");
     }
     
     this.modulosFiltrados = this.userFlowModules.filter(objModulo => objModulo.stages.length > 0);

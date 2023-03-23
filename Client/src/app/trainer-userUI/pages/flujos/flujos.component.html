@@ -1,43 +1,50 @@
-<div *ngIf="flow"
-     class="contenedor"
-     fxLayout="row"
-     fxLayoutAlign="space-around center"
-     fxLayout.xs="column"
-     fxLayoutGap="20px">
-    <div fxFlex="20"
-         fxShow.sm="false"
-         fxShow.xs="false">
-        <!-- TODO: cambiar src por el avatar real del usuario (no estoy seguro si el usuario final tendra un avatar)-->
-        <img src="./assets/img_avatar.png" alt="avatar usuario">
-        <!-- <img *ngIf="user.image_url" src="user.image_url" alt="avatar usuario"> -->
-    </div>
-    <div fxFlex="40"
-        fxFlex.md="50"
-        fxFlex.sm="60">
-        <h1> {{ user.names }} </h1>
-        <h2> {{ 'USER.MODULES_PROGRESS' | translate }}: {{ modulosCompletados }} / {{ totalDeModulos }} </h2>
-        <h2> {{ 'USER.STAGES_PROGRESS' | translate }}: {{ etapasCompletadas }} / {{ totalDeEtapas }}</h2>
-        <h3> <mat-icon>emoji_events</mat-icon>{{ 'USER.BADGES' | translate }}<mat-icon>emoji_events</mat-icon></h3>
+<div class="flujos-app">
+    <div *ngIf="flow"
+        class="contenedor"
+        fxLayout="row"
+        fxLayoutAlign="space-between center"
+        fxLayout.xs="column"
+        fxLayoutGap="20px">
+        <div class="flow-image" 
+            fxFlex="20"
+            fxLayoutAlign="center"
+            fxShow.md="false"
+            fxShow.sm="false"
+            fxShow.xs="false">
+            <!-- TODO: cambiar src por el avatar real del usuario (no estoy seguro si el usuario final tendra un avatar)-->
+            <img src="./assets/avatar_default.png" alt="avatar usuario">
+            <!-- <img *ngIf="user.image_url" src="user.image_url" alt="avatar usuario"> -->
+        </div>
+        <div fxFlex="40"
+            fxFlex.md="50"
+            fxFlex.sm="60">
+            <h1> {{ user.names }} </h1>
+            <h2> {{ 'USER.MODULES_PROGRESS' | translate }}: {{ modulosCompletados }} / <span *ngIf="!totalDeModulos">...</span> {{ totalDeModulos }} </h2>
+            <h2> {{ 'USER.STAGES_PROGRESS' | translate }}: {{ etapasCompletadas }} / <span *ngIf="!totalDeEtapas">...</span>{{ totalDeEtapas }}</h2>
+            <h3> <mat-icon>emoji_events</mat-icon>{{ 'USER.BADGES' | translate }}<mat-icon>emoji_events</mat-icon></h3>
 
-        <!-- medallas -->
-        <app-medal-showcase
-            [etapasCompletadas]="etapasCompletadas"
-            [totalDeEtapas]="totalDeEtapas"
-            [userId]="user._id"
-            [flowId]="flowId"
-        ></app-medal-showcase>
+            <!-- medallas -->
+            <app-medal-showcase
+                [etapasCompletadas]="etapasCompletadas"
+                [totalDeEtapas]="totalDeEtapas"
+                [userId]="user._id"
+                [flowId]="flowId"
+            ></app-medal-showcase>
 
-    </div>
+        </div>
 
-    <div fxFlex="40"
-         fxFlex.md="20"
-         fxFill.sm
-         fxShow.xs="false"
-         >
-        <img *ngIf="!flow.image_url" src="./assets/flow-images/Flow03.jpg" alt="imagen del flujo">
-        <img *ngIf="flow.image_url" [src]="flow.image_url" alt="imagen del flujo">
+        <div 
+            class="flow-image"
+            fxLayoutAlign="center"
+            fxFlex="40"
+            fxFill.sm
+            fxShow.sm="false"
+            fxShow.xs="false"
+            >
+            <img *ngIf="!flow.image_url" src="./assets/flow-images/Flow03.jpg" alt="imagen del flujo">
+            <img *ngIf="flow.image_url" [src]="flow.image_url" alt="imagen del flujo">
+        </div>
     </div>
-</div>
     <app-modulos
         *ngIf="userFlow && flow; else noFlow"
         [flow]="flow"
@@ -51,6 +58,7 @@
         [userFlowModules]="updatedModules"
     >
     </app-modulos>
+</div>
 
 
 <ng-template #noFlow>

@@ -17,6 +17,7 @@ export interface VideoModule {
 export class QuizService {
 
   environmentUrl = environment.serverRoot;
+  frontUrl= environment.frontURL;
   environmentApiUrl = environment.apiURL;
   uri = this.environmentApiUrl + 'videoModule/';
   uriVideoObjects = this.environmentApiUrl + 'videoObjects/';
@@ -50,7 +51,8 @@ export class QuizService {
   }
 
   getVideoQuizLink(videoQuizStageId: any){
-    return this.environmentUrl + 'videoModule?id=' + videoQuizStageId;
+    console.log(this.frontUrl)
+    return this.frontUrl + 'videoModule?id=' + videoQuizStageId;
   }
 
 

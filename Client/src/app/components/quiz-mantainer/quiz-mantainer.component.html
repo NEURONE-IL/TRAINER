@@ -5,7 +5,6 @@
     <div class="col-md-6">
     <div class="options" >
 
-    <button *ngIf="!verVideos" (click)="videosToggle()" class="btn btn-primary creationButton">VIDEOS</button>
     <button *ngIf="verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >CREAR QUIZ <b>+</b> </button>
     <button *ngIf="!verQuizes" class="btn btn-primary creationButton" (click)="crearQuizToogle()" >VOLVER </button>
 
@@ -14,52 +13,10 @@
     </div>
     
 </div>
-<!-- CREAR VIDEO -->
-<mat-card-content *ngIf="verVideos && !crearQuiz && !verQuizes">
-  <h2>Insertar Video</h2>
-  <form class="form-horizontal">
-    <div class="row">
-      <div class="col-md-6">
-          <div class="form-group">
-            <label class="control-label col-sm-4" for="tituloVideo">Titulo:</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control" id="tituloVideo" placeholder="ingrese titulo">
-            </div>
-          </div>
-          <div class="input-group">
-            <label class="form-label col-sm-4" for="imageVideo">Imagen:</label>
-            <div class="col-sm-10">
-              <input type="file" class="form-control" id="imageVideo">
-            </div>
-          </div>
-      </div>
-      <div class="col-md-6">
-        <div class="form-group">
-          <label class="control-label col-sm-4" for="urlVideo">Url Video:</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control"  id="urlVideo" placeholder="ingrese URL .mp4">
-            <p>Ruta local ej: /assets/videoModule-videos/video1.mp4 </p>
-          </div>
-        </div>
-        <mat-form-field class="languageVideo" appearance="fill">
-          <mat-label>Seleccionar Idioma Video</mat-label>
-          <mat-select [(ngModel)]="languageVideo" name="video">
-            <mat-option [value]="'es'">
-              Español
-            </mat-option>
-            <mat-option [value]="'en'">
-              Ingles
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-    </div>
-    </div>
-  </form>
-  <button (click)="registerVideo()">Guardar Video</button>
-</mat-card-content>
+
 
 <!-- CREAR QUIZZ -->
-<mat-card-content *ngIf="crearQuiz && !verVideos && !verQuizes">
+<mat-card-content *ngIf="!verQuizes">
     <form class="form-horizontal" >
 
         <div class="row">
@@ -289,7 +246,7 @@
               </div>
 
               <div class="col-md-12">
-                <h4>Preguntas Aactuales: {{questions.length}}</h4> 
+                <h4>Preguntas Actuales: {{questions.length}}</h4> 
                 <table *ngIf="questions.length>0" class="table  tablaPreguntas">
                     <tr>
                       <th>No.</th>
@@ -327,12 +284,12 @@
 </mat-card-content>
 
 <!-- VER QUIZZES -->
-<mat-card-content *ngIf="verQuizes && !verVideos && !crearQuiz">
+<mat-card-content *ngIf=" verQuizes">
   <div *ngFor="let quiz of quizzes">
     <mat-card class="quizPreview">
         <div class="row">
-            <div class="col-md-4">
-                <img src="/assets/stage-images/03VideoQuiz.jpg" class="img-fluid img-thumbnail">
+            <div class="col-md-4 d-flex justify-content-center">
+                <img [src]="quiz.resource_url?quiz.resource_url:'/assets/stage-images/03VideoQuiz.jpg'" class="img-fluid img-thumbnail">
             </div>
             <div class="col-md-8">
                 <mat-card-header>Quiz: {{quiz.name}}</mat-card-header>
@@ -340,19 +297,18 @@
                     <p>Descripcion: {{quiz.description}}</p>
                     <p>No. de Ejercicios: {{nDeEjercicios(quiz)}}</p>
                     <p>Video Relacionado: <a style="color: blue; cursor: pointer" (click)="openVideoModal(quiz.video_id)">video</a></p>
+
+                    <div class="card-footer card-footer-aux">
+
+                          <button type="button" id="ver" class="btn btn-secondary" (click)="openQuizModal(quiz._id)">Ver</button>
+                          <button type="button" class="btn btn-secondary" (click)="editQuiz(quiz)">Editar</button>
+                          <button type="button" class="btn btn-secondary" (click)="confirmQuizDelete(quiz._id)">Borrar</button>
+
+                    </div>
                 </mat-card-content>
             </div>
         </div>
-        <div class="card-footer">
-            <div class="btn-group" role="group" aria-label="Basic example">
-              <button type="button" id="ver" class="btn btn-secondary" (click)="openQuizModal(quiz._id)">Ver</button>
-              <button type="button" class="btn btn-secondary">Editar</button>
-              <button type="button" class="btn btn-secondary" (click)="confirmQuizDelete(quiz._id)">Borrar</button>
-            </div>
-        </div>
-        <div>
 
-    </div>
     </mat-card>
   </div>
 

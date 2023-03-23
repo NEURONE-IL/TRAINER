@@ -63,6 +63,7 @@ import { VideoOnlyComponent } from './views/video-only/video-only.component';
 import { ShowFlowComponent, DescriptionDialogComponent } from './components/show-flow/show-flow.component';
 import { QuizComponent } from './components/quiz/quiz.component';
 import {QuizMantainerComponent} from './components/quiz-mantainer/quiz-mantainer.component';
+import {VideoMantainerComponent} from './components/video-mantainer/video-mantainer.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { ConsentComponent } from './components/consent/consent.component';
 import { ModuleCreationComponent } from './views/module-creation/module-creation.component';
@@ -110,6 +111,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     VideoComponent,
     QuizComponent,
     QuizMantainerComponent,
+    VideoMantainerComponent,
     SignupComponent,
     ConsentComponent,
     ModuleCreationComponent,

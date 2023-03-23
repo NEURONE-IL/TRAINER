@@ -32,3 +32,14 @@
   padding-bottom: 5px;;
   border-bottom: 3px solid rgba(238,227,255,1) ;
 }
+
+.actions{
+  padding: 20px;
+  margin-top: 10px;
+  text-align: center;
+  background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
+}
+
+.resize-quiz-thumbnail{
+  max-height: 350px;
+}

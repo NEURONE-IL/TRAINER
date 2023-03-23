@@ -1,11 +1,7 @@
-.mat-card-video{
-  margin-left: 10%;
-  margin-right: 10%;
-}
-
 .video{
   display: block;
   width: 100%;
+
 }
 
 .module-card {
@@ -40,4 +36,15 @@ mat-card-subtitle{
 }
 .options button{
   margin: 10px;
+}
+
+.actions{
+  padding: 20px;
+  text-align: center;
+  background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
+}
+  /* para videos con resoluciones distintas de 16:9 */
+
+::ng-deep.plyr{
+  aspect-ratio: 16 / 9;
 }

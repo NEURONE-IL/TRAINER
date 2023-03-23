@@ -10,12 +10,16 @@
 			<ul class="menu" id="lateralMenu">
 				<li id="flujo" class="menuItem {{flujoActivo?'activeMenu':''}}" (click)="select('flujo')">Flujos</li>
 				<li id="quiz" class="menuItem {{quizActivo?'activeMenu':''}}" (click)="select('quizes')">Quizes</li>
+				<li id="video" class="menuItem {{videoActivo?'activeMenu':''}}" (click)="select('videos')">Videos</li>
 
 			</ul>
 		</div>
 		<div class="contenidoPrincipal col-md-9">
 			<div class="flujosView" *ngIf="quizActivo">
 				<app-quiz-mantainer-component></app-quiz-mantainer-component>
+			</div>
+			<div class="flujosView" *ngIf="videoActivo">
+				<app-video-mantainer-component></app-video-mantainer-component>
 			</div>
 			<div class="flujosView" *ngIf="flujoActivo">
 				<div class="row">

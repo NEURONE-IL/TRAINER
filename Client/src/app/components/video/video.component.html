@@ -1,26 +1,33 @@
-<mat-card-subtitle>{{videoJson.name}}</mat-card-subtitle>
+<mat-card-subtitle>Paso 1: Vea el video</mat-card-subtitle>
 
-<p>Estamos trabajando para ud. Vea primero el Quiz.</p>
-<mat-card class="mat-card-video">
-   <plyr class="video"
-         plyrTitle="Video 1"
-         [plyrSources]="videoSources"
-         [plyrPoster]="poster"
-         (plyrInit)="player = $event"
-         (plyrPlay)="played($event)"
-         (plyrPause)="played($event)"
-         (plyrRateChange)="played($event)"
-         (plyrEnterFullScreen)="played($event)"
-         (plyrExitFullScreen)="played($event)"
-         (plyrEnded)="played($event)"
-         (plyrVolumeChange)="played($event)"
-         (plyrSeeking)="played($event)"
-         (plyrSeeked)="played($event)"
-         (plyrTimeUpdate)="played($event)"
-         (plyrQualityChange)="played($event)"
-         (plyrStateChange)="played($event)">
-   </plyr>
-</mat-card>
+<div class="actions">
+      <h4>{{videoJson.name}} </h4>
+</div>
+
+
+<div *ngIf="loadingVideo">loading ...</div>
+<div *ngIf="!loadingVideo">
+
+      <plyr class="video"
+            plyrTitle="Video 1"
+            [plyrSources]="videoSources"
+            [plyrPoster]="poster"
+            (plyrInit)="player = $event"
+            (plyrPlay)="played($event)"
+            (plyrPause)="played($event)"
+            (plyrRateChange)="played($event)"
+            (plyrEnterFullScreen)="played($event)"
+            (plyrExitFullScreen)="played($event)"
+            (plyrEnded)="played($event)"
+            (plyrVolumeChange)="played($event)"
+            (plyrSeeking)="played($event)"
+            (plyrSeeked)="played($event)"
+            (plyrTimeUpdate)="played($event)"
+            (plyrQualityChange)="played($event)"
+            (plyrStateChange)="played($event)">
+      </plyr>
+
+</div>
 
 
 

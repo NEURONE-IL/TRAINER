@@ -186,12 +186,13 @@ export class StageCreationComponent implements OnInit {
     this.assistantService.getAssistants().subscribe(
       response => {
         this.assistants = response;
+        console.log(response);
       },
       err => {
-        /*this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
+        this.toastr.error(this.translate.instant("FLOW.TOAST.NOT_LOADED_MULTIPLE_ERROR"), this.translate.instant("STAGE.TOAST.ERROR"), {
           timeOut: 5000,
           positionClass: 'toast-top-center'
-        });*/
+        });
       }
     );
   }

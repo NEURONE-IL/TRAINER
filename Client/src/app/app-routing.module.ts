@@ -88,7 +88,7 @@ const routes: Routes = [
   {
     path: 'videoModule',
     component: VideoModuleComponent,
-    canActivate: [ AuthGuard ]
+    canActivate: [ AuthGuard]
   },
   {
     path: 'video',
