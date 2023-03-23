@@ -1,6 +1,6 @@
 <form id="hola">
   <div *ngFor="let my_quiz of quiz">
-    <ng-template [ngIf]="my_quiz._id == quizNumber">
+    <ng-template [ngIf]="my_quiz._id == quizNumber" class="quiz-subtitle">
       <mat-card-subtitle>{{my_quiz.name}}</mat-card-subtitle>
       <ng-template [ngIf]="exerciseActual == 0">
         <div container>

@@ -6,6 +6,8 @@ const QuizObjectsSchema = new Schema({
     name: { type: String, required: true },
     instructions: { type: String },
     resource_url: { type: String },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true},
+
     exercises: { type: Array },
     createdAt: { type: Date, default: Date.now },
     updatedAt: { type: Date, default: Date.now }

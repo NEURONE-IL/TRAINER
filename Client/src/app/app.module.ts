@@ -9,7 +9,7 @@ import {MatGridListModule} from '@angular/material/grid-list';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
-import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
 import {MatCardModule} from '@angular/material/card';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -24,6 +24,10 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatBadgeModule} from '@angular/material/badge';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatChipsModule} from '@angular/material/chips'; 
+import {MatButtonToggleModule} from '@angular/material/button-toggle'
+
 
 import { PdfViewerModule }  from  'ng2-pdf-viewer';
 import { Ng9RutModule } from 'ng9-rut';
@@ -74,6 +78,13 @@ import { StageUpdateComponent } from './views/stage-update/stage-update.componen
 import { ModuleUpdateComponent } from './views/module-update/module-update.component';
 import { FooterComponent } from './components/footer/footer.component';
 
+import { authInterceptorProviders } from './helpers/auth.interceptor';
+import { SearchBarComponent } from './components/search-bar/search-bar.component';
+import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
+import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
+import { getDutchPaginatorIntl } from './components/paginatorInt/CustomPaginatorConfiguration';
+import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
+
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -113,7 +124,11 @@ export function HttpLoaderFactory(http: HttpClient) {
     SafeurlPipe,
     AdminVideoModuleComponent,
     ModuleUpdateComponent,
-    FooterComponent
+    FooterComponent,
+    SearchBarComponent,
+    FlowsSearchComponent,
+    FlowsSearchResultsComponent,
+    FlowSearchDisplayComponent
   ],
   imports: [
     BrowserModule,
@@ -140,12 +155,15 @@ export function HttpLoaderFactory(http: HttpClient) {
     MatStepperModule,
     MatNativeDateModule,
     MatDatepickerModule,
+    MatSlideToggleModule,
+    MatChipsModule,
     MatListModule,
     MatSelectModule,
     MatDialogModule,
     MatExpansionModule,
     MatProgressBarModule,
     MatTooltipModule,
+    MatButtonToggleModule,
     PdfViewerModule,
     Ng9RutModule,
     ValidateEqualModule,
@@ -164,6 +182,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     NgCircleProgressModule,
     TrainerUserUIModule
   ],
+  providers:[authInterceptorProviders, { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

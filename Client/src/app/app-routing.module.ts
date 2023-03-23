@@ -12,13 +12,20 @@ import { RecoveryComponent } from './views/recovery/recovery.component';
 import { ForgotPasswordComponent } from './views/forgot-password/forgot-password.component';
 import { ApiConfigurationComponent } from './views/apiConfiguration/apiConfiguration.component';
 import { FlowCreationComponent } from './views/flow-creation/flow-creation.component';
+
 import { AuthGuard } from './helpers/auth.guard';
 import { AdminGuard } from './helpers/admin.guard';
 import { NotLoggedInGuard } from './helpers/not-logged-in.guard';
+import { ProtectFlowEditionGuard } from './helpers/protect-flow-edition.guard';
+import { ProtectSearchDisplayGuard } from './helpers/protect-search-display.guard';
+
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoOnlyComponent } from './views/video-only/video-only.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { AdminVideoModuleComponent } from './views/videoModule-admin/videoModule-admin.component';
+import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
+import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
+import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
 
 const routes: Routes = [
   {
@@ -109,7 +116,8 @@ const routes: Routes = [
       },
       {
         path: 'flow/:flow_id',
-        component: FlowDisplayComponent
+        component: FlowDisplayComponent,
+        canActivate: [ProtectFlowEditionGuard]
       },
     ]
   },
@@ -128,6 +136,24 @@ const routes: Routes = [
     component: RecoveryComponent,
     canActivate: [ NotLoggedInGuard ]
   },
+
+  {
+    path: 'flows-search',
+    component: FlowsSearchComponent,
+    canActivate: [ AuthGuard, AdminGuard ],
+    children: [
+      {
+        path: 'results/:term',
+        component: FlowsSearchResultsComponent
+      },
+      {
+        path: 'flow/:flow_id',
+        component: FlowSearchDisplayComponent,
+        canActivate: [ProtectSearchDisplayGuard]
+      }
+    ]
+  },
+
   { path: '**', redirectTo: 'home' }
 ];
 

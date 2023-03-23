@@ -127,7 +127,7 @@
     "SUBTITLE": "Complete el siguiente formulario para crear un nuevo flujo",
     "TITLE": "Creación de flujos",
     "UPDATE_TITLE": "Edición de flujos",
-    "UPDATE_SUBTITLE": "Complete el siguiente formulario para etitar el flujo seleccionado",
+    "UPDATE_SUBTITLE": "Complete el siguiente formulario para editar el flujo seleccionado",
     "TOAST": {
       "TEST_USER_RESET_ERROR": "No se ha revertido el usuario de prueba",
       "TEST_USER_RESET_SUCCESS": "Usuario de prueba revertido con éxito",
@@ -160,7 +160,7 @@
     "SUBTITLE": "Complete el siguiente formulario para crear una nueva etapa en el flujo",
     "TITLE": "Creación de etapas",
     "UPDATE_TITLE": "Edición de etapas",
-    "UPDATE_SUBTITLE": "Complete el siguiente formulario para etitar la etapa seleccionada",
+    "UPDATE_SUBTITLE": "Complete el siguiente formulario para editar la etapa seleccionada",
     "TOAST": {
       "ERROR": "¡Error!",
       "ERROR_MESSAGE": "No se ha creado la nueva etapa",
@@ -187,7 +187,7 @@
     "SUBTITLE": "Complete el siguiente formulario para crear un nuevo módulo en el estudio",
     "TITLE": "Creación de módulo",
     "UPDATE_TITLE": "Edición de módulos",
-    "UPDATE_SUBTITLE": "Complete el siguiente formulario para etitar el módulo seleccionado",    
+    "UPDATE_SUBTITLE": "Complete el siguiente formulario para editar el módulo seleccionado",    
     "TOAST": {
       "ERROR": "¡Error!",
       "ERROR_MESSAGE": "No se ha creado el nuevo módulo",

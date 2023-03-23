@@ -23,6 +23,8 @@ const editSchema = Joi.object({
     description: Joi.string(),
 
     code: Joi.string(),
+
+    userEdit: Joi.string(),
     
     flow: Joi.any()
 });

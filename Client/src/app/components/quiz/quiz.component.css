@@ -25,7 +25,7 @@
 }
 
 
-mat-card-subtitle{
+.quiz-subtitle .mat-card-subtitle{
   font-size: larger;
   vertical-align: baseline;
   padding-top: 15px;

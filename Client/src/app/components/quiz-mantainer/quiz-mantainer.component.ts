@@ -33,16 +33,18 @@ export class QuizMantainerComponent implements OnInit{
               private http: HttpClient,
               private toastr: ToastrService,
               private translate: TranslateService,
+              private authService: AuthService,
               private router: Router) {  }
 
- ngOnInit(): void{
+ ngOnInit(): void {
   this.loadQuizes();
   this.loadVideos();
  }
 
  loadQuizes(){
-  this.quizService.getQuizzes().subscribe(res => {
-    this.quizzes = res.data.reverse();
+  let user = this.authService.getUser();
+  this.quizService..getQuizzesByUser(user._id).subscribe(res => {
+    this.quizzes = res.quizzes.reverse();
     console.log(this.quizzes)
 
   });
@@ -100,8 +102,11 @@ export class QuizMantainerComponent implements OnInit{
   }
 
   deleteQuiz(quizId){
+    let user = this.authService.getUser();
     this.quizService.deleteQuiz(quizId).subscribe(quiz => {
-      this.quizService.getQuizzes().subscribe(res => this.quizzes = res.data.reverse);
+
+      this.quizService.getQuizzesByUser(user._id).subscribe(res => this.quizzes = res.quizzes);
+
       this.toastr.success(this.translate.instant('QUIZZES.TOAST.SUCCESS_MESSAGE_DELETE'), this.translate.instant('QUIZZES.TOAST.SUCCESS'), {
         timeOut: 5000,
         positionClass: 'toast-top-center'
@@ -506,6 +511,9 @@ guardarQuiz(){
 
 //Al cargar los quizzes se carga un array de quizzes?
 saveQuiz(quiz){
+
+  let user = this.authService.getUser()
+  quiz.user = user._id
   return this.quizService.addQuiz(quiz).subscribe(res => {
     this.loadQuizes();
     this.crearQuizToogle();

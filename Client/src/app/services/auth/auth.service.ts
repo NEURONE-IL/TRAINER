@@ -162,4 +162,13 @@ export class AuthService {
     });
   }
 
+  //Valentina
+  public getToken(): string {
+    return localStorage.getItem('auth_token');
+  }
+
+  getUserbyEmail(user_email){
+    return this.http.get(this.userUri+'getUserbyEmail/'+user_email);
+  }
+
 }
