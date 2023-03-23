@@ -43,7 +43,7 @@ export class QuizMantainerComponent implements OnInit{
 
  loadQuizes(){
   let user = this.authService.getUser();
-  this.quizService..getQuizzesByUser(user._id).subscribe(res => {
+  this.quizService.getQuizzesByUser(user._id).subscribe(res => {
     this.quizzes = res.quizzes.reverse();
     console.log(this.quizzes)
 
