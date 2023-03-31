@@ -34,6 +34,9 @@ export class FlujosComponent implements OnInit{
   modulosCompletados  : number = 0;
   etapasCompletadas   : number = 0;
 
+  moduleIdOfLastStage : string;
+  stageSuggestion     : any;
+
 
   constructor(
     private flowService           : FlowService,
@@ -57,12 +60,16 @@ export class FlujosComponent implements OnInit{
     //obtener el progreso total del usuario guardado en userFlow
     this.trainerUserUIService.getUserFlow(this.user._id).subscribe( respUserFlow => {
       this.userFlow = respUserFlow.userFlow;
-      //console.log("userFlow: ", this.userFlow);
+      // console.log("userFlow: ", this.userFlow);
       
       //obtener progreso de ambientes externos para actualizar el progreso total
       this.updatedModules = this.userFlow.modules;
-
-      //console.log("userFlowModulesAux: ", this.updatedModules);
+      // console.log("updatedModules: ", this.updatedModules);
+      
+      //actualizar el boton continuar
+      
+      this.stageSuggestion = this.getLastStagePlayed(this.userFlow.lastStagePlayed, this.updatedModules);
+      // console.log("stageSuggestion", this.stageSuggestion);
 
       this.trainerUserUIService.getTotalProgress(this.user).subscribe(
         progresoTotal => {
@@ -166,6 +173,44 @@ export class FlujosComponent implements OnInit{
     }
   }
 
+  getLastStagePlayed(stageId, userFlowModules){
+    let objEtapaAux;
+
+    userFlowModules.forEach(objModulo => {
+      objModulo.stages.forEach(objEtapa => {
+        // console.log("objModulo:", objModulo);
+        
+        if(stageId == objEtapa.stage._id){
+          
+          objEtapaAux = objEtapa;
+          this.moduleIdOfLastStage = objModulo._id;
+
+        }
+      });
+    });
+    // console.log("getLastStagePlayed: ", objEtapaAux);
+    
+    return objEtapaAux;
+  }
+
+  goToStage(stage){
+
+    console.log("etapa ingresada: ", stage);
+
+    let objEvento = {
+      user: this.user._id,
+      flow: this.flowId,
+      module: this.moduleIdOfLastStage,
+      stage: stage._id,
+      eventDescription: "User has clicked on continue button " + stage._id
+    }
+
+    console.log("objetoEvento", objEvento);
+    
+    this.trainerUserUIService.saveEvent(objEvento).subscribe();
+    
+    this.trainerUserUIService.redirectToStage(stage, this.user);
+  }
 
   unlockNextElements(userFlowModules){
     let userFlowModulesAux = userFlowModules;
@@ -228,10 +273,10 @@ export class FlujosComponent implements OnInit{
 
   obtenerEtapasCompletadas( modulos ){
     let total = 0;
-
+    
     modulos.forEach( objModulo => {
       objModulo.stages.forEach( objEtapa => {
-        if(objEtapa.completed == true) total++;
+        if(objEtapa.completed == true || objEtapa.percentage >= 100) total++;
       });
     });
     

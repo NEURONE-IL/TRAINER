@@ -1,14 +1,23 @@
-<div fxLayout="row"     
+<div class="medalContainer"
+     fxLayout="row"     
      fxLayoutAlign="space-between center">
 
 
 
     <div fxFlex="10">
+        <mat-icon class="z-depth unlocked" 
+             (click)="openMedalDialog(false, 'medal1' )"
+        >
+            workspace_premium
+        </mat-icon>
+    </div>
+
+    <!-- <div fxFlex="10">
         <img class="z-depth" 
              src="./assets/medals/medalla2.svg" 
              alt="medalla"
              (click)="openMedalDialog(false, 'medal1' )">
-    </div>
+    </div> -->
 
     <!-- <div *ngFor="let medalla of medals; let i = index">
         <img class="z-depth" 
@@ -19,30 +28,39 @@
 
 
     <div fxFlex="10">
-        <img class="z-depth" 
-             [class.locked]="condicionMedallaB()" 
-             src="./assets/medals/medalla2.svg" alt="medalla"
-             (click)="openMedalDialog(condicionMedallaB(), 'medal2')">
+        <mat-icon class="z-depth" 
+             [ngClass]="condicionMedallaB() ? 'locked' : 'unlocked'" 
+             (click)="openMedalDialog(condicionMedallaB(), 'medal2')"
+        >
+            workspace_premium
+        </mat-icon>
     </div>
 
     <div fxFlex="10">
-        <img class="z-depth" 
-             [class.locked]="condicionMedallaC()" 
-             src="./assets/medals/medalla2.svg" alt="medalla"
-             (click)="openMedalDialog(condicionMedallaC(), 'medal3' )">
+        <mat-icon class="z-depth" 
+             [ngClass]="condicionMedallaC() ? 'locked' : 'unlocked'"
+             (click)="openMedalDialog(condicionMedallaC(), 'medal3' )"
+        >
+            workspace_premium
+        </mat-icon>
     </div>
 
     <div fxFlex="10">
-        <img class="z-depth" 
-             [class.locked]="condicionMedallaD()" 
-             src="./assets/medals/medalla2.svg" alt="medalla"
-             (click)="openMedalDialog(condicionMedallaD(), 'medal4' )">
+        <mat-icon class="z-depth" 
+             [ngClass]="condicionMedallaD() ? 'locked' : 'unlocked'"
+             (click)="openMedalDialog(condicionMedallaD(), 'medal4' )"
+        >
+             workspace_premium
+        </mat-icon>
+             
     </div>
 
     <div fxFlex="15">
-        <img class="z-depth" 
-             [class.locked]="condicionMedallaE()" 
-             src="./assets/medals/medalla1.svg" alt="medalla"
-             (click)="openMedalDialog(condicionMedallaE(), 'medal5' )">
+        <mat-icon class="z-depth" 
+             [ngClass]="condicionMedallaE() ? 'locked' : 'unlocked'"
+             (click)="openMedalDialog(condicionMedallaE(), 'medal5' )"
+        >
+            emoji_events
+        </mat-icon>
     </div>
 </div>

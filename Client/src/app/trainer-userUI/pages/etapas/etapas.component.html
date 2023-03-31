@@ -34,7 +34,10 @@
                 *ngIf="!objStage.stage.image_url"
             >
                 <span class="progress-background"></span>
-                <span class="progress-background-transparent"></span>
+                <span 
+                    [class.progress-background-transparent]="objStage.percentage < 100"
+                    [class.progress-background-complete]="objStage.percentage >= 100"
+                ></span>
                 <mat-progress-spinner
                     strokeWidth="5"
                     [diameter]="100"

@@ -29,7 +29,6 @@ export class ModulosComponent implements OnInit {
   @Input() flow: Flow;
   @Input() user: User;
   @Input() flowId: string;
-  @Input() lastStagePlayedId: string;
   @Input() userFlowModules: any;
   @Input() moduloID: string;
 
@@ -39,8 +38,6 @@ export class ModulosComponent implements OnInit {
 
   descriptionDialog : DescriptionDialogComponent;
 
-  stageSuggestion : any;
-
   constructor(
     private dialog: MatDialog,
     private trainerUserUIService : TrainerUserUIService
@@ -48,33 +45,9 @@ export class ModulosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-
-    //actualizar el boton continuar
-    if(this.lastStagePlayedId){
-      //obtener etapa en userFlow
-      this.stageSuggestion = this.getLastStagePlayed(this.lastStagePlayedId, this.userFlowModules)
-    }
-    else{
-      // console.log("no suggested stage found");
-    }
     
     this.modulosFiltrados = this.userFlowModules.filter(objModulo => objModulo.stages.length > 0);
   
-  }
-
-  getLastStagePlayed(stageId, userFlowModules){
-    let objEtapaAux;
-
-    userFlowModules.forEach(objModulo => {
-      objModulo.stages.forEach(objEtapa => {
-        if(stageId == objEtapa.stage._id){
-          objEtapaAux = objEtapa; 
-        }
-      });
-    });
-    // console.log("getLastStagePlayed: ", objEtapaAux);
-    
-    return objEtapaAux;
   }
 
   getEtapasCompletadas(objModulo){
@@ -141,23 +114,6 @@ export class ModulosComponent implements OnInit {
 
       this.trainerUserUIService.saveEvent(objEventoClose).subscribe();
     });
-  }
-
-  goToStage(stage){
-
-    // console.log("etapa ingresada: ", stage);
-
-    let objEvento = {
-      user: this.user._id,
-      flow: this.flowId,
-      module: this.moduloID,
-      stage: stage._id,
-      eventDescription: "User has clicked on continue button " + stage._id
-    }
-
-    this.trainerUserUIService.saveEvent(objEvento).subscribe();
-    
-    this.trainerUserUIService.redirectToStage(stage, this.user);
   }
 
 }

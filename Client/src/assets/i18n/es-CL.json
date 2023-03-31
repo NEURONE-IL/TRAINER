@@ -213,7 +213,8 @@
     },
     "INITIATE": "Iniciar",
     "COMPLETE": "Completar",
-    "FINISHED": "Finalizado"
+    "FINISHED": "Finalizado",
+    "CONTINUE_ASK": "¿Continuar?"
 
   },
   "MEDAL": {

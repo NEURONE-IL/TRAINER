@@ -26,7 +26,7 @@ export class TrainerUserUIService {
 
   // 0: ignorar eventos 
   // 1: registrar eventos
-  flagRegistrarEventos = 1; 
+  flagRegistrarEventos = 0; 
 
   constructor( protected http: HttpClient,
                private triviaService: ApiTriviaService,
@@ -103,7 +103,6 @@ export class TrainerUserUIService {
     let objeto = {
       lastStagePlayed: stageId
     }
-    
     return this.http.put(environment.apiURL + 'userFlow/updateProgress/' + userId, objeto, { headers: {'x-access-token': localStorage.getItem('auth_token')} });
   }
 

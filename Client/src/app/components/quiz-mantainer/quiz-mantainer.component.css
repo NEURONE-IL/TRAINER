@@ -53,6 +53,12 @@
 	text-align: center;
 }
 
+.creationButton b{
+	font-size: larger;
+	padding-left: 5px;
+	padding-right: 5px;
+}
+
 
 .warning{
 	color:red;

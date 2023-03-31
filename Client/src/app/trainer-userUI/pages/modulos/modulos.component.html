@@ -3,12 +3,6 @@
     class = "moduleList"
 >
 
-  <!-- bonton continuar -->
-  <div *ngIf="stageSuggestion && !stageSuggestion.completed">
-    <button mat-raised-button color="primary" (click)="goToStage(stageSuggestion.stage)"><mat-icon>play_arrow</mat-icon>{{ 'BUTTONS.CONTINUE' | translate }}</button>
-  </div>
-
-
   <!-- tabla modulos -->
   <table mat-table
     *ngIf="userFlowModules"

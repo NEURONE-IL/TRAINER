@@ -2,26 +2,42 @@
     <div *ngIf="flow"
         class="contenedor"
         fxLayout="row"
-        fxLayoutAlign="space-between center"
+        fxLayoutAlign="space-around center"
         fxLayout.xs="column"
         fxLayoutGap="20px">
-        <div class="flow-image" 
-            fxFlex="20"
-            fxLayoutAlign="center"
-            fxShow.md="false"
-            fxShow.sm="false"
-            fxShow.xs="false">
-            <!-- TODO: cambiar src por el avatar real del usuario (no estoy seguro si el usuario final tendra un avatar)-->
-            <img src="./assets/avatar_default.png" alt="avatar usuario">
-            <!-- <img *ngIf="user.image_url" src="user.image_url" alt="avatar usuario"> -->
+        <div fxLayout="column" fxLayoutAlign="space-between center">
+            <div
+                *ngIf="stageSuggestion && !stageSuggestion.completed && stageSuggestion.percentage < 100; else noSuggestion" 
+            >
+                <h2 class="resizeh2">{{ 'USER.CONTINUE_ASK' | translate }}</h2>
+                <mat-card
+                    class="z-depth"
+                    (click)="goToStage(stageSuggestion.stage)"
+                >
+                    <mat-card-title class="stageTitle">{{ stageSuggestion.stage.title }}</mat-card-title>
+                    <mat-card-subtitle>{{ stageSuggestion.stage.type }}</mat-card-subtitle>
+                    <mat-card-actions>
+                        <button mat-raised-button color="primary"><mat-icon>play_arrow</mat-icon>{{ 'BUTTONS.CONTINUE' | translate }}</button>
+                    </mat-card-actions>
+                </mat-card>
+            </div>
+            <ng-template #noSuggestion>
+                <mat-icon class="no-suggestion">
+                    account_circle
+                </mat-icon>
+            </ng-template>
+            <!-- boton continuar -->
+            <!-- <div>
+                <button mat-raised-button color="primary" (click)="goToStage(stageSuggestion.stage)"><mat-icon>play_arrow</mat-icon>{{ 'BUTTONS.CONTINUE' | translate }}</button>
+            </div> -->
         </div>
         <div fxFlex="40"
             fxFlex.md="50"
             fxFlex.sm="60">
-            <h1> {{ user.names }} </h1>
-            <h2> {{ 'USER.MODULES_PROGRESS' | translate }}: {{ modulosCompletados }} / <span *ngIf="!totalDeModulos">...</span> {{ totalDeModulos }} </h2>
-            <h2> {{ 'USER.STAGES_PROGRESS' | translate }}: {{ etapasCompletadas }} / <span *ngIf="!totalDeEtapas">...</span>{{ totalDeEtapas }}</h2>
-            <h3> <mat-icon>emoji_events</mat-icon>{{ 'USER.BADGES' | translate }}<mat-icon>emoji_events</mat-icon></h3>
+            <h1 class="resizeh1"> {{ user.names }} </h1>
+            <h2 class="resizeh2"> {{ 'USER.MODULES_PROGRESS' | translate }}: {{ modulosCompletados }} / <span *ngIf="!totalDeModulos">...</span> {{ totalDeModulos }} </h2>
+            <h2 class="resizeh2"> {{ 'USER.STAGES_PROGRESS' | translate }}: {{ etapasCompletadas }} / <span *ngIf="!totalDeEtapas">...</span>{{ totalDeEtapas }}</h2>
+            <!-- <h3> <mat-icon>emoji_events</mat-icon>{{ 'USER.BADGES' | translate }}<mat-icon>emoji_events</mat-icon></h3> -->
 
             <!-- medallas -->
             <app-medal-showcase
@@ -53,8 +69,6 @@
 
         [moduloID]="moduleToDisplay"
 
-        [lastStagePlayedId]="userFlow.lastStagePlayed"
-
         [userFlowModules]="updatedModules"
     >
     </app-modulos>
@@ -66,3 +80,15 @@
         <mat-spinner></mat-spinner>
     </div>
 </ng-template>
+
+<!-- LEGACY -->
+<!-- <div class="flow-image" 
+    fxFlex="20"
+    fxLayoutAlign="center"
+    fxShow.md="false"
+    fxShow.sm="false"
+    fxShow.xs="false">
+    <!-- TODO: cambiar src por el avatar real del usuario (no estoy seguro si el usuario final tendra un avatar)
+    <img src="./assets/avatar_default.png" alt="avatar usuario">
+    <!-- <img *ngIf="user.image_url" src="user.image_url" alt="avatar usuario"> 
+</div> -->
