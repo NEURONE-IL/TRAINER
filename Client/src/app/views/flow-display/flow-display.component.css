@@ -232,3 +232,7 @@ table {
 ::ng-deep .competence-info .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
   line-height: 20px !important;
 }
+
+.flujo-preview{
+  margin-top: 2%;
+}

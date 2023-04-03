@@ -111,7 +111,8 @@
       "CREATE_MODULE": "CREAR MÓDULO",
       "STAGES": "ETAPAS",
       "MODULES": "MÓDULOS",
-      "PREVIEW": "VISTA PREVIA DEL FLUJO"
+      "PREVIEW": "VISTA PREVIA DEL FLUJO",
+      "REFRESH": "Reiniciar Usuario"
     }
   },
   "FLOW": {

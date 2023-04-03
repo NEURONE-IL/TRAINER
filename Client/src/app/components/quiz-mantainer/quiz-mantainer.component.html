@@ -24,7 +24,7 @@
                 <div class="form-group">
                     <label class="control-label col-sm-4" for="titleQuiz">Titulo Quiz*:</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="titleQuiz" placeholder="ingrese titulo">
+                      <input type="text" class="form-control" id="titleQuiz" placeholder="Ingrese titulo">
                     </div>
                   </div>
                   <div class="form-group">
@@ -40,12 +40,12 @@
                   <div class="form-group">
                     <label class="control-label col-sm-4" for="descQuiz">Descripción Quiz:</label>
                     <div class="col-sm-10">
-                      <input type="text" class="form-control" id="descQuiz" placeholder="Ingresar Descripción">
+                      <input type="text" class="form-control" id="descQuiz" placeholder="Ingresar descripción">
                     </div>
                   </div>
 
                   <mat-form-field class="selectVideo" appearance="fill">
-                    <mat-label>Seleccionar Video*:</mat-label>
+                    <mat-label>Seleccionar video*:</mat-label>
                     <mat-select [(ngModel)]="videoSelected" name="video">
                       <mat-option *ngFor="let item of videos" [value]="item._id">
                         {{item.name}}
@@ -72,7 +72,7 @@
         <div class="col-md-12">
           <div class="row pt-2 pb-2">
             <div class="col-md-8">
-              <h4>Ejercicios Actuales: {{ejercicios.length}}</h4>
+              <h4>Ejercicios actuales: {{ejercicios.length}}</h4>
             </div>
             <div class="col-md-4 ">
               <button *ngIf="!showExercises" class="btn  btn-primary creationButton float-right" (click)="toggleExercise(true)">Crear Ejercicio:</button> 
@@ -113,7 +113,7 @@
                       <div class="form-group">
                           <label class="control-label " for="title">Titulo Ejercicio*:</label>
                             <input type="text" class="form-control" id="titleEx" 
-                                   placeholder="ingrese titulo">
+                                   placeholder="Ingrese titulo">
                             <p class="warning">Este campo es requerido</p>
                       </div>
                       <div class="form-group">
@@ -130,7 +130,7 @@
                       </div>
                       <div class="form-group">
                         <label class="control-label" for="desc">Descripción Ejercicio:</label>
-                        <textarea class="form-control" id="descEx" placeholder="Ingresar Descripción"></textarea>
+                        <textarea class="form-control" id="descEx" placeholder="Ingresar descripción"></textarea>
                         
                       </div>
                     </div>
@@ -139,20 +139,20 @@
 
               <!-- PREGUNTAS -->
               <div class="col-md-6 ">
-                  <h1 class="preguntaHeader">Agregar Preguntas al Ejercicio</h1>
+                  <h1 class="preguntaHeader">Agregar preguntas al ejercicio</h1>
 
                   <div class="preguntas2">
                     <mat-form-field appearance="fill">
-                      <label>Tipo de Pregunta</label>
+                      <label>Tipo de pregunta</label>
                       <mat-select [(ngModel)]="pregunta" name="pregunta">
                         <mat-option [value]="'text'">
                           Texto
                         </mat-option>
                         <mat-option [value]="'multy'">
-                          Selección Multiple
+                          Selección múltiple
                         </mat-option>
                         <mat-option [value]="'simple'">
-                          Selección Simple
+                          Selección simple
                         </mat-option>
                       </mat-select>
                   </mat-form-field>
@@ -160,7 +160,7 @@
                   <!-- INGRESO DE PREGUNTAS POR TIPO -->
                   <div class="px-2">
                       <div class="form-group">
-                        <label class="control-label" for="pregunta">Texto de la Pregunta:</label>
+                        <label class="control-label" for="pregunta">Texto de la pregunta:</label>
                         <input type="text" class="form-control-file" id="pregunta">
                       </div>
                       <div class="form-group">
@@ -194,7 +194,7 @@
                           </div>
                         </div>
                                            
-                        <button class="btn btn-primary btn-block creationButton" (click)="addAlternative()">Añadir Alternativa</button>
+                        <button class="btn btn-primary btn-block creationButton" (click)="addAlternative()">Añadir alternativa</button>
   
                         <table *ngIf="alternatives.length>0" class="table  tablaPreguntas">
                           <tr>
@@ -211,7 +211,7 @@
                                 <button *ngIf="!alternative.alternative_right && pregunta=='simple'" 
                                   class="btn btn-success" 
                                   (click)="markCorrect(i)"
-                                  style="margin-right:10px">Marcar como Correcta</button>
+                                  style="margin-right:10px">Marcar como correcta</button>
                                 <button class="btn btn-danger" (click)="deleteAlternative(i)">Eliminar</button>
                               </td>
                             </tr>
@@ -246,7 +246,7 @@
               </div>
 
               <div class="col-md-12">
-                <h4>Preguntas Actuales: {{questions.length}}</h4> 
+                <h4>Preguntas actuales: {{questions.length}}</h4> 
                 <table *ngIf="questions.length>0" class="table  tablaPreguntas">
                     <tr>
                       <th>No.</th>
@@ -271,7 +271,7 @@
                 </table>
   
                 <div class="accionesEjercicio">
-                  <button (click)="crearEjercicio()" class="btn btn-primary creationButton">Guardar Ejercicio</button>
+                  <button (click)="crearEjercicio()" class="btn btn-primary creationButton">Guardar ejercicio</button>
                   <button (click)="cancelarEjercicio()" class="btn btn-default">Cancelar</button>
                 </div>
               </div>
@@ -295,8 +295,8 @@
                 <mat-card-header>Quiz: {{quiz.name}}</mat-card-header>
                 <mat-card-content>
                     <p>Descripcion: {{quiz.description}}</p>
-                    <p>No. de Ejercicios: {{nDeEjercicios(quiz)}}</p>
-                    <p>Video Relacionado: <a style="color: blue; cursor: pointer" (click)="openVideoModal(quiz.video_id)">video</a></p>
+                    <p>No. de ejercicios: {{nDeEjercicios(quiz)}}</p>
+                    <p>Video relacionado: <a style="color: blue; cursor: pointer" (click)="openVideoModal(quiz.video_id)">video</a></p>
 
                     <div class="card-footer card-footer-aux">
 

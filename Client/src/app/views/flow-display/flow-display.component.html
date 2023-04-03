@@ -214,15 +214,17 @@
 
     <mat-tab label="{{'ADMIN.TABS.PREVIEW' | translate }}">
       <ng-template matTabContent>
-        <button mat-raised-button color="primary" (click)="this.resetTestUser()"> Reset User</button>
+        <button mat-raised-button color="primary" (click)="this.resetTestUser()"> {{ "ADMIN.TABS.REFRESH" | translate }} </button>
         <!-- <show-flow [studentId]="dummyUser._id"  [flow]="flow"></show-flow> -->
-        <app-modulos 
-          [flow]="flow" 
-          [flowId]="flow._id" 
-          [user]="dummyUser"
-
-          [userFlowModules]="testModules"
-        ></app-modulos>
+        <div class="flujo-preview">
+          <app-modulos
+            [flow]="flow" 
+            [flowId]="flow._id" 
+            [user]="dummyUser"
+  
+            [userFlowModules]="testModules"
+          ></app-modulos>
+        </div>
       </ng-template>
     </mat-tab>
     
