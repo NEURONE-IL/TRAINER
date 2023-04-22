@@ -45,7 +45,7 @@
     </mat-grid-tile>
   </mat-grid-list>
 
-  <!--mat-grid-list cols="24" *ngIf="flow" >
+  <mat-grid-list cols="24" *ngIf="flow" >
     <mat-grid-tile colspan="24">
       <mat-card-header>
         <mat-card-subtitle class="registerLink" style="margin-bottom: -3%;">{{ "ADMIN.REGISTER_LINK" | translate }}: {{ registerLink}}</mat-card-subtitle>
@@ -58,14 +58,14 @@
       <mat-card-content style="border:none"> {{ "ADMIN.FLOWS.TEST_USER_PASSWORD" | translate }}: test12345 </mat-card-content>
       <button mat-raised-button class="actionButton" color="primary" (click)="resetTestUser()">{{ "ADMIN.FLOWS.TEST_USER_RESET" | translate }} <mat-icon>autorenew</mat-icon></button>
     </mat-grid-tile>
-    <mat-grid-tile colspan="24">
+    <!-- <mat-grid-tile colspan="24">
       <div class="alert alert-warning" role="alert">
         <strong>{{ "ADMIN.FLOWS.TEST_USER_ALERT_START" | translate }}:</strong> {{ "ADMIN.FLOWS.TEST_USER_ALERT_END" | translate }}
       </div>
-    </mat-grid-tile>    
-  </mat-grid-list-->
+    </mat-grid-tile>     -->
+  </mat-grid-list>
   <!-- Nuevo diseño de Tabs -->
-  <!--mat-divider></mat-divider-->
+  <mat-divider></mat-divider>
 
   <mat-tab-group mat-align-tabs="end">
 
