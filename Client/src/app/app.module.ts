@@ -84,6 +84,7 @@ import { FlowsSearchComponent } from './views/flows-search/flows-search.componen
 import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
 import { getDutchPaginatorIntl } from './components/paginatorInt/CustomPaginatorConfiguration';
 import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
+import { StaticsStudyComponent } from './views/statics-study/statics-study.component';
 
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -128,7 +129,8 @@ export function HttpLoaderFactory(http: HttpClient) {
     SearchBarComponent,
     FlowsSearchComponent,
     FlowsSearchResultsComponent,
-    FlowSearchDisplayComponent
+    FlowSearchDisplayComponent,
+    StaticsStudyComponent
   ],
   imports: [
     BrowserModule,

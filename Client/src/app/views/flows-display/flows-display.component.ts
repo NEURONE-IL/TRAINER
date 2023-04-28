@@ -78,8 +78,13 @@ export class FlowsDisplayComponent implements OnInit {
 
   @Output() flowSelected: EventEmitter<string>= new EventEmitter();
   clickedFlow(id){
-    let link = '/admin_panel/flow/'+ id;
-    this.flowSelected.emit(link);
+    if (this.indexTab === 5) {
+      let link = `/admin_panel/flow/${id}/statics`;
+      this.router.navigate([link]);
+    } else {
+      let link = `/admin_panel/flow/${id}`;
+      this.router.navigate([link]);
+    }
   }
 
   actualFlow='';
@@ -121,6 +126,10 @@ export class FlowsDisplayComponent implements OnInit {
       }
       case 4: { 
         this.getFlowsByCollaboration();
+        break; 
+      }
+      case 5: { 
+        this.getAllFlowsByUser(); 
         break; 
       }
       default: { 
@@ -206,8 +215,5 @@ export class FlowsDisplayComponent implements OnInit {
       }
     );
   }
-
-  
-
 }
 

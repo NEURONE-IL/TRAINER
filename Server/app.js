@@ -47,6 +47,7 @@ const Language = require('./models/language');
 //mongoose.connect('mongodb://admin:admin@localhost:27017/neurone-game', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
 console.log('Qué está pasando????????')
 console.log(process.env.URI)
+console.log(process.env.ROOT)
 mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
     .then(()=>{
         console.log("Successfully connect to MongoDB.");
