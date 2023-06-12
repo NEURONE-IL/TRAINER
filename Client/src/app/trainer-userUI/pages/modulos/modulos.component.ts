@@ -54,7 +54,7 @@ export class ModulosComponent implements OnInit {
     let total = 0;
 
     objModulo.stages.forEach( objEtapa => {
-      if(objEtapa.completed == true) total ++;
+      if(objEtapa.completed == true || objEtapa.percentage >= 100) total ++;
     });
 
     return total;

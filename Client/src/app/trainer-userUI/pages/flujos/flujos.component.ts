@@ -220,7 +220,7 @@ export class FlujosComponent implements OnInit{
 
       let todasCompletadas
 
-      todasCompletadas = objModule.stages.every(objEtapa => (objEtapa.completed == true));
+      todasCompletadas = objModule.stages.every(objEtapa => (objEtapa.completed == true || objEtapa.percentage == 100));
       if(todasCompletadas && !userFlowModulesAux[i].completed){
         userFlowModulesAux[i].completed = true;
       }     
@@ -238,7 +238,6 @@ export class FlujosComponent implements OnInit{
 
       if(minStepObj){
         objModule.stages.forEach((objEtapa, j) => {
-
 
           if(objEtapa.stage.step == minStepObj.stage.step){
             userFlowModulesAux[i].stages[j].active = true;
