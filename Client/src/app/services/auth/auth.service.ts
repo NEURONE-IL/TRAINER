@@ -171,4 +171,7 @@ export class AuthService {
     return this.http.get(this.userUri+'getUserbyEmail/'+user_email);
   }
 
+  getUsersByStudy(idstudy: string){
+    return this.http.get(this.userUri + 'getUsersByStudy/' + idstudy);
+  }
 }

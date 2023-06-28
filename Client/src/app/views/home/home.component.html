@@ -1,22 +1,10 @@
 <div class="page">
     <app-header></app-header>
 
-    <app-flujos></app-flujos>
+    <div>
+        <app-flujos></app-flujos>
+        <button mat-icon-button (click)="navigateToStatistics()" matTooltip="Estadísticas">
+            <mat-icon class="icon-large">bar_chart</mat-icon>
+        </button>
+    </div>
 </div>
-
-
-<!-- <show-flow
-    *ngIf="flow; else noFlow"
-    [studentId]="user._id"
-    [flow]="flow"
-    [progress]="progress"
->
-</show-flow>
-
-<ng-template #noFlow>
-    <mat-card>
-        <mat-card-title class="sinFlujo">
-            Cargando...
-        </mat-card-title>
-    </mat-card>
-</ng-template> -->

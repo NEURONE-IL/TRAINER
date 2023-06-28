@@ -80,10 +80,10 @@ export class FlowsDisplayComponent implements OnInit {
   clickedFlow(id){
     if (this.indexTab === 5) {
       let link = `/admin_panel/flow/${id}/statics`;
-      this.router.navigate([link]);
+      this.flowSelected.emit(link);
     } else {
       let link = `/admin_panel/flow/${id}`;
-      this.router.navigate([link]);
+      this.flowSelected.emit(link);
     }
   }
 

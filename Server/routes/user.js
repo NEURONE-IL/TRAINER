@@ -162,7 +162,6 @@ router.get("/:flow_id/findTestUser", async (req, res) => {
 		user
 	});
 });
-
 router.get("/:flow_id/resetTestUser", async (req, res) => {
 	const flow_id = req.params.flow_id;
 	// Find flow
@@ -232,5 +231,29 @@ router.get("/getUserByEmail/:user_email", async (req, res) => {
 	if (!user.confirmed) return res.status(400).json({status: 400, message: "USER_NOT_CONFIRMED"});
 	res.status(200).json({ user });
 });
+
+router.get("/getUsersByStudy/:study_id", async (req, res) => {
+	console.log('entraaaaaaaaaaaaaaaaaaaaaA????????')
+	console.log(req.params.study_id)
+	const study_id = req.params.study_id;
+	UserFlow.find({ flow: study_id }, (err, userFlows) => {
+		if (err) {
+		  return res.status(404).json({
+			ok: false,
+			err,
+		  });
+		}
+		let userIds = userFlows.map(userFlow => userFlow.user);
+		User.find({ _id: { $in: userIds } }, { password: 0 }, (err, users) => {
+		  if (err) {
+			return res.status(404).json({
+			  ok: false,
+			  err,
+			});
+		  }
+		  res.status(200).json({ users });
+		}).populate({ path: 'role', model: Role });
+	  });
+  });
 
 module.exports = router;

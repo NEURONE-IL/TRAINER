@@ -4,7 +4,7 @@ import { AuthService } from '../../services/auth/auth.service';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { TranslateService } from '@ngx-translate/core';
-import { ApiTriviaService } from '../../services/apiTrivia/apiTrivia.service';
+import { ApiTriviaService, TriviaStudy } from '../../services/apiTrivia/apiTrivia.service';
 import { ApiSGService } from '../../services/apiSG/apiSG.service';
 import { StudyProgress, StageService } from '../../services/trainer/stage.service';
 import { Flow, FlowService } from '../../services/trainer/flow.service';
@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
 
   flow: Flow;
   flowId: string;
-//  triviaProgress: TriviaStudy[] = [];
+  triviaProgress: TriviaStudy[] = [];
 //  flowId = null;                        //usuario sin flujo asignado
 //  flowId = "6154b334b40ac2106a87d2f0";  //flujo libre de prueba
 //  flowId = "618ec5e213fb7313d7ca77d7"; //flujo ordenado de prueba
@@ -45,22 +45,23 @@ export class HomeComponent implements OnInit {
   currentView: string;
 
   ngOnInit(): void {
-//    this.getActualUserInformation();
-//    this.getFlowStagesInformation();
-    localStorage.removeItem('stageId');
-    // this.actionsTrackerService.start();
-    // this.kmTrackerService.start();
-//    this.getAdvance();
+    this.getActualUserInformation();
+    this.getFlowStagesInformation();
+    console.log(this.user._id)
+    //localStorage.removeItem('stageId');
+    //this.actionsTrackerService.start();
+    //this.kmTrackerService.start();
+    //this.getAdvance();
 
       //id del flujo esta dentro del usuario, pero para obtener el usuario necesito el id del flujo
-/*      this.flowService.getFlowTestUser("618ec5e213fb7313d7ca77d7").subscribe(response => {
-        this.user = response['user'];
-        console.log("datos del usuario: ", this.user);
-        this.flowId = this.user.flow;
-        console.log("id del flujo: ", this.flowId);
-        this.getFlowInformation(this.flowId);              //obtener datos del flujo
-        this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
-      });*/
+     //this.flowService.getFlowTestUser("618ec5e213fb7313d7ca77d7").subscribe(response => {
+        //this.user = response['user'];
+        //console.log("datos del usuario: ", this.user);
+        //this.flowId = this.user.flow;
+        //console.log("id del flujo: ", this.flowId);
+        //this.getFlowInformation(this.flowId);              //obtener datos del flujo
+        //this.getProgress();                               //arreglo del progreso, debe pasar al modulo y luego a etapas
+      //});
       // this.user = this.authService.getUser();             //obtener datos del usuario de localstorage
       // console.log("datos del usuario: ", this.user);
       // this.flowId = this.user.flow;
@@ -88,26 +89,26 @@ export class HomeComponent implements OnInit {
     });
   }
 
-//   getProgress(){
-//     //    if(this.authService.isAdmin()){
-//           this.triviaService.getProgress(this.user._id).subscribe(response => {
+   getProgress(){
+         if(this.authService.isAdmin()){
+           this.triviaService.getProgress(this.user._id).subscribe(response => {
               
-//               this.progress = response['progress'];
+               this.progress = response['progress'];
             
-// //            console.log(this.progress, 'progress');
-// //            console.log('testUser');
-//           },
-//           error => {
-//             console.error(error);
-//           });
-//     //    }else{
-//     //      this.triviaService.getProgress(this.authService.getUser()._id).subscribe(response => {
-//     //        this.triviaProgress = response['progress'];
-//     //        console.log(this.triviaProgress, 'progress');
-//     //        console.log('realUser');
-//     //      });      
-//     //    }
-//       }
+             console.log(this.progress, 'progress');
+             console.log('testUser');
+           },
+           error => {
+             console.error(error);
+           });
+         }else{
+           this.triviaService.getProgress(this.authService.getUser()._id).subscribe(response => {
+             this.triviaProgress = response['progress'];
+             console.log(this.triviaProgress, 'progress');
+             console.log('realUser');
+           });      
+         }
+       }
 
 
   getActualUserInformation(){
@@ -171,6 +172,11 @@ export class HomeComponent implements OnInit {
     else if(type === 'Video + Quiz'){
       return 'VideoQuiz';
     } 
+  }
+
+  navigateToStatistics() {
+    console.log(this.user)
+    this.router.navigate([`statics/${this.user._id}`]); // Reemplaza '/ruta-estadisticas' con la ruta correcta a la vista de estadísticas
   }
 }
 

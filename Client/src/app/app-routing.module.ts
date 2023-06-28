@@ -81,6 +81,7 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [ AuthGuard ]
   },
+  { path: 'statics/:userId', component: StaticsStudyComponent, canActivate: [ AuthGuard ]},
   {
     path: 'apiConfig',
     component: ApiConfigurationComponent,

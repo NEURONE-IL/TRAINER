@@ -203,3 +203,7 @@ table {
   bottom: 0;
   background-color: whitesmoke;
 }
+
+.icon-large {
+  font-size: 126px;
+}
