@@ -356,7 +356,7 @@ router.post(
         .then((progress) => {
 
           /*Send confirmation email*/
-          //sendConfirmationEmail(user, userData, res, req);
+          sendConfirmationEmail(user, userData, res, req);
 
           res.status(200).json({
             user
