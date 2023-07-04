@@ -118,6 +118,7 @@ export class QuizComponent implements OnInit {
     }
   }
 
+  btnClicked = false;
   inputTextArea(questionId, questionType) {
     let answer;
 
@@ -129,6 +130,12 @@ export class QuizComponent implements OnInit {
 
     const value = answer.value;
     this.eventAnswers(questionId, value, 0, questionType);
+  }
+
+  everythingAnswered() {
+    //let respuestas = this.getAnswers();
+    //console.log('RESPUESTAS??', respuestas);
+    return true;
   }
 
   increaseExercise(lastExercise) {
@@ -156,18 +163,20 @@ export class QuizComponent implements OnInit {
   }
 
   sendQuiz() {
-    this.updateProgress(100);
-    console.log(this.quiz);
-    if (this.saveUserData === 'Yes') {
-      this.saveAnswer();
-      if (this.role === 'admin') {
-        console.log('REDIRECT BACK TO FLOW', this.flowId);
-        this.router.navigate(['/']);
-      } else {
-        this.router.navigate(['/home']);
+    if (this.everythingAnswered()) {
+      this.updateProgress(100);
+      console.log(this.quiz);
+      if (this.saveUserData === 'Yes') {
+        this.saveAnswer();
+        if (this.role === 'admin') {
+          console.log('REDIRECT BACK TO FLOW', this.flowId);
+          this.router.navigate(['/']);
+        } else {
+          this.router.navigate(['/home']);
+        }
       }
+      this.exerciseActual = -1;
     }
-    this.exerciseActual = -1;
   }
 
   resourceExist(question) {

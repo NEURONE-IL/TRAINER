@@ -43,11 +43,7 @@
             <mat-card class="question-card">
               <h6>Pregunta {{ question.question_num }}</h6>
               <div *ngIf="resourceExist(question)">
-                <img
-                  src="/assets/videoModule-images/{{
-                    question.question_id
-                  }}.png"
-                />
+                <img src="{{ question.resource_url }}" />
               </div>
               <p>{{ question.question }}</p>
               <div *ngIf="question.question_type == 1">
@@ -55,7 +51,11 @@
                   class="textarea-question answer"
                   (change)="inputTextArea(question.question_id, 'textarea')"
                   name="answer_{{ question.question_id }}"
+                  required
                 ></textarea>
+                <p *ngIf="btnClicked" style="color: red">
+                  Este campo es obligatorio
+                </p>
                 <div class="bonus-class" *ngIf="question.bonus">
                   <p>{{ question.bonus }}</p>
                   <input
@@ -63,7 +63,11 @@
                     type="text"
                     (change)="inputTextArea(question.question_id, 'text')"
                     name="answer_bonus{{ question.question_id }}"
+                    required
                   />
+                  <p *ngIf="btnClicked" style="color: red">
+                    Este campo es obligatorio
+                  </p>
                 </div>
               </div>
 
@@ -90,10 +94,14 @@
                       id="answer_{{ question.question_id }}_alt_{{ i }}"
                       name="answer_{{ question.question_id }}"
                       value="[{{ i }}]{{ alternative.alternative_text }}"
+                      required
                     />
                     {{ alternative.alternative_text }}</label
                   >
                 </div>
+                <p *ngIf="btnClicked" style="color: red">
+                  Este campo es obligatorio
+                </p>
                 <div class="bonus-class" *ngIf="question.bonus">
                   <p>{{ question.bonus }}</p>
                   <input
@@ -101,7 +109,11 @@
                     type="text"
                     (change)="inputTextArea(question.question_id, 'text')"
                     name="answer_bonus{{ question.question_id }}"
+                    required
                   />
+                  <p *ngIf="btnClicked" style="color: red">
+                    Este campo es obligatorio
+                  </p>
                 </div>
               </div>
 
@@ -128,10 +140,14 @@
                       id="answer_{{ question.question_id }}_alt_{{ i }}"
                       name="answer_{{ question.question_id }}"
                       value="[{{ i }}]{{ alternative.alternative_text }}"
+                      required
                     />
                     {{ alternative.alternative_text }}</label
                   ><br />
                 </div>
+                <p *ngIf="btnClicked" style="color: red">
+                  Este campo es obligatorio
+                </p>
                 <div class="bonus-class" *ngIf="question.bonus">
                   <p>{{ question.bonus }}</p>
                   <input
@@ -139,7 +155,11 @@
                     type="text"
                     (change)="inputTextArea(question.question_id, 'text')"
                     name="answer_bonus{{ question.question_id }}"
+                    required
                   />
+                  <p *ngIf="btnClicked" style="color: red">
+                    Este campo es obligatorio
+                  </p>
                 </div>
               </div>
             </mat-card>
