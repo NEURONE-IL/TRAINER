@@ -49,8 +49,8 @@ export class HomeComponent implements OnInit {
     this.getFlowStagesInformation();
     console.log(this.user._id)
     //localStorage.removeItem('stageId');
-    //this.actionsTrackerService.start();
-    //this.kmTrackerService.start();
+    this.actionsTrackerService.start();
+    this.kmTrackerService.start();
     //this.getAdvance();
 
       //id del flujo esta dentro del usuario, pero para obtener el usuario necesito el id del flujo
