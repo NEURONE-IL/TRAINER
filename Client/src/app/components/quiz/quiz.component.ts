@@ -133,21 +133,49 @@ export class QuizComponent implements OnInit {
   }
 
   everythingAnswered() {
-    //let respuestas = this.getAnswers();
-    //console.log('RESPUESTAS??', respuestas);
+    let respuestas = this.getAnswers();
+    let numPreguntasEjercicio;
+    let filled = false;
+    if (!this.exerciseActual) return true;
+
+    console.log('RESPUESTAS??', respuestas);
+    for (let quiz of this.quiz) {
+      if (quiz._id == this.quizNumber) {
+        console.log(quiz);
+        console.log('EJERCICIO? ', quiz.exercises[this.exerciseActual - 1]);
+        numPreguntasEjercicio =
+          quiz.exercises[this.exerciseActual - 1].questions.length;
+      }
+    }
+
+    //1: Validar cantidad de respuestas:
+    if (respuestas.length != numPreguntasEjercicio * 4) {
+      return false;
+    }
+
+    //2: Todos los campos tienen un valor o son nulos (sin bonus)
+    for (let resp of respuestas) {
+      if (resp === '') return false;
+    }
+
     return true;
   }
 
   increaseExercise(lastExercise) {
-    if (this.saveUserData === 'Yes') {
-      this.saveAnswer();
-    }
+    if (this.everythingAnswered()) {
+      this.showRequired = false;
+      if (this.saveUserData === 'Yes') {
+        this.saveAnswer();
+      }
 
-    if (!lastExercise) {
-      this.exerciseActual++;
-    }
+      if (!lastExercise) {
+        this.exerciseActual++;
+      }
 
-    this.global = 0;
+      this.global = 0;
+    } else {
+      this.showRequired = true;
+    }
   }
 
   decreaseExercise(firstExercise) {
@@ -162,9 +190,12 @@ export class QuizComponent implements OnInit {
     this.global = 0;
   }
 
+  showRequired = false;
+
   sendQuiz() {
     if (this.everythingAnswered()) {
       this.updateProgress(100);
+
       console.log(this.quiz);
       if (this.saveUserData === 'Yes') {
         this.saveAnswer();
@@ -176,12 +207,13 @@ export class QuizComponent implements OnInit {
         }
       }
       this.exerciseActual = -1;
+    } else {
+      this.showRequired = true;
     }
   }
 
   resourceExist(question) {
     const img = new Image();
-    console.log('QUESTION_ ID', question);
     if (question.resource_url) {
       img.src = question.resource_url;
       return true;
@@ -301,31 +333,33 @@ export class QuizComponent implements OnInit {
    * */
   saveAnswer() {
     let respuestas = this.getAnswers();
-    console.log('RESPUESTAS??', respuestas);
-    let index = 0;
-    let json = [];
-    let j = {};
-    for (let valor of respuestas) {
-      if (index === 4) {
-        index = 0;
-        this.getAnswerExist(j['questionId'], j);
-        j = {};
-      }
+    console.log('EJERCICIO ACTUAL!!!: ', this.exerciseActual);
+    console.log('NO ESTOY HACIENDO ESTO AUN LOL, RESPUESTAS:', respuestas);
 
-      if (index === 0) {
-        j['questionId'] = valor;
-      } else if (index === 1) {
-        j['questionType'] = valor;
-      } else if (index === 2) {
-        j['answerQuestion'] = valor;
-      } else {
-        j['answerBonus'] = valor;
-      }
-      index++;
-    }
-    if (respuestas.length > 0) {
-      this.getAnswerExist(j['questionId'], j);
-    }
+    // let index = 0;
+    // let json = [];
+    // let j = {};
+    // for (let valor of respuestas) {
+    //   if (index === 4) {
+    //     index = 0;
+    //     this.getAnswerExist(j['questionId'], j);
+    //     j = {};
+    //   }
+
+    //   if (index === 0) {
+    //     j['questionId'] = valor;
+    //   } else if (index === 1) {
+    //     j['questionType'] = valor;
+    //   } else if (index === 2) {
+    //     j['answerQuestion'] = valor;
+    //   } else {
+    //     j['answerBonus'] = valor;
+    //   }
+    //   index++;
+    // }
+    // if (respuestas.length > 0) {
+    //   this.getAnswerExist(j['questionId'], j);
+    // }
   }
 
   /*

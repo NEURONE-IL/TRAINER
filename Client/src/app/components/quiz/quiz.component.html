@@ -45,7 +45,7 @@
               <div *ngIf="resourceExist(question)">
                 <img src="{{ question.resource_url }}" />
               </div>
-              <p>{{ question.question }}</p>
+              <p>{{ question.question }}*</p>
               <div *ngIf="question.question_type == 1">
                 <textarea
                   class="textarea-question answer"
@@ -53,11 +53,9 @@
                   name="answer_{{ question.question_id }}"
                   required
                 ></textarea>
-                <p *ngIf="btnClicked" style="color: red">
-                  Este campo es obligatorio
-                </p>
+
                 <div class="bonus-class" *ngIf="question.bonus">
-                  <p>{{ question.bonus }}</p>
+                  <p>{{ question.bonus }}*</p>
                   <input
                     class="input-text"
                     type="text"
@@ -65,9 +63,6 @@
                     name="answer_bonus{{ question.question_id }}"
                     required
                   />
-                  <p *ngIf="btnClicked" style="color: red">
-                    Este campo es obligatorio
-                  </p>
                 </div>
               </div>
 
@@ -99,11 +94,9 @@
                     {{ alternative.alternative_text }}</label
                   >
                 </div>
-                <p *ngIf="btnClicked" style="color: red">
-                  Este campo es obligatorio
-                </p>
+
                 <div class="bonus-class" *ngIf="question.bonus">
-                  <p>{{ question.bonus }}</p>
+                  <p>{{ question.bonus }}*</p>
                   <input
                     class="input-text"
                     type="text"
@@ -111,9 +104,6 @@
                     name="answer_bonus{{ question.question_id }}"
                     required
                   />
-                  <p *ngIf="btnClicked" style="color: red">
-                    Este campo es obligatorio
-                  </p>
                 </div>
               </div>
 
@@ -145,11 +135,9 @@
                     {{ alternative.alternative_text }}</label
                   ><br />
                 </div>
-                <p *ngIf="btnClicked" style="color: red">
-                  Este campo es obligatorio
-                </p>
+
                 <div class="bonus-class" *ngIf="question.bonus">
-                  <p>{{ question.bonus }}</p>
+                  <p>{{ question.bonus }}*</p>
                   <input
                     class="input-text"
                     type="text"
@@ -157,12 +145,22 @@
                     name="answer_bonus{{ question.question_id }}"
                     required
                   />
-                  <p *ngIf="btnClicked" style="color: red">
-                    Este campo es obligatorio
-                  </p>
                 </div>
               </div>
             </mat-card>
+          </div>
+          <div
+            *ngIf="showRequired"
+            style="
+              border: 1px solid #f00;
+              background-color: #fee;
+              color: #f00;
+              text-align: center;
+            "
+          >
+            <p style="color: red; margin-bottom: 0px">
+              Debe rellenar todos las preguntas
+            </p>
           </div>
           <div class="quiz_buttons">
             <!-- 
