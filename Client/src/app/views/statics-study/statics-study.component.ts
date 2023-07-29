@@ -6,6 +6,7 @@ import * as XLSX from 'xlsx';
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
 import Swal from 'sweetalert2';
+import { FlowService } from 'src/app/services/trainer/flow.service';
 
 interface Metric {
   value: string;
@@ -101,7 +102,7 @@ export class StaticsStudyComponent implements OnInit {
   idStudy: string;
   students: Student[] = [];
   selectedStudent = 'todos';
-  study: any;
+  flow: any;
   allMetrics: Metric[] = [
     { value: 'totalcover', viewValue: 'Totalcover' },
     { value: 'bmrelevant', viewValue: 'Bmrelevant' },
@@ -114,11 +115,20 @@ export class StaticsStudyComponent implements OnInit {
     { value: 'challengestarted', viewValue: 'Challenge Started' },
   ];
   metrics: any;
-  constructor(private authService: AuthService, private route: ActivatedRoute, private cdRef: ChangeDetectorRef) {
+  constructor(private authService: AuthService, private route: ActivatedRoute, private cdRef: ChangeDetectorRef,
+    private flowService: FlowService) {
   }
 
   ngOnInit(): void {
     this.idStudy = this.route.snapshot.paramMap.get('flow_id');
+    this.flowService.getFlow(this.route.snapshot.paramMap.get('flow_id')).subscribe(
+      response => {
+        this.flow = response['flow'].name;
+      },
+      err => {
+        console.log('error')
+      }
+    );
     this.getStudyData(this.idStudy);
     this.getMetricsData(this.idStudy);
   }
@@ -297,7 +307,7 @@ export class StaticsStudyComponent implements OnInit {
   } 
 
   async downloadPDF(): Promise<void> {
-  
+    const flowName = this.flow; 
     Swal.fire({
       title: 'Generando PDF',
       text: 'Por favor, espera...',
@@ -380,7 +390,7 @@ export class StaticsStudyComponent implements OnInit {
     }
   
     Swal.close();
-    mergedPdf.save(`metricas.pdf`);
+    mergedPdf.save(`${flowName}_metricas.pdf`);
   }
   
   
