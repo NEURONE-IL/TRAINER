@@ -53,13 +53,11 @@ const routes: Routes = [
     component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
   },
-/*
   {
     path: 'signup/:flow_id',
     component: SignupComponent,
     canActivate: [ NotLoggedInGuard ]
   },
-*/
   {
     path: 'register',
     component: RegisterStudentComponent,

@@ -14,7 +14,7 @@ export class AuthService {
   userUri = environment.apiURL + 'user/';
 
   getRegisterLink(flowId){
-    return environment.frontURL + 'signup/'; //+ flowId;
+    return environment.frontURL + 'signup/' + flowId;
   }
 
   constructor(private http: HttpClient,
@@ -115,9 +115,9 @@ export class AuthService {
     return JSON.parse(localStorage.getItem('currentUser'));
   }
 
-  signup(userData: any/*, flow_id: string*/) {
+  signup(userData: any, flow_id: string) {
     delete userData.emailConfirm;
-    return this.http.post(this.uri + 'signup' /*+ flow_id*/, userData);
+    return this.http.post(this.uri + 'legacySignup/' + flow_id, userData);
   }
 
   signupTestUser(flow_id){
