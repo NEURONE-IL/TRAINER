@@ -51,8 +51,8 @@ export class QuizComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let user = this.authService.getUser();
-    if (user.role.name === 'admin') {
+    this.user = this.authService.getUser();
+    if (this.user.role.name === 'admin') {
       this.role = 'admin';
       const currentUrl = this.location.path();
       this.userId = currentUrl.split('=')[1];
@@ -194,15 +194,14 @@ export class QuizComponent implements OnInit {
 
   sendQuiz() {
     if (this.everythingAnswered()) {
-      this.updateProgress(100);
-
       console.log(this.quiz);
       if (this.saveUserData === 'Yes') {
-        this.saveAnswer();
         if (this.role === 'admin') {
           console.log('REDIRECT BACK TO FLOW', this.flowId);
           this.router.navigate(['/']);
         } else {
+          this.updateProgress(100);
+          this.saveAnswer();
           this.router.navigate(['/home']);
         }
       }
@@ -332,11 +331,14 @@ export class QuizComponent implements OnInit {
    * Guarda las respuestas en la base de datos.
    * */
   saveAnswer() {
-    let respuestas = this.getAnswers();
-    let index = 0;
-    let json = [];
-    let j = {};
-    if (this.role != 'admin') {
+    console.log(this.role);
+    console.log(this.user);
+    if (!(this.user.role.name === 'admin')) {
+      let respuestas = this.getAnswers();
+      let index = 0;
+      let json = [];
+      let j = {};
+
       for (let valor of respuestas) {
         if (index === 4) {
           index = 0;
