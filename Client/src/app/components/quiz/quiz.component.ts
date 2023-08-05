@@ -40,7 +40,7 @@ export class QuizComponent implements OnInit {
   userId;
   flowId;
   role;
-
+  user;
   constructor(
     private quizService: QuizService,
     private router: Router,
@@ -336,26 +336,28 @@ export class QuizComponent implements OnInit {
     let index = 0;
     let json = [];
     let j = {};
-    for (let valor of respuestas) {
-      if (index === 4) {
-        index = 0;
-        this.getAnswerExist(j['questionId'], j);
-        j = {};
-      }
+    if (this.role != 'admin') {
+      for (let valor of respuestas) {
+        if (index === 4) {
+          index = 0;
+          this.getAnswerExist(j['questionId'], j);
+          j = {};
+        }
 
-      if (index === 0) {
-        j['questionId'] = valor;
-      } else if (index === 1) {
-        j['questionType'] = valor;
-      } else if (index === 2) {
-        j['answerQuestion'] = valor;
-      } else {
-        j['answerBonus'] = valor;
+        if (index === 0) {
+          j['questionId'] = valor;
+        } else if (index === 1) {
+          j['questionType'] = valor;
+        } else if (index === 2) {
+          j['answerQuestion'] = valor;
+        } else {
+          j['answerBonus'] = valor;
+        }
+        index++;
       }
-      index++;
-    }
-    if (respuestas.length > 0) {
-      this.getAnswerExist(j['questionId'], j);
+      if (respuestas.length > 0) {
+        this.getAnswerExist(j['questionId'], j);
+      }
     }
   }
 
