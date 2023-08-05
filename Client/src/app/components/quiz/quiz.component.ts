@@ -333,33 +333,30 @@ export class QuizComponent implements OnInit {
    * */
   saveAnswer() {
     let respuestas = this.getAnswers();
-    console.log('EJERCICIO ACTUAL!!!: ', this.exerciseActual);
-    console.log('NO ESTOY HACIENDO ESTO AUN LOL, RESPUESTAS:', respuestas);
+    let index = 0;
+    let json = [];
+    let j = {};
+    for (let valor of respuestas) {
+      if (index === 4) {
+        index = 0;
+        this.getAnswerExist(j['questionId'], j);
+        j = {};
+      }
 
-    // let index = 0;
-    // let json = [];
-    // let j = {};
-    // for (let valor of respuestas) {
-    //   if (index === 4) {
-    //     index = 0;
-    //     this.getAnswerExist(j['questionId'], j);
-    //     j = {};
-    //   }
-
-    //   if (index === 0) {
-    //     j['questionId'] = valor;
-    //   } else if (index === 1) {
-    //     j['questionType'] = valor;
-    //   } else if (index === 2) {
-    //     j['answerQuestion'] = valor;
-    //   } else {
-    //     j['answerBonus'] = valor;
-    //   }
-    //   index++;
-    // }
-    // if (respuestas.length > 0) {
-    //   this.getAnswerExist(j['questionId'], j);
-    // }
+      if (index === 0) {
+        j['questionId'] = valor;
+      } else if (index === 1) {
+        j['questionType'] = valor;
+      } else if (index === 2) {
+        j['answerQuestion'] = valor;
+      } else {
+        j['answerBonus'] = valor;
+      }
+      index++;
+    }
+    if (respuestas.length > 0) {
+      this.getAnswerExist(j['questionId'], j);
+    }
   }
 
   /*
