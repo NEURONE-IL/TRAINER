@@ -35,7 +35,11 @@
           <h6>
             Ejercicio {{ exercise.exercise_id }}: {{ exercise.introduction }}
           </h6>
-
+          <!-- image Exercise resource -->
+          <h4>Image:</h4>
+          <div *ngIf="resourceExist(exercise)">
+            <img class="img-thumbnail" src="{{ exercise.resource_url }}" />
+          </div>
           <div
             class="quiz_questions"
             *ngFor="let question of exercise.questions"
@@ -43,7 +47,7 @@
             <mat-card class="question-card">
               <h6>Pregunta {{ question.question_num }}</h6>
               <div *ngIf="resourceExist(question)">
-                <img src="{{ question.resource_url }}" />
+                <img class="img-thumbnail" src="{{ question.resource_url }}" />
               </div>
               <p>{{ question.question }}*</p>
               <div *ngIf="question.question_type == 1">
