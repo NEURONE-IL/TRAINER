@@ -1,18 +1,19 @@
-table{
-  width:100%;
+table {
+  width: 100%;
 }
 
-.moduleList{
+.moduleList {
+  padding-top: 1%;
   padding-left: 1%;
   padding-right: 1%;
   background-color: whitesmoke;
 }
 
-.tabla{
+.tabla {
   padding-bottom: 15px;
 }
 
-.descriptionHover:hover{
+.descriptionHover:hover {
   transform: scale(120%);
 }
 
@@ -21,7 +22,7 @@ tr.filaModulo:not(.showStages):hover {
   cursor: pointer;
 }
 
-.isBlocked{
+.isBlocked {
   background-color: silver;
 }
 
@@ -33,27 +34,27 @@ tr.hidden {
   height: 0;
 }
 
-.showStages{
+.showStages {
   overflow: hidden;
 }
 
-.mat-column-NombreCol{
+.mat-column-NombreCol {
   text-align: center;
-  color:black
+  color: black
 }
 
-.mat-column-NombreCol .mat-icon{
+.mat-column-NombreCol .mat-icon {
   padding-bottom: 34px;
 }
 
-.mat-column-TipoCol{
+.mat-column-TipoCol {
   text-align: center;
-  color:black
+  color: black
 }
 
-.mat-column-DescriptionCol{
+.mat-column-DescriptionCol {
   text-align: center;
-  color:black
+  color: black
 }
 
 

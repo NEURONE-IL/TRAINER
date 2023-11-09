@@ -1,48 +1,48 @@
 .mat-list-icon {
-	color: rgba(0, 0, 0, 0.54);
+  color: rgba(0, 0, 0, 0.54);
 }
 
-.flow-display-card{
-	margin-left: 8%;
-	margin-right: 8%;
-	margin-top: 0%;
+.flow-display-card {
+  margin-left: 8%;
+  margin-right: 8%;
+  margin-top: 0%;
   padding-top: 0;
 }
 
-::ng-deep .mat-list .mat-list-item .mat-line{
-	word-wrap: break-word;
- 	white-space: pre-line;
+::ng-deep .mat-list .mat-list-item .mat-line {
+  word-wrap: break-word;
+  white-space: pre-line;
 }
 
-.stage-cover{
-	background-image: url('../../../assets/flow-images/Flow00_Ext.jpg');
-	background-size: cover;
+.stage-cover {
+  background-image: url("../../../assets/flow-images/Flow00_Ext.jpg");
+  background-size: cover;
 }
 
-.options{
+.options {
   text-align: right;
   padding-right: 5%;
   padding-left: 5%;
 }
 
-.options button{
+.options button {
   margin: 10px;
 }
 
-.emptyText{
-  padding-left: 15px
+.emptyText {
+  padding-left: 15px;
 }
 
-.actions{
-	justify-content: flex-end;
+.actions {
+  justify-content: flex-end;
 }
 
 ::ng-deep mat-grid-tile.mat-grid-tile .mat-figure {
-	align-items: center;
-	justify-content: flex-start;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.header-stage mat-card-title{
+.header-stage mat-card-title {
   color: white;
   margin-right: 0px;
   font-size: 18px;
@@ -52,22 +52,22 @@
   padding-left: 40px;
   margin-bottom: 0px;
 }
-.mat-card-subtitle{
+.mat-card-subtitle {
   padding-top: 10px;
 }
-.div buttons{
+.div buttons {
   text-align: right;
 }
 
-.header-stage div.col-md-8{
+.header-stage div.col-md-8 {
   padding-right: 0px;
 }
 
-.header-stage div.col-md-4{
+.header-stage div.col-md-4 {
   padding-left: 0px;
 }
 
-.header-stage mat-card-subtitle{
+.header-stage mat-card-subtitle {
   margin-right: 58px;
   padding-top: 20px;
   padding-right: 50px;
@@ -76,85 +76,85 @@
   padding-bottom: 14px;
   margin-bottom: 0px;
   text-align: right;
-  border-bottom: solid 1px #EEEEEE;
+  border-bottom: solid 1px #eeeeee;
 }
 
-.flow-display-card .mat-card-content{
+.flow-display-card .mat-card-content {
   margin-left: 15px;
   padding-left: 25px;
   padding-bottom: 10px;
   padding-right: 2px;
   margin-bottom: 0px;
-  border-left: solid 1px #EEEEEE;
-  border-right: solid 1px #EEEEEE;
-  border-bottom: solid 1px #EEEEEE;
+  border-left: solid 1px #eeeeee;
+  border-right: solid 1px #eeeeee;
+  border-bottom: solid 1px #eeeeee;
   flex-direction: row;
 }
 
-.mat-card-title{
+.mat-card-title {
   display: flex;
   flex-direction: row;
   margin-bottom: 0px;
 }
 
-.mat-card-actions{
+.mat-card-actions {
   text-align: right;
   margin-right: 40px;
-  border-bottom: solid 1px #CCCCCC;
-  border-left: solid 1px #EEEEEE;
-  border-right: solid 1px #EEEEEE;
+  border-bottom: solid 1px #cccccc;
+  border-left: solid 1px #eeeeee;
+  border-right: solid 1px #eeeeee;
   margin-left: 47px;
   padding-left: 10px;
   margin-top: 0px;
   padding-top: 0px;
 }
-.mat-card-header{
+.mat-card-header {
   display: block;
   margin-left: 15px;
 }
 
-.Disabled{
+.Disabled {
   color: white;
   background-color: grey;
 }
 
-.Video{
+.Video {
   color: white;
   background-color: darkorchid;
 }
 
-.VideoQuiz{
+.VideoQuiz {
   color: white;
-  background-color: lightseagreen;  
+  background-color: lightseagreen;
 }
 
-.Adventure{
+.Adventure {
   color: white;
   background-color: darkorange;
 }
 
-.Trivia{
+.Trivia {
   color: white;
   background-color: dodgerblue;
 }
 
-.DisabledButton{
+.DisabledButton {
   color: darkorchid;
 }
 
-.VideoButton{
+.VideoButton {
   color: darkorchid;
 }
 
-.SGButton{
+.SGButton {
   color: darkorange;
 }
 
-.TriviaButton{
+.TriviaButton {
   color: dodgerblue;
 }
 
-.aligned-with-icon{
+.aligned-with-icon {
   position: absolute;
   margin-top: 3px;
   margin-left: 5px; /* optional */
@@ -164,23 +164,24 @@
   margin-right: 10px;
 }
 
-.registerLink{
+.registerLink {
   font-weight: 400;
 }
 
-.actionButton{
+.actionButton {
   margin: 2%;
+  padding-right: 5px;
 }
 
-.manage{
+.manage {
   margin-top: 5%;
 }
 
-.spinnerCard{
-	text-align: -webkit-center;
+.spinnerCard {
+  text-align: -webkit-center;
 }
 
-.alert-warning{
+.alert-warning {
   width: 100%;
   text-align: center;
 }
@@ -189,50 +190,66 @@ table {
   width: 100%;
 }
 
-.loadingUsers{
+.loadingUsers {
   align-content: center;
   text-align: center;
 }
 
 .mat-elevation-z8 {
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 20), 0 8px 10px 1px rgba(0, 0, 0,  14), 0 3px 14px 2px rgba(0, 0, 0,12);
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 20), 0 8px 10px 1px rgba(0, 0, 0, 14),
+    0 3px 14px 2px rgba(0, 0, 0, 12);
 }
 
-.buttons{
+.buttons {
   text-align: right;
 }
 
-::ng-deep .image-style .mat-card-image{
+::ng-deep .image-style .mat-card-image {
   margin: 0% !important;
   width: 100% !important;
   padding-left: 15px !important;
 }
 
-.flow-description{
+.flow-description {
   font-weight: 400;
   color: rgb(46, 46, 46);
 }
 
-.addButton{
-  background-color: #4CAF50;
-  color: #FFFFFF;
+.addButton {
+  background-color: #4caf50;
+  color: #ffffff;
 }
-.banner{
-	background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
-	height:50px;
+.banner {
+  background: linear-gradient(
+    90deg,
+    rgba(238, 227, 255, 1) 0%,
+    rgba(245, 245, 245, 1) 100%
+  );
+  height: 50px;
   margin-left: -16px;
-	margin-right: -16px;
+  margin-right: -16px;
   margin-bottom: 2%;
-		
 }
-.competence-info{
+.competence-info {
   pointer-events: none;
-
 }
-::ng-deep .competence-info .mat-button-toggle-appearance-standard .mat-button-toggle-label-content{
+::ng-deep
+  .competence-info
+  .mat-button-toggle-appearance-standard
+  .mat-button-toggle-label-content {
   line-height: 20px !important;
 }
 
-.flujo-preview{
+.flujo-preview {
   margin-top: 2%;
+}
+::ng-deep .buttons-align .mat-figure {
+  justify-content: end !important;
+}
+.loadingButton {
+  margin: 2%;
+  padding: 8px 10%;
+}
+.icon-button mat-icon {
+  margin-left: 10px;
 }

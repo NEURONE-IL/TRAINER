@@ -43,7 +43,7 @@ export class SignupComponent implements OnInit {
 
   ngOnInit(): void {
 
-//    this.checkFlow();
+    this.checkFlow();
     this.regions = getRegiones();
 
     this.consentForm = this.formBuilder.group({
@@ -74,7 +74,7 @@ export class SignupComponent implements OnInit {
   save() {
     let userData = Object.assign(this.tutorForm.value, this.studentForm.value);
     delete userData.password_confirmation;
-    this.authService.signup(userData/*, this.route.snapshot.paramMap.get('flow_id')*/)
+    this.authService.signup(userData, this.route.snapshot.paramMap.get('flow_id'))
       .subscribe((res) => {
         this.userSubmitted = true;
       },
@@ -94,7 +94,7 @@ export class SignupComponent implements OnInit {
       });
   }
 
-  /*
+
   checkFlow() {
     const flow_id = this.route.snapshot.paramMap.get('flow_id');
     this.flowService.getFlowSignup(flow_id).subscribe(
@@ -111,7 +111,7 @@ export class SignupComponent implements OnInit {
         this.isLoadingFlow = false;
       }
     );
-  }*/
+  }
 
   onRegionChange(regionChange) {
     this.communes = getComunasByRegion(regionChange.value);

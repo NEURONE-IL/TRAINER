@@ -40,7 +40,7 @@ export class QuizComponent implements OnInit {
   userId;
   flowId;
   role;
-
+  user;
   constructor(
     private quizService: QuizService,
     private router: Router,
@@ -51,8 +51,8 @@ export class QuizComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let user = this.authService.getUser();
-    if (user.role.name === 'admin') {
+    this.user = this.authService.getUser();
+    if (this.user.role.name === 'admin') {
       this.role = 'admin';
       const currentUrl = this.location.path();
       this.userId = currentUrl.split('=')[1];
@@ -118,6 +118,7 @@ export class QuizComponent implements OnInit {
     }
   }
 
+  btnClicked = false;
   inputTextArea(questionId, questionType) {
     let answer;
 
@@ -131,16 +132,50 @@ export class QuizComponent implements OnInit {
     this.eventAnswers(questionId, value, 0, questionType);
   }
 
+  everythingAnswered() {
+    let respuestas = this.getAnswers();
+    let numPreguntasEjercicio;
+    let filled = false;
+    if (!this.exerciseActual) return true;
+
+    console.log('RESPUESTAS??', respuestas);
+    for (let quiz of this.quiz) {
+      if (quiz._id == this.quizNumber) {
+        console.log(quiz);
+        console.log('EJERCICIO? ', quiz.exercises[this.exerciseActual - 1]);
+        numPreguntasEjercicio =
+          quiz.exercises[this.exerciseActual - 1].questions.length;
+      }
+    }
+
+    //1: Validar cantidad de respuestas:
+    if (respuestas.length != numPreguntasEjercicio * 4) {
+      return false;
+    }
+
+    //2: Todos los campos tienen un valor o son nulos (sin bonus)
+    for (let resp of respuestas) {
+      if (resp === '') return false;
+    }
+
+    return true;
+  }
+
   increaseExercise(lastExercise) {
-    if (this.saveUserData === 'Yes') {
-      this.saveAnswer();
-    }
+    if (this.everythingAnswered()) {
+      this.showRequired = false;
+      if (this.saveUserData === 'Yes') {
+        this.saveAnswer();
+      }
 
-    if (!lastExercise) {
-      this.exerciseActual++;
-    }
+      if (!lastExercise) {
+        this.exerciseActual++;
+      }
 
-    this.global = 0;
+      this.global = 0;
+    } else {
+      this.showRequired = true;
+    }
   }
 
   decreaseExercise(firstExercise) {
@@ -155,24 +190,29 @@ export class QuizComponent implements OnInit {
     this.global = 0;
   }
 
+  showRequired = false;
+
   sendQuiz() {
-    this.updateProgress(100);
-    console.log(this.quiz);
-    if (this.saveUserData === 'Yes') {
-      this.saveAnswer();
-      if (this.role === 'admin') {
-        console.log('REDIRECT BACK TO FLOW', this.flowId);
-        this.router.navigate(['/']);
-      } else {
-        this.router.navigate(['/home']);
+    if (this.everythingAnswered()) {
+      console.log(this.quiz);
+      if (this.saveUserData === 'Yes') {
+        if (this.role === 'admin') {
+          console.log('REDIRECT BACK TO FLOW', this.flowId);
+          this.router.navigate(['/']);
+        } else {
+          this.updateProgress(100);
+          this.saveAnswer();
+          this.router.navigate(['/home']);
+        }
       }
+      this.exerciseActual = -1;
+    } else {
+      this.showRequired = true;
     }
-    this.exerciseActual = -1;
   }
 
   resourceExist(question) {
     const img = new Image();
-    console.log('QUESTION_ ID', question);
     if (question.resource_url) {
       img.src = question.resource_url;
       return true;
@@ -291,31 +331,35 @@ export class QuizComponent implements OnInit {
    * Guarda las respuestas en la base de datos.
    * */
   saveAnswer() {
-    let respuestas = this.getAnswers();
-    console.log('RESPUESTAS??', respuestas);
-    let index = 0;
-    let json = [];
-    let j = {};
-    for (let valor of respuestas) {
-      if (index === 4) {
-        index = 0;
-        this.getAnswerExist(j['questionId'], j);
-        j = {};
-      }
+    console.log(this.role);
+    console.log(this.user);
+    if (!(this.user.role.name === 'admin')) {
+      let respuestas = this.getAnswers();
+      let index = 0;
+      let json = [];
+      let j = {};
 
-      if (index === 0) {
-        j['questionId'] = valor;
-      } else if (index === 1) {
-        j['questionType'] = valor;
-      } else if (index === 2) {
-        j['answerQuestion'] = valor;
-      } else {
-        j['answerBonus'] = valor;
+      for (let valor of respuestas) {
+        if (index === 4) {
+          index = 0;
+          this.getAnswerExist(j['questionId'], j);
+          j = {};
+        }
+
+        if (index === 0) {
+          j['questionId'] = valor;
+        } else if (index === 1) {
+          j['questionType'] = valor;
+        } else if (index === 2) {
+          j['answerQuestion'] = valor;
+        } else {
+          j['answerBonus'] = valor;
+        }
+        index++;
       }
-      index++;
-    }
-    if (respuestas.length > 0) {
-      this.getAnswerExist(j['questionId'], j);
+      if (respuestas.length > 0) {
+        this.getAnswerExist(j['questionId'], j);
+      }
     }
   }
 

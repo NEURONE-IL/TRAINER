@@ -35,7 +35,11 @@
           <h6>
             Ejercicio {{ exercise.exercise_id }}: {{ exercise.introduction }}
           </h6>
-
+          <!-- image Exercise resource -->
+          <h4>Image:</h4>
+          <div *ngIf="resourceExist(exercise)">
+            <img class="img-thumbnail" src="{{ exercise.resource_url }}" />
+          </div>
           <div
             class="quiz_questions"
             *ngFor="let question of exercise.questions"
@@ -43,26 +47,25 @@
             <mat-card class="question-card">
               <h6>Pregunta {{ question.question_num }}</h6>
               <div *ngIf="resourceExist(question)">
-                <img
-                  src="/assets/videoModule-images/{{
-                    question.question_id
-                  }}.png"
-                />
+                <img class="img-thumbnail" src="{{ question.resource_url }}" />
               </div>
-              <p>{{ question.question }}</p>
+              <p>{{ question.question }}*</p>
               <div *ngIf="question.question_type == 1">
                 <textarea
                   class="textarea-question answer"
                   (change)="inputTextArea(question.question_id, 'textarea')"
                   name="answer_{{ question.question_id }}"
+                  required
                 ></textarea>
+
                 <div class="bonus-class" *ngIf="question.bonus">
-                  <p>{{ question.bonus }}</p>
+                  <p>{{ question.bonus }}*</p>
                   <input
                     class="input-text"
                     type="text"
                     (change)="inputTextArea(question.question_id, 'text')"
                     name="answer_bonus{{ question.question_id }}"
+                    required
                   />
                 </div>
               </div>
@@ -90,17 +93,20 @@
                       id="answer_{{ question.question_id }}_alt_{{ i }}"
                       name="answer_{{ question.question_id }}"
                       value="[{{ i }}]{{ alternative.alternative_text }}"
+                      required
                     />
                     {{ alternative.alternative_text }}</label
                   >
                 </div>
+
                 <div class="bonus-class" *ngIf="question.bonus">
-                  <p>{{ question.bonus }}</p>
+                  <p>{{ question.bonus }}*</p>
                   <input
                     class="input-text"
                     type="text"
                     (change)="inputTextArea(question.question_id, 'text')"
                     name="answer_bonus{{ question.question_id }}"
+                    required
                   />
                 </div>
               </div>
@@ -128,21 +134,37 @@
                       id="answer_{{ question.question_id }}_alt_{{ i }}"
                       name="answer_{{ question.question_id }}"
                       value="[{{ i }}]{{ alternative.alternative_text }}"
+                      required
                     />
                     {{ alternative.alternative_text }}</label
                   ><br />
                 </div>
+
                 <div class="bonus-class" *ngIf="question.bonus">
-                  <p>{{ question.bonus }}</p>
+                  <p>{{ question.bonus }}*</p>
                   <input
                     class="input-text"
                     type="text"
                     (change)="inputTextArea(question.question_id, 'text')"
                     name="answer_bonus{{ question.question_id }}"
+                    required
                   />
                 </div>
               </div>
             </mat-card>
+          </div>
+          <div
+            *ngIf="showRequired"
+            style="
+              border: 1px solid #f00;
+              background-color: #fee;
+              color: #f00;
+              text-align: center;
+            "
+          >
+            <p style="color: red; margin-bottom: 0px">
+              Debe rellenar todos las preguntas
+            </p>
           </div>
           <div class="quiz_buttons">
             <!-- 

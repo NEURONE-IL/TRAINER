@@ -124,8 +124,8 @@ function sendConfirmationEmail(user, userData, res, req) {
         };
         transporter.sendMail(mailOptions, (err) => {
             if (err) {
-                console.log( err.message );
-            }
+                return res.status(500).send({ msg: err.message });
+              }
         });
     });
 }

@@ -18,7 +18,8 @@
             #stageTitleId
             [title] = "objStage.stage.title"
             class = "stageTitle"
-        >{{objStage.stage.title}}</mat-card-title>
+        >{{objStage.stage.title}}
+        </mat-card-title>
         <mat-card-subtitle *ngIf="objStage.stage.type; else noTipo">{{objStage.stage.type | tipoEtapa}} - {{objStage.stage.step}}</mat-card-subtitle>
         <ng-template #noTipo>
             <mat-card-subtitle>{{ 'STAGE.TYPELESS' | translate }}</mat-card-subtitle>
@@ -85,6 +86,7 @@
                 >{{ 'USER.COMPLETE' | translate }}</button> -->
             </mat-card-actions>
         </mat-card>
+        <!-- <span>{{objStage | json}}</span> PARA PROPOSITOS DE DEBUG -->
     </div>
     
     

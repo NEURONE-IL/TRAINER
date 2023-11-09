@@ -10,7 +10,7 @@
       </mat-card>
     </div>
 
-    <div class="main-content">
+    <div class="main-content" *ngIf="!isLoadingFlow && validFlow">
       <mat-horizontal-stepper [linear]="true" #stepper>
         <mat-step [stepControl]="consentForm" [editable]="false">
           <form [formGroup]="consentForm">
