@@ -26,6 +26,7 @@ import { AdminVideoModuleComponent } from './views/videoModule-admin/videoModule
 import { FlowsSearchComponent } from './views/flows-search/flows-search.component';
 import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
 import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
+import { StaticsStudyComponent } from './views/statics-study/statics-study.component';
 
 const routes: Routes = [
   {
@@ -78,6 +79,7 @@ const routes: Routes = [
     component: HomeComponent,
     canActivate: [ AuthGuard ]
   },
+  { path: 'statics/:userId', component: StaticsStudyComponent, canActivate: [ AuthGuard ]},
   {
     path: 'apiConfig',
     component: ApiConfigurationComponent,
@@ -116,6 +118,11 @@ const routes: Routes = [
         path: 'flow/:flow_id',
         component: FlowDisplayComponent,
         canActivate: [ProtectFlowEditionGuard]
+      },
+      {
+        path: 'flow/:flow_id/statics',
+        component: StaticsStudyComponent,
+        canActivate: [ ProtectFlowEditionGuard ],
       },
     ]
   },

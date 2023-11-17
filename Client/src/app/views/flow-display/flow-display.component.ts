@@ -758,4 +758,8 @@ export class FlowDisplayComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  staticsLeft(flowId: string){
+    this.router.navigate([`/admin_panel/flow/${flowId}/statics`]);
+  }
 }

@@ -2,6 +2,8 @@ import {Component, OnInit} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {QuizService} from '../../services/videoModule/quiz.service';
 import {StageService} from '../../services/trainer/stage.service';
+import { ActionsTrackerService } from 'src/app/services/logger/actions-tracker.service';
+import { KmTrackerService } from 'src/app/services/logger/km-tracker.service';
 
 @Component({
   selector: 'app-video-module',
@@ -12,7 +14,9 @@ export class VideoModuleComponent implements OnInit {
 
   constructor( private activatedRoute: ActivatedRoute,
                private quizService: QuizService,
-               private stageService: StageService) { }
+               private stageService: StageService,
+               private actionsTrackerService: ActionsTrackerService,
+               private kmTrackerService: KmTrackerService) { }
 
   status;
   quizId;
@@ -26,6 +30,9 @@ export class VideoModuleComponent implements OnInit {
   userId;
 
   ngOnInit(): void {
+    
+    this.actionsTrackerService.start();
+    this.kmTrackerService.start();
     this.activatedRoute.queryParams.subscribe(params => {
       this.quizId = params.id;
       console.log(this.quizId)
