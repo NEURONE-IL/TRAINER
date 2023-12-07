@@ -1,270 +1,215 @@
-.menu{
-	margin-top: 5%;
-	padding: 0px;;
-	
+.quizPreview {
+  padding-top: 0px;
+}
+.banner {
+  background: linear-gradient(
+    90deg,
+    rgba(238, 227, 255, 1) 0%,
+    rgba(245, 245, 245, 1) 100%
+  );
+  height: 50px;
+  margin-left: -16px;
+  margin-right: -16px;
+}
+.creationButton {
+  background: #914dff;
+  border-color: #6c39be;
+  text-align: center;
 }
 
-.menuItem{
-	padding-left: 5%;
-	list-style-type: none;
-	height: 50px;
-	line-height: 50px;
-	text-align: left;
-	vertical-align: middle;
-	display: block;
-	border-left: 5px solid #a66fff ;
-	transition: background 0.5s, border 0.5s;
+.creationButton b {
+  font-size: larger;
+  padding-left: 5px;
+  padding-right: 5px;
 }
 
-.menuItem:hover{
-	list-style-type: none;
-	background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
-	border-left: 9px solid #914dff ;
-	height: 50px;
-	line-height: 50px;
-	text-align: left;
-	vertical-align: middle;
-	display: block;
-}
-.activeMenu{
-	list-style-type: none;
-	background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
-	height: 50px;
-	line-height: 50px;
-	text-align: left;
-	vertical-align: middle;
-	display: block;
+.warning {
+  color: red;
+  padding-left: 5px;
 }
 
-.quizPreview{
-	padding-top: 0px;
-}
-.banner{
-	background: linear-gradient(90deg, rgba(238,227,255,1) 0%, rgba(245,245,245,1) 100%);
-	height:50px;
-	margin-left: -16px;
-	margin-right: -16px;
-	
-	
-}
-.creationButton{
-	background: #914dff;
-	border-color: #6c39be;
-	text-align: center;
+mat-card {
+  /**/
+  align-self: flex-start;
 }
 
-.creationButton b{
-	font-size: larger;
-	padding-left: 5px;
-	padding-right: 5px;
-}
-
-
-.warning{
-	color:red;
-	padding-left: 5px;
-}
-
-.flows-display-card{
-	margin-left: 10%;
-	margin-right: 10%;
-	margin-top: 5%;
-}
-
-mat-card{
-/**/
-	align-self: flex-start;
-}
-
-.flow-card:hover{
-	cursor: pointer;
-	box-shadow: 2px 2px 6px 0px rgba(0,0,0,0.8);
-	/*border-color: #2196F3 !important;*/
-}
-
-.options{
+.options {
   text-align: right;
   padding-right: 5%;
   padding-left: 5%;
 }
-.options button{
+.options button {
   margin: 10px;
 }
 
-.emptyText{
-  padding-left: 15px
+.emptyText {
+  padding-left: 15px;
 }
 
-.registerLink{
-	font-weight: 500;
-	font-size: xx-small;
+.registerLink {
+  font-weight: 500;
+  font-size: xx-small;
 }
 
-.quiz-view-title .mat-card-subtitle{
-	font-size: larger !important;
-	vertical-align: baseline;
-	padding-top: 15px;
-	padding-bottom: 5px;;
-	border-bottom: 3px solid rgba(238,227,255,1) ; 
+.quiz-view-title .mat-card-subtitle {
+  font-size: larger !important;
+  vertical-align: baseline;
+  padding-top: 15px;
+  padding-bottom: 5px;
+  border-bottom: 3px solid rgba(238, 227, 255, 1);
 }
 
-.quizPreview{
-    min-height: 200px;
-	margin-bottom: 10px;
-
+.quizPreview {
+  min-height: 200px;
+  margin-bottom: 10px;
 }
-.mat-card-content{
-	margin-top: 10px;
-}
-
-.card-footer{
-	text-align: center;
+.mat-card-content {
+  margin-top: 10px;
 }
 
-.card-footer button{
-	margin: 5px;
-	width: 200px;
+.card-footer {
+  text-align: center;
 }
 
-.vistaQuiz{
-	min-height: 400px;
+.card-footer button {
+  margin: 5px;
+  width: 200px;
 }
 
-.preguntas{
-	border-top: solid 5px #914dff;
-	min-height: 100px;
-	background-color: #f8f9fa;
-	border-radius: 5px;
-	vertical-align:middle;
-	margin-left: auto;
-	margin-right: auto;
-	padding-left: auto;
-	padding-right: auto;
-}
-.preguntas2{
-	min-height: 100px;
-	background-color: white;
-	border: #e0ceff solid 1px;
-	padding: 10px;
-	padding-top: 0px;
-	border-radius: 5px;
-	vertical-align:middle;
-	margin-left: auto;
-	margin-right: auto;
-	padding-left: auto;
-	padding-right: auto;
-	margin-top: -10px;
-	
+.vistaQuiz {
+  min-height: 400px;
 }
 
-.infoBox1{
-	height:90%;
-	background-color: #914dff;
-	text-align: center;
-	color: white;
-	display: inline-block;
-	width: 250px;
-	border-radius: 10px;
-	padding: 20px;
-	margin: 10px;
-
+.preguntas {
+  border-top: solid 5px #914dff;
+  min-height: 100px;
+  background-color: #f8f9fa;
+  border-radius: 5px;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right: auto;
+}
+.preguntas2 {
+  min-height: 100px;
+  background-color: white;
+  border: #e0ceff solid 1px;
+  padding: 10px;
+  padding-top: 0px;
+  border-radius: 5px;
+  vertical-align: middle;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: auto;
+  padding-right: auto;
+  margin-top: -10px;
 }
 
-.infoBox1 h1{
-	display: inline;
-	text-align: center;
-	font-size: large;
+.infoBox1 {
+  height: 90%;
+  background-color: #914dff;
+  text-align: center;
+  color: white;
+  display: inline-block;
+  width: 250px;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
 }
 
-.infoBox1 button{
-	position: absolute;
-	bottom: 50px;
-	width: 200px;
-	margin-left: 5px;
+.infoBox1 h1 {
+  display: inline;
+  text-align: center;
+  font-size: large;
 }
 
-.preguntaHeader{
-	margin-top: 30px ;
-	background-color: #914dff;
-	height: 50px;
-	line-height: 50px;
-	vertical-align: baseline;
-	text-align: center;
-	border-radius: 20px 20px 0px 0px;
-	color: white;
-	font-size: medium;
+.infoBox1 button {
+  position: absolute;
+  bottom: 50px;
+  width: 200px;
+  margin-left: 5px;
 }
 
-.mat-form-field{
-	width: 100%;
-	
+.preguntaHeader {
+  margin-top: 30px;
+  background-color: #914dff;
+  height: 50px;
+  line-height: 50px;
+  vertical-align: baseline;
+  text-align: center;
+  border-radius: 20px 20px 0px 0px;
+  color: white;
+  font-size: medium;
 }
 
-.selectVideo{
-	width: 80%;
-	margin: 15px;
-	
-}
-mat-select{
-	background-color: white;
-	
-}
-.mat-form-field-type-mat-select:not(.mat-form-field-disabled) .mat-form-field-flex{
-	background-color: white;
+.mat-form-field {
+  width: 100%;
 }
 
-.crearEjercicio{
-	
-	padding-top: 30px ;
-	padding-right: 10%;
+.selectVideo {
+  width: 80%;
+  margin: 15px;
+}
+mat-select {
+  background-color: white;
+}
+.mat-form-field-type-mat-select:not(.mat-form-field-disabled)
+  .mat-form-field-flex {
+  background-color: white;
 }
 
-.tablaPreguntas{
-	background: white;
-}
-.tablaPreguntas td{
-	border-left: #914dff;
+.crearEjercicio {
+  padding-top: 30px;
+  padding-right: 10%;
 }
 
-.form-check, .form-group{
-	font-size: large;
+.tablaPreguntas {
+  background: white;
+}
+.tablaPreguntas td {
+  border-left: #914dff;
 }
 
-.form-check{
-	margin-top: 10px;
+.form-check,
+.form-group {
+  font-size: large;
 }
 
-.ingresarAlternativas{
-	padding: 10px;
-	background-color: white;
-	border: solid 1px #914dff;
-	margin-top: 10px;
-	margin-bottom: 10px;
+.form-check {
+  margin-top: 10px;
 }
 
-.accionesEjercicio{
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	padding:  30px 0px 10px 0px;
+.ingresarAlternativas {
+  padding: 10px;
+  background-color: white;
+  border: solid 1px #914dff;
+  margin-top: 10px;
+  margin-bottom: 10px;
 }
 
-.accionesQuiz{
-	border-top: solid 5px #914dff;
+.accionesEjercicio {
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 30px 0px 10px 0px;
+}
 
-	margin-left: auto;
-	margin-right: auto;
-	text-align: center;
-	padding:  30px 0px 30px 0px;
+.accionesQuiz {
+  border-top: solid 5px #914dff;
+
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  padding: 30px 0px 30px 0px;
 }
 
 /* hay una linea que se genera en border top utilizando el classname card-footer, anoto este para borrar esa linea*/
-.card-footer-aux{
-	border-top: none;
-	background: transparent;
-	
+.card-footer-aux {
+  border-top: none;
+  background: transparent;
 }
 
-.img-fluid{
-	max-height: 200px;
+.img-fluid {
+  max-height: 200px;
 }

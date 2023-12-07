@@ -2,34 +2,36 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import {MatTabsModule} from '@angular/material/tabs';
-import {MatTableModule} from '@angular/material/table';
-import {MatIconModule} from '@angular/material/icon';
-import {MatGridListModule} from '@angular/material/grid-list';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {MatInputModule} from '@angular/material/input';
-import {MatButtonModule} from '@angular/material/button';
-import {MatPaginatorIntl, MatPaginatorModule} from '@angular/material/paginator';
-import {MatCardModule} from '@angular/material/card';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatSelectModule} from '@angular/material/select';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatNativeDateModule} from '@angular/material/core';
-import {MatDatepickerModule} from '@angular/material/datepicker';
-import {MatListModule} from '@angular/material/list';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatExpansionModule} from '@angular/material/expansion';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {MatTooltipModule} from '@angular/material/tooltip';
-import {MatMenuModule} from '@angular/material/menu';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import {MatChipsModule} from '@angular/material/chips'; 
-import {MatButtonToggleModule} from '@angular/material/button-toggle'
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
+import { MatGridListModule } from '@angular/material/grid-list';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatInputModule } from '@angular/material/input';
+import { MatButtonModule } from '@angular/material/button';
+import {
+  MatPaginatorIntl,
+  MatPaginatorModule,
+} from '@angular/material/paginator';
+import { MatCardModule } from '@angular/material/card';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatListModule } from '@angular/material/list';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-
-import { PdfViewerModule }  from  'ng2-pdf-viewer';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { Ng9RutModule } from 'ng9-rut';
 import { ValidateEqualModule } from 'ng-validate-equal';
 import { ToastrModule } from 'ngx-toastr';
@@ -37,7 +39,11 @@ import { CommonModule } from '@angular/common';
 import { PlyrModule } from 'ngx-plyr';
 
 import { AppComponent } from './app.component';
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+} from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
@@ -60,10 +66,13 @@ import { StageCreationComponent } from './views/stage-creation/stage-creation.co
 import { VideoModuleComponent } from './views/videoModule/videoModule.component';
 import { VideoComponent } from './components/video/video.component';
 import { VideoOnlyComponent } from './views/video-only/video-only.component';
-import { ShowFlowComponent, DescriptionDialogComponent } from './components/show-flow/show-flow.component';
+import {
+  ShowFlowComponent,
+  DescriptionDialogComponent,
+} from './components/show-flow/show-flow.component';
 import { QuizComponent } from './components/quiz/quiz.component';
-import {QuizMantainerComponent} from './components/quiz-mantainer/quiz-mantainer.component';
-import {VideoMantainerComponent} from './components/video-mantainer/video-mantainer.component';
+import { QuizMantainerComponent } from './components/quiz-mantainer/quiz-mantainer.component';
+import { VideoMantainerComponent } from './components/video-mantainer/video-mantainer.component';
 import { SignupComponent } from './views/signup/signup.component';
 import { ConsentComponent } from './components/consent/consent.component';
 import { ModuleCreationComponent } from './views/module-creation/module-creation.component';
@@ -84,7 +93,8 @@ import { FlowsSearchComponent } from './views/flows-search/flows-search.componen
 import { FlowsSearchResultsComponent } from './views/flows-search-results/flows-search-results.component';
 import { getDutchPaginatorIntl } from './components/paginatorInt/CustomPaginatorConfiguration';
 import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
-
+import { FlowsCardDisplayComponent } from './views/flows-card-display/flows-card-display.component';
+import { UserCreationFormComponent } from './views/user-creation-form/user-creation-form.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -128,7 +138,9 @@ export function HttpLoaderFactory(http: HttpClient) {
     SearchBarComponent,
     FlowsSearchComponent,
     FlowsSearchResultsComponent,
-    FlowSearchDisplayComponent
+    FlowSearchDisplayComponent,
+    FlowsCardDisplayComponent,
+    UserCreationFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -172,17 +184,20 @@ export function HttpLoaderFactory(http: HttpClient) {
     ToastrModule.forRoot(),
     TranslateModule.forRoot({
       loader: {
-          provide: TranslateLoader,
-          useFactory: HttpLoaderFactory,
-          deps: [HttpClient]
-      }
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
     }),
     AppRoutingModule,
     NgbModule,
     NgCircleProgressModule,
-    TrainerUserUIModule
+    TrainerUserUIModule,
   ],
-  providers:[authInterceptorProviders, { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() }],
-  bootstrap: [AppComponent]
+  providers: [
+    authInterceptorProviders,
+    { provide: MatPaginatorIntl, useValue: getDutchPaginatorIntl() },
+  ],
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

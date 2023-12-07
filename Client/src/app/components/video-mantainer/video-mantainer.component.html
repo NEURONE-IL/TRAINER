@@ -1,11 +1,13 @@
 <div class="row">
   <div class="col-md-6" style="padding-top: 10px">
-    <mat-card-subtitle> Mantenedor de Videos:</mat-card-subtitle>
+    <mat-card-subtitle class="titulo-video-mantainer">
+      Mantenedor de Videos:</mat-card-subtitle
+    >
   </div>
   <div class="col-md-6"></div>
 </div>
 <!-- CREAR VIDEO -->
-<mat-card-content>
+<mat-card-content class="content-style">
   <div>
     <h2>Insertar Video</h2>
     <form class="form-horizontal">
@@ -42,7 +44,10 @@
               >Idioma*:</label
             >
             <div class="col-sm-10">
-              <mat-form-field class="languageVideo" appearance="fill">
+              <mat-form-field
+                class="languageVideo mat-form-style"
+                appearance="fill"
+              >
                 <mat-label>Seleccionar Idioma Video</mat-label>
                 <mat-select [(ngModel)]="languageVideo" name="video">
                   <mat-option [value]="'es'"> Español </mat-option>
@@ -99,7 +104,7 @@
   <!--Visualizar los videos -->
   <div>
     <h2>Videos Cargados</h2>
-    <div *ngFor="let video of videos">
+    <div *ngFor="let video of videos" class="quizz-class">
       <mat-card class="quizPreview">
         <div class="row">
           <div
@@ -115,7 +120,7 @@
             <mat-card-header>
               <h4>Video: {{ video.name }}</h4>
             </mat-card-header>
-            <mat-card-content>
+            <mat-card-content class="content-style">
               <p>Idioma: {{ video.language }}</p>
               <p>
                 Url:
