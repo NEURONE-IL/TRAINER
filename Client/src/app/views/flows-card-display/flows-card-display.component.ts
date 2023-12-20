@@ -49,6 +49,7 @@ export class FlowsCardDisplayComponent implements OnInit {
   clickedFlow(id) {
     let link = '/admin_panel/flow/' + id;
     this.flowSelected.emit(link);
+    // this.router.navigate([link]);
   }
 
   actualFlow = '';

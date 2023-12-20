@@ -44,7 +44,9 @@
         <app-video-mantainer-component></app-video-mantainer-component>
       </div>
       <div class="flujosView" *ngIf="flujoActivo">
-        <app-flows-card-display></app-flows-card-display>
+        <app-flows-card-display
+          (flowSelected)="flowSelectedHandler($event)"
+        ></app-flows-card-display>
       </div>
       <div class="flujosView" *ngIf="usuariosActivo">
         <app-user-creation-form> </app-user-creation-form>

@@ -79,4 +79,10 @@ export class FlowsDisplayComponent implements OnInit {
     }
   }
   selectSubMenu(nombre, event) {}
+
+  @Output() flowSelected: EventEmitter<string> = new EventEmitter();
+  flowSelectedHandler(event) {
+    this.flowSelected.emit(event);
+    // this.router.navigate(['/flow', flow._id]);
+  }
 }

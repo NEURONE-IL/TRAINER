@@ -23,6 +23,12 @@ mat-card-content {
   color: black;
 }
 
+.preview-button {
+  background-color: #ff9800;
+  margin-right: 5px;
+  color: #ffffff;
+}
+
 .card {
   margin: auto;
   margin-top: 10px;

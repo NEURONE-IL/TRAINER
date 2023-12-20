@@ -3,8 +3,22 @@
     <mat-card class="card mat-elevation-z8">
       <mat-card-title>Formulario para creación de usuarios</mat-card-title>
       <mat-card-content>
-        <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <form [formGroup]="userCreateForm" (ngSubmit)="onSubmit()">
           <div class="row">
+            <div class="col-md-12">
+              <mat-form-field>
+                <!--mat-label>{{ "ADMIN.CHALLENGES.HOURS" | translate }}</mat-label-->
+                <mat-label>Flujo</mat-label>
+                <mat-select formControlName="paramFlow">
+                  <mat-option *ngFor="let flow of flows" [value]="flow._id">
+                    {{ flow.name + " - ID: " + flow._id }}
+                  </mat-option>
+                </mat-select>
+                <mat-error>
+                  {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Prefijo</mat-label>
@@ -12,7 +26,7 @@
                   type="text"
                   placeholder="Ej: userColegio"
                   matInput
-                  formControlName="name"
+                  formControlName="paramEmailPrefix"
                 />
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
@@ -26,7 +40,7 @@
                   type="text"
                   placeholder="Ej: @correo.com"
                   matInput
-                  formControlName="lastName"
+                  formControlName="paramEmailSubfix"
                 />
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
@@ -36,7 +50,7 @@
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Número Inicial</mat-label>
-                <input type="number" matInput formControlName="lastName" />
+                <input type="number" matInput formControlName="paramStart" />
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
                 </mat-error>
@@ -45,7 +59,7 @@
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Número Final</mat-label>
-                <input type="number" matInput formControlName="lastName" />
+                <input type="number" matInput formControlName="paramUsers" />
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
                 </mat-error>
@@ -55,7 +69,7 @@
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Nombre</mat-label>
-                <input type="text" matInput formControlName="email" />
+                <input type="text" matInput formControlName="paramName" />
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
                 </mat-error>
@@ -65,7 +79,34 @@
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Institucion</mat-label>
-                <input type="text" matInput formControlName="password" />
+                <input
+                  type="text"
+                  matInput
+                  formControlName="paramInstitution"
+                />
+                <mat-error>
+                  {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <!-- <mat-form-field>
+                <mat-label>Cumpleaños</mat-label>
+                <input
+                  type="text"
+                  matInput
+                  formControlName="paramBirthdayYear"
+                />
+                <mat-error> {{ "SIGNUP.REQUIRED" | translate }}</mat-error>
+              </mat-form-field> -->
+              <mat-form-field>
+                <!--mat-label>{{ "ADMIN.CHALLENGES.HOURS" | translate }}</mat-label-->
+                <mat-label>Cumpleaños (Año)</mat-label>
+                <mat-select formControlName="paramBirthdayYear">
+                  <mat-option *ngFor="let year of years" [value]="year">
+                    {{ year }}
+                  </mat-option>
+                </mat-select>
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
                 </mat-error>
@@ -73,27 +114,15 @@
             </div>
             <div class="col-md-6">
               <mat-form-field>
-                <mat-label>Cumpleaños</mat-label>
-                <input
-                  type="text"
-                  matInput
-                  formControlName="passwordConfirmation"
-                  (input)="onPasswordInput()"
-                />
-                <mat-error> {{ "SIGNUP.REQUIRED" | translate }}</mat-error>
-                <mat-error
-                  *ngIf="
-                    passwordConfirmation.invalid &&
-                    !passwordConfirmation.hasError('required')
-                  "
-                  >Passwords don't match</mat-error
-                >
-              </mat-form-field>
-            </div>
-            <div class="col-md-6">
-              <mat-form-field>
                 <mat-label>Curso</mat-label>
-                <input type="text" matInput formControlName="lastName" />
+                <mat-select formControlName="paramCourse">
+                  <mat-option
+                    *ngFor="let course of courses"
+                    [value]="course.value"
+                  >
+                    {{ course.display }}
+                  </mat-option>
+                </mat-select>
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
                 </mat-error>
@@ -102,7 +131,17 @@
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Región</mat-label>
-                <input type="text" matInput formControlName="lastName" />
+                <mat-select
+                  formControlName="paramRegion"
+                  (selectionChange)="onRegionChange($event)"
+                >
+                  <mat-option
+                    *ngFor="let region of regions"
+                    [value]="region.id"
+                  >
+                    {{ region.name }}
+                  </mat-option>
+                </mat-select>
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
                 </mat-error>
@@ -111,7 +150,14 @@
             <div class="col-md-6">
               <mat-form-field>
                 <mat-label>Comuna</mat-label>
-                <input type="text" matInput formControlName="lastName" />
+                <mat-select formControlName="paramCommune">
+                  <mat-option
+                    *ngFor="let commune of communes"
+                    [value]="commune.id"
+                  >
+                    {{ commune.name }}
+                  </mat-option>
+                </mat-select>
                 <mat-error>
                   {{ "SIGNUP.REQUIRED" | translate }}
                 </mat-error>
@@ -119,8 +165,13 @@
             </div>
 
             <div class="col-md-12 button-register-user">
+              <button type="submit" class="preview-button" mat-raised-button>
+                Previsualizar
+                <mat-icon>remove_red_eye</mat-icon>
+              </button>
               <button type="submit" color="primary" mat-raised-button>
                 Registrar Usuarios
+                <mat-icon>group_add</mat-icon>
               </button>
             </div>
           </div>
