@@ -2,7 +2,10 @@
   width: 100%;
   min-width: 300px;
 }
-
+.display-grid {
+  display: grid;
+  justify-content: center;
+}
 mat-card-title,
 mat-card-content {
   display: flex;
@@ -21,6 +24,7 @@ mat-card-content {
   display: flex;
   justify-content: end;
   color: black;
+  margin-top: 20px;
 }
 
 .preview-button {
@@ -69,4 +73,7 @@ mat-card-content {
 }
 .card {
   background-color: rgba(255, 255, 255, 0.9);
+}
+.button-icon-right {
+  margin-left: 10px;
 }

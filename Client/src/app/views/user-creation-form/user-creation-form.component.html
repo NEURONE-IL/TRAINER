@@ -2,8 +2,8 @@
   <div class="main-content">
     <mat-card class="card mat-elevation-z8">
       <mat-card-title>Formulario para creación de usuarios</mat-card-title>
-      <mat-card-content>
-        <form [formGroup]="userCreateForm" (ngSubmit)="onSubmit()">
+      <mat-card-content class="display-grid">
+        <form [formGroup]="userCreateForm" (ngSubmit)="registerUsers()">
           <div class="row">
             <div class="col-md-12">
               <mat-form-field>
@@ -20,30 +20,71 @@
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
-                <mat-label>Prefijo</mat-label>
+              <mat-form-field floatLabel="always">
+                <mat-label>Prefijo Correo</mat-label>
                 <input
                   type="text"
-                  placeholder="Ej: userColegio"
+                  placeholder="userColegio"
                   matInput
                   formControlName="paramEmailPrefix"
                 />
-                <mat-error>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramEmailPrefix.hasError('required')
+                  "
+                >
                   {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramEmailPrefix.hasError('pattern')
+                  "
+                >
+                  Ingrese un prefijo de correo válido
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramEmailPrefix.hasError(
+                      'maxlength'
+                    )
+                  "
+                >
+                  Se permite máximo 30 caracteres
                 </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-6">
-              <mat-form-field>
-                <mat-label>Sufijo</mat-label>
+              <mat-form-field floatLabel="always">
+                <mat-label>Sufijo Correo</mat-label>
                 <input
                   type="text"
-                  placeholder="Ej: @correo.com"
+                  placeholder="correo.com"
                   matInput
                   formControlName="paramEmailSubfix"
                 />
-                <mat-error>
+                <span matPrefix>{{ "@" }}</span>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramEmailSubfix.hasError('required')
+                  "
+                >
                   {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramEmailSubfix.hasError(
+                      'maxlength'
+                    )
+                  "
+                >
+                  Se permite máximo 30 caracteres
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramEmailSubfix.hasError('pattern')
+                  "
+                >
+                  Ingrese un sufijo de correo válido
                 </mat-error>
               </mat-form-field>
             </div>
@@ -51,17 +92,36 @@
               <mat-form-field>
                 <mat-label>Número Inicial</mat-label>
                 <input type="number" matInput formControlName="paramStart" />
-                <mat-error>
+                <mat-error
+                  *ngIf="userCreateFormControls.paramStart.hasError('required')"
+                >
                   {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+                <mat-error
+                  *ngIf="userCreateFormControls.paramStart.hasError('min')"
+                >
+                  El valor mínimo es 1
                 </mat-error>
               </mat-form-field>
             </div>
             <div class="col-md-6">
               <mat-form-field>
-                <mat-label>Número Final</mat-label>
+                <mat-label>Cantidad de usuarios</mat-label>
                 <input type="number" matInput formControlName="paramUsers" />
-                <mat-error>
+                <mat-error
+                  *ngIf="userCreateFormControls.paramUsers.hasError('required')"
+                >
                   {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+                <mat-error
+                  *ngIf="userCreateFormControls.paramUsers.hasError('min')"
+                >
+                  El valor mínimo es 1
+                </mat-error>
+                <mat-error
+                  *ngIf="userCreateFormControls.paramUsers.hasError('max')"
+                >
+                  El valor máximo es 50
                 </mat-error>
               </mat-form-field>
             </div>
@@ -70,8 +130,15 @@
               <mat-form-field>
                 <mat-label>Nombre</mat-label>
                 <input type="text" matInput formControlName="paramName" />
-                <mat-error>
+                <mat-error
+                  *ngIf="userCreateFormControls.paramName.hasError('required')"
+                >
                   {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+                <mat-error
+                  *ngIf="userCreateFormControls.paramName.hasError('maxlength')"
+                >
+                  Se permite máximo 50 caracteres
                 </mat-error>
               </mat-form-field>
             </div>
@@ -84,8 +151,21 @@
                   matInput
                   formControlName="paramInstitution"
                 />
-                <mat-error>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramInstitution.hasError('required')
+                  "
+                >
                   {{ "SIGNUP.REQUIRED" | translate }}
+                </mat-error>
+                <mat-error
+                  *ngIf="
+                    userCreateFormControls.paramInstitution.hasError(
+                      'maxlength'
+                    )
+                  "
+                >
+                  Se permite máximo 75 caracteres
                 </mat-error>
               </mat-form-field>
             </div>
@@ -163,19 +243,28 @@
                 </mat-error>
               </mat-form-field>
             </div>
-
-            <div class="col-md-12 button-register-user">
-              <button type="submit" class="preview-button" mat-raised-button>
-                Previsualizar
-                <mat-icon>remove_red_eye</mat-icon>
-              </button>
-              <button type="submit" color="primary" mat-raised-button>
-                Registrar Usuarios
-                <mat-icon>group_add</mat-icon>
-              </button>
-            </div>
           </div>
         </form>
+        <div class="button-register-user">
+          <button
+            class="preview-button"
+            mat-raised-button
+            [disabled]="!userCreateForm.valid"
+            (click)="openPreview()"
+          >
+            Previsualizar
+            <mat-icon class="button-icon-right">remove_red_eye</mat-icon>
+          </button>
+          <button
+            type="submit"
+            color="primary"
+            (click)="registerUsers()"
+            mat-raised-button
+          >
+            Registrar Usuarios
+            <mat-icon class="button-icon-right">group_add</mat-icon>
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

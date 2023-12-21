@@ -214,6 +214,6 @@ export class AuthService {
   }
 
   createMultipleUsers(params: any): Observable<any> {
-    return this.http.post(this.uri + 'legacySignup', params);
+    return this.http.post(this.uri + 'registerMultiple ', params);
   }
 }

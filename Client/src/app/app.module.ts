@@ -95,6 +95,7 @@ import { getDutchPaginatorIntl } from './components/paginatorInt/CustomPaginator
 import { FlowSearchDisplayComponent } from './views/flow-search-display/flow-search-display.component';
 import { FlowsCardDisplayComponent } from './views/flows-card-display/flows-card-display.component';
 import { UserCreationFormComponent } from './views/user-creation-form/user-creation-form.component';
+import { DialogUsersPreviewComponent } from './views/dialog-users-preview/dialog-users-preview.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -141,6 +142,7 @@ export function HttpLoaderFactory(http: HttpClient) {
     FlowSearchDisplayComponent,
     FlowsCardDisplayComponent,
     UserCreationFormComponent,
+    DialogUsersPreviewComponent,
   ],
   imports: [
     BrowserModule,
