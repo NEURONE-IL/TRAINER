@@ -16,6 +16,7 @@ import { SignupConstants } from '../signup/signup.constants';
 import { getRegiones, getComunasByRegion } from 'dpacl';
 import { DialogUsersPreviewComponent } from 'src/app/views/dialog-users-preview/dialog-users-preview.component';
 import { MatDialog } from '@angular/material/dialog';
+import { User } from 'src/app/trainer-userUI/interfaces/user.interface';
 @Component({
   selector: 'app-user-creation-form',
   templateUrl: './user-creation-form.component.html',
@@ -23,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class UserCreationFormComponent implements OnInit {
   userCreateForm: FormGroup;
+  user: User;
   flows: Flow[] = [];
   years: number[] = [];
   courses: any;
@@ -44,7 +46,8 @@ export class UserCreationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.flowService.getFlows().subscribe(
+    this.user = this.authService.getUser();
+    this.flowService.getFlowsByUser(this.user._id).subscribe(
       (response) => {
         this.flows = response['flows'];
         console.log(this.flows);

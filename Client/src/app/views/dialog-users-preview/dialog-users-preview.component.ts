@@ -35,7 +35,7 @@ export class DialogUsersPreviewComponent implements OnInit, OnDestroy {
       } else {
         id += i;
       }
-      this.users.push({ email: prefix + id + sufix, name: name + id });
+      this.users.push({ email: prefix + id + '@' + sufix, name: name + id });
     }
   }
 
