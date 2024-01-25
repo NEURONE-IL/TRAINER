@@ -9,7 +9,9 @@ const Stage = require("../models/stage");
 const UserFlow = require("../models/userFlow");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
+const verifyToken = require('../middlewares/verifyToken');
 const authMiddleware = require("../middlewares/authMiddleware");
+const fs = require("fs");
 const { isValidObjectId } = require('mongoose');
 const { generateProgress, sendConfirmationEmail } = require("../utils/routeUtils");
 
@@ -480,6 +482,182 @@ router.post("/login", async (req, res) => {
   //create and assign a token
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
   return res.header("x-access-token", token).send({ user: user, token: token });
+});
+
+router.post(
+  "/registerMultiple/:flow_id", [authMiddleware.verifyBodyMultiple, authMiddleware.uniqueEmailMultiple], async (req, res) => {
+    const flow_id = req.params.flow_id;
+
+    if (!isValidObjectId(flow_id)) {
+      return res.status(404).json({
+        ok: false,
+        message: "FLOW_NOT_FOUND_ERROR"
+      });
+    }
+
+    /*Find student role*/
+    const role = await Role.findOne({ name: "student" }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err
+        });
+      }
+    }); 
+    
+    /*Find flow*/
+    const flow = await Flow.findOne({ _id: flow_id }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err
+        });
+      }
+    });  
+
+    /*Find flow modules*/
+    const modules = await Module.find({ flow: flow }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err,
+        });
+      }
+    });
+    
+    /*Find flow stages*/
+    const stages = await Stage.find({ flow: flow }, (err) => {
+      if (err) {
+        return res.status(404).json({
+          ok: false,
+          err,
+        });
+      }
+    }).sort({step: 'asc'});
+
+    if (!flow) {
+      return res.status(404).json({
+        ok: false,
+        message: "FLOW_NOT_FOUND_ERROR"
+      });
+    }
+
+    createDirIfNotExists('public/' + req.body.paramAdminId);
+
+    const fileName = 'public/' + req.body.paramAdminId + '/' + flow.name + '_' + Date.now() + '.csv';
+
+    fs.appendFile(fileName, JSON.stringify("email" + ',' + "password") + '\n', err => {
+      if(err){
+        throw err;
+      }
+    });
+
+    for(let i = 0 + req.body.paramStart; i < req.body.paramUsers + req.body.paramStart; i++){
+      let id = "";
+      if(i < 10){
+        id += "00" + i;
+      }
+      else if(i >= 10 && i < 100){
+        id += "0" + i;
+      }
+      else{
+        id += i;
+      }
+
+      let email = req.body.paramEmailPrefix + id + req.body.paramEmailSubfix;
+      let password = Math.floor(1000 + Math.random() * 9000) + "";
+
+      /*create userData*/
+      const userData = new UserData({
+        email: email,
+        tutor_names: "NombreTutor",
+        tutor_last_names: "ApellidoTutor",
+        tutor_phone: null,
+        names: req.body.paramName + id,
+        last_names: ".",
+        birthday: new Date(req.body.paramBirthdayYear).toUTCString(),
+        course: req.body.paramCourse,
+        institution: req.body.paramInstitution,
+        institution_commune: req.body.paramCommune,
+        institution_region: req.body.paramRegion,
+        relation: "Tutor",
+      });
+
+      /*save userData in DB*/
+      userData.save((err, userData) => {
+        if (err) {
+          return res.status(404).json({
+            ok: false,
+            err
+          })
+        }
+      });
+
+      /*Hash password*/
+      const salt = await bcrypt.genSalt(10);
+      const hashPassword = await bcrypt.hash(password, salt);    
+
+      /*Create user*/
+      const user = new User({
+        email: email,
+        names: req.body.paramName,
+        password: hashPassword,
+        role: role._id,
+        flow: flow._id,
+      });
+
+      /*Save user in DB*/
+      user.save((err, user) => {
+        if (err) {
+          return res.status(404).json({
+            ok: false,
+            err
+          });
+        }    
+
+        /*Generate user flow progress entry*/
+        generateProgress(modules, stages, user, flow)
+          .catch((err) => {
+            return res.status(404).json({
+              ok: false
+            });
+          })
+          .then((progress) => {
+
+            /*Send confirmation email*/
+//            sendConfirmationEmail(user, userData, res, req);
+          });
+
+          fs.appendFile(fileName, JSON.stringify(user.email + ',' + password) + '\n', err => {
+            if(err){
+              throw err;
+            }
+          });
+
+      });
+
+    }
+    
+    return res.status(200).json({
+      message: "REGISTER_MULTIPLE_SUCCESS",
+      nombre: fileName
+    });
+    
+  }
+);
+
+function createDirIfNotExists(dir) {
+  !fs.existsSync(dir) ? fs.mkdirSync(dir, { recursive: true }) : undefined;
+}
+
+router.get('/getUserFiles/:user_id', [verifyToken, authMiddleware.isAdmin], async (req, res) => {
+
+    const files = fs.readdirSync('public/' + req.params.user_id);
+
+    return res.status(200).json({
+      files: files
+    });
+
 });
 
 module.exports = router;

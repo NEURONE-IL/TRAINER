@@ -77,6 +77,43 @@ const adminSchema = Joi.object({
         .required()
 });
 
+const schemaMultiple = Joi.object({
+
+    paramEmailPrefix: Joi.string()
+        .required(),
+    
+    paramEmailSubfix: Joi.string()
+        .required(),
+
+    paramName: Joi.string()
+        .required(),
+    
+    paramInstitution: Joi.string()
+        .required(),
+    
+    paramBirthdayYear: Joi.number()
+        .required(),
+
+    paramCourse: Joi.string()
+        .required(),
+
+    paramCommune: Joi.number()
+        .required(),
+    
+    paramRegion: Joi.number()
+        .required(),
+
+    paramStart: Joi.number()
+        .required(),
+    
+    paramUsers: Joi.number()
+        .required(),
+
+    paramAdminId: Joi.string()
+        .required()
+
+});
+
 verifyBody = async (req, res, next) => {
     try {
         const validation = await schema.validateAsync(req.body);
@@ -116,6 +153,19 @@ verifyBodyAdmin = async (req, res, next) => {
     }
 };
 
+verifyBodyMultiple = async (req, res, next) => {
+    try {
+        const validation = await schemaMultiple.validateAsync(req.body);
+        next();
+    }
+    catch (err) {
+        return res.status(400).json({
+            ok: false,
+            err
+        });
+    }
+};
+
 uniqueEmail = async(req, res, next) => {
     await User.findOne({email: req.body.email}, (err, user) => {
         if(err){
@@ -134,6 +184,54 @@ uniqueEmail = async(req, res, next) => {
             next();
         }
     })
+}
+
+uniqueEmailMultiple = async(req, res, next) => {
+
+    let emailUsado = false;
+    let emailEnConflicto;
+
+    for(let i = req.body.paramStart; i < req.body.paramStart + req.body.paramUsers; i++){
+
+        let id = "";
+
+		if(i < 10){
+			id += "00" + i;
+		}
+		else if(i >= 10 && i < 100){
+			id += "0" + i;
+		}
+		else{
+			id += i;
+		}
+
+        let email = req.body.paramEmailPrefix + id + req.body.paramEmailSubfix;
+
+        if(!emailUsado){
+            await User.findOne({email: email}, (err, user) => {
+                if(err){
+                    return res.status(404).json({
+                        ok: false,
+                        err
+                    });
+                }
+                if(user){
+                    emailUsado = true;
+                    emailEnConflicto = email;
+                }
+            })
+        }
+    }
+
+    if(emailUsado){
+        return res.status(422).json({
+            ok: false,
+            message: 'EMAIL_ALREADY_USED_MULTIPLE',
+            email: emailEnConflicto
+        }); 
+    } else {
+        next();
+    }
 }
 
 isAdmin = async(req, res, next) => {
@@ -171,7 +269,9 @@ const authMiddleware = {
     verifyBody,
     verifyBodySimple,
     verifyBodyAdmin,
+    verifyBodyMultiple,
     uniqueEmail,
+    uniqueEmailMultiple,
     isAdmin
 };
 
