@@ -216,4 +216,7 @@ export class AuthService {
   createMultipleUsers(params: any): Observable<any> {
     return this.http.post(this.uri + 'registerMultiple ', params);
   }
+  getUsersCSV(user_id: string): Observable<any> {
+    return this.http.get(this.uri + 'getUserFiles/' + user_id);
+  }
 }

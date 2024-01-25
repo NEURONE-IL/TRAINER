@@ -6,6 +6,12 @@
   display: grid;
   justify-content: center;
 }
+.chip-display {
+  display: block !important;
+}
+.chip-card {
+  padding-right: 200px;
+}
 mat-card-title,
 mat-card-content {
   display: flex;
@@ -76,4 +82,12 @@ mat-card-content {
 }
 .button-icon-right {
   margin-left: 10px;
+}
+.button-chip-left {
+  margin-right: 10px;
+}
+
+.chipClass .mat-chip.mat-standard-chip {
+  background-color: #3f51b5;
+  color: #ffffff;
 }

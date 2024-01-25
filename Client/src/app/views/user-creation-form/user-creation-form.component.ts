@@ -17,6 +17,8 @@ import { getRegiones, getComunasByRegion } from 'dpacl';
 import { DialogUsersPreviewComponent } from 'src/app/views/dialog-users-preview/dialog-users-preview.component';
 import { MatDialog } from '@angular/material/dialog';
 import { User } from 'src/app/trainer-userUI/interfaces/user.interface';
+import { environment } from 'src/environments/environment';
+import FileSaver from 'file-saver';
 @Component({
   selector: 'app-user-creation-form',
   templateUrl: './user-creation-form.component.html',
@@ -25,7 +27,9 @@ import { User } from 'src/app/trainer-userUI/interfaces/user.interface';
 export class UserCreationFormComponent implements OnInit {
   userCreateForm: FormGroup;
   user: User;
+  loadingFiles: Boolean = false;
   flows: Flow[] = [];
+  files: String[] = ['test.png', 'test2.png', 'test3.png', 'test4.png'];
   years: number[] = [];
   courses: any;
   regions: any;
@@ -39,6 +43,7 @@ export class UserCreationFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
+    // private fileSaver: FileSaver,
     public matDialog: MatDialog
   ) {
     this.courses = SignupConstants.courses;
@@ -71,6 +76,7 @@ export class UserCreationFormComponent implements OnInit {
       .map((x, i) => -i + x);
 
     this.userCreateForm = this.formBuilder.group({
+      paramAdminId: [this.user._id, Validators.required],
       paramFlow: ['', Validators.required],
       paramEmailPrefix: [
         '',
@@ -118,21 +124,36 @@ export class UserCreationFormComponent implements OnInit {
     this.authService.createMultipleUsers(this.userCreateForm).subscribe(
       (response) => {
         console.log(response);
-        this.toastr.error(
-          'Los usuarios han sido creados exitosamente',
-          'Usuarios Creados',
+        this.toastr.success(
+          this.translate.instant('FLOW.TOAST.REGISTER_MULTIPLE_SUCCESS'),
+          this.translate.instant('FLOW.TOAST.REGISTER_MULTIPLE_SUCCESS_TITLE'),
           {
             timeOut: 5000,
             positionClass: 'toast-top-center',
           }
         );
+        this.descargarDocumento(response['nombre']);
       },
       (err) => {
         console.error(err);
-        this.toastr.error('Ocurrió un error al crear los usuarios', 'Error', {
-          timeOut: 5000,
-          positionClass: 'toast-top-center',
-        });
+        let error = err.error.message;
+        if (error === 'EMAIL_ALREADY_USED_MULTIPLE') {
+          this.toastr.error(
+            this.translate.instant('FLOW.TOAST.EMAIL_ALREADY_USED_MULTIPLE'),
+            this.translate.instant(
+              'FLOW.TOAST.EMAIL_ALREADY_USED_MULTIPLE_TITLE'
+            ),
+            {
+              timeOut: 5000,
+              positionClass: 'toast-top-center',
+            }
+          );
+          return;
+        } else
+          this.toastr.error('Ocurrió un error al crear los usuarios', 'Error', {
+            timeOut: 5000,
+            positionClass: 'toast-top-center',
+          });
       }
     );
   }
@@ -147,5 +168,32 @@ export class UserCreationFormComponent implements OnInit {
       width: '60%',
       data: this.userCreateForm.value,
     });
+  }
+
+  descargarDocumento(nombre: string) {
+    const uriBase = environment.serverRoot + this.user._id + '/' + nombre;
+    FileSaver.saveAs(uriBase, nombre);
+  }
+
+  getFileList() {
+    this.loadingFiles = true;
+    this.authService.getUsersCSV(this.user._id).subscribe(
+      (response) => {
+        console.log(response);
+        this.files = response['files'];
+        this.loadingFiles = false;
+      },
+      (err) => {
+        console.error(err);
+        this.toastr.error(
+          'Ocurrió un error al obtener los archivos creados',
+          'Error',
+          {
+            timeOut: 5000,
+            positionClass: 'toast-top-center',
+          }
+        );
+      }
+    );
   }
 }
