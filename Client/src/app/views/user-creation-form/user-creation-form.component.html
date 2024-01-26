@@ -326,6 +326,7 @@
         <mat-card-title>Lista de archivos descargables</mat-card-title>
         <mat-card-content *ngIf="!loadingFiles; else cargandoArchivos">
           <mat-table
+            *ngIf="!loadingFiles && files.length > 0; else sinArchivos"
             [dataSource]="files"
             class="mat-elevation-z0"
             style="width: 100%"
@@ -362,6 +363,9 @@
             ></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
           </mat-table>
+          <ng-template #sinArchivos>
+            No se han generado archivos de creación de usuarios
+          </ng-template>
         </mat-card-content>
         <ng-template #cargandoArchivos>
           <div class="spinner-class">

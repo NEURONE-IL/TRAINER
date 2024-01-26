@@ -148,6 +148,7 @@ export class UserCreationFormComponent implements OnInit {
             }
           );
           this.descargarDocumento(response['nombre']);
+          this.userCreateForm.reset();
           this.loadingCreation = false;
         },
         (err) => {

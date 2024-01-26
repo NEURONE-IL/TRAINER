@@ -589,7 +589,12 @@ router.post(
         id += i;
       }
 
-      let email = (req.body.paramEmailPrefix + id + '@' + req.body.paramEmailSubfix).toLowerCase();
+      let email = (
+        req.body.paramEmailPrefix +
+        id +
+        "@" +
+        req.body.paramEmailSubfix
+      ).toLowerCase();
       let password = Math.floor(1000 + Math.random() * 9000) + "";
 
       /*create userData*/
@@ -680,7 +685,9 @@ router.get(
   "/getUserFiles/:user_id",
   [verifyToken, authMiddleware.isAdmin],
   async (req, res) => {
-    const files = fs.readdirSync("public/" + req.params.user_id);
+    let files = [];
+    if (fs.existsSync("public/" + req.params.user_id))
+      files = fs.readdirSync("public/" + req.params.user_id);
 
     return res.status(200).json({
       files: files
