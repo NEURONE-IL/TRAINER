@@ -137,7 +137,6 @@ export class UserCreationFormComponent implements OnInit {
       .createMultipleUsers(form, this.userCreateForm.value.paramFlow)
       .subscribe(
         (response) => {
-          console.log(response);
           this.toastr.success(
             this.translate.instant('FLOW.TOAST.REGISTER_MULTIPLE_SUCCESS'),
             this.translate.instant(
