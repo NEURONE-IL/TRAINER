@@ -127,7 +127,6 @@ verifyBodyAdmin = async (req, res, next) => {
 
 verifyBodyMultiple = async (req, res, next) => {
   try {
-    console.log(req.body);
     const validation = await schemaMultiple.validateAsync(req.body);
     next();
   } catch (err) {
