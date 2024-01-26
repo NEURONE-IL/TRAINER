@@ -213,8 +213,8 @@ export class AuthService {
     return this.http.get(this.userUri + 'getUserbyEmail/' + user_email);
   }
 
-  createMultipleUsers(params: any): Observable<any> {
-    return this.http.post(this.uri + 'registerMultiple ', params);
+  createMultipleUsers(params: any, flow_id: string): Observable<any> {
+    return this.http.post(this.uri + 'registerMultiple/' + flow_id, params);
   }
   getUsersCSV(user_id: string): Observable<any> {
     return this.http.get(this.uri + 'getUserFiles/' + user_id);

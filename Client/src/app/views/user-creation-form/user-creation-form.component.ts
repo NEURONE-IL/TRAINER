@@ -28,6 +28,7 @@ export class UserCreationFormComponent implements OnInit {
   userCreateForm: FormGroup;
   user: User;
   loadingFiles: Boolean = false;
+  loadingCreation: Boolean = false;
   flows: Flow[] = [];
   files: String[] = ['test.png', 'test2.png', 'test3.png', 'test4.png'];
   years: number[] = [];
@@ -76,7 +77,6 @@ export class UserCreationFormComponent implements OnInit {
       .map((x, i) => -i + x);
 
     this.userCreateForm = this.formBuilder.group({
-      paramAdminId: [this.user._id, Validators.required],
       paramFlow: ['', Validators.required],
       paramEmailPrefix: [
         '',
@@ -120,42 +120,70 @@ export class UserCreationFormComponent implements OnInit {
       this.userCreateForm.markAllAsTouched();
       return;
     }
+    let form = {
+      paramAdminId: this.user._id,
+      paramEmailPrefix: this.userCreateForm.value.paramEmailPrefix,
+      paramEmailSubfix: this.userCreateForm.value.paramEmailSubfix,
+      paramName: this.userCreateForm.value.paramName,
+      paramInstitution: this.userCreateForm.value.paramInstitution,
+      paramBirthdayYear: this.userCreateForm.value.paramBirthdayYear,
+      paramCourse: this.userCreateForm.value.paramCourse,
+      paramCommune: this.userCreateForm.value.paramCommune,
+      paramRegion: this.userCreateForm.value.paramRegion,
+      paramStart: this.userCreateForm.value.paramStart,
+      paramUsers: this.userCreateForm.value.paramUsers,
+    };
 
-    this.authService.createMultipleUsers(this.userCreateForm).subscribe(
-      (response) => {
-        console.log(response);
-        this.toastr.success(
-          this.translate.instant('FLOW.TOAST.REGISTER_MULTIPLE_SUCCESS'),
-          this.translate.instant('FLOW.TOAST.REGISTER_MULTIPLE_SUCCESS_TITLE'),
-          {
-            timeOut: 5000,
-            positionClass: 'toast-top-center',
-          }
-        );
-        this.descargarDocumento(response['nombre']);
-      },
-      (err) => {
-        console.error(err);
-        let error = err.error.message;
-        if (error === 'EMAIL_ALREADY_USED_MULTIPLE') {
-          this.toastr.error(
-            this.translate.instant('FLOW.TOAST.EMAIL_ALREADY_USED_MULTIPLE'),
+    this.loadingCreation = true;
+    this.authService
+      .createMultipleUsers(form, this.userCreateForm.value.paramFlow)
+      .subscribe(
+        (response) => {
+          console.log(response);
+          this.toastr.success(
+            this.translate.instant('FLOW.TOAST.REGISTER_MULTIPLE_SUCCESS'),
             this.translate.instant(
-              'FLOW.TOAST.EMAIL_ALREADY_USED_MULTIPLE_TITLE'
+              'FLOW.TOAST.REGISTER_MULTIPLE_SUCCESS_TITLE'
             ),
             {
               timeOut: 5000,
               positionClass: 'toast-top-center',
             }
           );
-          return;
-        } else
-          this.toastr.error('Ocurrió un error al crear los usuarios', 'Error', {
-            timeOut: 5000,
-            positionClass: 'toast-top-center',
-          });
-      }
-    );
+          this.descargarDocumento(response['nombre']);
+          this.loadingCreation = false;
+        },
+        (err) => {
+          this.loadingCreation = false;
+
+          console.error(err);
+          let error = err.error.message;
+          if (error === 'EMAIL_ALREADY_USED_MULTIPLE') {
+            let email = err.error.email;
+            this.toastr.error(
+              this.translate.instant('FLOW.TOAST.EMAIL_ALREADY_USED_MULTIPLE') +
+                ' ' +
+                email,
+              this.translate.instant(
+                'FLOW.TOAST.EMAIL_ALREADY_USED_MULTIPLE_TITLE'
+              ),
+              {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+              }
+            );
+            return;
+          } else
+            this.toastr.error(
+              'Ocurrió un error al crear los usuarios',
+              'Error',
+              {
+                timeOut: 5000,
+                positionClass: 'toast-top-center',
+              }
+            );
+        }
+      );
   }
 
   onRegionChange(regionChange: any) {
@@ -179,11 +207,12 @@ export class UserCreationFormComponent implements OnInit {
     this.loadingFiles = true;
     this.authService.getUsersCSV(this.user._id).subscribe(
       (response) => {
-        console.log(response);
         this.files = response['files'];
         this.loadingFiles = false;
       },
       (err) => {
+        this.loadingFiles = false;
+
         console.error(err);
         this.toastr.error(
           'Ocurrió un error al obtener los archivos creados',

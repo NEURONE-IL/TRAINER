@@ -287,6 +287,7 @@
                 <mat-icon class="button-icon-right">remove_red_eye</mat-icon>
               </button>
               <button
+                *ngIf="!loadingCreation; else creando"
                 type="submit"
                 color="primary"
                 (click)="registerUsers()"
@@ -295,13 +296,23 @@
                 Registrar Usuarios
                 <mat-icon class="button-icon-right">group_add</mat-icon>
               </button>
+              <ng-template #creando>
+                <button
+                  mat-raised-button
+                  disabled
+                  class="loadingButton"
+                  color="primary"
+                >
+                  <mat-spinner diameter="20"> </mat-spinner>
+                </button>
+              </ng-template>
             </div>
           </mat-card-content>
         </mat-card>
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab id="downloadFiles">
+  <mat-tab id="downloadFiles" (click)="getFileList()">
     <ng-template mat-tab-label>
       <span> USUARIOS GENERADOS </span>
     </ng-template>
@@ -309,7 +320,10 @@
       <mat-card class="card mat-elevation-z8">
         <mat-card-title>Lista de archivos descargables</mat-card-title>
         <mat-card-content class="chip-display chip-card">
-          <mat-chip-list class="mat-chip-list-stacked chipClass">
+          <mat-chip-list
+            *ngIf="loadingFiles; else cargandoArchivos"
+            class="mat-chip-list-stacked chipClass"
+          >
             <mat-chip
               *ngFor="let file of files"
               color="primary"
@@ -319,6 +333,11 @@
               {{ file }}
             </mat-chip>
           </mat-chip-list>
+          <ng-template #cargandoArchivos>
+            <div class="noFlow">
+              <mat-spinner></mat-spinner>
+            </div>
+          </ng-template>
         </mat-card-content>
       </mat-card>
     </ng-template>
