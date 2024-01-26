@@ -12,6 +12,12 @@
 .chip-card {
   padding-right: 200px;
 }
+.spinner-class {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
+}
 mat-card-title,
 mat-card-content {
   display: flex;
@@ -28,7 +34,7 @@ mat-card-content {
 
 .button-register-user {
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   color: black;
   margin-top: 20px;
 }

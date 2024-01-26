@@ -1,4 +1,8 @@
-<mat-tab-group mat-align-tabs="start" mat-stretch-tabs>
+<mat-tab-group
+  mat-align-tabs="start"
+  mat-stretch-tabs
+  (selectedTabChange)="onTabChange($event)"
+>
   <mat-tab id="userCreation">
     <ng-template mat-tab-label>
       <span> CREAR USUARIOS </span>
@@ -312,33 +316,58 @@
       </div>
     </ng-template>
   </mat-tab>
-  <mat-tab id="downloadFiles" (click)="getFileList()">
+  <mat-tab id="downloadFiles">
     <ng-template mat-tab-label>
       <span> USUARIOS GENERADOS </span>
     </ng-template>
+
     <ng-template matTabContent>
       <mat-card class="card mat-elevation-z8">
         <mat-card-title>Lista de archivos descargables</mat-card-title>
-        <mat-card-content class="chip-display chip-card">
-          <mat-chip-list
-            *ngIf="loadingFiles; else cargandoArchivos"
-            class="mat-chip-list-stacked chipClass"
+        <mat-card-content *ngIf="!loadingFiles; else cargandoArchivos">
+          <mat-table
+            [dataSource]="files"
+            class="mat-elevation-z0"
+            style="width: 100%"
           >
-            <mat-chip
-              *ngFor="let file of files"
-              color="primary"
-              (click)="descargarDocumento(file)"
-            >
-              <mat-icon class="button-chip-left">file_download</mat-icon>
-              {{ file }}
-            </mat-chip>
-          </mat-chip-list>
-          <ng-template #cargandoArchivos>
-            <div class="noFlow">
-              <mat-spinner></mat-spinner>
-            </div>
-          </ng-template>
+            <ng-container matColumnDef="nombre">
+              <mat-header-cell *matHeaderCellDef> Nombre </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <div>
+                  <mat-chip-list class="mat-chip-list-stacked chipClass">
+                    <mat-chip
+                      color="primary"
+                      style="cursor: pointer"
+                      (click)="descargarDocumento(element.nombre)"
+                    >
+                      <mat-icon class="button-chip-left"
+                        >file_download</mat-icon
+                      >
+                      {{ element.nombre }}
+                    </mat-chip>
+                  </mat-chip-list>
+                </div>
+              </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha">
+              <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                {{ element.fecha }}
+              </mat-cell>
+            </ng-container>
+
+            <mat-header-row
+              *matHeaderRowDef="displayedColumns"
+            ></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+          </mat-table>
         </mat-card-content>
+        <ng-template #cargandoArchivos>
+          <div class="spinner-class">
+            <mat-spinner></mat-spinner>
+          </div>
+        </ng-template>
       </mat-card>
     </ng-template>
   </mat-tab>

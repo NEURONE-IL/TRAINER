@@ -3,8 +3,6 @@ import {
   FormBuilder,
   FormGroup,
   FormControl,
-  ValidationErrors,
-  ValidatorFn,
   Validators,
 } from '@angular/forms';
 import { AuthService } from '../../services/auth/auth.service';
@@ -27,10 +25,11 @@ import FileSaver from 'file-saver';
 export class UserCreationFormComponent implements OnInit {
   userCreateForm: FormGroup;
   user: User;
-  loadingFiles: Boolean = false;
+  loadingFiles: Boolean = true;
   loadingCreation: Boolean = false;
   flows: Flow[] = [];
-  files: String[] = ['test.png', 'test2.png', 'test3.png', 'test4.png'];
+  files: any[] = [];
+  displayedColumns: string[] = ['nombre', 'fecha'];
   years: number[] = [];
   courses: any;
   regions: any;
@@ -44,7 +43,6 @@ export class UserCreationFormComponent implements OnInit {
     private router: Router,
     private toastr: ToastrService,
     private translate: TranslateService,
-    // private fileSaver: FileSaver,
     public matDialog: MatDialog
   ) {
     this.courses = SignupConstants.courses;
@@ -203,11 +201,37 @@ export class UserCreationFormComponent implements OnInit {
     FileSaver.saveAs(uriBase, nombre);
   }
 
+  onTabChange(event: any): void {
+    if (event.index === 1) {
+      this.getFileList();
+    }
+  }
+
   getFileList() {
     this.loadingFiles = true;
     this.authService.getUsersCSV(this.user._id).subscribe(
       (response) => {
-        this.files = response['files'];
+        console.log('files', response);
+        let files = response['files'];
+        this.files = files.map((file) => {
+          const timestampMatch = file.match(/_(\d+)\.csv/);
+          if (timestampMatch) {
+            const timestamp = parseInt(timestampMatch[1], 10);
+            const fechaCreacion = new Date(timestamp);
+            // Convierte el timestamp a una fecha formateada
+            const dd = String(fechaCreacion.getDate()).padStart(2, '0');
+            const mm = String(fechaCreacion.getMonth() + 1).padStart(2, '0'); // ¡Recuerda que los meses están basados en cero!
+            const yyyy = fechaCreacion.getFullYear();
+            const hh = String(fechaCreacion.getHours()).padStart(2, '0');
+            const min = String(fechaCreacion.getMinutes()).padStart(2, '0');
+
+            const fecha = `${dd}/${mm}/${yyyy} ${hh}:${min}`;
+            return { nombre: file, fecha };
+          } else {
+            return { nombre: file, fecha: 'Sin Fecha' };
+          }
+        });
+        console.log(this.files);
         this.loadingFiles = false;
       },
       (err) => {
