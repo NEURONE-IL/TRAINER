@@ -43,21 +43,12 @@ const Role = require("./models/role");
 const Competence = require("./models/competence");
 const Language = require("./models/language");
 
-//db connection
-//mongoose.connect('mongodb://admin:admin@localhost:27017/neurone-game', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
-const PWD = encodeURIComponent(process.env.DB_PWD);
-const URI = `mongodb+srv://${process.env.DB_USER}:${PWD}@${process.env.DB_HOST}/trainer`;
-mongoose
-  .connect(URI, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true
-  })
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initial();
-    //addCompetences();
-    //addLanguages();
+mongoose.connect(process.env.URI, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true})
+  .then(()=>{
+      console.log("Successfully connect to MongoDB.");
+      initial();
+      //addCompetences();
+      //addLanguages();
   });
 let db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));

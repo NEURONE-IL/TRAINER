@@ -176,7 +176,7 @@ uniqueEmailMultiple = async (req, res, next) => {
       id += i;
     }
 
-    let email = req.body.paramEmailPrefix + id + req.body.paramEmailSubfix;
+    let email = (req.body.paramEmailPrefix + id + '@' + req.body.paramEmailSubfix).toLowerCase();
 
     if (!emailUsado) {
       await User.findOne({ email: email }, (err, user) => {
@@ -195,6 +195,7 @@ uniqueEmailMultiple = async (req, res, next) => {
   }
 
   if (emailUsado) {
+    console.log('in')
     return res.status(422).json({
       ok: false,
       message: "EMAIL_ALREADY_USED_MULTIPLE",

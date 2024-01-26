@@ -565,7 +565,7 @@ router.post(
       "_" +
       momento +
       ".csv";
-    fs.appendFile(
+    fs.writeFileSync(
       fileName,
       JSON.stringify("email" + "," + "password") + "\n",
       (err) => {
@@ -589,7 +589,7 @@ router.post(
         id += i;
       }
 
-      let email = req.body.paramEmailPrefix + id + req.body.paramEmailSubfix;
+      let email = (req.body.paramEmailPrefix + id + '@' + req.body.paramEmailSubfix).toLowerCase();
       let password = Math.floor(1000 + Math.random() * 9000) + "";
 
       /*create userData*/
@@ -628,7 +628,8 @@ router.post(
         names: req.body.paramName,
         password: hashPassword,
         role: role._id,
-        flow: flow._id
+        flow: flow._id,
+        confirmed: true
       });
 
       /*Save user in DB*/
