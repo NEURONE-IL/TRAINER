@@ -19,8 +19,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   selector: 'app-video-mantainer-component',
 
   templateUrl: './video-mantainer.component.html',
-  encapsulation: ViewEncapsulation.None,
   styleUrls: ['./video-mantainer.component.css'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class VideoMantainerComponent implements OnInit {
   videos = [];
