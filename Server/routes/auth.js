@@ -501,7 +501,7 @@ router.post(
   async (req, res) => {
     const flow_id = req.params.flow_id;
 
-    try{
+    try {
       if (!isValidObjectId(flow_id)) {
         return res.status(404).json({
           ok: false,
@@ -525,7 +525,7 @@ router.post(
           ok: false,
           message: "FLOW_NOT_FOUND_ERROR"
         });
-      }    
+      }
 
       /*Find flow modules*/
       const modules = await Module.find({ flow: flow });
@@ -625,7 +625,7 @@ router.post(
         /*Generate user flow progress entry*/
         await generateProgress(modules, stages, user, flow);
 
-        fs.appendFile(
+        fs.appendFileSync(
           fileName,
           JSON.stringify(user.email + ";" + password) + "\n"
         );
@@ -636,6 +636,7 @@ router.post(
         nombre: flow.name + "_" + momento + ".csv"
       });
     } catch (e) {
+      console.error(e);
       return res.status(500).json({
         message: "INTERNAL_SERVER_ERROR",
         ok: false,
